@@ -41,10 +41,8 @@ The following **required** functionality is completed:
 
 * [ ] User can kick off a challenge under a predefined challenge category
 * [ ] User can kick off a challenge using a custom challenge category
-
 * [ ] User can add predefined/suggested milestones to a challenge
 * [ ] User can add custom milestones to a challenge
-
 * [ ] User can kick off a motivation, showoff, or competitive challenge
 
 ### Viewing Challenges
@@ -52,18 +50,14 @@ The following **required** functionality is completed:
 * [ ] User can view a timeline that tracks progress towards a goal
   * [ ] User can view their own progress toward a goal
   * [ ] User can view their challenge buddy’s progress towards a goal
-
 * [ ] User can view timelines that fit their needs
   * [ ] User can view a showoff timeline
   * [ ] User can view a motivation timeline
   * [ ] User can view a competition timeline
-
 * [ ] User can choose to make a challenge public or private (public by default)
 * [ ] User can add media evidence (photos, screenshots, videos) to each milestone
 * [ ] User can share progress for each milestone on a challenge to social media
-
 * [ ] User can automatically tag their challenge buddy on a social media post
-
 * [ ] User can automatically tag their challenge buddy on a social media post
 
 The following **optional** features are implemented:

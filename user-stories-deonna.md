@@ -24,8 +24,9 @@ The following **required** functionality is completed:
 
 ### Onboarding
 
-* [ ] User can log in using OAuth
-  * [ ] After logging in, user can see a list of challenge categories
+* [ ] User can log in using OAuth with Facebook
+  * [ ] After logging in for the first time, user can see a list of challenge categories
+  * [ ] After logging in for the first time, user gets the option to add friends who are already using the app
   * [ ] User is onboarded by selecting at least one of the predefined challenge categories
 
 ### Inviting Other Users

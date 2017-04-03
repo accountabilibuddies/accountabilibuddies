@@ -61,6 +61,17 @@ The following **required** functionality is completed:
 * [ ] User can automatically tag their challenge buddy on a social media post
 * [ ] User can automatically tag their challenge buddy on a social media post
 
+### Challenge Maintenance
+
+* [ ] User can get notifications for current challenges
+* [ ] User can get notifications for upcoming challenges they have joined
+
+
 The following **optional** features are implemented:
 
+* [ ] User can post different types of media attached as evidence of completing a milestone (e.g., photos, videos, audio, info from Google health APIs, location, etc.)
+* [ ] User can see beautiful horizontal timeline
+* [ ] User can see timeline history for completed challenges
+* [ ] User can use health tracking APIs as "evidence" for completing a milestone (e.g., your steps app)
+* [ ]
 The following **bonus** features are implemented:

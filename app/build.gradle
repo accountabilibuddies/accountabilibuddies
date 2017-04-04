@@ -45,4 +45,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+
+    compile 'com.parse.bolts:bolts-android:1.4.0'
+    compile 'com.parse:parse-android:1.14.1'
+    compile 'com.parse:parseinterceptors:0.0.2'
+
 }

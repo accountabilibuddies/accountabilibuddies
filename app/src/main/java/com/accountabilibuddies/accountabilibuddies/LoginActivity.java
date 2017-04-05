@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,13 @@ public class LoginActivity extends AppCompatActivity {
 
         setUpBinding();
         setUpLoginButton();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setUpBinding() {

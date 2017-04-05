@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/cChallenges"
+            android:icon="@drawable/current"
+            android:title="Current challenges" />
+        <item
+            android:id="@+id/uChallenges"
+            android:icon="@drawable/upcoming"
+            android:title="Upcoming challenges" />
+
+        <item
+            android:id="@+id/sChallenges"
+            android:icon="@drawable/search"
+            android:title="Search challenges" />
+
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/settings"
+            android:title="Settings" />
+    </group>
+
+    <group>
+        <item
+            android:id="@+id/help"
+            android:title="Help" />
+        <item
+            android:id="@+id/about"
+            android:title="About us" />
+        <item
+            android:id="@+id/logOut"
+            android:title="Logout" />
+
+    </group>
+
+</menu>

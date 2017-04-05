@@ -1,0 +1,39 @@
+package com.accountabilibuddies.accountabilibuddies.modal;
+
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
+@ParseClassName("Comment")
+public class Comment extends ParseObject {
+
+    //Default Parse columns
+    // objectId is a unique identifier for each saved object.
+    // createdAt and updatedAt represent the time that each object was created and last modified.
+    /**
+     Comments {
+         String comment;
+         User user;
+     }
+     */
+
+    // Default Constructor
+    public Comment() {
+        super();
+    }
+
+    public User getUser() {
+        return (User) get("user");
+    }
+
+    public void setUser(User user) {
+        put("user", user);
+    }
+
+    public String getComment() {
+        return (String) get("comment");
+    }
+
+    public void setText(String comment) {
+        put("comment", comment);
+    }
+}

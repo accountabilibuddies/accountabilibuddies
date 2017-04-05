@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.modal;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Comment")
 public class Comment extends ParseObject {
@@ -11,8 +12,8 @@ public class Comment extends ParseObject {
     // createdAt and updatedAt represent the time that each object was created and last modified.
     /**
      Comments {
-         String comment;
-         User user;
+        String comment;
+        ParseUser  user; <ParseUser>
      }
      */
 
@@ -21,11 +22,11 @@ public class Comment extends ParseObject {
         super();
     }
 
-    public User getUser() {
-        return (User) get("user");
+    public ParseUser  getUser() {
+        return (ParseUser ) get("user");
     }
 
-    public void setUser(User user) {
+    public void setUser(ParseUser user) {
         put("user", user);
     }
 

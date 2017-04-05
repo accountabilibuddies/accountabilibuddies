@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.modal;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -22,8 +23,8 @@ public class Challenge extends ParseObject {
          int frequency; -->Another table
          String imageUrl;
          int categoryId; -->Another table
-         List of useruid; -->Another table
-         List of post; -->Another table
+         List of useruid; <ParseUser>
+         List of post; <Post>
      }
      */
 
@@ -88,11 +89,11 @@ public class Challenge extends ParseObject {
         put("category", category);
     }
 
-    public List<User> getUserList() {
-        return (List<User>) get("userList");
+    public List<ParseUser> getUserList() {
+        return (List<ParseUser >) get("userList");
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<ParseUser > userList) {
         put("userList", userList);
     }
 
@@ -100,7 +101,7 @@ public class Challenge extends ParseObject {
         return (List<Post>) get("postList");
     }
 
-    public void setPostList(List<User> postList) {
+    public void setPostList(List<ParseUser > postList) {
         put("postList", postList);
     }
 }

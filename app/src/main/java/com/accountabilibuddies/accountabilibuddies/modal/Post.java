@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.modal;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -14,11 +15,11 @@ public class Post extends ParseObject {
     /**
      Post {
         int postType; -->Another table
-        User owner; -->Another table
+        ParseUser  owner; --> <ParseUser>
         String postUrl; --> Url to Audio/Video
         String postText; --> If post is plain text
        //Add a location entry to posts which are just shared locations
-        List<Comment> comments; -->Another Table
+        List<Comment> comments; <Comment>
         List<Like> likes; -->Another table
      }
      */
@@ -36,11 +37,11 @@ public class Post extends ParseObject {
         put("type", type);
     }
 
-    public User getUser() {
-        return (User) get("user");
+    public ParseUser getUser() {
+        return (ParseUser ) get("user");
     }
 
-    public void setUser(User user) {
+    public void setUser(ParseUser  user) {
         put("user", user);
     }
 

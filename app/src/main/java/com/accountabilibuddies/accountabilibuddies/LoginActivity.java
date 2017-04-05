@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        
+
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.lbFacebook.setOnClickListener((view) -> {
 
+            //TODO: Add logic for determining whether user is already logged in.
+            //TODO: Add logic for setting current user of application
             logIn();
         });
     }

@@ -1,10 +1,14 @@
-package com.accountabilibuddies.accountabilibuddies;
+package com.accountabilibuddies.accountabilibuddies.application;
 
 import android.app.Application;
 
+import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.modal.Comment;
+import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
@@ -16,6 +20,15 @@ public class ParseApplication extends Application {
 
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
+        // Enable Local Datastore to fetch data offline
+        //Parse.enableLocalDatastore(this);
+
+        // Register all parse models here
+        //ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Comment.class);
+        ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Challenge.class);
 
         // Set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured

@@ -1,4 +1,4 @@
-package com.accountabilibuddies.accountabilibuddies;
+package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.accountabilibuddies.accountabilibuddies.LoginViewModel;
+import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;

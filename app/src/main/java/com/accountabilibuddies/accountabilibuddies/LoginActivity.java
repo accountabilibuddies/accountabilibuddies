@@ -43,9 +43,11 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.lbFacebook.setOnClickListener((view) -> {
 
-            //TODO: Add logic for determining whether user is already logged in.
             //TODO: Add logic for setting current user of application
-            logIn();
+            //TODO: make sure user is directed to the next appropriate activity
+            if (ParseUser.getCurrentUser() == null) {
+                logIn();
+            }
         });
     }
 

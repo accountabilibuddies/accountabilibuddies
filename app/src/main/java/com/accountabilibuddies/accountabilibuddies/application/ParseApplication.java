@@ -1,8 +1,13 @@
-package com.accountabilibuddies.accountabilibuddies;
+package com.accountabilibuddies.accountabilibuddies.application;
 
 import android.app.Application;
 
+import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.modal.Comment;
+import com.accountabilibuddies.accountabilibuddies.modal.Post;
+import com.accountabilibuddies.accountabilibuddies.modal.User;
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 
 public class ParseApplication extends Application {
@@ -12,6 +17,16 @@ public class ParseApplication extends Application {
 
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
+        // Enable Local Datastore to fetch data offline
+        //Parse.enableLocalDatastore(this);
+
+        // Register all parse models here
+        //ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Comment.class);
+        ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Challenge.class);
+
 
         // Set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
@@ -23,18 +38,6 @@ public class ParseApplication extends Application {
                 .clientKey(null)
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 // Corresponds to the SERVER_URL
-                .server("http://accountabilibuddies.herokuapp.com/parse").build());
-
-        /**
-         * Uncomment this code for testing parse. You can go to mLab through Heroku to see the
-         * data. TODO: Remove this after app is ready
-         */
-        /*
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
-        */
+                .server("http://accountabilibuddies.herokuapp.com/parse/").build());
     }
-
-
 }

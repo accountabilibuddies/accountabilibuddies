@@ -1,7 +1,9 @@
-package com.accountabilibuddies.accountabilibuddies;
+package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.accountabilibuddies.accountabilibuddies.R;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 

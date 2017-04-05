@@ -2,8 +2,12 @@ package com.accountabilibuddies.accountabilibuddies;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.interceptors.ParseLogInterceptor;
+
+import io.fabric.sdk.android.Fabric;
 
 public class ParseApplication extends Application {
     @Override
@@ -25,6 +29,9 @@ public class ParseApplication extends Application {
                 // Corresponds to the SERVER_URL
                 .server("http://accountabilibuddies.herokuapp.com/parse").build());
 
+        ParseFacebookUtils.initialize(getApplicationContext());
+
+        setUpCrashlytics();
         /**
          * Uncomment this code for testing parse. You can go to mLab through Heroku to see the
          * data. TODO: Remove this after app is ready
@@ -36,5 +43,9 @@ public class ParseApplication extends Application {
         */
     }
 
+    private void setUpCrashlytics() {
+
+        Fabric.with(this, new Crashlytics());
+    }
 
 }

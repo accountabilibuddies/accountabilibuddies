@@ -15,8 +15,16 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBin
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.HomeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
+import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.crashlytics.android.Crashlytics;
+
+import java.util.Date;
+
 import io.fabric.sdk.android.Fabric;
+
+import static com.accountabilibuddies.accountabilibuddies.util.Constants.CATEGORY_PHOTOGRAPHY;
+import static com.accountabilibuddies.accountabilibuddies.util.Constants.FREQUENCY_ONCE;
+import static com.accountabilibuddies.accountabilibuddies.util.Constants.TYPE_SHOWOFF;
 
 public class DrawerActivity extends AppCompatActivity {
 
@@ -41,6 +49,12 @@ public class DrawerActivity extends AppCompatActivity {
 
         setUpNavigationDrawer();
         setUpNavigationView();
+
+        //Create dummy challenge & handle response from server to show Success OR Error
+        Challenge challenge = new Challenge(TYPE_SHOWOFF, "Click a Week Challenge",
+                "Group that challenges photographers to click atleast once a week",
+                new Date(),new Date(), FREQUENCY_ONCE, null, CATEGORY_PHOTOGRAPHY);
+        challenge.saveEventually ();
     }
 
     private void setUpNavigationDrawer() {

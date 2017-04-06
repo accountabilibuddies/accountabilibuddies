@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,8 +16,11 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBin
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.HomeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
+import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
+import com.parse.ParseUser;
+import java.util.List;
 import com.parse.ParsePush;
 
 import io.fabric.sdk.android.Fabric;
@@ -51,13 +55,6 @@ public class DrawerActivity extends AppCompatActivity {
 
         setUpNavigationDrawer();
         setUpNavigationView();
-
-        /* Create dummy challenge & handle response from server to show Success OR Error
-        Challenge challenge = new Challenge(Constants.TYPE_SHOWOFF, "Fitness guru challange",
-                "30 min challenge for everyday",
-                new Date(),new Date(), Constants.FREQUENCY_ALL_WEEK, null, Constants.CATEGORY_FITNESS);
-        client.createChallange(challenge);
-        */
     }
 
     private void setUpNavigationDrawer() {
@@ -89,6 +86,24 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView() {
+
+        //Get challanges user has joined and display else display challenges as per his categories
+        client.getChallengeList(ParseUser.getCurrentUser(), new APIClient.GetChallengeListListener(){
+
+            @Override
+            public void onSuccess(List<Challenge> challengeList) {
+                if (challengeList.size() > 0) {
+                    //Show users challenges view
+                } else {
+                    //Show challenges as per users category selection
+                }
+            }
+
+            @Override
+            public void onFailure(String error_message) {
+                Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
+            }
+        });
         binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

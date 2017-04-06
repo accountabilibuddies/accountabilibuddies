@@ -25,7 +25,6 @@ public class ParseApplication extends Application {
         //Parse.enableLocalDatastore(this);
 
         // Register all parse models here
-        //ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Comment.class);
         ParseObject.registerSubclass(Post.class);
         ParseObject.registerSubclass(Challenge.class);

@@ -47,7 +47,7 @@ public class Challenge extends ParseObject {
         setImageUrl(imageUrl);
         setCategory(categoryId);
         List<ParseUser> users = new ArrayList<>();
-        //users.add(); //Add the creater as the participant
+        users.add(ParseUser.getCurrentUser()); //Add the creater as the participant
         setUserList(users);
         List<Post> posts = new ArrayList<>();
         setPostList(posts);

@@ -1,12 +1,12 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,27 +15,25 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBin
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.HomeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
-import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
 
-import java.util.Date;
-
 import io.fabric.sdk.android.Fabric;
-
-import static com.accountabilibuddies.accountabilibuddies.util.Constants.CATEGORY_PHOTOGRAPHY;
-import static com.accountabilibuddies.accountabilibuddies.util.Constants.FREQUENCY_ONCE;
-import static com.accountabilibuddies.accountabilibuddies.util.Constants.TYPE_SHOWOFF;
 
 public class DrawerActivity extends AppCompatActivity {
 
     private ActivityDrawerBinding binding;
     private ActionBarDrawerToggle mDrawerToggle;
+    private APIClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer);
+
+        //Get client instance
+        client = APIClient.getClient();
 
         //Set toolbar
         setSupportActionBar(binding.toolbar);
@@ -50,11 +48,12 @@ public class DrawerActivity extends AppCompatActivity {
         setUpNavigationDrawer();
         setUpNavigationView();
 
-        //Create dummy challenge & handle response from server to show Success OR Error
-        Challenge challenge = new Challenge(TYPE_SHOWOFF, "Click a Week Challenge",
-                "Group that challenges photographers to click atleast once a week",
-                new Date(),new Date(), FREQUENCY_ONCE, null, CATEGORY_PHOTOGRAPHY);
-        challenge.saveEventually ();
+        /* Create dummy challenge & handle response from server to show Success OR Error
+        Challenge challenge = new Challenge(Constants.TYPE_SHOWOFF, "Fitness guru challange",
+                "30 min challenge for everyday",
+                new Date(),new Date(), Constants.FREQUENCY_ALL_WEEK, null, Constants.CATEGORY_FITNESS);
+        client.createChallange(challenge);
+        */
     }
 
     private void setUpNavigationDrawer() {

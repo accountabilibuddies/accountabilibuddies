@@ -14,13 +14,13 @@ public class Post extends ParseObject {
     // createdAt and updatedAt represent the time that each object was created and last modified.
     /**
      Post {
-        int postType; -->Another table
-        ParseUser  owner; --> <ParseUser>
+        int postType;
+        ParseUser  owner; <ParseUser>
         String postUrl; --> Url to Audio/Video
         String postText; --> If post is plain text
        //Add a location entry to posts which are just shared locations
         List<Comment> comments; <Comment>
-        List<Like> likes; -->Another table
+        List<Like> likes; <Like>
      }
      */
 

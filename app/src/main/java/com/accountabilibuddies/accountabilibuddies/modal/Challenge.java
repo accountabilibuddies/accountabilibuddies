@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,15 +16,15 @@ public class Challenge extends ParseObject {
     // createdAt and updatedAt represent the time that each object was created and last modified.
     /**
      Challenge {
-         long typeId -->Another table
+         int typeId;
          String name;
          String description;
          String startDate;
          String endDate;
-         int frequency; -->Another table
+         int frequency;
          String imageUrl;
-         int categoryId; -->Another table
-         List of useruid; <ParseUser>
+         int categoryId;
+         List of user; <ParseUser>
          List of post; <Post>
      }
      */
@@ -31,6 +32,33 @@ public class Challenge extends ParseObject {
     // Default Constructor
     public Challenge() {
         super();
+    }
+
+    //This constructor is only for testing purpose and should be removed in Production environment
+    public Challenge(int typeId, String name, String description, Date startDate,
+                     Date endDate,  int frequency, String imageUrl, int categoryId) {
+        super();
+        setType(typeId);
+        setName(name);
+        setDescription(description);
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setFrequency(frequency);
+        setImageUrl(imageUrl);
+        setCategory(categoryId);
+        List<ParseUser> users = new ArrayList<>();
+        //users.add(); //Add the creater as the participant
+        setUserList(users);
+        List<Post> posts = new ArrayList<>();
+        setPostList(posts);
+    }
+
+    public int getType() {
+        return (int) get("type");
+    }
+
+    public void setType(int type) {
+        put("type", type);
     }
 
     public String getName() {
@@ -78,7 +106,8 @@ public class Challenge extends ParseObject {
     }
 
     public void setImageUrl(String imageUrl) {
-        put("imageUrl", imageUrl);
+        if (imageUrl != null) //Change this later with a default challenge category icon
+            put("imageUrl", imageUrl);
     }
 
     public int getCategory() {
@@ -101,7 +130,7 @@ public class Challenge extends ParseObject {
         return (List<Post>) get("postList");
     }
 
-    public void setPostList(List<ParseUser > postList) {
+    public void setPostList(List<Post > postList) {
         put("postList", postList);
     }
 }

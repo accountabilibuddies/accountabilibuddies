@@ -17,6 +17,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.HomeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
+import com.parse.ParsePush;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -31,6 +32,9 @@ public class DrawerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer);
+
+        final String CHANNEL_NAME = "beaccountable";
+        ParsePush.subscribeInBackground(CHANNEL_NAME);
 
         //Get client instance
         client = APIClient.getClient();

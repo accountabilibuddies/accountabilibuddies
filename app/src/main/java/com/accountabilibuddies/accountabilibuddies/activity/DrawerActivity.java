@@ -16,14 +16,14 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBin
 import com.accountabilibuddies.accountabilibuddies.fragments.CategoryFilterChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
-import com.accountabilibuddies.accountabilibuddies.fragments.HomeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
-import com.parse.ParseUser;
-import java.util.List;
 import com.parse.ParsePush;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -127,7 +127,7 @@ public class DrawerActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId()) {
                     case R.id.cChallenges:
-                        fragmentClass = HomeFragment.class;
+                        fragmentClass = CurrentChallenges.class;
                         break;
 
                     case R.id.uChallenges:

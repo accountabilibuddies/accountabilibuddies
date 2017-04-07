@@ -13,7 +13,9 @@ import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
+import com.accountabilibuddies.accountabilibuddies.fragments.CategoryFilterChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.HomeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
@@ -85,17 +87,28 @@ public class DrawerActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
+    private void showCurrentChallenges() {
+        Fragment fragment = new CurrentChallenges();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
+    }
+
+    private void showCategoryChallenegs() {
+        Fragment fragment = new CategoryFilterChallenges();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
+    }
+
     private void setUpNavigationView() {
 
         //Get challanges user has joined and display else display challenges as per his categories
         client.getChallengeList(ParseUser.getCurrentUser(), new APIClient.GetChallengeListListener(){
-
             @Override
             public void onSuccess(List<Challenge> challengeList) {
                 if (challengeList.size() > 0) {
-                    //Show users challenges view
+                    showCurrentChallenges();
                 } else {
-                    //Show challenges as per users category selection
+                    showCategoryChallenegs();
                 }
             }
 
@@ -104,9 +117,11 @@ public class DrawerActivity extends AppCompatActivity {
                 Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
             }
         });
+
         binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+
                 Fragment fragment = null;
                 Class fragmentClass = null;
 

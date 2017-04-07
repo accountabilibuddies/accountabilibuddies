@@ -76,7 +76,7 @@ public class APIClient {
         query.findInBackground(new FindCallback<Challenge>() {
             @Override
             public void done(List<Challenge> objects, ParseException e) {
-                if (e == null) {
+                if (e != null) {
                     listener.onFailure(e.getMessage());
                 } else {
                     listener.onSuccess(objects);

@@ -32,10 +32,6 @@ public class Challenge extends ParseObject {
     // Default Constructor
     public Challenge() {
         super();
-        //Adding this a current user is independent of a challenge creation
-        List<ParseUser> users = new ArrayList<>();
-        users.add(ParseUser.getCurrentUser()); //Add the creater as the participant
-        setUserList(users);
     }
 
     //This constructor is only for testing purpose and should be removed in Production environment

@@ -9,12 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CategoryFilterChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.CreateChallengeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
@@ -48,11 +48,14 @@ public class DrawerActivity extends AppCompatActivity {
         //Set toolbar
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Show create Fragment
-            }
+        binding.fab.setOnClickListener(view -> {
+            //Show create Fragment
+            CreateChallengeFragment createChallengeFragment = new CreateChallengeFragment();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).commit();
+
+
         });
 
         setUpNavigationDrawer();

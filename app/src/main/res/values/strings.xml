@@ -15,4 +15,6 @@
     <string name="minus_sym">-</string>
     <string name="plus_sym">+</string>
     <string name="create">Create</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>

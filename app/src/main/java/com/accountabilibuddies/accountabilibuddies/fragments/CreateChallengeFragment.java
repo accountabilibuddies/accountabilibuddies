@@ -55,8 +55,10 @@ public class CreateChallengeFragment extends Fragment
             public void onSuccess() {
                 Toast.makeText(getContext(),
                         "Success in creating challenge",Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
                 getActivity().startActivity(intent);
+
             }
 
             @Override

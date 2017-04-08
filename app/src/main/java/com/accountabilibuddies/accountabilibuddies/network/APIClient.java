@@ -1,7 +1,9 @@
 package com.accountabilibuddies.accountabilibuddies.network;
 
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -34,6 +36,16 @@ public class APIClient {
 
     public interface GetChallengeListListener {
         public void onSuccess(List<Challenge> challengeList);
+        public void onFailure(String error_message);
+    }
+
+    public interface CreatePostListener {
+        public void onSuccess();
+        public void onFailure(String error_message);
+    }
+
+    public interface GetPostListListener {
+        public void onSuccess(List<Post> postList);
         public void onFailure(String error_message);
     }
 
@@ -102,5 +114,61 @@ public class APIClient {
     }
 
     //Post API's
+    public void createPost(Post post, String challengeObjectId, CreatePostListener listener) {
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    //Add this post to the Challenge now
+                    ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+                    query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
+                        public void done(Challenge object, ParseException e) {
+                            if (e == null) {
+                                //Cool the post is in the challenge now
+                                object.add("postList", post);
+                                object.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null) {
+                                            listener.onFailure(e.getMessage());
+                                        } else {
+                                            listener.onSuccess();
+                                        }
+                                    }
+                                });
+                            } else {
+                                listener.onFailure(e.getMessage());
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void getPostList(String challengeObjectId, GetPostListListener listener) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        //Get the challenge object and pass back the postList
+        query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
+            public void done(Challenge object, ParseException e) {
+                if (e == null) {
+                    //Cool the post is in the challenge now
+                    listener.onSuccess(object.getPostList());
+                } else {
+                    listener.onFailure(e.getMessage());
+                }
+            }
+        });
+    }
+
+    //Delete Post
+
+    //Add Comment
+
+    //Like/Unlike Post
+
 }
 

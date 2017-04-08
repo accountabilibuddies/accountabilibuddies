@@ -2,8 +2,8 @@ package com.accountabilibuddies.accountabilibuddies.modal;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ParseClassName("Post")
@@ -15,10 +15,12 @@ public class Post extends ParseObject {
     /**
      Post {
         int postType;
-        ParseUser  owner; <ParseUser>
-        String postUrl; --> Url to Audio/Video
+        //Parse also store created date and last updated date to skipped in schema
+        //ParseUser  owner; Since Parse already stores the owner of the object
+        String imageUrl; --> Url to Image
         String postText; --> If post is plain text
-       //Add a location entry to posts which are just shared locations
+        String videoUrl; --> Url to Video
+        //Something for location
         List<Comment> comments; <Comment>
         List<Like> likes; <Like>
      }
@@ -29,6 +31,19 @@ public class Post extends ParseObject {
         super();
     }
 
+    //This constructor is only for testing purpose and should be removed in Production environment
+    public Post(int type, String imageUrl, String postText, String videoUrl) {
+        super();
+        setType(type);
+        setImageUrl(imageUrl);
+        setText(postText);
+        setVideoUrl(videoUrl);
+        List<Comment> comments = new ArrayList<>();
+        setCommentList(comments);
+        //List<Like> likes = new ArrayList<>();
+        //setLikeList(like);
+    }
+
     public int getType() {
         return (int) get("type");
     }
@@ -37,12 +52,11 @@ public class Post extends ParseObject {
         put("type", type);
     }
 
-    public ParseUser getUser() {
-        return (ParseUser ) get("user");
-    }
+    public String getImageUrl() {return (String) get("imageUrl");}
 
-    public void setUser(ParseUser  user) {
-        put("user", user);
+    public void setImageUrl(String imageUrl) {
+        if (imageUrl != null)
+            put("imageUrl", imageUrl);
     }
 
     public String getText() {
@@ -50,7 +64,15 @@ public class Post extends ParseObject {
     }
 
     public void setText(String text) {
-        put("text", text);
+        if (text != null)
+            put("text", text);
+    }
+
+    public String getViedoUrl() {return (String) get("videoUrl");}
+
+    public void setVideoUrl(String videoUrl) {
+        if (videoUrl != null)
+            put("videoUrl", videoUrl);
     }
 
     public List<Comment> getCommentList() {
@@ -60,13 +82,4 @@ public class Post extends ParseObject {
     public void setCommentList(List<Comment> commentList) {
         put("commentList", commentList);
     }
-    /*
-    public List<Like> getLikeList() {
-        return (List<Like>) get("likeList");
-    }
-
-    public void setCommentList(List<Like> likeList) {
-        put("likeList", likeList);
-    }
-    */
 }

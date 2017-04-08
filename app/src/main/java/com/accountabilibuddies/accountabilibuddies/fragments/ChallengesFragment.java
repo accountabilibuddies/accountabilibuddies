@@ -1,11 +1,11 @@
 package com.accountabilibuddies.accountabilibuddies.fragments;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.adapter.ChallengeAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentChallengesBinding;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
@@ -82,11 +83,8 @@ public abstract class ChallengesFragment extends Fragment {
         ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                //Open Challenge details for mChallengeList.get(position)
-                FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
-                    fts.replace(R.id.frame, new ChallengeDetailsFragment())
-                            .addToBackStack(null)
-                            .commit();
+                Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

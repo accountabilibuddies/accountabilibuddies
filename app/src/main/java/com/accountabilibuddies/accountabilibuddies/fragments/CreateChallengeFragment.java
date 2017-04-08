@@ -1,6 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.fragments;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -53,9 +55,8 @@ public class CreateChallengeFragment extends Fragment
             public void onSuccess() {
                 Toast.makeText(getContext(),
                         "Success in creating challenge",Toast.LENGTH_LONG).show();
-                getFragmentManager().beginTransaction().replace(R.id.frame, new ChallengeDetailsFragment())
-                        .addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
+                getActivity().startActivity(intent);
             }
 
             @Override

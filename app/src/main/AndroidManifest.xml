@@ -44,8 +44,8 @@
             android:name="com.parse.push.gcm_sender_id"
             android:value="@string/gcm_sender_id" />
 
-        <activity android:name=".activity.LoginActivity">
-        </activity>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.ChallengeDetailsActivity" />
 
         <receiver android:name="com.parse.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">

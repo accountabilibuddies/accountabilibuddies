@@ -93,8 +93,8 @@ public class Challenge extends ParseObject {
         put("endDate", endDate);
     }
 
-    public int getFrequency() {
-        return (int) get("frequency");
+    public Integer getFrequency() {
+        return (Integer) get("frequency");
     }
 
     public void setFrequency(int frequency) {

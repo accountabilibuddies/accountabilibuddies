@@ -72,5 +72,4 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
-
 }

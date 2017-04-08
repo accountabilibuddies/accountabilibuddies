@@ -1,5 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 abstract public class Constants {
     // Challenge types, MVP will use only one type of challenge
     public static final int TYPE_SHOWOFF = 1;
@@ -30,4 +33,10 @@ abstract public class Constants {
     public static final int TYPE_AUDIO = 2;
     public static final int TYPE_TEXT = 3;
     public static final int TYPE_LOCATION = 4;
+
+    public static Map<String,Integer> categoryIdMap = new HashMap<>();
+    static {
+        categoryIdMap.put("Photography",1);
+        categoryIdMap.put("Fitness",2);
+    }
 }

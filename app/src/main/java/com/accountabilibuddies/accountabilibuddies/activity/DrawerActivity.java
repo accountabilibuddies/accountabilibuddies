@@ -13,10 +13,10 @@ import android.view.MenuItem;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CategoryFilterChallenges;
-import com.accountabilibuddies.accountabilibuddies.fragments.ChallengesFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.CreateChallengeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
@@ -134,11 +134,11 @@ public class DrawerActivity extends AppCompatActivity {
                         break;
 
                     case R.id.uChallenges:
-                        fragmentClass = ChallengesFragment.class;
+                        fragmentClass = UpcomingChallenges.class;
                         break;
 
                     case R.id.sChallenges:
-                        fragmentClass = ChallengesFragment.class;
+                        fragmentClass = CategoryFilterChallenges.class;
                         break;
 
                     case R.id.settings:

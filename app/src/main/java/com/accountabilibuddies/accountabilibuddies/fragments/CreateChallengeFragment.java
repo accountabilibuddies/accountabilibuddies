@@ -53,8 +53,9 @@ public class CreateChallengeFragment extends Fragment
             public void onSuccess() {
                 Toast.makeText(getContext(),
                         "Success in creating challenge",Toast.LENGTH_LONG).show();
-                getFragmentManager().beginTransaction().replace(R.id.frame,
-                        new CurrentChallenges()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.frame, new ChallengeDetailsFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
 
             @Override

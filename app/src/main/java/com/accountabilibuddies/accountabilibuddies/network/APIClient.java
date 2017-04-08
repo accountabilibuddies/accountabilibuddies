@@ -55,7 +55,7 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.whereEqualTo("owner", user);
+        query.whereEqualTo("userList", user);
         query.findInBackground(new FindCallback<Challenge>() {
             @Override
             public void done(List<Challenge> objects, ParseException e) {

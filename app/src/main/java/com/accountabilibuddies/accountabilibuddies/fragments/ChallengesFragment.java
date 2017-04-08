@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.accountabilibuddies.accountabilibuddies.adapter.ChallengeAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentChallengesBinding;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,17 @@ public abstract class ChallengesFragment extends Fragment {
         //Swipe to refresh
         binding.swipeContainer.setOnRefreshListener(() -> {
             getChallenges();
+        });
+
+        ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                //Open Challenge details for mChallengeList.get(position)
+                FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
+                    fts.replace(R.id.frame, new ChallengeDetailsFragment())
+                            .addToBackStack(null)
+                            .commit();
+            }
         });
 
         getChallenges();

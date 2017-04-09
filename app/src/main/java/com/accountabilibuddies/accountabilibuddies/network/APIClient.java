@@ -115,35 +115,38 @@ public class APIClient {
 
     //Post API's
     public void createPost(Post post, String challengeObjectId, CreatePostListener listener) {
-        post.saveInBackground(e -> {
-            if (e != null) {
-                listener.onFailure(e.getMessage());
-            } else {
-                //Add this post to the Challenge now
-                ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-                query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    //Add this post to the Challenge now
+                    ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+                    query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
 
-                    public void done(Challenge object, ParseException e) {
+                        public void done(Challenge object, ParseException e) {
 
-                        if (e == null) {
-                            object.add("postList", post);
+                            if (e == null) {
+                                object.add("postList", post);
 
-                            //TODO: Add progress here and move callback to common place
-                            object.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null) {
-                                        listener.onFailure(e.getMessage());
-                                    } else {
-                                        listener.onSuccess();
+                                //TODO: Add progress here and move callback to common place
+                                object.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null) {
+                                            listener.onFailure(e.getMessage());
+                                        } else {
+                                            listener.onSuccess();
+                                        }
                                     }
-                                }
-                            });
-                        } else {
-                            listener.onFailure(e.getMessage());
+                                });
+                            } else {
+                                listener.onFailure(e.getMessage());
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }

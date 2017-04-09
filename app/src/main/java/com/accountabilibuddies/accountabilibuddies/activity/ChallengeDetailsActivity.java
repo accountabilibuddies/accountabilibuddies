@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -23,13 +24,9 @@ import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
-import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
@@ -134,37 +131,36 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                         return;
                     }
 
-                    byte[] bytes = CameraUtils.bitmapToByteArray(bitmap);
-                    final ParseFile photoFile = new ParseFile("progressImageCapture.JPEG", bytes);
-                    photoFile.saveInBackground(new SaveCallback() {
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Toast.makeText(ChallengeDetailsActivity.this,
-                                        "Error saving: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            } else {
+                    client.uploadFile("progressImageCapture.jpg", bitmap, new APIClient.UploadFileListener() {
+                        @Override
+                        public void onSuccess(String fileLocation) {
+                            Post post = new Post();
+                            post.setType(Constants.TYPE_IMAGE);
+                            post.setImageUrl(fileLocation);
 
-                                Post post = new Post();
-                                post.setType(Constants.TYPE_IMAGE);
-                                post.setImage(photoFile);
+                            Log.d("Objectid", challenge.getObjectId());
 
-                                //TODO: Move the listener out of this function
-                                APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                        new APIClient.CreatePostListener() {
-                                            @Override
-                                            public void onSuccess() {
-                                                Toast.makeText(ChallengeDetailsActivity.this,
-                                                        "Creating post", Toast.LENGTH_LONG).show();
-                                            }
+                            //TODO: Move the listener out of this function
+                            APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                new APIClient.CreatePostListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(ChallengeDetailsActivity.this,
+                                                "Creating post", Toast.LENGTH_LONG).show();
+                                        onCreatePost(post);
+                                    }
 
-                                            @Override
-                                            public void onFailure(String error_message) {
-                                                Toast.makeText(ChallengeDetailsActivity.this,
-                                                        "Error creating post", Toast.LENGTH_LONG).show();
-                                            }
-                                        });
+                                    @Override
+                                    public void onFailure(String error_message) {
+                                        Toast.makeText(ChallengeDetailsActivity.this,
+                                                "Error creating post", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                        }
 
-                                onCreatePost(post);
-                            }
+                        @Override
+                        public void onFailure(String error_message) {
+
                         }
                     });
                 }
@@ -192,6 +188,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         mPostList.add(post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size()-1);
+        Log.d("File count", String.valueOf(mPostList.size()));
     }
 
     @Override

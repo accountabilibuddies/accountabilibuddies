@@ -57,6 +57,8 @@ public class CreateChallengeFragment extends Fragment
                         "Success in creating challenge",Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
+                intent.putExtra("challengeId", challenge.getObjectId());
+                intent.putExtra("name", challenge.getName());
                 getActivity().startActivity(intent);
 
             }

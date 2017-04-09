@@ -1,7 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.modal;
 
 import com.parse.ParseClassName;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -33,10 +32,10 @@ public class Post extends ParseObject {
     }
 
     //This constructor is only for testing purpose and should be removed in Production environment
-    public Post(int type, ParseFile image, String postText, String videoUrl) {
+    public Post(int type, String imageUrl, String postText, String videoUrl) {
         super();
         setType(type);
-        setImage(image);
+        setImageUrl(imageUrl);
         setText(postText);
         setVideoUrl(videoUrl);
         List<Comment> comments = new ArrayList<>();
@@ -53,13 +52,13 @@ public class Post extends ParseObject {
         put("type", type);
     }
 
-    public ParseFile getImage() {
-        return (ParseFile)this.get("image");
+    public String getImageUrl() {
+        return (String)this.get("imageUrl");
     }
 
-    public void setImage(ParseFile image) {
-        if (image != null)
-            put("image", image);
+    public void setImageUrl(String imageUrl) {
+        if (imageUrl != null)
+            put("imageUrl", imageUrl);
     }
 
     public String getText() {
@@ -71,7 +70,7 @@ public class Post extends ParseObject {
             put("text", text);
     }
 
-    public String getViedoUrl() {return (String) get("videoUrl");}
+    public String getVideoUrl() {return (String) get("videoUrl");}
 
     public void setVideoUrl(String videoUrl) {
         if (videoUrl != null)

@@ -1,10 +1,15 @@
 package com.accountabilibuddies.accountabilibuddies.network;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
+import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -46,6 +51,11 @@ public class APIClient {
 
     public interface GetPostListListener {
         public void onSuccess(List<Post> postList);
+        public void onFailure(String error_message);
+    }
+
+    public interface UploadFileListener {
+        public void onSuccess(String fileLocation);
         public void onFailure(String error_message);
     }
 
@@ -173,5 +183,20 @@ public class APIClient {
 
     //Like/Unlike Post
 
+    //Upload file
+    public void uploadFile(String fileName, Bitmap bitmap, UploadFileListener listener) {
+        byte[] bytes = CameraUtils.bitmapToByteArray(bitmap);
+        final ParseFile photoFile = new ParseFile(fileName, bytes);
+        photoFile.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    Log.d("Test", photoFile.getUrl());
+                    listener.onSuccess(photoFile.getUrl());
+                }
+            }
+        });
+    }
 }
 

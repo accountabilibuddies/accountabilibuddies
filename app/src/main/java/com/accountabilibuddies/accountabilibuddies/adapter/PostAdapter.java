@@ -9,10 +9,6 @@ import android.view.ViewGroup;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ProgressCallback;
 
 import java.util.List;
 
@@ -81,23 +77,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case POST_WITH_IMAGE:
-
-                    PostWithImageViewHolder viewHolder = (PostWithImageViewHolder) holder;
-                    ParseFile imageFile = post.getImage();
-                    imageFile.getDataInBackground(new GetDataCallback() {
-                        public void done(byte[] data, ParseException e) {
-                            if (e == null) {
-                                viewHolder.imageView.setParseFile(imageFile);
-                                viewHolder.imageView.loadInBackground();
-                            } else {
-                                //TODO:
-                            }
-                        }
-                    }, new ProgressCallback() {
-                        public void done(Integer percentDone) {
-                            //TODO: Add progress bar here
-                        }
-                    });
                     break;
 
                 case POST_WITH_VIDEO:

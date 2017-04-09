@@ -3,10 +3,14 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -24,14 +28,17 @@ import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.parse.ParseObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ChallengeDetailsActivity extends AppCompatActivity
-                implements PostTextFragment.PostTextListener {
+        implements PostTextFragment.PostTextListener {
 
     private ActivityChallengeDetailsBinding binding;
     APIClient client;
@@ -42,6 +49,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     private Challenge challenge;
 
     private static final int PHOTO_INTENT_REQUEST = 100;
+    private String mImagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +58,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         challenge = ParseObject.createWithoutData(Challenge.class,
                 getIntent().getStringExtra("challengeId"));
-        
+
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
 
@@ -110,7 +118,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, PHOTO_INTENT_REQUEST);
+            dispatchTakePictureIntent(intent);
         }
     }
 
@@ -124,45 +132,48 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             case PHOTO_INTENT_REQUEST:
 
                 if (resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    Bitmap bitmap = (Bitmap) extras.get("data");
-
-                    if(bitmap==null) {
+                    if(mImagePath==null) {
+                        //TODO: Handle error
                         return;
                     }
+                    //TODO: Need to optimize this scale to make image size more efficient
+                    // wrt to the image view size
+                    Bitmap bitmap = CameraUtils.scaleToFill(BitmapFactory.decodeFile(mImagePath)
+                            ,800,600);
 
-                    client.uploadFile("progressImageCapture.jpg", bitmap, new APIClient.UploadFileListener() {
-                        @Override
-                        public void onSuccess(String fileLocation) {
-                            Post post = new Post();
-                            post.setType(Constants.TYPE_IMAGE);
-                            post.setImageUrl(fileLocation);
+                    client.uploadFile("post_image.jpg",
+                            bitmap, new APIClient.UploadFileListener() {
+                                @Override
+                                public void onSuccess(String fileLocation) {
+                                    Post post = new Post();
+                                    post.setType(Constants.TYPE_IMAGE);
+                                    post.setImageUrl(fileLocation);
 
-                            Log.d("Objectid", challenge.getObjectId());
+                                    Log.d("Objectid", challenge.getObjectId());
 
-                            //TODO: Move the listener out of this function
-                            APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                new APIClient.CreatePostListener() {
-                                    @Override
-                                    public void onSuccess() {
-                                        Toast.makeText(ChallengeDetailsActivity.this,
-                                                "Creating post", Toast.LENGTH_LONG).show();
-                                        onCreatePost(post);
-                                    }
+                                    //TODO: Move the listener out of this function
+                                    APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                            new APIClient.CreatePostListener() {
+                                                @Override
+                                                public void onSuccess() {
+                                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                                            "Creating post", Toast.LENGTH_LONG).show();
+                                                    onCreatePost(post);
+                                                }
 
-                                    @Override
-                                    public void onFailure(String error_message) {
-                                        Toast.makeText(ChallengeDetailsActivity.this,
-                                                "Error creating post", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                        }
+                                                @Override
+                                                public void onFailure(String error_message) {
+                                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                                            "Error creating post", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                }
 
-                        @Override
-                        public void onFailure(String error_message) {
+                                @Override
+                                public void onFailure(String error_message) {
 
-                        }
-                    });
+                                }
+                            });
                 }
         }
     }
@@ -194,5 +205,33 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     @Override
     public void onFinishPost(Post post) {
         onCreatePost(post);
+    }
+
+    /**
+     * Function create an image file to be used by the camera app to store the
+     * image. Intent is then dispatched after the local image path is stored
+     * which later will be used to upload the file
+     * @param intent
+     */
+    private void dispatchTakePictureIntent(Intent intent) {
+
+        File imageFile = null;
+        try {
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            imageFile = CameraUtils.createImageFile(storageDir);
+        } catch (IOException ex) {
+            //TODO: Handle error
+        }
+        // Continue only if the File was successfully created
+        if (imageFile != null) {
+            //This path will be used to save in the post
+            mImagePath = imageFile.getAbsolutePath();
+            Uri photoURI = FileProvider.getUriForFile(this,
+                    "com.accountabilibuddies.accountabilibuddies.fileprovider",
+                    imageFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(intent, PHOTO_INTENT_REQUEST);
+        }
+
     }
 }

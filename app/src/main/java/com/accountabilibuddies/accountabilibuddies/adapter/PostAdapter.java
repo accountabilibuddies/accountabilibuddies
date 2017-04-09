@@ -9,6 +9,13 @@ import android.view.ViewGroup;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -16,6 +23,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Post> postList;
     private Context context;
+    private GoogleMap map;
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
@@ -77,20 +85,39 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case POST_WITH_IMAGE:
+                    PostWithImageViewHolder imgVH = (PostWithImageViewHolder) holder;
+                    if (post.getImageUrl() != null)
+                        Glide.with(context)
+                                .load(post.getImageUrl())
+                                .into(imgVH.getImageView());
                     break;
 
                 case POST_WITH_VIDEO:
-
                     break;
 
                 case POST_WITH_LOCATION:
+                    PostWithLocationViewHolder locVH = (PostWithLocationViewHolder) holder;
 
+                    locVH.getMapview().onCreate(null);
+                    locVH.getMapview().getMapAsync(new OnMapReadyCallback(){
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            MapsInitializer.initialize(context);
+                            map = googleMap;
+
+                            //set map location
+                            LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
+                            map.addMarker(new MarkerOptions().position(location));
+                            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        }
+                    });
                     break;
 
                 case POST_WITH_TEXT:
                 default:
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
-                    textVH.text.setText(post.getText());
+                    textVH.getText().setText(post.getText());
                     break;
             }
         }

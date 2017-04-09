@@ -163,7 +163,7 @@ public class APIClient {
 
     public void getPostList(String challengeObjectId, GetPostListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-
+        query.include("postList");
         //Get the challenge object and pass back the postList
         query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
             public void done(Challenge object, ParseException e) {

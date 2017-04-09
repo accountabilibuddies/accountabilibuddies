@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 
 public class PostWithTextViewHolder extends RecyclerView.ViewHolder  {
 
-    @BindView(R.id.text)
+    @BindView(R.id.tvPost)
     TextView text;
 
     public PostWithTextViewHolder(View itemView) {

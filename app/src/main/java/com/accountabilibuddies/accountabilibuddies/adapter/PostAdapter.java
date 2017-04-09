@@ -66,8 +66,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             case POST_WITH_TEXT:
                 default:
-                View v4 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_text, parent, false);
-                viewHolder = new PostWithTextViewHolder(v4);
+                View viewTextPost = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_post_text, parent, false);
+                viewHolder = new PostWithTextViewHolder(viewTextPost);
                 break;
         }
         return viewHolder;
@@ -75,8 +76,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Post post = postList.get(position);
 
+        Post post = postList.get(position);
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case POST_WITH_IMAGE:
@@ -109,7 +110,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 case POST_WITH_TEXT:
                 default:
-
+                    PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
+                    textVH.text.setText(post.getText());
                     break;
             }
         }

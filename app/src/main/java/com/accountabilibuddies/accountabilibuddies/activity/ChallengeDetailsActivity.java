@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -17,20 +19,22 @@ import android.widget.Toast;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
+import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
+import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
-
 import java.util.ArrayList;
 
-public class ChallengeDetailsActivity extends AppCompatActivity {
+public class ChallengeDetailsActivity extends AppCompatActivity
+                implements PostTextFragment.PostTextListener {
 
     private ActivityChallengeDetailsBinding binding;
     APIClient client;
@@ -140,7 +144,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity {
                             } else {
 
                                 Post post = new Post();
-                                post.setType(0);
+                                post.setType(Constants.TYPE_IMAGE);
                                 post.setImage(photoFile);
 
                                 //TODO: Move the listener out of this function
@@ -167,15 +171,31 @@ public class ChallengeDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function to launch a dialog fragment to post text
+     * @param view
+     */
+    public void launchTextPost(View view) {
+
+        FragmentManager fm = getSupportFragmentManager();
+        PostTextFragment fragment = PostTextFragment.getInstance(challenge.getObjectId());
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        fragment.show(fm, "post_text");
+    }
 
     /**
      *  Function to add post to the posts list.
-     *  //TODO: Change this based on in what ordre the list is to be shown
+     *  //TODO: Change this based on in what order the list is to be shown
      *
      */
     void onCreatePost(Post post) {
         mPostList.add(post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size()-1);
+    }
+
+    @Override
+    public void onFinishPost(Post post) {
+        onCreatePost(post);
     }
 }

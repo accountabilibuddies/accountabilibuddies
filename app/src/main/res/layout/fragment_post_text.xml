@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/close"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etPost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:hint="Post your Progress!"
+            android:layout_below="@+id/ivClose"
+            android:layout_alignParentLeft="true"
+            android:fontFamily="sans-serif"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:layout_above="@+id/btnPost"
+            android:gravity="start"
+            android:background="@android:color/transparent"
+            android:padding="8dp"/>
+
+        <View android:id="@+id/sepPost"
+            android:background="#e4e4e4"
+            android:layout_width = "match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/btnPost"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/btnPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="8dp"
+            android:text="Post"
+            android:textColor="@android:color/white"
+            android:background="@color/colorAccent"
+            />
+    </RelativeLayout>
+</layout>

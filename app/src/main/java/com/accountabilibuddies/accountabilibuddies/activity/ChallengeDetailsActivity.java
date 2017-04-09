@@ -331,7 +331,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                 }
             }
         );
-
+    }
     /**
      * Function create an image file to be used by the camera app to store the
      * image. Intent is then dispatched after the local image path is stored

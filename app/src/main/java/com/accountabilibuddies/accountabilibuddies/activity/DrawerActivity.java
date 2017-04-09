@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -52,9 +53,8 @@ public class DrawerActivity extends AppCompatActivity {
             CreateChallengeFragment createChallengeFragment = new CreateChallengeFragment();
 
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).commit();
-
-
+            if (fragmentManager != null)
+                fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).commit();
         });
 
         setUpNavigationDrawer();
@@ -89,34 +89,25 @@ public class DrawerActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    private void showCurrentChallenges() {
-        Fragment fragment = new CurrentChallenges();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
-    }
-
-    private void showCategoryChallenegs() {
-        Fragment fragment = new CategoryFilterChallenges();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
-    }
-
     private void setUpNavigationView() {
-
         //Get challanges user has joined and display else display challenges as per his categories
         client.getChallengeList(ParseUser.getCurrentUser(), new APIClient.GetChallengeListListener(){
             @Override
             public void onSuccess(List<Challenge> challengeList) {
+                Fragment fragment;
                 if (challengeList.size() > 0) {
-                    showCurrentChallenges();
+                    fragment = new CurrentChallenges();
                 } else {
-                    showCategoryChallenegs();
+                    fragment = new CategoryFilterChallenges();
                 }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if (fragmentManager != null)
+                    fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
             }
 
             @Override
             public void onFailure(String error_message) {
-                //Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -158,7 +149,8 @@ public class DrawerActivity extends AppCompatActivity {
 
                 // Insert the fragment by replacing any existing fragment
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
+                if (fragmentManager != null)
+                    fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
 
                 // Highlight the selected item has been done by NavigationView
                 menuItem.setChecked(true);

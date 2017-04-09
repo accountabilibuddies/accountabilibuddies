@@ -1,6 +1,5 @@
 package com.accountabilibuddies.accountabilibuddies.fragments;
 
-
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -28,11 +27,9 @@ public class CreateChallengeFragment extends Fragment
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         //Setup binding
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_create_challenge, container, false);
@@ -48,7 +45,6 @@ public class CreateChallengeFragment extends Fragment
 
     @Override
     public void createChallenge(Challenge challenge) {
-
         //TODO: Move this network call in different file
         APIClient.getClient().createChallange(challenge, new APIClient.CreateChallengeListener() {
             @Override
@@ -61,6 +57,9 @@ public class CreateChallengeFragment extends Fragment
                 intent.putExtra("name", challenge.getName());
                 getActivity().startActivity(intent);
 
+                if (getFragmentManager().getBackStackEntryCount() > 0 ){
+                    getFragmentManager().popBackStack();
+                }
             }
 
             @Override
@@ -68,8 +67,5 @@ public class CreateChallengeFragment extends Fragment
                 Log.d("DEBUG", "Failure in creating challenge");
             }
         });
-
-
     }
-
 }

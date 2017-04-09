@@ -2,7 +2,6 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,19 +41,16 @@ public class DrawerActivity extends AppCompatActivity {
         final String CHANNEL_NAME = "beaccountable";
         ParsePush.subscribeInBackground(CHANNEL_NAME);
 
-        //Get client instance
         client = APIClient.getClient();
-
-        //Set toolbar
         setSupportActionBar(binding.toolbar);
 
         binding.fab.setOnClickListener(view -> {
-            //Show create Fragment
             CreateChallengeFragment createChallengeFragment = new CreateChallengeFragment();
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             if (fragmentManager != null)
-                fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).
+                        addToBackStack(null).commit();
         });
 
         setUpNavigationDrawer();
@@ -73,14 +69,7 @@ public class DrawerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle
-        // If it returns true, then it has handled
-        // the nav drawer indicator touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle your other action bar items...
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -90,7 +79,7 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView() {
-        //Get challanges user has joined and display else display challenges as per his categories
+        //Get Challenges user has joined and display else display challenges as per his categories
         client.getChallengeList(ParseUser.getCurrentUser(), new APIClient.GetChallengeListListener(){
             @Override
             public void onSuccess(List<Challenge> challengeList) {
@@ -111,54 +100,49 @@ public class DrawerActivity extends AppCompatActivity {
             }
         });
 
-        binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+        binding.navView.setNavigationItemSelectedListener(menuItem -> {
+            Fragment fragment = null;
+            Class fragmentClass = null;
 
-                Fragment fragment = null;
-                Class fragmentClass = null;
+            switch (menuItem.getItemId()) {
+                case R.id.cChallenges:
+                    fragmentClass = CurrentChallenges.class;
+                    break;
 
-                switch (menuItem.getItemId()) {
-                    case R.id.cChallenges:
-                        fragmentClass = CurrentChallenges.class;
-                        break;
+                case R.id.uChallenges:
+                    fragmentClass = UpcomingChallenges.class;
+                    break;
 
-                    case R.id.uChallenges:
-                        fragmentClass = UpcomingChallenges.class;
-                        break;
+                case R.id.sChallenges:
+                    fragmentClass = CategoryFilterChallenges.class;
+                    break;
 
-                    case R.id.sChallenges:
-                        fragmentClass = CategoryFilterChallenges.class;
-                        break;
+                case R.id.settings:
+                    fragmentClass = SettingsFragment.class;
+                    break;
 
-                    case R.id.settings:
-                        fragmentClass = SettingsFragment.class;
-                        break;
-
-                    case R.id.help:
-                    case R.id.about:
-                    case R.id.logOut:
-                        return true;
-                }
-
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                // Insert the fragment by replacing any existing fragment
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                if (fragmentManager != null)
-                    fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
-
-                // Highlight the selected item has been done by NavigationView
-                menuItem.setChecked(true);
-                // Set action bar title
-                setTitle(menuItem.getTitle());
-                binding.drawerLayout.closeDrawers();
-                return true;
+                case R.id.help:
+                case R.id.about:
+                case R.id.logOut:
+                    return true;
             }
+
+            try {
+                if (fragmentClass != null) {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager != null && fragment != null)
+                fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
+
+            menuItem.setChecked(true);
+            setTitle(menuItem.getTitle());
+            binding.drawerLayout.closeDrawers();
+            return true;
         });
     }
 }

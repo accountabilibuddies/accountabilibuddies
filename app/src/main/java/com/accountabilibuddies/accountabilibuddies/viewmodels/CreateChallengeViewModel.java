@@ -15,9 +15,12 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
+import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 public class CreateChallengeViewModel extends BaseObservable {
@@ -36,6 +39,10 @@ public class CreateChallengeViewModel extends BaseObservable {
         this.listener = listener;
         this.context = context;
         this.challenge = new Challenge();
+        //Add the ower to userlist
+        List<ParseUser> users = new ArrayList<>();
+        users.add(ParseUser.getCurrentUser()); //Add the creater as the participant
+        this.challenge.setUserList(users);
     }
 
     public String getName() {

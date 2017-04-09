@@ -45,6 +45,7 @@ import com.parse.ParseObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChallengeDetailsActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -124,7 +125,20 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void getPosts() {
+        client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener(){
 
+            @Override
+            public void onSuccess(List<Post> postList) {
+                mPostList.clear();
+                mPostList.addAll(postList);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String error_message) {
+
+            }
+        });
     }
 
     @Override
@@ -274,8 +288,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             if(grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We can now safely use the API we requested access to
-                Location myLocation =
-                        LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             } else {
                 // Permission was denied or request was cancelled
             }

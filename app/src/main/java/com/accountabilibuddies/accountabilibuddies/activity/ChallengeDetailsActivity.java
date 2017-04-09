@@ -1,10 +1,16 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -26,22 +32,28 @@ import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
 public class ChallengeDetailsActivity extends AppCompatActivity
-                implements PostTextFragment.PostTextListener {
+        implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private ActivityChallengeDetailsBinding binding;
     APIClient client;
     protected ArrayList<Post> mPostList;
     protected PostAdapter mAdapter;
     protected LinearLayoutManager mLayoutManager;
-
+    private GoogleApiClient mGoogleApiClient;
     private Challenge challenge;
+    private Double mLatitude;
+    private Double mLongitude;
 
     private static final int PHOTO_INTENT_REQUEST = 100;
+    private static final int REQUEST_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +62,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         challenge = ParseObject.createWithoutData(Challenge.class,
                 getIntent().getStringExtra("challengeId"));
-        
+
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
 
@@ -60,6 +72,9 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         //Client instance
         client = APIClient.getClient();
+
+        //Google client for location
+        setupGoogleClient();
 
         mPostList = new ArrayList<>();
         mAdapter = new PostAdapter(this, mPostList);
@@ -90,6 +105,17 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         getPosts();
     }
 
+    private void setupGoogleClient() {
+        // Create an instance of GoogleAPIClient.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+    }
+
     private void getPosts() {
 
     }
@@ -105,8 +131,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void closeFabMenu(){
+        binding.fabMenu.close(true);
+    }
 
     public void launchCamera(View view) {
+        closeFabMenu();
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -114,12 +144,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         }
     }
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch(requestCode) {
+        switch (requestCode) {
 
             case PHOTO_INTENT_REQUEST:
 
@@ -127,7 +156,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                     Bundle extras = data.getExtras();
                     Bitmap bitmap = (Bitmap) extras.get("data");
 
-                    if(bitmap==null) {
+                    if (bitmap == null) {
                         return;
                     }
 
@@ -142,20 +171,20 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
                             //TODO: Move the listener out of this function
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                new APIClient.CreatePostListener() {
-                                    @Override
-                                    public void onSuccess() {
-                                        Toast.makeText(ChallengeDetailsActivity.this,
-                                                "Creating post", Toast.LENGTH_LONG).show();
-                                        onCreatePost(post);
-                                    }
+                                    new APIClient.CreatePostListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast.makeText(ChallengeDetailsActivity.this,
+                                                    "Creating post", Toast.LENGTH_LONG).show();
+                                            onCreatePost(post);
+                                        }
 
-                                    @Override
-                                    public void onFailure(String error_message) {
-                                        Toast.makeText(ChallengeDetailsActivity.this,
-                                                "Error creating post", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                                        @Override
+                                        public void onFailure(String error_message) {
+                                            Toast.makeText(ChallengeDetailsActivity.this,
+                                                    "Error creating post", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                         }
 
                         @Override
@@ -173,6 +202,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
      */
     public void launchTextPost(View view) {
 
+        closeFabMenu();
+
         FragmentManager fm = getSupportFragmentManager();
         PostTextFragment fragment = PostTextFragment.getInstance(challenge.getObjectId());
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
@@ -187,12 +218,96 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     void onCreatePost(Post post) {
         mPostList.add(post);
         mAdapter.notifyDataSetChanged();
-        mLayoutManager.scrollToPosition(mPostList.size()-1);
+        mLayoutManager.scrollToPosition(mPostList.size() - 1);
         Log.d("File count", String.valueOf(mPostList.size()));
+    }
+
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
     public void onFinishPost(Post post) {
         onCreatePost(post);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },
+                    REQUEST_LOCATION);
+        } else {
+            Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (mLastLocation != null) {
+                mLatitude = mLastLocation.getLatitude();
+                mLongitude = mLastLocation.getLongitude();
+            }
+        }
+    }
+    @SuppressWarnings("all")
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            if(grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // We can now safely use the API we requested access to
+                Location myLocation =
+                        LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    public void shareLocation(View view) {
+        closeFabMenu();
+        //ParseGeoPoint point = new ParseGeoPoint(mLatitude, mLongitude);
+
+        Post post = new Post();
+        post.setType(Constants.TYPE_LOCATION);
+        //post.setLocation(point);
+        post.setLatitude(mLatitude);
+        post.setLongitude(mLongitude);
+
+        APIClient.getClient().createPost(post, challenge.getObjectId(),
+            new APIClient.CreatePostListener() {
+
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(ChallengeDetailsActivity.this,
+                            "Creating post", Toast.LENGTH_LONG).show();
+                    onCreatePost(post);
+                }
+
+                @Override
+                public void onFailure(String error_message) {
+                    Toast.makeText(ChallengeDetailsActivity.this,
+                            "Error creating post", Toast.LENGTH_LONG).show();
+                }
+            }
+        );
     }
 }

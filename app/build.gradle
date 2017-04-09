@@ -73,6 +73,7 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-gcm:10.2.1'
     compile 'com.google.android.gms:play-services-maps:10.2.1'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
 
     compile 'com.github.clans:fab:1.6.4'
 

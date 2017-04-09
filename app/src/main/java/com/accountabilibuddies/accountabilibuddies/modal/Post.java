@@ -20,7 +20,9 @@ public class Post extends ParseObject {
         String imageUrl; --> Url to Image
         String postText; --> If post is plain text
         String videoUrl; --> Url to Video
-        //Something for location
+        //ParseGeoPoint point;
+        Double latitude,
+        Double longitude;
         List<Comment> comments; <Comment>
         List<Like> likes; <Like>
      }
@@ -32,12 +34,15 @@ public class Post extends ParseObject {
     }
 
     //This constructor is only for testing purpose and should be removed in Production environment
-    public Post(int type, String imageUrl, String postText, String videoUrl) {
+    public Post(int type, String imageUrl, String postText, String videoUrl, Double latitude, Double longitude) {
         super();
         setType(type);
         setImageUrl(imageUrl);
         setText(postText);
         setVideoUrl(videoUrl);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        //setLocation(point);
         List<Comment> comments = new ArrayList<>();
         setCommentList(comments);
         //List<Like> likes = new ArrayList<>();
@@ -77,6 +82,30 @@ public class Post extends ParseObject {
             put("videoUrl", videoUrl);
     }
 
+    public Double getLongitude() {
+        return (Double) get("longitude");
+    }
+
+    public void setLongitude(Double longitude) {
+        put("longitude", longitude);
+    }
+
+    public Double getLatitude() {
+        return (Double) get("latitude");
+    }
+
+    public void setLatitude(Double latitude) {
+        put("latitude", latitude);
+    }
+
+/*
+    public ParseGeoPoint getLocation() {return (ParseGeoPoint) get("Location");}
+
+    public void setLocation(ParseGeoPoint location) {
+        if (location != null)
+            put("Location", location);
+    }
+*/
     public List<Comment> getCommentList() {
         return (List<Comment>) get("commentList");
     }

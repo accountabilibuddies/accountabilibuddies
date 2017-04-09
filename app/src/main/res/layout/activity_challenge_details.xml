@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView
@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </android.support.v7.widget.RecyclerView>
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <com.github.clans.fab.FloatingActionMenu
@@ -70,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/camera"
+                android:onClick="launchCamera"
                 fab:fab_label="Photo" />
 
         </com.github.clans.fab.FloatingActionMenu>

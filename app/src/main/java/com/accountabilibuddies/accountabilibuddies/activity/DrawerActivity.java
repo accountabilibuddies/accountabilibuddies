@@ -3,7 +3,6 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -117,7 +116,7 @@ public class DrawerActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error_message) {
-                Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
+                //Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
             }
         });
 

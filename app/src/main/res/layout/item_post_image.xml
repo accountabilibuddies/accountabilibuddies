@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/ivPost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"/>
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:padding="5dp"/>
 
 </RelativeLayout>

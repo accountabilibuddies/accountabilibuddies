@@ -6,8 +6,6 @@ import android.util.Log;
 import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
 import com.accountabilibuddies.accountabilibuddies.modal.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -35,40 +33,37 @@ public class APIClient {
      * Listener interface to send back data to fragments
      */
     public interface CreateChallengeListener {
-        public void onSuccess();
-        public void onFailure(String error_message);
+        void onSuccess();
+        void onFailure(String error_message);
     }
 
     public interface GetChallengeListListener {
-        public void onSuccess(List<Challenge> challengeList);
-        public void onFailure(String error_message);
+        void onSuccess(List<Challenge> challengeList);
+        void onFailure(String error_message);
     }
 
     public interface CreatePostListener {
-        public void onSuccess();
-        public void onFailure(String error_message);
+        void onSuccess();
+        void onFailure(String error_message);
     }
 
     public interface GetPostListListener {
-        public void onSuccess(List<Post> postList);
-        public void onFailure(String error_message);
+        void onSuccess(List<Post> postList);
+        void onFailure(String error_message);
     }
 
     public interface UploadFileListener {
-        public void onSuccess(String fileLocation);
-        public void onFailure(String error_message);
+        void onSuccess(String fileLocation);
+        void onFailure(String error_message);
     }
 
     // Challenge API's
     public void createChallange(Challenge challenge, CreateChallengeListener listener) {
-        challenge.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess();
-                }
+        challenge.saveInBackground(e -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                listener.onSuccess();
             }
         });
     }
@@ -78,14 +73,11 @@ public class APIClient {
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.whereEqualTo("userList", user);
-        query.findInBackground(new FindCallback<Challenge>() {
-            @Override
-            public void done(List<Challenge> objects, ParseException e) {
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess(objects);
-                }
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                listener.onSuccess(objects);
             }
         });
     }
@@ -95,14 +87,11 @@ public class APIClient {
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.whereContainedIn("category", categories);
-        query.findInBackground(new FindCallback<Challenge>() {
-            @Override
-            public void done(List<Challenge> objects, ParseException e) {
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess(objects);
-                }
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                listener.onSuccess(objects);
             }
         });
     }
@@ -125,38 +114,29 @@ public class APIClient {
 
     //Post API's
     public void createPost(Post post, String challengeObjectId, CreatePostListener listener) {
-        post.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    //Add this post to the Challenge now
-                    ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-                    query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
+        post.saveInBackground(e -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                //Add this post to the Challenge now
+                ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+                query.getInBackground(challengeObjectId, (object, e1) -> {
 
-                        public void done(Challenge object, ParseException e) {
+                    if (e1 == null) {
+                        object.add("postList", post);
 
-                            if (e == null) {
-                                object.add("postList", post);
-
-                                //TODO: Add progress here and move callback to common place
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e != null) {
-                                            listener.onFailure(e.getMessage());
-                                        } else {
-                                            listener.onSuccess();
-                                        }
-                                    }
-                                });
+                        //TODO: Add progress here and move callback to common place
+                        object.saveInBackground(e11 -> {
+                            if (e11 != null) {
+                                listener.onFailure(e11.getMessage());
                             } else {
-                                listener.onFailure(e.getMessage());
+                                listener.onSuccess();
                             }
-                        }
-                    });
-                }
+                        });
+                    } else {
+                        listener.onFailure(e1.getMessage());
+                    }
+                });
             }
         });
     }
@@ -165,14 +145,12 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.include("postList");
         //Get the challenge object and pass back the postList
-        query.getInBackground(challengeObjectId, new GetCallback<Challenge>() {
-            public void done(Challenge object, ParseException e) {
-                if (e == null) {
-                    //Cool the post is in the challenge now
-                    listener.onSuccess(object.getPostList());
-                } else {
-                    listener.onFailure(e.getMessage());
-                }
+        query.getInBackground(challengeObjectId, (object, e) -> {
+            if (e == null) {
+                //Cool the post is in the challenge now
+                listener.onSuccess(object.getPostList());
+            } else {
+                listener.onFailure(e.getMessage());
             }
         });
     }

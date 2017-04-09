@@ -53,11 +53,9 @@ public class PostTextFragment extends DialogFragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post_text,container,false);
         return binding.getRoot();
     }
@@ -132,17 +130,17 @@ public class PostTextFragment extends DialogFragment {
         post.setType(Constants.TYPE_TEXT);
         post.setText(postStr);
         APIClient.getClient().createPost(post, getArguments().getString(CHALLENGE_ID),
-                new APIClient.CreatePostListener() {
-                    @Override
-                    public void onSuccess() {
-                        //TODO: Handle success
-                    }
+            new APIClient.CreatePostListener() {
+                @Override
+                public void onSuccess() {
+                    //TODO: Handle success
+                }
 
-                    @Override
-                    public void onFailure(String error_message) {
-                        //TODO: handle failure
-                    }
-                });
+                @Override
+                public void onFailure(String error_message) {
+                    //TODO: handle failure
+                }
+            });
     }
 
 

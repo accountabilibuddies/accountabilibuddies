@@ -4,6 +4,7 @@ package com.accountabilibuddies.accountabilibuddies.fragments;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -40,14 +41,18 @@ public abstract class ChallengesFragment extends Fragment {
 
         @Override
         public void onSuccess(List<Challenge> challengeList) {
-            mChallengeList.clear();
-            mChallengeList.addAll(challengeList);
-            mAdapter.notifyDataSetChanged();
+            if (challengeList != null) {
+                mChallengeList.clear();
+                mChallengeList.addAll(challengeList);
+                mAdapter.notifyDataSetChanged();
+            }
+            binding.swipeContainer.setRefreshing(false);
         }
 
         @Override
         public void onFailure(String error_message) {
-          //  Snackbar.make(getView(), error_message, Snackbar.LENGTH_LONG).show();
+            binding.swipeContainer.setRefreshing(false);
+            Snackbar.make(binding.getRoot(), error_message, Snackbar.LENGTH_LONG).show();
         }
     };
 
@@ -57,16 +62,13 @@ public abstract class ChallengesFragment extends Fragment {
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
                 R.layout.fragment_challenges, container, false);
 
-        //Client instance
         client = APIClient.getClient();
-
 
         mChallengeList = new ArrayList<>();
         mAdapter = new ChallengeAdapter(getContext(), mChallengeList);
         binding.rVChallenges.setAdapter(mAdapter);
         binding.rVChallenges.setItemAnimator(new DefaultItemAnimator());
 
-        //Recylerview decorater
         RecyclerView.ItemDecoration itemDecoration =
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         binding.rVChallenges.addItemDecoration(itemDecoration);
@@ -74,21 +76,14 @@ public abstract class ChallengesFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         binding.rVChallenges.setLayoutManager(mLayoutManager);
 
-        //Swipe to refresh
-        binding.swipeContainer.setOnRefreshListener(() -> {
-            getChallenges();
-        });
+        binding.swipeContainer.setOnRefreshListener(this::getChallenges);
 
-        ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-                Challenge challenge = mChallengeList.get(position);
-                Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
-                intent.putExtra("challengeId", challenge.getObjectId());
-                intent.putExtra("name", challenge.getName());
-                getActivity().startActivity(intent);
-            }
+        ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener((recyclerView, position, v) -> {
+            Challenge challenge = mChallengeList.get(position);
+            Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
+            intent.putExtra("challengeId", challenge.getObjectId());
+            intent.putExtra("name", challenge.getName());
+            getActivity().startActivity(intent);
         });
 
         getChallenges();
@@ -97,5 +92,4 @@ public abstract class ChallengesFragment extends Fragment {
     }
 
     protected abstract void getChallenges();
-
 }

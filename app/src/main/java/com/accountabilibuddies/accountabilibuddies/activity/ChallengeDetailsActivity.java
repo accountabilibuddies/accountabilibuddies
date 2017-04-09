@@ -126,17 +126,19 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     private void getPosts() {
         client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener(){
-
             @Override
             public void onSuccess(List<Post> postList) {
-                mPostList.clear();
-                mPostList.addAll(postList);
-                mAdapter.notifyDataSetChanged();
+                if (postList != null) {
+                    mPostList.clear();
+                    mPostList.addAll(postList);
+                    mAdapter.notifyDataSetChanged();
+                }
+                binding.swipeContainer.setRefreshing(false);
             }
 
             @Override
             public void onFailure(String error_message) {
-
+                binding.swipeContainer.setRefreshing(false);
             }
         });
     }

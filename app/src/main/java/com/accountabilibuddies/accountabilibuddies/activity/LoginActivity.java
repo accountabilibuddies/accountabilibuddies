@@ -99,6 +99,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (user.isNew()) {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
                     setUpNewUser(user);
+                    Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
+                    startActivity(intent);
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
                 }

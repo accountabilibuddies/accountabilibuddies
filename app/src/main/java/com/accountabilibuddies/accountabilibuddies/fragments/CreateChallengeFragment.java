@@ -46,7 +46,7 @@ public class CreateChallengeFragment extends Fragment
     @Override
     public void createChallenge(Challenge challenge) {
         //TODO: Move this network call in different file
-        APIClient.getClient().createChallange(challenge, new APIClient.CreateChallengeListener() {
+        APIClient.getClient().createChallange(challenge, new APIClient.ChallengeListener() {
             @Override
             public void onSuccess() {
                 Toast.makeText(getContext(),

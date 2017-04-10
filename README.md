@@ -40,14 +40,14 @@ The following **required** functionality is completed:
 
 * [ ] User can log in using OAuth with Facebook
   * [ ] After logging in for the first time, user can see a list of challenge categories
-  * [ ] After logging in for the first time, user gets the option to add friends who are already using the app
+  * [ ] After logging in for the first time, user can see a list of friends who are already using the app
   * [ ] User is onboarded by selecting at least one of the predefined challenge categories
 
 ### Inviting Other Users
 
 * [ ] Users can invite others to join challenges
   * [ ] User can invite their contacts to join challenges (on the platform they used to authenticate with)
-    * [ ] If the contact is not already a user, the app will send them an invitation to both install the app and join the challenge
+    * [ ] (STRETCH) If the contact is not already a user, the app will send them an invitation to both install the app and join the challenge
     * [ ] If the contact is already a user, the app will send them an invitation to join the challenge
   * [ ] User can invite strangers who share their interests (have the same challenge categories) to join challenges
 * [ ] User can accept an invitation to be another user’s challenge buddy
@@ -58,7 +58,7 @@ The following **required** functionality is completed:
 * [ ] User can kick off a challenge using a custom challenge category
 * [ ] User can add predefined/suggested milestones to a challenge
 * [ ] User can add custom milestones to a challenge
-* [ ] User can kick off a motivation, showoff, or competitive challenge
+* [ ] (STRETCH) User can kick off a motivation, showoff, or competitive challenge
 
 ### Viewing Challenges
 
@@ -69,11 +69,11 @@ The following **required** functionality is completed:
   * [ ] User can view a showoff timeline
   * [ ] User can view a motivation timeline
   * [ ] User can view a competition timeline
-* [ ] User can choose to make a challenge public or private (public by default)
 * [ ] User can add media evidence (photos, screenshots, videos) to each milestone
-* [ ] User can share progress for each milestone on a challenge to social media
-* [ ] User can automatically tag their challenge buddy on a social media post
-* [ ] User can automatically tag their challenge buddy on a social media post
+* [ ] (STRETCH) User can choose to make a challenge public or private (public by default)
+* [ ] (STRETCH) User can share progress for each milestone on a challenge to social media
+* [ ] (STRETCH) User can automatically tag their challenge buddy on a social media post
+* [ ] (STRETCH) User can automatically tag their challenge buddy on a social media post
 
 ### Challenge Maintenance
 

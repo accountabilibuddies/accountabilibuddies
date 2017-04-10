@@ -16,7 +16,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CreateChallengeFrag
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
-import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParsePush;

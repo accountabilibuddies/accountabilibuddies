@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.accountabilibuddies.accountabilibuddies.LoginViewModel;
+import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
 import com.facebook.AccessToken;

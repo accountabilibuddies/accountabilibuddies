@@ -2,9 +2,9 @@ package com.accountabilibuddies.accountabilibuddies.application;
 
 import android.app.Application;
 
-import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
-import com.accountabilibuddies.accountabilibuddies.modal.Comment;
-import com.accountabilibuddies.accountabilibuddies.modal.Post;
+import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;

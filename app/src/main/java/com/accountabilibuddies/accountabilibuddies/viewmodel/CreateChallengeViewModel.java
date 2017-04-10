@@ -1,4 +1,4 @@
-package com.accountabilibuddies.accountabilibuddies.viewmodels;
+package com.accountabilibuddies.accountabilibuddies.viewmodel;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.parse.ParseUser;

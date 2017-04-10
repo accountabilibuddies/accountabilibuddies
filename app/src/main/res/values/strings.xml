@@ -17,4 +17,5 @@
     <string name="create">Create</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="choose_categories">Choose 3 or more topics.</string>
 </resources>

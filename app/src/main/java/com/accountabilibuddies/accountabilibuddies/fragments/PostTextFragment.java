@@ -15,7 +15,7 @@ import android.view.WindowManager;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostTextBinding;
-import com.accountabilibuddies.accountabilibuddies.modal.Post;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 

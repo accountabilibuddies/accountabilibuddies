@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
+import com.accountabilibuddies.accountabilibuddies.model.Category;
+import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.facebook.AccessToken;
+import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -19,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,12 +36,12 @@ public class LoginActivity extends AppCompatActivity {
 
         setUpBinding();
 
-        AccessToken token = AccessToken.getCurrentAccessToken();
+        ParseUser user = ParseUser.getCurrentUser();
 
-        if (token == null) {
+        if (user == null) {
             setUpLoginButton();
         } else {
-            getFriendsList(token);
+            refreshToken();
         }
     }
 
@@ -54,10 +58,32 @@ public class LoginActivity extends AppCompatActivity {
         binding.setLoginViewModel(new LoginViewModel());
     }
 
+    private void setUpNewUser(ParseUser user) {
+
+        List<Category> categories = new ArrayList<>();
+        user.put(Category.PLURAL, categories);
+        user.saveInBackground();
+    }
+
     private void setUpLoginButton() {
 
         binding.lbFacebook.setOnClickListener((view) -> {
             logIn();
+        });
+    }
+
+    private void refreshToken() {
+
+        AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
+            @Override
+            public void OnTokenRefreshed(AccessToken accessToken) {
+                getFriendsList(accessToken);
+            }
+
+            @Override
+            public void OnTokenRefreshFailed(FacebookException exception) {
+
+            }
         });
     }
 
@@ -72,6 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
                 } else if (user.isNew()) {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
+                    setUpNewUser(user);
+                    Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
+                    startActivity(intent);
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
                 }

@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.model.Category;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.parse.ParseUser;
 
 public class CategoryViewModel {
 
@@ -25,8 +27,16 @@ public class CategoryViewModel {
 
     public void addCategoryForUser(View view) {
 
-        //TODO: Add category for user
+        APIClient.getClient().addCategoryForUser(ParseUser.getCurrentUser(), category, new APIClient.AddCategoryListener() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(context, "Added category", Toast.LENGTH_SHORT).show();
+            }
 
-        Toast.makeText(context, "Added category", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(context, "Failure to add category", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

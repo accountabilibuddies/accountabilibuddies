@@ -41,7 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         if (user == null) {
             setUpLoginButton();
         } else {
-            refreshToken();
+            refreshTokenAndGetFriendsList();
+            openMainView();
         }
     }
 
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void refreshToken() {
+    private void refreshTokenAndGetFriendsList() {
 
         AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
             @Override
@@ -85,6 +86,12 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void openMainView() {
+
+        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+        startActivity(intent);
     }
 
     private void logIn() {

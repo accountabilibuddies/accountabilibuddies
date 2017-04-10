@@ -63,6 +63,11 @@ public class APIClient {
         void onFailure(String errorMessage);
     }
 
+    public interface GetCategoriesListener {
+        void onSuccess(List<Category> categories);
+        void onFailure(String errorMessage);
+    }
+
     // Challenge API's
     public void createChallange(Challenge challenge, ChallengeListener listener) {
         challenge.saveInBackground(e -> {
@@ -152,6 +157,11 @@ public class APIClient {
             listener) {
 
         List<Category> categories = (List<Category>) user.get(Category.PLURAL);
+
+        if (categories == null) {
+            categories = new ArrayList<>();
+        }
+
         categories.add(category);
 
         user.put(Category.PLURAL, categories);
@@ -162,6 +172,22 @@ public class APIClient {
                     listener.onFailure(e.getMessage());
                 } else {
                     listener.onSuccess();
+                }
+            }
+        );
+    }
+
+    public void getHardcodedCategories(GetCategoriesListener listener) {
+
+        ParseQuery<Category> query = ParseQuery.getQuery(Category.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+
+        query.findInBackground(
+            (List<Category> categories, ParseException e) -> {
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess(categories);
                 }
             }
         );

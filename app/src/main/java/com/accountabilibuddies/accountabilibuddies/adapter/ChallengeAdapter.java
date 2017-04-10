@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,23 @@ public class ChallengeAdapter extends
         if (challenge != null) {
             holder.challengeName.setText(challenge.getName());
             holder.challengeDescription.setText(challenge.getDescription());
+
+            //TODO bad code remove it, put in for GIF file
+            boolean is_member = false;
+            for (int i = 0; i < challenge.getUserList().size(); i++)
+                if (challenge.getUserList().get(i).getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                    is_member = true;
+                    break;
+                }
+
+            if (is_member) {
+                holder.join.setVisibility(View.GONE);
+                holder.leave.setVisibility(View.VISIBLE);
+            } else {
+                holder.join.setVisibility(View.VISIBLE);
+                holder.leave.setVisibility(View.GONE);
+            }
+            //The bad code ends here
         }
     }
 

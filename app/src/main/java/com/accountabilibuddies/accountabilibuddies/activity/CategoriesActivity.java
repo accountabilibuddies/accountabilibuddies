@@ -1,12 +1,10 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCategoriesBinding;
@@ -43,9 +41,6 @@ public class CategoriesActivity extends AppCompatActivity {
     }
 
     public void setUpCategoriesView() {
-
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(CategoriesActivity.this, DividerItemDecoration.VERTICAL);
-//        binding.rvCategories.addItemDecoration(itemDecoration);
 
         LinearLayoutManager layoutManager = new GridLayoutManager(CategoriesActivity.this, SPAN_COUNT);
         binding.rvCategories.setLayoutManager(layoutManager);

@@ -1,7 +1,11 @@
 package com.accountabilibuddies.accountabilibuddies.model;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,33 +38,5 @@ public class Category extends ParseObject {
 
     public String getName() {
         return (String) get("name");
-    }
-
-    public static List<Category> getHardcodedCategories() {
-
-        List<Category> categories =
-            Arrays.asList(
-                    new Category("Sports"),
-                    new Category("Photography"),
-                    new Category("Music"),
-                    new Category("Writing"),
-                    new Category("Reading"),
-                    new Category("Cooking"),
-                    new Category("Gardening"),
-                    new Category("Fashion"),
-                    new Category("Yoga"),
-                    new Category("Dance"),
-                    new Category("Weight Loss"),
-                    new Category("Fashion"),
-                    new Category("Programming"),
-                    new Category("Finance"),
-                    new Category("DIY"),
-                    new Category("Crafting")
-            );
-
-        deleteAllInBackground(categories);
-        saveAllInBackground(categories);
-
-        return categories;
     }
 }

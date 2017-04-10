@@ -121,13 +121,16 @@ public class LoginActivity extends AppCompatActivity {
             token,
 
             (objects,  response) -> {
-                Log.d("FriendsList", response.toString());
+                Log.d("Friends List", response.toString());
                 JSONObject resultsJson = response.getJSONObject();
 
                 try {
                     JSONArray resultsArray = resultsJson.getJSONArray("data");
-                    JSONObject user = resultsArray.getJSONObject(0);
-                    String name = user.getString("name");
+
+                    if (resultsArray.length() > 0) {
+                        JSONObject user = resultsArray.getJSONObject(0);
+                        String name = user.getString("name");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

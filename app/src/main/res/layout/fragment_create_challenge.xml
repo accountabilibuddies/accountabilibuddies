@@ -4,7 +4,7 @@
 
     <data>
         <variable name="ccvm"
-            type="com.accountabilibuddies.accountabilibuddies.viewmodels.CreateChallengeViewModel"/>
+            type="com.accountabilibuddies.accountabilibuddies.viewmodel.CreateChallengeViewModel"/>
     </data>
 
     <RelativeLayout

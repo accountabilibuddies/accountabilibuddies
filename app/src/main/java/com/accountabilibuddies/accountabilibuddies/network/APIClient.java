@@ -3,8 +3,8 @@ package com.accountabilibuddies.accountabilibuddies.network;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
-import com.accountabilibuddies.accountabilibuddies.modal.Post;
+import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.parse.ParseException;
 import com.parse.ParseFile;

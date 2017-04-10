@@ -1,4 +1,4 @@
-package com.accountabilibuddies.accountabilibuddies.modal;
+package com.accountabilibuddies.accountabilibuddies.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

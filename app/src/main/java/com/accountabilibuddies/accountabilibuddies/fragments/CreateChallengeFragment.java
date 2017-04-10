@@ -13,9 +13,9 @@ import android.widget.Toast;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentCreateChallengeBinding;
-import com.accountabilibuddies.accountabilibuddies.modal.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
-import com.accountabilibuddies.accountabilibuddies.viewmodels.CreateChallengeViewModel;
+import com.accountabilibuddies.accountabilibuddies.viewmodel.CreateChallengeViewModel;
 
 public class CreateChallengeFragment extends Fragment
         implements CreateChallengeViewModel.CreateChallengeDataListener {

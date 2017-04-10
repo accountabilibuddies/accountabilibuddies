@@ -9,7 +9,7 @@
     <data>
         <variable
             name="loginViewModel"
-            type="com.accountabilibuddies.accountabilibuddies.LoginViewModel"/>
+            type="com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel"/>
     </data>
     
     <RelativeLayout

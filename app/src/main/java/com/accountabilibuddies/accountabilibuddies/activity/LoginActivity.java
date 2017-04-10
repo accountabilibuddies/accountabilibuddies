@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private void setUpNewUser(ParseUser user) {
 
         List<Category> categories = new ArrayList<>();
-        user.put("categories", categories);
+        user.put(Category.PLURAL, categories);
         user.saveInBackground();
     }
 

@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.network;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.accountabilibuddies.accountabilibuddies.model.Category;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
@@ -55,6 +56,11 @@ public class APIClient {
     public interface UploadFileListener {
         void onSuccess(String fileLocation);
         void onFailure(String error_message);
+    }
+
+    public interface AddCategoryListener {
+        void onSuccess();
+        void onFailure(String errorMessage);
     }
 
     // Challenge API's
@@ -110,6 +116,25 @@ public class APIClient {
 
     public void exitChallenge() {
 
+    }
+
+    public void addCategoryForUser(ParseUser user, Category category, AddCategoryListener
+            listener) {
+
+        List<Category> categories = (List<Category>) user.get(Category.PLURAL);
+        categories.add(category);
+
+        user.put(Category.PLURAL, categories);
+
+        user.saveInBackground(
+            (ParseException e) -> {
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess();
+                }
+            }
+        );
     }
 
     //Post API's

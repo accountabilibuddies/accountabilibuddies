@@ -26,6 +26,7 @@ public class CategoryViewModel {
     public void addCategoryForUser(View view) {
 
         //TODO: Add category for user
+
         Toast.makeText(context, "Added category", Toast.LENGTH_SHORT).show();
     }
 }

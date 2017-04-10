@@ -69,7 +69,7 @@ public class APIClient {
     }
 
     // Challenge API's
-    public void createChallange(Challenge challenge, ChallengeListener listener) {
+    public void createChallenge(Challenge challenge, ChallengeListener listener) {
         challenge.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());

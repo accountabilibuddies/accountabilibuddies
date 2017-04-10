@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             setUpLoginButton();
         } else {
             refreshTokenAndGetFriendsList();
+            openMainView();
         }
     }
 
@@ -85,6 +86,12 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void openMainView() {
+
+        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+        startActivity(intent);
     }
 
     private void logIn() {

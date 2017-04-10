@@ -30,13 +30,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DrawerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.DrawerActivity"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -51,7 +45,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDHCZW1VKUKCvH0aOJsIgfeaA3J6G1xsOY" />
 
-        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".activity.ChallengeDetailsActivity" />
 
         <receiver
@@ -87,7 +87,7 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".activity.CategoriesActivity"></activity>
+        <activity android:name=".activity.CategoriesActivity"/>
     </application>
 
 </manifest>

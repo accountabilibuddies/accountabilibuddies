@@ -97,6 +97,7 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.whereNotEqualTo("userList", ParseUser.getCurrentUser());
         query.whereContainedIn("category", categories);
         query.findInBackground((objects, e) -> {
             if (e != null) {

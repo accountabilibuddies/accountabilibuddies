@@ -94,6 +94,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void openCategoriesView() {
+
+        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
+        startActivity(intent);
+    }
+
     private void logIn() {
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(
@@ -106,10 +112,10 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (user.isNew()) {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
                     setUpNewUser(user);
-                    Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
-                    startActivity(intent);
+                    openCategoriesView();
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
+                    openMainView();
                 }
             }
         );

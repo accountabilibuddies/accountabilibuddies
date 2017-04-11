@@ -226,6 +226,7 @@ public class APIClient {
 
     public void getPostList(String challengeObjectId, GetPostListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.include("postList");
         //Get the challenge object and pass back the postList
         query.getInBackground(challengeObjectId, (object, e) -> {

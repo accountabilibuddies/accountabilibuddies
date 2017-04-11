@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -28,12 +27,6 @@ public class ChallengeAdapter extends
 
         @BindView(R.id.challengeDescription)
         TextView challengeDescription;
-
-        @BindView(R.id.join)
-        Button join;
-
-        @BindView(R.id.leave)
-        Button leave;
 
         public MyViewHolder(View view) {
             super(view);

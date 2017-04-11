@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,5 +11,12 @@
         android:padding="5dp"
         map:mapType="none"
         map:liteMode="true" />
+
+    <include
+        android:id="@+id/postActions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mapview"
+        layout="@layout/post_actions" />
 
 </RelativeLayout>

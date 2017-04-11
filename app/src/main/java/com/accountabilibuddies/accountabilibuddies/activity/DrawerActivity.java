@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
@@ -43,15 +44,6 @@ public class DrawerActivity extends AppCompatActivity {
 
         client = APIClient.getClient();
         setSupportActionBar(binding.toolbar);
-
-        binding.fab.setOnClickListener(view -> {
-            CreateChallengeFragment createChallengeFragment = new CreateChallengeFragment();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            if (fragmentManager != null)
-                fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).
-                        addToBackStack(null).commit();
-        });
 
         setUpNavigationDrawer();
         setUpNavigationView();
@@ -144,5 +136,15 @@ public class DrawerActivity extends AppCompatActivity {
             binding.drawerLayout.closeDrawers();
             return true;
         });
+    }
+
+    public void createChallenge(View view) {
+        //Will reomve this cod later once code is moved from Fragment to activity
+        CreateChallengeFragment createChallengeFragment = new CreateChallengeFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager != null)
+            fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).
+                    addToBackStack(null).commit();
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/likeBtn"
+        android:id="@+id/ibLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -16,22 +16,22 @@
         android:layout_alignParentStart="true" />
 
     <ImageButton
-        android:id="@+id/commentBtn"
+        android:id="@+id/ibComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:src="@drawable/comment"
         android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/likeBtn"
-        android:layout_alignBottom="@+id/likeBtn" />
+        android:layout_toRightOf="@+id/ibLike"
+        android:layout_alignBottom="@+id/ibLike" />
 
     <TextView
-        android:id="@+id/likesCnt"
+        android:id="@+id/tvLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/likeBtn"
-        android:layout_alignStart="@+id/likeBtn"
-        android:layout_below="@+id/likeBtn"
+        android:layout_alignLeft="@+id/ibLike"
+        android:layout_alignStart="@+id/ibLike"
+        android:layout_below="@+id/ibLike"
         android:text="1234 likes" />
 </RelativeLayout>

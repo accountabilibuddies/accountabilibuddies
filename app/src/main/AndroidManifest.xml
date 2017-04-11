@@ -53,6 +53,7 @@
         </activity>
 
         <activity android:name=".activity.ChallengeDetailsActivity" />
+        <activity android:name=".activity.CreateChallengeActivity" />
 
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"

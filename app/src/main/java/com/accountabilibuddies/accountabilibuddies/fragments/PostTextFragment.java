@@ -130,7 +130,7 @@ public class PostTextFragment extends DialogFragment {
         post.setType(Constants.TYPE_TEXT);
         post.setText(postStr);
         APIClient.getClient().createPost(post, getArguments().getString(CHALLENGE_ID),
-            new APIClient.CreatePostListener() {
+            new APIClient.postListener() {
                 @Override
                 public void onSuccess() {
                     //TODO: Handle success

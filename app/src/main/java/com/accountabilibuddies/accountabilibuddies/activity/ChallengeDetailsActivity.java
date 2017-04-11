@@ -197,7 +197,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
                                     //TODO: Move the listener out of this function
                                     APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                            new APIClient.CreatePostListener() {
+                                            new APIClient.postListener() {
                                                 @Override
                                                 public void onSuccess() {
                                                     Toast.makeText(ChallengeDetailsActivity.this,
@@ -317,7 +317,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         post.setLongitude(mLongitude);
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),
-            new APIClient.CreatePostListener() {
+            new APIClient.postListener() {
 
                 @Override
                 public void onSuccess() {

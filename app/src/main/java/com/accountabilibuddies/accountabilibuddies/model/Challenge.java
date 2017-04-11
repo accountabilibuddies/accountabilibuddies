@@ -16,16 +16,17 @@ public class Challenge extends ParseObject {
     // createdAt and updatedAt represent the time that each object was created and last modified.
     /**
      Challenge {
-         int typeId;
-         String name;
-         String description;
-         String startDate;
-         String endDate;
-         int frequency;
-         String imageUrl;
-         int categoryId;
-         List of user; <ParseUser>
-         List of post; <Post>
+        int typeId;
+        ParseUser owner;
+        String name;
+        String description;
+        String startDate;
+        String endDate;
+        int frequency;
+        String imageUrl;
+        int categoryId;
+        List of user; <ParseUser>
+        List of post; <Post>
      }
      */
 
@@ -39,6 +40,7 @@ public class Challenge extends ParseObject {
                      Date endDate,  int frequency, String imageUrl, int categoryId) {
         super();
         setType(typeId);
+        setOwner(ParseUser.getCurrentUser());
         setName(name);
         setDescription(description);
         setStartDate(startDate);
@@ -132,5 +134,13 @@ public class Challenge extends ParseObject {
 
     public void setPostList(List<Post > postList) {
         put("postList", postList);
+    }
+
+    public ParseUser getOwner() {
+        return (ParseUser) get("owner");
+    }
+
+    public void setOwner(ParseUser owner) {
+        put("owner", owner);
     }
 }

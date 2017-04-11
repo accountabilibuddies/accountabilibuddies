@@ -89,15 +89,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void openMainView() {
-
         Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
         startActivity(intent);
-    }
+        finish();
+}
 
     private void openCategoriesView() {
-
         Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void logIn() {

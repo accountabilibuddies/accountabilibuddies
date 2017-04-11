@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Post extends ParseObject {
      Post {
         int postType;
         //Parse also store created date and last updated date to skipped in schema
-        //ParseUser  owner; Since Parse already stores the owner of the object
+        ParseUser owner;
         String imageUrl; --> Url to Image
         String postText; --> If post is plain text
         String videoUrl; --> Url to Video
@@ -37,6 +38,7 @@ public class Post extends ParseObject {
     public Post(int type, String imageUrl, String postText, String videoUrl, Double latitude, Double longitude) {
         super();
         setType(type);
+        setOwner(ParseUser.getCurrentUser());
         setImageUrl(imageUrl);
         setText(postText);
         setVideoUrl(videoUrl);
@@ -112,5 +114,13 @@ public class Post extends ParseObject {
 
     public void setCommentList(List<Comment> commentList) {
         put("commentList", commentList);
+    }
+
+    public ParseUser getOwner() {
+        return (ParseUser) get("owner");
+    }
+
+    public void setOwner(ParseUser owner) {
+        put("owner", owner);
     }
 }

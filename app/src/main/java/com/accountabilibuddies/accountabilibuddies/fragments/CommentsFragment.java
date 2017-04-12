@@ -69,7 +69,7 @@ public class CommentsFragment extends DialogFragment {
         comment.setText(postComment);
         comment.setUser(ParseUser.getCurrentUser());
         APIClient.getClient().addComment(getArguments().getString(POST_ID), comment,
-            new APIClient.postListener() {
+            new APIClient.PostListener() {
                 @Override
                 public void onSuccess() {
                     //TODO: Handle success

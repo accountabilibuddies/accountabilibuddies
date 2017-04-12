@@ -1,5 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DateUtils {
 
     /**
@@ -22,5 +25,13 @@ public class DateUtils {
                 .append(year);
 
         return builder.toString();
+    }
+
+
+    public static String getTimeFromDate(Date date) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        return sdf.format(date);
+
     }
 }

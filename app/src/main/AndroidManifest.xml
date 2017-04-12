@@ -55,6 +55,8 @@
         <activity android:name=".activity.ChallengeDetailsActivity" />
         <activity android:name=".activity.CreateChallengeActivity" />
 
+        <activity android:name=".activity.ChallengeOneOnOneActivity"/>
+
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">

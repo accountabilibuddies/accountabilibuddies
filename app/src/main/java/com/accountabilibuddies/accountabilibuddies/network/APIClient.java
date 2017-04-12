@@ -44,7 +44,7 @@ public class APIClient {
         void onFailure(String error_message);
     }
 
-    public interface postListener {
+    public interface PostListener {
         void onSuccess();
         void onFailure(String error_message);
     }
@@ -196,7 +196,7 @@ public class APIClient {
     }
 
     //Post API's
-    public void createPost(Post post, String challengeObjectId, postListener listener) {
+    public void createPost(Post post, String challengeObjectId, PostListener listener) {
         post.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
@@ -242,7 +242,7 @@ public class APIClient {
     //Delete Post
 
     //Add Comment
-    public void addComment(String postId, Comment comment, postListener listener) {
+    public void addComment(String postId, Comment comment, PostListener listener) {
         comment.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());

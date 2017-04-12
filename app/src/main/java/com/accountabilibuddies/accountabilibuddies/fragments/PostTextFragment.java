@@ -18,6 +18,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostTextB
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
+import com.parse.ParseUser;
 
 public class PostTextFragment extends DialogFragment {
 
@@ -129,8 +130,9 @@ public class PostTextFragment extends DialogFragment {
         Post post = new Post();
         post.setType(Constants.TYPE_TEXT);
         post.setText(postStr);
+        post.setOwner(ParseUser.getCurrentUser());
         APIClient.getClient().createPost(post, getArguments().getString(CHALLENGE_ID),
-            new APIClient.postListener() {
+            new APIClient.PostListener() {
                 @Override
                 public void onSuccess() {
                     //TODO: Handle success

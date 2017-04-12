@@ -1,14 +1,13 @@
 package com.accountabilibuddies.accountabilibuddies.viewmodel;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.accountabilibuddies.accountabilibuddies.activity.CategoriesActivity;
-import com.accountabilibuddies.accountabilibuddies.activity.DrawerActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Category;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -26,32 +25,13 @@ import java.util.List;
 
 public class LoginViewModel {
 
+    public static final String TAG = LoginViewModel.class.getSimpleName();
+
     private AppCompatActivity context;
 
     public LoginViewModel(AppCompatActivity context) {
 
         this.context = context;
-    }
-
-    public void refreshTokenAndGetFriendsList() {
-
-        AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
-            @Override
-            public void OnTokenRefreshed(AccessToken accessToken) {
-                getFriendsList();
-            }
-
-            @Override
-            public void OnTokenRefreshFailed(FacebookException exception) {
-
-            }
-        });
-    }
-
-    private void openCategoriesView() {
-        Intent intent = new Intent(context, CategoriesActivity.class);
-        context.startActivity(intent);
-        context.finish();
     }
 
     private void setUpNewUser(ParseUser user) {
@@ -61,27 +41,68 @@ public class LoginViewModel {
         user.saveInBackground();
     }
 
-    public void openMainView() {
-        Intent intent = new Intent(context, DrawerActivity.class);
-        context.startActivity(intent);
-        context.finish();
+    private void saveFriend(String facebookId, String name, String photoUrl) {
+
+        Friend friend = new Friend();
+
+        friend.setFacebookId(facebookId);
+        friend.setName(name);
+        friend.setPhotoUrl(photoUrl);
+        friend.setFriendOfId(ParseUser.getCurrentUser().getObjectId());
+
+        APIClient.getClient().createFriend(friend, new APIClient.CreateFriendListener() {
+
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Friend creation success!");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+                Log.d(TAG, "Friend creation failure!");
+            }
+        });
     }
 
-    private void getFriendsList() {
+    public void refreshTokenAndGetFriends() {
+
+        AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
+            @Override
+            public void OnTokenRefreshed(AccessToken accessToken) {
+                getFriendsForCurrentUser();
+            }
+
+            @Override
+            public void OnTokenRefreshFailed(FacebookException exception) {
+
+            }
+        });
+    }
+
+    public void createFriendsList() {
 
         GraphRequest friendRequest = GraphRequest.newMyFriendsRequest(
                 AccessToken.getCurrentAccessToken(),
 
                 (objects,  response) -> {
-                    Log.d("Friends List", response.toString());
+                    Log.d(TAG + "Friends List", response.toString());
                     JSONObject resultsJson = response.getJSONObject();
 
                     try {
                         JSONArray resultsArray = resultsJson.getJSONArray("data");
 
-                        if (resultsArray.length() > 0) {
-                            JSONObject user = resultsArray.getJSONObject(0);
-                            String name = user.getString("name");
+                        for (int i = 0; i < resultsArray.length(); i++) {
+
+                            JSONObject user = resultsArray.getJSONObject(i);
+                            JSONObject picture = user.getJSONObject("picture");
+                            JSONObject pictureData = picture.getJSONObject("data");
+
+                            saveFriend(
+                                user.getString("id"),
+                                user.getString("name"),
+                                pictureData.getString("url")
+                            );
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -108,18 +129,34 @@ public class LoginViewModel {
 
             (ParseUser user, ParseException err) -> {
                 if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                    Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
                 } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                    Log.d(TAG, "User signed up and logged in through Facebook!");
                     setUpNewUser(user);
-                    getFriendsList();
-                    openCategoriesView();
                 } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
-                    getFriendsList();
-                    openMainView();
+                    Log.d(TAG, "User logged in through Facebook!");
                 }
             }
         );
+    }
+
+    public void getFriendsForCurrentUser() {
+
+        APIClient.getClient().getFriendsByUserId(
+            ParseUser.getCurrentUser().getObjectId(),
+            new APIClient.GetFriendsListener() {
+
+                @Override
+                public void onSuccess(List<Friend> friends) {
+
+                    Log.d(TAG, "Here are my friends: " + friends.toString());
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+
+                    Log.d(TAG, "Error getting friends list.");
+                }
+            });
     }
 }

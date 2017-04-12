@@ -6,8 +6,10 @@ import android.util.Log;
 import com.accountabilibuddies.accountabilibuddies.model.Category;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -34,7 +36,7 @@ public class APIClient {
     /**
      * Listener interface to send back data to fragments
      */
-    public interface challengeListener {
+    public interface ChallengeListener {
         void onSuccess();
         void onFailure(String error_message);
     }
@@ -44,7 +46,7 @@ public class APIClient {
         void onFailure(String error_message);
     }
 
-    public interface postListener {
+    public interface PostListener {
         void onSuccess();
         void onFailure(String error_message);
     }
@@ -69,8 +71,18 @@ public class APIClient {
         void onFailure(String errorMessage);
     }
 
+    public interface CreateFriendListener {
+        void onSuccess();
+        void onFailure(String errorMessage);
+    }
+
+    public interface GetFriendsListener {
+        void onSuccess(List<Friend> friends);
+        void onFailure(String errorMessage);
+    }
+
     // Challenge API's
-    public void createChallenge(Challenge challenge, challengeListener listener) {
+    public void createChallenge(Challenge challenge, ChallengeListener listener) {
         challenge.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
@@ -109,7 +121,7 @@ public class APIClient {
         });
     }
 
-    public void joinChallenge(String challengeObjectId, challengeListener listener) {
+    public void joinChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
@@ -135,7 +147,7 @@ public class APIClient {
 
     }
 
-    public void exitChallenge(String challengeObjectId, challengeListener listener) {
+    public void exitChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
@@ -195,8 +207,42 @@ public class APIClient {
         );
     }
 
+    public void createFriend(Friend friend, CreateFriendListener listener) {
+
+        friend.saveInBackground(
+
+            (ParseException e) -> {
+
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess();
+                }
+            }
+        );
+
+    }
+
+    public void getFriendsByUserId(String friendOfId, GetFriendsListener listener) {
+
+        ParseQuery<Friend> query = ParseQuery.getQuery(Friend.class);
+        query.whereEqualTo("friendOfId", friendOfId);
+
+        query.findInBackground(
+
+            (List<Friend> friends, ParseException e) -> {
+
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess(friends);
+                }
+            }
+        );
+    }
+
     //Post API's
-    public void createPost(Post post, String challengeObjectId, postListener listener) {
+    public void createPost(Post post, String challengeObjectId, PostListener listener) {
         post.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
@@ -242,7 +288,7 @@ public class APIClient {
     //Delete Post
 
     //Add Comment
-    public void addComment(String postId, Comment comment, postListener listener) {
+    public void addComment(String postId, Comment comment, PostListener listener) {
         comment.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
@@ -270,7 +316,7 @@ public class APIClient {
     }
 
     //Like/Unlike Post
-    public void likeUnlikePost(String postId, boolean like, postListener listener) {
+    public void likeUnlikePost(String postId, boolean like, PostListener listener) {
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.getInBackground(postId, (object, error) -> {

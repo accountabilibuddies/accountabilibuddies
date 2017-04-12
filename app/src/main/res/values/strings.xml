@@ -18,4 +18,5 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="choose_categories">Choose 3 or more topics.</string>
+    <string name="connect_facebook">Connect With Facebook</string>
 </resources>

@@ -9,6 +9,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -72,6 +73,11 @@ public class APIClient {
 
     public interface CreateFriendListener {
         void onSuccess();
+        void onFailure(String errorMessage);
+    }
+
+    public interface GetFriendsListener {
+        void onSuccess(List<Friend> friends);
         void onFailure(String errorMessage);
     }
 
@@ -215,6 +221,24 @@ public class APIClient {
             }
         );
 
+    }
+
+    public void getFriendsByUserId(String friendOfId, GetFriendsListener listener) {
+
+        ParseQuery<Friend> query = ParseQuery.getQuery(Friend.class);
+        query.whereEqualTo("friendOfId", friendOfId);
+
+        query.findInBackground(
+
+            (List<Friend> friends, ParseException e) -> {
+
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess(friends);
+                }
+            }
+        );
     }
 
     //Post API's

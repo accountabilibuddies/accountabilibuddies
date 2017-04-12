@@ -28,9 +28,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (user == null) {
             viewModel.logInWithReadPermissions();
+            viewModel.createFriendsList();
+            openCategoriesView();
         } else {
-            viewModel.refreshTokenAndGetFriendsList();
-            viewModel.openMainView();
+            viewModel.refreshTokenAndGetFriends();
+            openMainView();
         }
     }
 
@@ -45,5 +47,17 @@ public class LoginActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         binding.setLoginViewModel(viewModel);
+    }
+
+    private void openCategoriesView() {
+        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void openMainView() {
+        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

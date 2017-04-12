@@ -2,9 +2,11 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
@@ -24,6 +26,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Post> postList;
     private Context context;
     private GoogleMap map;
+    private ImageButton likeBtn, commentBtn;
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
@@ -90,6 +93,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Glide.with(context)
                                 .load(post.getImageUrl())
                                 .into(imgVH.getImageView());
+                    likeBtn = imgVH.getPostLike();
+                    commentBtn = imgVH.getPostComment();
                     break;
 
                 case POST_WITH_VIDEO:
@@ -112,14 +117,30 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                         }
                     });
+                    likeBtn = locVH.getPostLike();
+                    commentBtn = locVH.getPostComment();
                     break;
 
                 case POST_WITH_TEXT:
                 default:
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
                     textVH.getText().setText(post.getText());
+                    likeBtn = textVH.getPostLike();
+                    commentBtn = textVH.getPostComment();
                     break;
             }
+            likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Like", "Clicked");
+                }
+            });
+            commentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Comment", "Clicked");
+                }
+            });
         }
     }
 

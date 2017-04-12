@@ -22,6 +22,7 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentsFragment extends DialogFragment {
     private FragmentCommentBinding binding;
@@ -48,6 +49,8 @@ public class CommentsFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_comment,container,false);
 
+        client = APIClient.getClient();
+
         mCommentList = new ArrayList<>();
         mAdapter = new CommentsAdapter(getContext(), mCommentList);
         binding.rVComments.setAdapter(mAdapter);
@@ -60,9 +63,35 @@ public class CommentsFragment extends DialogFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rVComments.setLayoutManager(layoutManager);
 
+        binding.btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postComment(String.valueOf(binding.etComment.getText()));
+            }
+        });
+
         //Fetch Comments
-        
+        getComments();
         return binding.getRoot();
+    }
+
+    private void getComments() {
+        client.getCommentList(getArguments().getString(POST_ID), new APIClient.GetCommentsListListener() {
+
+            @Override
+            public void onSuccess(List<Comment> commentsList) {
+                if (commentsList != null) {
+                    mCommentList.clear();
+                    mCommentList.addAll(commentsList);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(String error_message) {
+
+            }
+        });
     }
 
     @Override
@@ -97,7 +126,7 @@ public class CommentsFragment extends DialogFragment {
             new APIClient.PostListener() {
                 @Override
                 public void onSuccess() {
-                    //TODO: Handle success
+                    dismiss();
                 }
 
                 @Override

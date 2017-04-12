@@ -270,6 +270,32 @@ public class APIClient {
     }
 
     //Like/Unlike Post
+    public void likeUnlikePost(String postId, boolean like, postListener listener) {
+
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.getInBackground(postId, (object, error) -> {
+            if (error == null) {
+                List<ParseUser> users = object.getLikeList();
+
+                if (like)
+                    users.add(ParseUser.getCurrentUser());
+                else
+                    users.remove(ParseUser.getCurrentUser());
+
+                object.add("userList",users);
+                object.saveInBackground(e11 -> {
+                    if (e11 != null) {
+                        listener.onFailure(e11.getMessage());
+                    } else {
+                        listener.onSuccess();
+                    }
+                });
+            } else {
+                listener.onFailure(error.getMessage());
+            }
+        });
+
+    }
 
     //Upload file
     public void uploadFile(String fileName, Bitmap bitmap, UploadFileListener listener) {

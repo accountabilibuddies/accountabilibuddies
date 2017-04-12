@@ -25,9 +25,11 @@ public class Post extends ParseObject {
         Double latitude,
         Double longitude;
         List<Comment> comments; <Comment>
-        List<Like> likes; <Like>
+        List<ParseUser> likeList;
      }
      */
+    //Local to app
+    private boolean is_liked = false;
 
     // Default Constructor
     public Post() {
@@ -47,8 +49,8 @@ public class Post extends ParseObject {
         //setLocation(point);
         List<Comment> comments = new ArrayList<>();
         setCommentList(comments);
-        //List<Like> likes = new ArrayList<>();
-        //setLikeList(like);
+        List<ParseUser> likes = new ArrayList<>();
+        setLikeList(likes);
     }
 
     public int getType() {
@@ -114,6 +116,15 @@ public class Post extends ParseObject {
 
     public void setCommentList(List<Comment> commentList) {
         put("commentList", commentList);
+    }
+
+    public List<ParseUser> getLikeList() {
+        //Set is_like here
+        return (List<ParseUser>) get("likeList");
+    }
+
+    public void setLikeList(List<ParseUser> likeList) {
+        put("likeList", likeList);
     }
 
     public ParseUser getOwner() {

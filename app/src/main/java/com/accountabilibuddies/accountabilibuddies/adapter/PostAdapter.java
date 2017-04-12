@@ -1,6 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
+import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -157,6 +161,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
+                    CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
+                    fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+                    fragment.show(fm, "");
                 }
             });
         }

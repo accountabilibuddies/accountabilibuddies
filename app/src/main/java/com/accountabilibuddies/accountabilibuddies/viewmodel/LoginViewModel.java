@@ -9,6 +9,8 @@ import android.view.View;
 import com.accountabilibuddies.accountabilibuddies.activity.CategoriesActivity;
 import com.accountabilibuddies.accountabilibuddies.activity.DrawerActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Category;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -67,6 +69,30 @@ public class LoginViewModel {
         context.finish();
     }
 
+    private void saveFriend(String facebookId, String name, String photoUrl) {
+
+        Friend friend = new Friend();
+
+        friend.setFacebookId(facebookId);
+        friend.setName(name);
+        friend.setPhotoUrl(photoUrl);
+        friend.setFriendOfId(ParseUser.getCurrentUser().getObjectId());
+
+        APIClient.getClient().createFriend(friend, new APIClient.CreateFriendListener() {
+
+            @Override
+            public void onSuccess() {
+                Log.d("Login", "Friend creation success!");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+                Log.d("Login", "Friend creation failure!");
+            }
+        });
+    }
+
     private void getFriendsList() {
 
         GraphRequest friendRequest = GraphRequest.newMyFriendsRequest(
@@ -79,9 +105,17 @@ public class LoginViewModel {
                     try {
                         JSONArray resultsArray = resultsJson.getJSONArray("data");
 
-                        if (resultsArray.length() > 0) {
-                            JSONObject user = resultsArray.getJSONObject(0);
-                            String name = user.getString("name");
+                        for (int i = 0; i < resultsArray.length(); i++) {
+
+                            JSONObject user = resultsArray.getJSONObject(i);
+                            JSONObject picture = user.getJSONObject("picture");
+                            JSONObject pictureData = picture.getJSONObject("data");
+
+                            saveFriend(
+                                user.getString("id"),
+                                user.getString("name"),
+                                pictureData.getString("url")
+                            );
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

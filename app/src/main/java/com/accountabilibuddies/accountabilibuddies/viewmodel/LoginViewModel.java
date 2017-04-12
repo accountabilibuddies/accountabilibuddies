@@ -34,21 +34,6 @@ public class LoginViewModel {
         this.context = context;
     }
 
-    public void refreshTokenAndGetFriends() {
-
-        AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
-            @Override
-            public void OnTokenRefreshed(AccessToken accessToken) {
-                getFriendsForCurrentUser();
-            }
-
-            @Override
-            public void OnTokenRefreshFailed(FacebookException exception) {
-
-            }
-        });
-    }
-
     private void setUpNewUser(ParseUser user) {
 
         List<Category> categories = new ArrayList<>();
@@ -76,6 +61,21 @@ public class LoginViewModel {
             public void onFailure(String errorMessage) {
 
                 Log.d(TAG, "Friend creation failure!");
+            }
+        });
+    }
+
+    public void refreshTokenAndGetFriends() {
+
+        AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
+            @Override
+            public void OnTokenRefreshed(AccessToken accessToken) {
+                getFriendsForCurrentUser();
+            }
+
+            @Override
+            public void OnTokenRefreshFailed(FacebookException exception) {
+
             }
         });
     }
@@ -140,7 +140,7 @@ public class LoginViewModel {
         );
     }
 
-    private void getFriendsForCurrentUser() {
+    public void getFriendsForCurrentUser() {
 
         APIClient.getClient().getFriendsByUserId(
             ParseUser.getCurrentUser().getObjectId(),

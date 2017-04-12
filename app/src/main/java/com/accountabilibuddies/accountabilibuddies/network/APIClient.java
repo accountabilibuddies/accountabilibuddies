@@ -141,7 +141,7 @@ public class APIClient {
             if (e == null) {
                 List<ParseUser> users = object.getUserList();
                 users.remove(ParseUser.getCurrentUser());
-                object.addAllUnique("usersList", users);
+                object.add("userList",users);
                 object.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
@@ -282,7 +282,7 @@ public class APIClient {
                 else
                     users.remove(ParseUser.getCurrentUser());
 
-                object.addAllUnique("likeList", users);
+                object.add("userList",users);
                 object.saveInBackground(e11 -> {
                     if (e11 != null) {
                         listener.onFailure(e11.getMessage());

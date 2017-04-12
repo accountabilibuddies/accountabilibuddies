@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
-import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -85,9 +84,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         Post post = postList.get(position);
-
-        APIClient client = APIClient.getClient();
-
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case POST_WITH_IMAGE:
@@ -132,26 +128,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     commentBtn = textVH.getPostComment();
                     break;
             }
-
-            if (post.isLiked())
-                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    post.setLiked();
-                    client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.postListener() {
-                        @Override
-                        public void onSuccess() {
-                            if (post.isLiked())
-                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-                            else
-                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
-                        }
-
-                        @Override
-                        public void onFailure(String error_message) { }
-                    });
                 }
             });
             commentBtn.setOnClickListener(new View.OnClickListener() {

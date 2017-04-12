@@ -29,6 +29,12 @@ public class LoginViewModel {
 
     private AppCompatActivity context;
 
+    public interface LoggedInListener {
+
+        void onSuccess();
+        void onFailure();
+    }
+
     public LoginViewModel(AppCompatActivity context) {
 
         this.context = context;
@@ -65,17 +71,18 @@ public class LoginViewModel {
         });
     }
 
-    public void refreshTokenAndGetFriends() {
+    public void refreshTokenAndGetFriends(LoggedInListener listener) {
 
         AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
             @Override
             public void OnTokenRefreshed(AccessToken accessToken) {
                 getFriendsForCurrentUser();
+                listener.onSuccess();
             }
 
             @Override
             public void OnTokenRefreshFailed(FacebookException exception) {
-
+                listener.onFailure();
             }
         });
     }
@@ -118,10 +125,20 @@ public class LoginViewModel {
 
     public void logIn(View view) {
 
-        logInWithReadPermissions();
+        logInWithReadPermissions(new LoggedInListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Logged in!");
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d(TAG, "User cancelled log in.");
+            }
+        });
     }
 
-    public void logInWithReadPermissions() {
+    public void logInWithReadPermissions(LoggedInListener listener) {
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(
             context,
@@ -130,11 +147,14 @@ public class LoginViewModel {
             (ParseUser user, ParseException err) -> {
                 if (user == null) {
                     Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
+                    listener.onFailure();
                 } else if (user.isNew()) {
                     Log.d(TAG, "User signed up and logged in through Facebook!");
                     setUpNewUser(user);
+                    listener.onSuccess();
                 } else {
                     Log.d(TAG, "User logged in through Facebook!");
+                    listener.onSuccess();
                 }
             }
         );

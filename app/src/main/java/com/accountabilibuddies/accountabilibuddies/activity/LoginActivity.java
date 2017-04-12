@@ -27,12 +27,32 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
 
         if (user == null) {
-            viewModel.logInWithReadPermissions();
-            viewModel.createFriendsList();
-            openCategoriesView();
+            viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
+
+                @Override
+                public void onSuccess() {
+                    viewModel.createFriendsList();
+                    openCategoriesView();
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
+
         } else {
-            viewModel.refreshTokenAndGetFriends();
-            openMainView();
+            viewModel.refreshTokenAndGetFriends(new LoginViewModel.LoggedInListener() {
+                @Override
+                public void onSuccess() {
+                    openMainView();
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
         }
     }
 

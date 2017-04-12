@@ -9,7 +9,6 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -79,6 +78,11 @@ public class APIClient {
     public interface GetFriendsListener {
         void onSuccess(List<Friend> friends);
         void onFailure(String errorMessage);
+    }
+
+    public interface GetCommentsListListener {
+        void onSuccess(List<Comment> commentsList);
+        void onFailure(String error_message);
     }
 
     // Challenge API's
@@ -274,10 +278,9 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.include("postList");
-        //Get the challenge object and pass back the postList
+
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
-                //Cool the post is in the challenge now
                 listener.onSuccess(object.getPostList());
             } else {
                 listener.onFailure(e.getMessage());
@@ -285,9 +288,20 @@ public class APIClient {
         });
     }
 
-    //Delete Post
+    public void getCommentList(String postObjectId, GetCommentsListListener listener) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.include("commentList");
 
-    //Add Comment
+        query.getInBackground(postObjectId, (object, e) -> {
+            if (e == null) {
+                listener.onSuccess(object.getCommentList());
+            } else {
+                listener.onFailure(e.getMessage());
+            }
+        });
+    }
+
     public void addComment(String postId, Comment comment, PostListener listener) {
         comment.saveInBackground(e -> {
             if (e != null) {

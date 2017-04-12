@@ -29,7 +29,7 @@ public class Post extends ParseObject {
      }
      */
     //Local to app
-    private boolean liked = false;
+    private boolean is_liked = false;
 
     // Default Constructor
     public Post() {
@@ -118,20 +118,9 @@ public class Post extends ParseObject {
         put("commentList", commentList);
     }
 
-    public boolean isLiked() {
-        return liked;
-    }
-
-    public void setLiked() {
-        this.liked = !liked;
-    }
-
     public List<ParseUser> getLikeList() {
-        List<ParseUser> users = (List<ParseUser>)get("likeList");
         //Set is_like here
-        if (users.contains(ParseUser.getCurrentUser()))
-            liked = true;
-        return users;
+        return (List<ParseUser>) get("likeList");
     }
 
     public void setLikeList(List<ParseUser> likeList) {

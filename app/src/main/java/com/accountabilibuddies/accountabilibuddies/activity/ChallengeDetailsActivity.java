@@ -41,7 +41,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
@@ -193,8 +192,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                     Post post = new Post();
                                     post.setType(Constants.TYPE_IMAGE);
                                     post.setImageUrl(fileLocation);
-                                    List<ParseUser> users = new ArrayList<>();
-                                    post.setLikeList(users);
 
                                     Log.d("Objectid", challenge.getObjectId());
 
@@ -315,8 +312,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
-        List<ParseUser> users = new ArrayList<>();
-        post.setLikeList(users);
         //post.setLocation(point);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);

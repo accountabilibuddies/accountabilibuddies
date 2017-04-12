@@ -18,12 +18,13 @@
         android:layout_height="match_parent">
     
         <Button
-            android:id="@+id/lbFacebook"
+            android:id="@+id/btFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
+            android:onClick="@{loginViewModel::logIn}"
             android:text="@string/connect_facebook"/>
     
     </RelativeLayout>

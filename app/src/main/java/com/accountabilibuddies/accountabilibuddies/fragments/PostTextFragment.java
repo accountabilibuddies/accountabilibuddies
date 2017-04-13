@@ -19,7 +19,6 @@ import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.parse.ParseUser;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +134,7 @@ public class PostTextFragment extends DialogFragment {
         post.setText(postStr);
         List<ParseUser> users = new ArrayList<>();
         post.setLikeList(users);
+        post.setOwner(ParseUser.getCurrentUser());
         APIClient.getClient().createPost(post, getArguments().getString(CHALLENGE_ID),
             new APIClient.PostListener() {
                 @Override

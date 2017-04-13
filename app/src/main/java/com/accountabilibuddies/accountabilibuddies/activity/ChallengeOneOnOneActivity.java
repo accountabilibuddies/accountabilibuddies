@@ -19,7 +19,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +27,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
+import com.accountabilibuddies.accountabilibuddies.adapter.OneOnOneAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
@@ -48,12 +47,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChallengeDetailsActivity extends AppCompatActivity
+public class ChallengeOneOnOneActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ActivityChallengeDetailsBinding binding;
     APIClient client;
     protected ArrayList<Post> mPostList;
-    protected PostAdapter mAdapter;
+    protected OneOnOneAdapter mAdapter;
     protected LinearLayoutManager mLayoutManager;
     private GoogleApiClient mGoogleApiClient;
     private Challenge challenge;
@@ -86,14 +85,9 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         setupGoogleClient();
 
         mPostList = new ArrayList<>();
-        mAdapter = new PostAdapter(this, mPostList);
+        mAdapter = new OneOnOneAdapter(this, mPostList);
         binding.rVPosts.setAdapter(mAdapter);
         binding.rVPosts.setItemAnimator(new DefaultItemAnimator());
-
-        //Recylerview decorater
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        binding.rVPosts.addItemDecoration(itemDecoration);
 
         mLayoutManager = new LinearLayoutManager(this);
         binding.rVPosts.setLayoutManager(mLayoutManager);
@@ -106,8 +100,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         ItemClickSupport.addTo(binding.rVPosts).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-
+                //TODO: Create a separate view on click of image and video and map
             }
         });
 
@@ -193,8 +186,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                     Post post = new Post();
                                     post.setType(Constants.TYPE_IMAGE);
                                     post.setImageUrl(fileLocation);
-                                    List<ParseUser> users = new ArrayList<>();
-                                    post.setLikeList(users);
                                     post.setOwner(ParseUser.getCurrentUser());
 
                                     Log.d("Objectid", challenge.getObjectId());
@@ -204,14 +195,14 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                             new APIClient.PostListener() {
                                                 @Override
                                                 public void onSuccess() {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                                    Toast.makeText(ChallengeOneOnOneActivity.this,
                                                             "Creating post", Toast.LENGTH_LONG).show();
                                                     onCreatePost(post);
                                                 }
 
                                                 @Override
                                                 public void onFailure(String error_message) {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                                    Toast.makeText(ChallengeOneOnOneActivity.this,
                                                             "Error creating post", Toast.LENGTH_LONG).show();
                                                 }
                                             });
@@ -316,24 +307,25 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
-        List<ParseUser> users = new ArrayList<>();
-        post.setLikeList(users);
+        //post.setLocation(point);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
+
+        post.setOwner(ParseUser.getCurrentUser());
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),
             new APIClient.PostListener() {
 
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(ChallengeDetailsActivity.this,
+                    Toast.makeText(ChallengeOneOnOneActivity.this,
                             "Creating post", Toast.LENGTH_LONG).show();
                     onCreatePost(post);
                 }
 
                 @Override
                 public void onFailure(String error_message) {
-                    Toast.makeText(ChallengeDetailsActivity.this,
+                    Toast.makeText(ChallengeOneOnOneActivity.this,
                             "Error creating post", Toast.LENGTH_LONG).show();
                 }
             }

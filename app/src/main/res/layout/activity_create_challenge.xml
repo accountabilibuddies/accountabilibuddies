@@ -101,7 +101,7 @@
                 android:src="@drawable/calender" />
 
             <TextView
-                android:id="@+id/etStartDate"
+                android:id="@+id/tvStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -116,7 +116,7 @@
                 android:clickable="true" />
 
             <TextView
-                android:id="@+id/etStartTime"
+                android:id="@+id/tvStartTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -127,19 +127,19 @@
                 android:layout_marginRight="10dp"
                 android:onClick="onTimeClick"
                 android:clickable="true"
-                android:layout_alignBaseline="@+id/etStartDate"
-                android:layout_alignBottom="@+id/etStartDate"
+                android:layout_alignBaseline="@+id/tvStartDate"
+                android:layout_alignBottom="@+id/tvStartDate"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/etStartDate"
-                android:layout_toEndOf="@+id/etStartDate" />
+                android:layout_toRightOf="@+id/tvStartDate"
+                android:layout_toEndOf="@+id/tvStartDate" />
 
             <TextView
-                android:id="@+id/etEndDate"
+                android:id="@+id/tvEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:layout_below="@+id/etStartDate"
+                android:layout_below="@+id/tvStartDate"
                 android:layout_marginTop="13dp"
                 android:layout_toEndOf="@+id/ivCalender"
                 android:layout_toRightOf="@+id/ivCalender"
@@ -152,7 +152,7 @@
                 android:layout_marginRight="10dp" />
 
             <TextView
-                android:id="@+id/etEndTime"
+                android:id="@+id/tvEndTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -163,24 +163,24 @@
                 android:layout_marginRight="10dp"
                 android:onClick="onTimeClick"
                 android:clickable="true"
-                android:layout_alignBaseline="@+id/etEndDate"
-                android:layout_alignBottom="@+id/etEndDate"
+                android:layout_alignBaseline="@+id/tvEndDate"
+                android:layout_alignBottom="@+id/tvEndDate"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/etEndDate"
-                android:layout_toEndOf="@+id/etEndDate" />
+                android:layout_toRightOf="@+id/tvEndDate"
+                android:layout_toEndOf="@+id/tvEndDate" />
 
             <ImageView
                 android:id="@+id/ivChallengeType"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_below="@+id/etEndDate"
+                android:layout_below="@+id/tvEndDate"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_toLeftOf="@+id/etEndDate"
-                android:layout_toStartOf="@+id/etEndDate"
+                android:layout_toLeftOf="@+id/tvEndDate"
+                android:layout_toStartOf="@+id/tvEndDate"
                 android:src="@drawable/challenge_type"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -253,8 +253,8 @@
                 android:layout_alignStart="@+id/spFrequency"
                 android:layout_alignTop="@+id/ivCamera"
                 android:src="@drawable/add_image"
-                android:layout_alignRight="@+id/etEndTime"
-                android:layout_alignEnd="@+id/etEndTime"
+                android:layout_alignRight="@+id/tvEndTime"
+                android:layout_alignEnd="@+id/tvEndTime"
                 android:layout_alignParentBottom="true" />
 
         </RelativeLayout>

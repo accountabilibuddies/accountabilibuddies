@@ -21,6 +21,10 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int FRIEND_POST_IMAGE = 1;
     private final int MY_POST_TEXT = 2;
     private final int FRIEND_POST_TEXT = 3;
+    private final int MY_POST_LOCATION = 4;
+    private final int FRIEND_POST_LOCATION = 5;
+    private final int MY_POST_VIDEO = 6;
+    private final int FRIEND_POST_VIDEO = 7;
 
     public OneOnOneAdapter(Context context, List<Post> postList) {
         this.postList = postList;
@@ -36,15 +40,22 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         ParseUser postOwner = currentPost.getOwner();
         ParseUser me = ParseUser.getCurrentUser();
+
         if(postOwner.getObjectId().equals(me.getObjectId())) {
             type = MY_POST_IMAGE;
             if(currentPost.getText()!=null) {
                 type = MY_POST_TEXT;
             }
+            if(currentPost.getLatitude()!=null || currentPost.getLongitude()!=null) {
+                type = MY_POST_LOCATION;
+            }
         } else {
             type = FRIEND_POST_IMAGE;
             if(currentPost.getText()!=null) {
                 type = FRIEND_POST_TEXT;
+            }
+            if(currentPost.getLatitude()!=null || currentPost.getLongitude()!=null) {
+                type = FRIEND_POST_LOCATION;
             }
         }
 
@@ -74,6 +85,16 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case FRIEND_POST_TEXT:
                 View viewFriendPostText = inflater.inflate(R.layout.item_friend_post_text, parent, false);
                 viewHolder = new FriendPostHolderText(viewFriendPostText);
+                break;
+
+            case MY_POST_LOCATION:
+                View viewMyPostLocation = inflater.inflate(R.layout.item_my_post_map, parent, false);
+                viewHolder = new MyPostHolderLocation(viewMyPostLocation);
+                break;
+
+            case FRIEND_POST_LOCATION:
+                View viewFriendPostLocation = inflater.inflate(R.layout.item_friend_post_map, parent, false);
+                viewHolder = new FriendPostHolderLocation(viewFriendPostLocation);
                 break;
 
             case DATE_TEXT:
@@ -109,6 +130,16 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 case FRIEND_POST_TEXT:
                     FriendPostHolderText friendPHText = (FriendPostHolderText) holder;
                     friendPHText.viewBasedOnPost(post,context);
+                    break;
+
+                case MY_POST_LOCATION:
+                    MyPostHolderLocation myPHLocation = (MyPostHolderLocation) holder;
+                    myPHLocation.viewBasedOnPost(post,context);
+                    break;
+
+                case FRIEND_POST_LOCATION:
+                    FriendPostHolderLocation friendPHLocation = (FriendPostHolderLocation) holder;
+                    friendPHLocation.viewBasedOnPost(post,context);
                     break;
 
                 case DATE_TEXT:

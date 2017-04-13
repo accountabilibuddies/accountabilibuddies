@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/myHoriSeparator"
+        android:layout_width="20dp"
+        android:minWidth="20dp"
+        android:layout_height="4dp"
+        android:layout_toLeftOf="@+id/friendCircle"
+        android:layout_centerVertical="true"
+        android:background="@color/grey2"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/friendPostMap"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_toStartOf="@+id/friendCircle"
+        android:layout_toLeftOf="@+id/friendCircle"
+        android:minHeight="150dp"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        style="?whiteBackground"
+        android:padding="5dp"
+        map:mapType="none"
+        map:liteMode="true" />
+
+    <View
+        android:id="@+id/friendVertSeparator"
+        android:layout_centerHorizontal="true"
+        android:layout_width="4dp"
+        android:background="@color/grey2"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/friendPostMap"
+        android:layout_alignBottom="@+id/friendPostMap"/>
+
+    <TextView
+        android:id="@+id/friendPostMapDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/friendCircle"
+        android:layout_toRightOf="@+id/friendCircle"
+        android:text="Date"
+        android:padding="3dp"
+        android:textSize="12sp"
+        android:fontFamily="serif-monospace"
+        android:background="@drawable/date_boundary"/>
+
+    <ImageView
+        android:id="@+id/friendCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"/>
+</RelativeLayout>

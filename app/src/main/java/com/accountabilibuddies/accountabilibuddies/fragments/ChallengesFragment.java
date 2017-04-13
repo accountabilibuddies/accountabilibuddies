@@ -80,6 +80,9 @@ public abstract class ChallengesFragment extends Fragment {
 
         ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener((recyclerView, position, v) -> {
             Challenge challenge = mChallengeList.get(position);
+
+            //TODO: Toggle this right now to look at that timeline
+            //TODO: This needs to be changed based on the challenge type
 //            Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
             Intent intent = new Intent(getActivity(), ChallengeOneOnOneActivity.class);
             intent.putExtra("challengeId", challenge.getObjectId());

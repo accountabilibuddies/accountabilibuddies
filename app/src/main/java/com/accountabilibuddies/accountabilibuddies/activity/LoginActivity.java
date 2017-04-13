@@ -27,10 +27,34 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
 
         if (user == null) {
-            viewModel.logInWithReadPermissions();
+            viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
+
+                @Override
+                public void onSuccess() {
+                    viewModel.createFriendsList();
+                    openCategoriesView();
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
+
         } else {
-            viewModel.refreshTokenAndGetFriendsList();
-            viewModel.openMainView();
+            viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
+                @Override
+                public void onSuccess() {
+
+                    viewModel.getFriendsForCurrentUser();
+                    openMainView();
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
         }
     }
 
@@ -45,5 +69,17 @@ public class LoginActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         binding.setLoginViewModel(viewModel);
+    }
+
+    private void openCategoriesView() {
+        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void openMainView() {
+        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

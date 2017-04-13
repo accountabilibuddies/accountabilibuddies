@@ -6,6 +6,7 @@ import android.util.Log;
 import com.accountabilibuddies.accountabilibuddies.model.Category;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.parse.ParseException;
@@ -14,8 +15,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.parse.ParseUser.getCurrentUser;
 
 public class APIClient {
 
@@ -34,7 +39,7 @@ public class APIClient {
     /**
      * Listener interface to send back data to fragments
      */
-    public interface challengeListener {
+    public interface ChallengeListener {
         void onSuccess();
         void onFailure(String error_message);
     }
@@ -69,8 +74,23 @@ public class APIClient {
         void onFailure(String errorMessage);
     }
 
+    public interface CreateFriendListener {
+        void onSuccess();
+        void onFailure(String errorMessage);
+    }
+
+    public interface GetFriendsListener {
+        void onSuccess(List<Friend> friends);
+        void onFailure(String errorMessage);
+    }
+
+    public interface GetCommentsListListener {
+        void onSuccess(List<Comment> commentsList);
+        void onFailure(String error_message);
+    }
+
     // Challenge API's
-    public void createChallenge(Challenge challenge, challengeListener listener) {
+    public void createChallenge(Challenge challenge, ChallengeListener listener) {
         challenge.saveInBackground(e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
@@ -98,7 +118,7 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.whereNotEqualTo("userList", ParseUser.getCurrentUser());
+        query.whereNotEqualTo("userList", getCurrentUser());
         query.whereContainedIn("category", categories);
         query.findInBackground((objects, e) -> {
             if (e != null) {
@@ -109,11 +129,11 @@ public class APIClient {
         });
     }
 
-    public void joinChallenge(String challengeObjectId, challengeListener listener) {
+    public void joinChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
-                object.add("userList", ParseUser.getCurrentUser());
+                object.add("userList", getCurrentUser());
                 object.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
@@ -135,14 +155,26 @@ public class APIClient {
 
     }
 
-    public void exitChallenge(String challengeObjectId, challengeListener listener) {
+    private void filterCurrentUser(List<ParseUser> users) {
+
+        CollectionUtils.filter(
+            users,
+            (ParseUser user) -> {
+                String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                return !user.getObjectId().equals(currentUserId);
+            }
+        );
+    }
+
+    public void exitChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-        query.getInBackground(challengeObjectId, (object, e) -> {
+        query.getInBackground(challengeObjectId, (challenge, e) -> {
             if (e == null) {
-                List<ParseUser> users = object.getUserList();
-                users.remove(ParseUser.getCurrentUser());
-                object.add("userList",users);
-                object.saveInBackground(e1 -> {
+                List<ParseUser> users = challenge.getUserList();
+                filterCurrentUser(users);
+
+                challenge.add("userList",users);
+                challenge.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
                     } else {
@@ -195,6 +227,40 @@ public class APIClient {
         );
     }
 
+    public void createFriend(Friend friend, CreateFriendListener listener) {
+
+        friend.saveInBackground(
+
+            (ParseException e) -> {
+
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess();
+                }
+            }
+        );
+
+    }
+
+    public void getFriendsByUserId(String friendOfId, GetFriendsListener listener) {
+
+        ParseQuery<Friend> query = ParseQuery.getQuery(Friend.class);
+        query.whereEqualTo("friendOfId", friendOfId);
+
+        query.findInBackground(
+
+            (List<Friend> friends, ParseException e) -> {
+
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+                    listener.onSuccess(friends);
+                }
+            }
+        );
+    }
+
     //Post API's
     public void createPost(Post post, String challengeObjectId, PostListener listener) {
         post.saveInBackground(e -> {
@@ -228,10 +294,9 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.include("postList");
-        //Get the challenge object and pass back the postList
+
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
-                //Cool the post is in the challenge now
                 listener.onSuccess(object.getPostList());
             } else {
                 listener.onFailure(e.getMessage());
@@ -239,9 +304,21 @@ public class APIClient {
         });
     }
 
-    //Delete Post
+    public void getCommentList(String postObjectId, GetCommentsListListener listener) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.include("commentList");
 
-    //Add Comment
+        query.getInBackground(postObjectId, (object, e) -> {
+            if (e == null) {
+                listener.onSuccess(object.getCommentList());
+            } else {
+                listener.onFailure(e.getMessage());
+            }
+        });
+    }
+
+
     public void addComment(String postId, Comment comment, PostListener listener) {
         comment.saveInBackground(e -> {
             if (e != null) {
@@ -270,6 +347,33 @@ public class APIClient {
     }
 
     //Like/Unlike Post
+    public void likeUnlikePost(String postId, boolean like, PostListener listener) {
+
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.getInBackground(postId, (post, error) -> {
+            if (error == null) {
+                List<ParseUser> users = post.getLikeList();
+
+                if (like) {
+                    users.add(getCurrentUser());
+                } else {
+                    filterCurrentUser(users);
+                }
+
+                post.add("userList",users);
+                post.saveInBackground(e11 -> {
+                    if (e11 != null) {
+                        listener.onFailure(e11.getMessage());
+                    } else {
+                        listener.onSuccess();
+                    }
+                });
+            } else {
+                listener.onFailure(error.getMessage());
+            }
+        });
+
+    }
 
     //Upload file
     public void uploadFile(String fileName, Bitmap bitmap, UploadFileListener listener) {

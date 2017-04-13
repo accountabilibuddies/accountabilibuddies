@@ -173,7 +173,7 @@ public class APIClient {
                 List<ParseUser> users = challenge.getUserList();
                 filterCurrentUser(users);
 
-                challenge.add("userList",users);
+                challenge.addAllUnique("userList",users);
                 challenge.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
@@ -359,7 +359,7 @@ public class APIClient {
                     filterCurrentUser(users);
                 }
 
-                post.add("userList",users);
+                post.addAllUnique("userList",users);
                 post.saveInBackground(e11 -> {
                     if (e11 != null) {
                         listener.onFailure(e11.getMessage());

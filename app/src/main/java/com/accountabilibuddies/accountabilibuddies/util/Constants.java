@@ -5,8 +5,8 @@ import java.util.Map;
 
 abstract public class Constants {
     // Challenge types, MVP will use only one type of challenge
-    public static final int TYPE_SHOWOFF = 1;
-    // public static final int TYPE_MOTIVATION = 2;
+    public static final int TYPE_ONE_ON_ONE = 1;
+    public static final int TYPE_MULTI_USER = 2;
     //public static final int TYPE_TIMELINE = 3;
 
     // Challenge Categories,
@@ -20,13 +20,13 @@ abstract public class Constants {
     public static final int CATEGORY_CUSTOM = 99;
 
     // Challenge Frequency,
-    public static final int FREQUENCY_ONCE = 1;
-    public static final int FREQUENCY_TWICE = 2;
-    public static final int FREQUENCY_THRICE = 3;
-    public static final int FREQUENCY_FOUR_TIMES = 4;
-    public static final int FREQUENCY_FIVE_TIMES = 5;
-    public static final int FREQUENCY_SIX_TIMES = 6;
-    public static final int FREQUENCY_ALL_WEEK = 7;
+    public static final int FREQUENCY_DAILY = 1;
+    public static final int FREQUENCY_WEEKLY = 2;
+    public static final int FREQUENCY_TWICE_A_MONTH = 3;
+    public static final int FREQUENCY_MONTHLY = 4;
+    //public static final int FREQUENCY_FIVE_TIMES = 5;
+    //public static final int FREQUENCY_SIX_TIMES = 6;
+    //public static final int FREQUENCY_ALL_WEEK = 7;
 
     // Post Type
     public static final int TYPE_VIDEO = 1;

@@ -1,8 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,17 +13,11 @@ import android.view.View;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CategoryFilterChallenges;
-import com.accountabilibuddies.accountabilibuddies.fragments.CreateChallengeFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
-import com.accountabilibuddies.accountabilibuddies.model.Challenge;
-import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParsePush;
-import com.parse.ParseUser;
-
-import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -31,7 +25,6 @@ public class DrawerActivity extends AppCompatActivity {
 
     private ActivityDrawerBinding binding;
     private ActionBarDrawerToggle mDrawerToggle;
-    private APIClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +35,6 @@ public class DrawerActivity extends AppCompatActivity {
         final String CHANNEL_NAME = "beaccountable";
         ParsePush.subscribeInBackground(CHANNEL_NAME);
 
-        client = APIClient.getClient();
         setSupportActionBar(binding.toolbar);
 
         setUpNavigationDrawer();
@@ -76,28 +68,6 @@ public class DrawerActivity extends AppCompatActivity {
         if (fragmentManager != null)
             fragmentManager.beginTransaction().replace(R.id.frame, new CurrentChallenges()).commit();
 
-        /*
-        //Get Challenges user has joined and display else display challenges as per his categories
-        client.getChallengeList(ParseUser.getCurrentUser(), new APIClient.GetChallengeListListener(){
-            @Override
-            public void onSuccess(List<Challenge> challengeList) {
-                Fragment fragment;
-                if (challengeList.size() > 0) {
-                    fragment = new CurrentChallenges();
-                } else {
-                    fragment = new CategoryFilterChallenges();
-                }
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                if (fragmentManager != null)
-                    fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
-            }
-
-            @Override
-            public void onFailure(String error_message) {
-                Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
-            }
-        });
-        */
         binding.navView.setNavigationItemSelectedListener(menuItem -> {
             Fragment fragment = null;
             Class fragmentClass = null;
@@ -144,12 +114,7 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     public void createChallenge(View view) {
-        //Will reomve this cod later once code is moved from Fragment to activity
-        CreateChallengeFragment createChallengeFragment = new CreateChallengeFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager != null)
-            fragmentManager.beginTransaction().replace(R.id.frame, createChallengeFragment).
-                    addToBackStack(null).commit();
+        Intent i = new Intent(this, CreateChallengeActivity.class);
+        startActivity(i);
     }
 }

@@ -1,9 +1,9 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,17 +16,21 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
     private ActivityCreateChallengeBinding binding;
+    private static int CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
+    private static int CHALLENGE_FREQUENCY = Constants.FREQUENCY_DAILY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,21 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        CHALLENGE_FREQUENCY = Constants.FREQUENCY_DAILY;
+                        break;
+                    case 1:
+                        CHALLENGE_FREQUENCY = Constants.FREQUENCY_WEEKLY;
+                        break;
+                    case 2:
+                        CHALLENGE_FREQUENCY = Constants.FREQUENCY_TWICE_A_MONTH;
+                        break;
+                    case 3:
+                        CHALLENGE_FREQUENCY = Constants.FREQUENCY_MONTHLY;
+                        break;
 
+                }
             }
 
             @Override
@@ -75,7 +93,14 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                switch (position) {
+                    case 0:
+                        CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
+                        break;
+                    case 1:
+                        CHALLENGE_TYPE = Constants.TYPE_MULTI_USER;
+                        break;
+                }
             }
 
             @Override
@@ -117,9 +142,11 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         if (!dataValidation())
             return;
 
-        Challenge challenge = new Challenge();
-
-        //TODO: Set Challenge parameters
+        Challenge challenge = new Challenge(CHALLENGE_TYPE, binding.etTitle.getText().toString(),
+                                        binding.etDescription.getText().toString(),
+                                        new Date(String.valueOf(binding.tvStartDate.getText())),
+                                        new Date(String.valueOf(binding.tvEndDate.getText())),
+                                        CHALLENGE_FREQUENCY, null, 0);//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
@@ -139,13 +166,22 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     private boolean dataValidation() {
-        //Check for
-        // null Title Description
+
+        if (binding.etTitle.getText().toString().isEmpty()) {
+            Snackbar.make(binding.cLayout, "Title is empty", Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (binding.etDescription.getText().toString().isEmpty()) {
+            Snackbar.make(binding.cLayout, "Description is empty", Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+
         // start date should not be less than today
         // End date/time is more than start date
         // if no challenge image use dafault image
 
-        return false;
+        return true;
     }
 
     @Override
@@ -162,12 +198,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 now.get(Calendar.MINUTE),
                 false
         );
-        tpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                Log.d("TimePicker", "Dialog was cancelled");
-            }
-        });
+        tpd.setOnCancelListener(dialogInterface -> Log.d("TimePicker", "Dialog was cancelled"));
         tpd.show(getFragmentManager(), "Select Time Range");
     }
 
@@ -184,7 +215,6 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-        //Update Start and End Date
         Calendar c = Calendar.getInstance();
         c.set(year, monthOfYear, dayOfMonth, 0, 0);
         binding.tvStartDate.setText(DateUtils.getDate(c));
@@ -195,7 +225,6 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int hourOfDayEnd, int minuteEnd) {
-        //Update Start and End Time
         Calendar c = Calendar.getInstance();
         c.set(0, 0, 0, hourOfDay, minute);
         binding.tvStartTime.setText(DateUtils.getTime(c));

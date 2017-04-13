@@ -1,11 +1,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
@@ -19,16 +20,19 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="491dp"
             android:padding="5dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView
                 android:id="@+id/ivTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/title"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -37,23 +41,32 @@
                 android:id="@+id/etTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivTitle"
-                android:ems="10"
-                android:inputType="textPersonName"
+                android:background="@android:color/transparent"
+                android:inputType="text"
                 android:hint="Title"
+                android:gravity="center|left"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@+id/ivTitle"
                 android:layout_toEndOf="@+id/ivTitle"
-                android:layout_alignTop="@+id/ivTitle" />
+                android:layout_alignTop="@+id/ivTitle"
+                android:layout_alignBottom="@+id/ivTitle" />
 
             <ImageView
                 android:id="@+id/ivDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/ivTitle"
                 android:src="@drawable/description" />
 
@@ -61,20 +74,29 @@
                 android:id="@+id/etDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivDescription"
+                android:background="@android:color/transparent"
                 android:layout_toRightOf="@+id/ivDescription"
-                android:ems="10"
                 android:hint="Description"
                 android:inputType="textMultiLine"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/ivDescription" />
 
             <ImageView
                 android:id="@+id/ivCalender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/ivDescription"
                 android:src="@drawable/calender" />
 
@@ -82,53 +104,82 @@
                 android:id="@+id/etStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_alignBottom="@+id/ivCalender"
                 android:layout_toRightOf="@+id/ivCalender"
-                android:ems="10"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:inputType="date" />
 
             <EditText
                 android:id="@+id/etStartTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:background="@android:color/transparent"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:inputType="time"
                 android:layout_alignBaseline="@+id/etStartDate"
                 android:layout_alignBottom="@+id/etStartDate"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/etStartDate"
+                android:layout_toEndOf="@+id/etStartDate" />
 
             <EditText
                 android:id="@+id/etEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_below="@+id/etStartDate"
                 android:layout_marginTop="13dp"
                 android:layout_toEndOf="@+id/ivCalender"
                 android:layout_toRightOf="@+id/ivCalender"
-                android:ems="10"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:inputType="date" />
 
             <EditText
                 android:id="@+id/etEndTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:background="@android:color/transparent"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:inputType="time"
                 android:layout_alignBaseline="@+id/etEndDate"
                 android:layout_alignBottom="@+id/etEndDate"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/etEndDate"
+                android:layout_toEndOf="@+id/etEndDate" />
 
             <ImageView
                 android:id="@+id/ivChallengeType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_below="@+id/etEndDate"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_toLeftOf="@+id/etEndDate"
                 android:layout_toStartOf="@+id/etEndDate"
-                android:src="@drawable/challenge_type" />
+                android:src="@drawable/challenge_type"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <Spinner
                 android:id="@+id/spType"
@@ -142,13 +193,18 @@
 
             <ImageView
                 android:id="@+id/ivFrequency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_below="@+id/ivChallengeType"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_toLeftOf="@+id/spType"
                 android:layout_toStartOf="@+id/spType"
-                android:src="@drawable/frequency" />
+                android:src="@drawable/frequency"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <Spinner
                 android:id="@+id/spFrequency"
@@ -161,22 +217,41 @@
 
             <ImageView
                 android:id="@+id/ivFriends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/ivFrequency"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/add_friends" />
 
             <ImageView
                 android:id="@+id/ivCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/ivFriends"
-                android:src="@drawable/camera" />
+                android:src="@drawable/dark_camera"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <ImageView
+                android:id="@+id/addImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/spFrequency"
+                android:layout_alignStart="@+id/spFrequency"
+                android:layout_alignTop="@+id/ivCamera"
+                android:src="@drawable/add_image"
+                android:layout_alignRight="@+id/etEndTime"
+                android:layout_alignEnd="@+id/etEndTime"
+                android:layout_alignParentBottom="true" />
 
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>

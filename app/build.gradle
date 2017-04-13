@@ -83,5 +83,5 @@ dependencies {
     compile 'com.yqritc:android-scalablevideoview:1.0.4'
 
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
-
+    compile 'com.borax12.materialdaterangepicker:library:1.9'
 }

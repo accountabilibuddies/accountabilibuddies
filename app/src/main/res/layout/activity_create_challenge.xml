@@ -45,7 +45,7 @@
                 android:inputType="text"
                 android:hint="Title"
                 android:gravity="center|left"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginLeft="10dp"
@@ -78,7 +78,7 @@
                 android:layout_toRightOf="@+id/ivDescription"
                 android:hint="Description"
                 android:inputType="textMultiLine"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginLeft="10dp"
@@ -100,31 +100,33 @@
                 android:layout_below="@+id/ivDescription"
                 android:src="@drawable/calender" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:layout_alignBottom="@+id/ivCalender"
                 android:layout_toRightOf="@+id/ivCalender"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="date" />
+                android:onClick="onDateClick"
+                android:clickable="true" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etStartTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="time"
+                android:onClick="onTimeClick"
+                android:clickable="true"
                 android:layout_alignBaseline="@+id/etStartDate"
                 android:layout_alignBottom="@+id/etStartDate"
                 android:layout_alignParentRight="true"
@@ -132,7 +134,7 @@
                 android:layout_toRightOf="@+id/etStartDate"
                 android:layout_toEndOf="@+id/etStartDate" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,24 +143,26 @@
                 android:layout_marginTop="13dp"
                 android:layout_toEndOf="@+id/ivCalender"
                 android:layout_toRightOf="@+id/ivCalender"
-                android:textSize="20sp"
+                android:textSize="18sp"
+                android:onClick="onDateClick"
+                android:clickable="true"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:inputType="date" />
+                android:layout_marginRight="10dp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etEndTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="time"
+                android:onClick="onTimeClick"
+                android:clickable="true"
                 android:layout_alignBaseline="@+id/etEndDate"
                 android:layout_alignBottom="@+id/etEndDate"
                 android:layout_alignParentRight="true"

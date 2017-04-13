@@ -1,6 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.util;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
@@ -48,5 +50,23 @@ public class DateUtils {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
         return sdf.format(date);
+    }
+
+    public static String getDate(int delay) {
+        //Date in format "EEE, d MMM yyyy"
+        DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, delay);
+        Date today = calendar.getTime();
+        return dateFormat.format(today);
+    }
+
+    public static String getTime(int delay) {
+        //Time in format "hh:mm aaa"
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm aaa");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, delay);
+        Date today = calendar.getTime();
+        return dateFormat.format(today);
     }
 }

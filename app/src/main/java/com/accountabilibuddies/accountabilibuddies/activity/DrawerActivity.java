@@ -71,6 +71,12 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager != null)
+            fragmentManager.beginTransaction().replace(R.id.frame, new CurrentChallenges()).commit();
+
+        /*
         //Get Challenges user has joined and display else display challenges as per his categories
         client.getChallengeList(ParseUser.getCurrentUser(), new APIClient.GetChallengeListListener(){
             @Override
@@ -91,7 +97,7 @@ public class DrawerActivity extends AppCompatActivity {
                 Snackbar.make(binding.clayout, error_message, Snackbar.LENGTH_LONG).show();
             }
         });
-
+        */
         binding.navView.setNavigationItemSelectedListener(menuItem -> {
             Fragment fragment = null;
             Class fragmentClass = null;
@@ -127,7 +133,6 @@ public class DrawerActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
             if (fragmentManager != null && fragment != null)
                 fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
 

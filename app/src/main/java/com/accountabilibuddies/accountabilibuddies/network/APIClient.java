@@ -15,8 +15,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.parse.ParseUser.getCurrentUser;
 
 public class APIClient {
 
@@ -114,7 +118,7 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.whereNotEqualTo("userList", ParseUser.getCurrentUser());
+        query.whereNotEqualTo("userList", getCurrentUser());
         query.whereContainedIn("category", categories);
         query.findInBackground((objects, e) -> {
             if (e != null) {
@@ -129,7 +133,7 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
-                object.add("userList", ParseUser.getCurrentUser());
+                object.add("userList", getCurrentUser());
                 object.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
@@ -150,15 +154,27 @@ public class APIClient {
     public void updateChallenge() {
 
     }
+    
+    private void filterCurrentUser(List<ParseUser> users) {
+
+        CollectionUtils.filter(
+            users,
+            (ParseUser user) -> {
+                String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                return !user.getObjectId().equals(currentUserId);
+            }
+        );
+    }
 
     public void exitChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-        query.getInBackground(challengeObjectId, (object, e) -> {
+        query.getInBackground(challengeObjectId, (challenge, e) -> {
             if (e == null) {
-                List<ParseUser> users = object.getUserList();
-                users.remove(ParseUser.getCurrentUser());
-                object.add("userList",users);
-                object.saveInBackground(e1 -> {
+                List<ParseUser> users = challenge.getUserList();
+                filterCurrentUser(users);
+
+                challenge.add("userList",users);
+                challenge.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
                     } else {
@@ -333,17 +349,18 @@ public class APIClient {
     public void likeUnlikePost(String postId, boolean like, PostListener listener) {
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.getInBackground(postId, (object, error) -> {
+        query.getInBackground(postId, (post, error) -> {
             if (error == null) {
-                List<ParseUser> users = object.getLikeList();
+                List<ParseUser> users = post.getLikeList();
 
-                if (like)
-                    users.add(ParseUser.getCurrentUser());
-                else
-                    users.remove(ParseUser.getCurrentUser());
+                if (like) {
+                    users.add(getCurrentUser());
+                } else {
+                    filterCurrentUser(users);
+                }
 
-                object.add("userList",users);
-                object.saveInBackground(e11 -> {
+                post.add("userList",users);
+                post.saveInBackground(e11 -> {
                     if (e11 != null) {
                         listener.onFailure(e11.getMessage());
                     } else {

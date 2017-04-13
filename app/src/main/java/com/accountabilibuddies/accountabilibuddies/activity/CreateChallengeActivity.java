@@ -41,10 +41,6 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         setupDateTime();
         SetupChallengeType();
         setupFrequency();
-
-        //Click on Date to Select new Date
-
-        //Click on Time to Select new Time
     }
 
     private void setupFrequency() {
@@ -90,11 +86,15 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     private void setupDateTime() {
-        binding.etStartDate.setText(DateUtils.getDate(0));
-        binding.etStartTime.setText(DateUtils.getTime(0));
+        Calendar calendar = Calendar.getInstance();
 
-        binding.etEndDate.setText(DateUtils.getDate(1));
-        binding.etEndTime.setText(DateUtils.getTime(1));
+        binding.tvStartDate.setText(DateUtils.getDate(calendar));
+        binding.tvStartTime.setText(DateUtils.getTime(calendar));
+
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+        binding.tvEndDate.setText(DateUtils.getDate(calendar));
+        binding.tvEndTime.setText(DateUtils.getTime(calendar));
     }
 
     @Override
@@ -113,6 +113,10 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     private void createChallenge() {
+
+        if (!dataValidation())
+            return;
+
         Challenge challenge = new Challenge();
 
         //TODO: Set Challenge parameters
@@ -132,6 +136,16 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 Log.d("DEBUG", "Failure in creating challenge");
             }
         });
+    }
+
+    private boolean dataValidation() {
+        //Check for
+        // null Title Description
+        // start date should not be less than today
+        // End date/time is more than start date
+        // if no challenge image use dafault image
+
+        return false;
     }
 
     @Override
@@ -170,11 +184,23 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+        //Update Start and End Date
+        Calendar c = Calendar.getInstance();
+        c.set(year, monthOfYear, dayOfMonth, 0, 0);
+        binding.tvStartDate.setText(DateUtils.getDate(c));
 
+        c.set(yearEnd, monthOfYearEnd, dayOfMonthEnd, 0, 0);
+        binding.tvEndDate.setText(DateUtils.getDate(c));
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int hourOfDayEnd, int minuteEnd) {
+        //Update Start and End Time
+        Calendar c = Calendar.getInstance();
+        c.set(0, 0, 0, hourOfDay, minute);
+        binding.tvStartTime.setText(DateUtils.getTime(c));
 
+        c.set(0, 0, 0, hourOfDayEnd, minuteEnd);
+        binding.tvEndTime.setText(DateUtils.getTime(c));
     }
 }

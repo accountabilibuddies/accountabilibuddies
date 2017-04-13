@@ -52,20 +52,16 @@ public class DateUtils {
         return sdf.format(date);
     }
 
-    public static String getDate(int delay) {
+    public static String getDate(Calendar calendar) {
         //Date in format "EEE, d MMM yyyy"
         DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy");
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, delay);
         Date today = calendar.getTime();
         return dateFormat.format(today);
     }
 
-    public static String getTime(int delay) {
+    public static String getTime(Calendar calendar) {
         //Time in format "hh:mm aaa"
         DateFormat dateFormat = new SimpleDateFormat("hh:mm aaa");
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, delay);
         Date today = calendar.getTime();
         return dateFormat.format(today);
     }

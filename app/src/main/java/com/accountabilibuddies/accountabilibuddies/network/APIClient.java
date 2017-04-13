@@ -154,22 +154,7 @@ public class APIClient {
     public void updateChallenge() {
 
     }
-
-//    public void testParseUserRemoval() {
-//
-//        exitChallenge("eqEWFtXMWv", new ChallengeListener() {
-//            @Override
-//            public void onSuccess() {
-//                Log.d("API", "success");
-//            }
-//
-//            @Override
-//            public void onFailure(String error_message) {
-//                Log.d("API", "failure");
-//            }
-//        });
-//    }
-
+    
     private void filterCurrentUser(List<ParseUser> users) {
 
         CollectionUtils.filter(

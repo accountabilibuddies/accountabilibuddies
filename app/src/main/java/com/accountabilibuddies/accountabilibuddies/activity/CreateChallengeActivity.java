@@ -177,8 +177,19 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             return false;
         }
 
-        // start date should not be less than today
-        // End date/time is more than start date
+        Date startDate = new Date(String.valueOf(binding.tvStartDate.getText()));
+        Date endDate = new Date(String.valueOf(binding.tvEndDate.getText()));
+        Date today = new Date();
+
+        if (today.compareTo(startDate) > 0 )  {
+            Snackbar.make(binding.cLayout, "Start date is in past", Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (startDate.compareTo(endDate) > 0 )  {
+            Snackbar.make(binding.cLayout, "End Date is before start date", Snackbar.LENGTH_LONG).show();
+            return false;
+        }
         // if no challenge image use dafault image
 
         return true;

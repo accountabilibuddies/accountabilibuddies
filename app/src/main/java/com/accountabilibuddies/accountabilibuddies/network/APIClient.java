@@ -154,32 +154,6 @@ public class APIClient {
     public void updateChallenge() {
 
     }
-    
-    private void filterCurrentUser(List<ParseUser> users) {
-
-        CollectionUtils.filter(
-            users,
-            (ParseUser user) -> {
-                String currentUserId = ParseUser.getCurrentUser().getObjectId();
-                return !user.getObjectId().equals(currentUserId);
-            }
-        );
-    }
-
-//    public void testParseUserRemoval() {
-//
-//        exitChallenge("eqEWFtXMWv", new ChallengeListener() {
-//            @Override
-//            public void onSuccess() {
-//                Log.d("API", "success");
-//            }
-//
-//            @Override
-//            public void onFailure(String error_message) {
-//                Log.d("API", "failure");
-//            }
-//        });
-//    }
 
     private void filterCurrentUser(List<ParseUser> users) {
 

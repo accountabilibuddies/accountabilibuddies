@@ -166,6 +166,32 @@ public class APIClient {
         );
     }
 
+//    public void testParseUserRemoval() {
+//
+//        exitChallenge("eqEWFtXMWv", new ChallengeListener() {
+//            @Override
+//            public void onSuccess() {
+//                Log.d("API", "success");
+//            }
+//
+//            @Override
+//            public void onFailure(String error_message) {
+//                Log.d("API", "failure");
+//            }
+//        });
+//    }
+
+    private void filterCurrentUser(List<ParseUser> users) {
+
+        CollectionUtils.filter(
+            users,
+            (ParseUser user) -> {
+                String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                return !user.getObjectId().equals(currentUserId);
+            }
+        );
+    }
+
     public void exitChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (challenge, e) -> {

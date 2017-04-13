@@ -27,11 +27,26 @@ public class DateUtils {
         return builder.toString();
     }
 
-
+    /**
+     * Returns the time in 12 hour format from a given date object
+     * @param date
+     * @return
+     */
     public static String getTimeFromDate(Date date) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mma");
         return sdf.format(date);
 
+    }
+
+    /**
+     * Returns the Month and date in ex: Jan 21 format
+     * @param date
+     * @return
+     */
+    public static String getDayDateFromDate(Date date) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
+        return sdf.format(date);
     }
 }

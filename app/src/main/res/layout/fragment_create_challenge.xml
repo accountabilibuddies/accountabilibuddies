@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@{ccvm.name}"
             android:addTextChangedListener="@{ccvm.getChallengeName}"
-            android:layout_below="@id/tvTitle"/>
+            android:layout_below="@+id/tvTitle"/>
 
         <TextView
             android:id="@+id/tvDescription"
@@ -38,7 +38,7 @@
             android:hint="@string/description"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_below="@id/etTitle"/>
+            android:layout_below="@+id/etTitle"/>
 
         <EditText
             android:id="@+id/etDescription"
@@ -46,13 +46,13 @@
             android:layout_height="wrap_content"
             android:text="@{ccvm.description}"
             android:addTextChangedListener="@{ccvm.getChallengeDescription}"
-            android:layout_below="@id/tvDescription"/>
+            android:layout_below="@+id/tvDescription"/>
 
         <RelativeLayout
             android:id="@+id/rlDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etDescription"
+            android:layout_below="@+id/etDescription"
             android:layout_marginTop="5dp">
 
             <TextView
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/rlDate"
+            android:layout_below="@+id/rlDate"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
@@ -148,7 +148,7 @@
                 android:id="@+id/tvShowoff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/ivShowoff"
+                android:layout_alignLeft="@+id/ivShowoff"
                 android:text="@string/showoff"
                 android:layout_below="@+id/ivShowoff" />
 
@@ -168,8 +168,8 @@
                 android:id="@+id/tvMotivation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ivMotivation"
-                android:layout_alignLeft="@id/ivMotivation"
+                android:layout_below="@+id/ivMotivation"
+                android:layout_alignLeft="@+id/ivMotivation"
                 android:text="@string/motivation" />
 
         </RelativeLayout>
@@ -178,7 +178,7 @@
             <!--android:id="@+id/tvAddFriends"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/rlMode"-->
+            <!--android:layout_below="@+id/rlMode"-->
             <!--android:layout_marginTop="10dp"-->
             <!--android:text="@string/add_friends"-->
             <!--android:layout_centerHorizontal="true"/>-->
@@ -187,7 +187,7 @@
             <!--android:id="@+id/rlFriends"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/tvAddFriends"-->
+            <!--android:layout_below="@+id/tvAddFriends"-->
             <!--android:layout_marginTop="5dp">-->
 
             <!--<ImageView-->
@@ -203,7 +203,7 @@
             <!--android:id="@+id/rlNotifications"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/rlFriends"-->
+            <!--android:layout_below="@+id/rlFriends"-->
             <!--android:layout_marginLeft="10dp"-->
             <!--android:layout_marginTop="15dp">-->
 
@@ -276,7 +276,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create"
-            android:layout_below="@id/rlFrequency"
+            android:layout_below="@+id/rlFrequency"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:onClick="@{ccvm.onCreateClicked}"/>

@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey1">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/friendCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+    <View
+        android:id="@+id/myHoriSeparator"
+        android:layout_width="20dp"
+        android:minWidth="20dp"
+        android:layout_height="4dp"
+        android:layout_toLeftOf="@+id/friendCircle"
         android:layout_centerVertical="true"
-        android:background="@drawable/circle"
-        />
+        android:background="@color/grey2"/>
 
     <ImageView
         android:id="@+id/friendPostImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/friendCircle"
-        android:layout_toLeftOf="@id/friendCircle"
+        android:layout_toStartOf="@+id/friendCircle"
+        android:layout_toLeftOf="@+id/friendCircle"
         android:minHeight="180dp"
+        android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp">
-
+        style="?whiteBackground">
     </ImageView>
 
-    <ImageView
+    <View
         android:id="@+id/friendVertSeparator"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/dashed_line"
-        android:layout_width="1dp"
+        android:layout_width="4dp"
+        android:background="@color/grey2"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/friendPostImage"
-        android:layout_alignBottom="@id/friendPostImage"
-
-        />
+        android:layout_alignTop="@+id/friendPostImage"
+        android:layout_alignBottom="@+id/friendPostImage"/>
 
     <TextView
         android:id="@+id/friendPostImageDate"
@@ -47,8 +44,16 @@
         android:layout_toEndOf="@+id/friendCircle"
         android:layout_toRightOf="@+id/friendCircle"
         android:text="Date"
-        android:padding="4dp"
+        android:padding="3dp"
         android:textSize="12sp"
+        android:fontFamily="serif-monospace"
         android:background="@drawable/date_boundary"/>
 
+    <ImageView
+        android:id="@+id/friendCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"/>
 </RelativeLayout>

@@ -16,6 +16,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private List<Post> postList;
     private Context context;
+    private final int DATE_TEXT = -1;
     private final int MY_POST_IMAGE = 0;
     private final int FRIEND_POST_IMAGE = 1;
     private final int MY_POST_TEXT = 2;
@@ -30,34 +31,24 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
 
         //TODO: Improve this code
-        int type = 1;
+        int type = DATE_TEXT;
         Post currentPost = postList.get(position);
 
         ParseUser postOwner = currentPost.getOwner();
         ParseUser me = ParseUser.getCurrentUser();
         if(postOwner.getObjectId().equals(me.getObjectId())) {
-            type = 0;
+            type = MY_POST_IMAGE;
             if(currentPost.getText()!=null) {
-                type = 2;
+                type = MY_POST_TEXT;
             }
         } else {
+            type = FRIEND_POST_IMAGE;
             if(currentPost.getText()!=null) {
-                type = 3;
+                type = FRIEND_POST_TEXT;
             }
         }
 
-        switch (type) {
-            case 0:
-                return MY_POST_IMAGE;
-            case 1:
-                return FRIEND_POST_IMAGE;
-            case 2:
-                return MY_POST_TEXT;
-            case 3:
-            default:
-                return FRIEND_POST_TEXT;
-
-        }
+        return type;
     }
 
     @Override
@@ -81,9 +72,14 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
             case FRIEND_POST_TEXT:
-            default:
                 View viewFriendPostText = inflater.inflate(R.layout.item_friend_post_text, parent, false);
                 viewHolder = new FriendPostHolderText(viewFriendPostText);
+                break;
+
+            case DATE_TEXT:
+            default:
+                View viewDateText = inflater.inflate(R.layout.item_oneonone_date, parent, false);
+                viewHolder = new FriendPostHolderText(viewDateText);
                 break;
         }
         return viewHolder;
@@ -111,9 +107,14 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
 
                 case FRIEND_POST_TEXT:
-                default:
                     FriendPostHolderText friendPHText = (FriendPostHolderText) holder;
                     friendPHText.viewBasedOnPost(post,context);
+                    break;
+
+                case DATE_TEXT:
+                default:
+                    PostDateHolder dateHolder = (PostDateHolder) holder;
+                    dateHolder.viewBasedOnPost("",context);
                     break;
             }
         }

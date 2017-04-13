@@ -89,11 +89,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         binding.rVPosts.setAdapter(mAdapter);
         binding.rVPosts.setItemAnimator(new DefaultItemAnimator());
 
-        //Recylerview decorater
-//        RecyclerView.ItemDecoration itemDecoration =
-//                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        binding.rVPosts.addItemDecoration(itemDecoration);
-
         mLayoutManager = new LinearLayoutManager(this);
         binding.rVPosts.setLayoutManager(mLayoutManager);
 
@@ -105,8 +100,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         ItemClickSupport.addTo(binding.rVPosts).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-
+                //TODO: Create a separate view on click of image and video and map
             }
         });
 

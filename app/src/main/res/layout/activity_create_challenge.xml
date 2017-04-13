@@ -246,13 +246,14 @@
                 android:layout_marginBottom="10dp" />
 
             <ImageView
-                android:id="@+id/addImage"
+                android:id="@+id/ivProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/spFrequency"
                 android:layout_alignStart="@+id/spFrequency"
                 android:layout_alignTop="@+id/ivCamera"
                 android:src="@drawable/add_image"
+                android:onClick="launchCamera"
                 android:layout_alignRight="@+id/tvEndTime"
                 android:layout_alignEnd="@+id/tvEndTime"
                 android:layout_alignParentBottom="true" />

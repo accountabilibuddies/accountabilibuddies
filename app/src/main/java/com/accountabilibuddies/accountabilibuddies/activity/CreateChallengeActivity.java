@@ -2,8 +2,14 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,12 +22,15 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,6 +40,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     private ActivityCreateChallengeBinding binding;
     private static int CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
     private static int CHALLENGE_FREQUENCY = Constants.FREQUENCY_DAILY;
+    private String mImagePath, profileUrl;
+    private static final int PHOTO_INTENT_REQUEST = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +82,6 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                     case 3:
                         CHALLENGE_FREQUENCY = Constants.FREQUENCY_MONTHLY;
                         break;
-
                 }
             }
 
@@ -146,7 +156,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                                         binding.etDescription.getText().toString(),
                                         new Date(String.valueOf(binding.tvStartDate.getText())),
                                         new Date(String.valueOf(binding.tvEndDate.getText())),
-                                        CHALLENGE_FREQUENCY, null, 0);//There is no category so pass 0
+                                        CHALLENGE_FREQUENCY, profileUrl, 0);//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
@@ -242,5 +252,61 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
         c.set(0, 0, 0, hourOfDayEnd, minuteEnd);
         binding.tvEndTime.setText(DateUtils.getTime(c));
+    }
+
+    public void launchCamera(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            clickChallengePictureIntent(intent);
+        }
+    }
+
+    private void clickChallengePictureIntent(Intent intent) {
+        File imageFile = null;
+        try {
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            imageFile = CameraUtils.createImageFile(storageDir);
+        } catch (IOException ex) {
+            Snackbar.make(binding.cLayout, "Image file not created", Snackbar.LENGTH_LONG).show();
+        }
+
+        if (imageFile != null) {
+            mImagePath = imageFile.getAbsolutePath();
+            Uri photoURI = FileProvider.getUriForFile(this,
+                    "com.accountabilibuddies.accountabilibuddies.fileprovider",
+                    imageFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(intent, PHOTO_INTENT_REQUEST);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case PHOTO_INTENT_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if (mImagePath == null)
+                        return;
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
+
+                        APIClient.getClient().uploadFile("post_image.jpg",
+                                    bitmap,new APIClient.UploadFileListener() {
+                        @Override
+                        public void onSuccess(String fileLocation) {
+                            profileUrl = fileLocation;
+                            //Show image in the ImageView
+                            binding.ivProfile.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onFailure(String error_message) {
+
+                        }
+                    });
+                }
+        }
     }
 }

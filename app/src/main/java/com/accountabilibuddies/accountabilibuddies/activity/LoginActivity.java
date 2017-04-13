@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
-import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -49,8 +48,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     viewModel.getFriendsForCurrentUser();
                     openMainView();
-
-                    APIClient.getClient().testParseUserRemoval();
                 }
 
                 @Override

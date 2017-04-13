@@ -4,6 +4,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,9 +120,27 @@ public class Post extends ParseObject {
         put("commentList", commentList);
     }
 
+    private boolean containsCurrentUser(List<ParseUser> users) {
+
+        ParseUser currentUser = CollectionUtils.find(
+                users,
+                (ParseUser user) ->
+                        user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
+        );
+
+        return currentUser == null;
+    }
+
     public List<ParseUser> getLikeList() {
+
+        List<ParseUser> users = (List<ParseUser>)get("likeList");
         //Set is_like here
-        return (List<ParseUser>) get("likeList");
+
+        if (containsCurrentUser(users)) {
+            is_liked = true;
+        }
+
+        return users;
     }
 
     public void setLikeList(List<ParseUser> likeList) {

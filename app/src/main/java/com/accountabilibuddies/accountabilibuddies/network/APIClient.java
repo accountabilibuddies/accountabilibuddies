@@ -154,7 +154,7 @@ public class APIClient {
     public void updateChallenge() {
 
     }
-    
+
     private void filterCurrentUser(List<ParseUser> users) {
 
         CollectionUtils.filter(

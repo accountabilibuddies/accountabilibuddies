@@ -32,6 +32,5 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/ibLike"
         android:layout_alignStart="@+id/ibLike"
-        android:layout_below="@+id/ibLike"
-        android:text="1234 likes" />
+        android:layout_below="@+id/ibLike" />
 </RelativeLayout>

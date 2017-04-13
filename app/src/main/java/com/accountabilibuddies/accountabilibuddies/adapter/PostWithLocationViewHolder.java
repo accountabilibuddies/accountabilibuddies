@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.google.android.gms.maps.MapView;
@@ -20,6 +21,9 @@ public class PostWithLocationViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.ibComment)
     ImageButton postComment;
+
+    @BindView(R.id.tvLikes)
+    TextView likesCount;
 
     public PostWithLocationViewHolder(View itemView) {
         super(itemView);
@@ -48,5 +52,13 @@ public class PostWithLocationViewHolder extends RecyclerView.ViewHolder {
 
     public void setPostComment(ImageButton postComment) {
         this.postComment = postComment;
+    }
+
+    public TextView getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(TextView likesCount) {
+        this.likesCount = likesCount;
     }
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
@@ -31,6 +32,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private GoogleMap map;
     private ImageButton likeBtn, commentBtn;
+    private TextView likesCount;
     APIClient client = APIClient.getClient();
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
@@ -100,6 +102,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 .into(imgVH.getImageView());
                     likeBtn = imgVH.getPostLike();
                     commentBtn = imgVH.getPostComment();
+                    likesCount = imgVH.getLikesCount();
                     break;
 
                 case POST_WITH_VIDEO:
@@ -124,6 +127,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     });
                     likeBtn = locVH.getPostLike();
                     commentBtn = locVH.getPostComment();
+                    likesCount = locVH.getLikesCount();
                     break;
 
                 case POST_WITH_TEXT:
@@ -132,8 +136,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     textVH.getText().setText(post.getText());
                     likeBtn = textVH.getPostLike();
                     commentBtn = textVH.getPostComment();
+                    likesCount = textVH.getLikesCount();
                     break;
             }
+
+            likesCount.setText(post.getLikeList().size() + " Likes");
 
             if (post.isLiked())
                 likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));

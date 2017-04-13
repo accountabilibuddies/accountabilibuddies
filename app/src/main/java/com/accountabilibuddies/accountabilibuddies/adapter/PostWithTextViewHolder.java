@@ -21,6 +21,9 @@ public class PostWithTextViewHolder extends RecyclerView.ViewHolder  {
     @BindView(R.id.ibComment)
     ImageButton postComment;
 
+    @BindView(R.id.tvLikes)
+    TextView likesCount;
+
     public PostWithTextViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -48,5 +51,13 @@ public class PostWithTextViewHolder extends RecyclerView.ViewHolder  {
 
     public void setPostComment(ImageButton postComment) {
         this.postComment = postComment;
+    }
+
+    public TextView getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(TextView likesCount) {
+        this.likesCount = likesCount;
     }
 }

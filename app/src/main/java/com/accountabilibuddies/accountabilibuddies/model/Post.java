@@ -128,12 +128,12 @@ public class Post extends ParseObject {
                         user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
         );
 
-        return currentUser == null;
+        return currentUser != null;
     }
 
     public List<ParseUser> getLikeList() {
 
-        List<ParseUser> users = (List<ParseUser>)get("likeList");
+        List<ParseUser> users = (List<ParseUser>) get("likeList");
         //Set is_like here
 
         if (containsCurrentUser(users)) {

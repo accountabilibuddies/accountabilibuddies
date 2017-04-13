@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/myHoriSeparator"
+        android:layout_width="20dp"
+        android:minWidth="20dp"
+        android:layout_height="4dp"
+        android:layout_toLeftOf="@+id/friendCircle"
+        android:layout_centerVertical="true"
+        android:background="@color/grey2"/>
+
+    <TextView
+        android:id="@+id/friendPostText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/friendCircle"
+        android:layout_toStartOf="@+id/friendCircle"
+        android:gravity="right|center_vertical"
+        android:minHeight="30dp"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Temporary Text"
+        android:textColor="@android:color/black"
+        style="?whiteBackground"
+        android:layout_marginRight="10dp"/>
+
+    <View
+        android:id="@+id/friendVertSeparator"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/vertical_line"
+        android:layout_width="4dp"
+        android:background="@color/grey2"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/friendPostText"
+        android:layout_alignBottom="@+id/friendPostText"/>
+
+    <TextView
+        android:id="@+id/friendPostTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/friendCircle"
+        android:layout_toRightOf="@+id/friendCircle"
+        android:gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:text="Date"
+        android:padding="3dp"
+        android:textSize="12sp"
+        android:fontFamily="serif-monospace"
+        android:background="@drawable/date_boundary"/>
+
+    <ImageView
+        android:id="@+id/friendCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"/>
+
+
+</RelativeLayout>

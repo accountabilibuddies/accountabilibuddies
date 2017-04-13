@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="whiteBackground">@style/white_background_wh</item>
     </style>
 
 
@@ -14,5 +15,10 @@
         <item name="android:textColor">@color/lightGrey</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
+    <style name="white_background_wh">
+        <item name="android:background">@android:drawable/dialog_holo_light_frame</item>
+    </style>
+
 
 </resources>

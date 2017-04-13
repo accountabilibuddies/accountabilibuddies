@@ -2,10 +2,183 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/cLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-    </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize" />
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ImageView
+                android:id="@+id/ivTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/title"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivTitle"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Title"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/ivTitle"
+                android:layout_toEndOf="@+id/ivTitle"
+                android:layout_alignTop="@+id/ivTitle" />
+
+            <ImageView
+                android:id="@+id/ivDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/ivTitle"
+                android:src="@drawable/description" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivDescription"
+                android:layout_toRightOf="@+id/ivDescription"
+                android:ems="10"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:id="@+id/ivCalender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivDescription"
+                android:src="@drawable/calender" />
+
+            <EditText
+                android:id="@+id/etStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivCalender"
+                android:layout_toRightOf="@+id/ivCalender"
+                android:ems="10"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/etStartTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="time"
+                android:layout_alignBaseline="@+id/etStartDate"
+                android:layout_alignBottom="@+id/etStartDate"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:id="@+id/etEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etStartDate"
+                android:layout_marginTop="13dp"
+                android:layout_toEndOf="@+id/ivCalender"
+                android:layout_toRightOf="@+id/ivCalender"
+                android:ems="10"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/etEndTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="time"
+                android:layout_alignBaseline="@+id/etEndDate"
+                android:layout_alignBottom="@+id/etEndDate"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:id="@+id/ivChallengeType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etEndDate"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/etEndDate"
+                android:layout_toStartOf="@+id/etEndDate"
+                android:src="@drawable/challenge_type" />
+
+            <Spinner
+                android:id="@+id/spType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/ivChallengeType"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/ivChallengeType"
+                android:layout_toRightOf="@+id/ivChallengeType"
+                android:layout_alignBottom="@+id/ivChallengeType" />
+
+            <ImageView
+                android:id="@+id/ivFrequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivChallengeType"
+                android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@+id/spType"
+                android:layout_toStartOf="@+id/spType"
+                android:src="@drawable/frequency" />
+
+            <Spinner
+                android:id="@+id/spFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivFrequency"
+                android:layout_toRightOf="@+id/ivFrequency"
+                android:layout_toEndOf="@+id/ivFrequency"
+                android:layout_alignTop="@+id/ivFrequency" />
+
+            <ImageView
+                android:id="@+id/ivFriends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivFrequency"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/add_friends" />
+
+            <ImageView
+                android:id="@+id/ivCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivFriends"
+                android:src="@drawable/camera" />
+
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

@@ -71,12 +71,11 @@ public class LoginViewModel {
         });
     }
 
-    public void refreshTokenAndGetFriends(LoggedInListener listener) {
+    public void refreshToken(LoggedInListener listener) {
 
         AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
             @Override
             public void OnTokenRefreshed(AccessToken accessToken) {
-                getFriendsForCurrentUser();
                 listener.onSuccess();
             }
 

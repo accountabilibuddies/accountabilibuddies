@@ -193,7 +193,10 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                     Post post = new Post();
                                     post.setType(Constants.TYPE_IMAGE);
                                     post.setImageUrl(fileLocation);
+                                    List<ParseUser> users = new ArrayList<>();
+                                    post.setLikeList(users);
                                     post.setOwner(ParseUser.getCurrentUser());
+
                                     Log.d("Objectid", challenge.getObjectId());
 
                                     //TODO: Move the listener out of this function
@@ -313,7 +316,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
-        //post.setLocation(point);
+        List<ParseUser> users = new ArrayList<>();
+        post.setLikeList(users);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
 

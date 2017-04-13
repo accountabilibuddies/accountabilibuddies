@@ -13,6 +13,7 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +31,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private GoogleMap map;
     private ImageButton likeBtn, commentBtn;
+    APIClient client = APIClient.getClient();
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
@@ -132,9 +134,26 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     commentBtn = textVH.getPostComment();
                     break;
             }
+
+            if (post.isLiked())
+                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    post.setLiked();
+                    client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.PostListener() {
+                        @Override
+                        public void onSuccess() {
+                            if (post.isLiked())
+                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+                            else
+                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
+                         }
+
+                        @Override
+                        public void onFailure(String error_message) { }
+                    });
                 }
             });
             commentBtn.setOnClickListener(new View.OnClickListener() {

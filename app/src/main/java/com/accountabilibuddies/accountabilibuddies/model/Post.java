@@ -31,7 +31,7 @@ public class Post extends ParseObject {
      }
      */
     //Local to app
-    private boolean is_liked = false;
+    private boolean liked = false;
 
     // Default Constructor
     public Post() {
@@ -137,7 +137,7 @@ public class Post extends ParseObject {
         //Set is_like here
 
         if (containsCurrentUser(users)) {
-            is_liked = true;
+            liked = true;
         }
 
         return users;
@@ -153,5 +153,13 @@ public class Post extends ParseObject {
 
     public void setOwner(ParseUser owner) {
         put("owner", owner);
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked() {
+        this.liked = !liked;
     }
 }

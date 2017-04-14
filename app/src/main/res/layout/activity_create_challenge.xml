@@ -232,6 +232,13 @@
                 android:layout_marginBottom="10dp"
                 android:src="@drawable/add_friends" />
 
+            <AutoCompleteTextView
+                android:id="@+id/actvFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spFrequency"
+                android:layout_toRightOf="@+id/ivFriends"/>
+
             <ImageView
                 android:id="@+id/ivCamera"
                 android:layout_width="30dp"

@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -28,11 +29,17 @@ import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
+import com.parse.ParseUser;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
@@ -56,6 +63,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         setupDateTime();
         SetupChallengeType();
         setupFrequency();
+        setUpFriendsView();
     }
 
     private void setupFrequency() {
@@ -90,6 +98,38 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
             }
         });
+    }
+
+    private void setUpFriendsView() {
+
+        APIClient.getClient().getFriendsByUserId(
+            ParseUser.getCurrentUser().getObjectId(),
+            new APIClient.GetFriendsListener() {
+                @Override
+                public void onSuccess(List<Friend> friends) {
+
+                    List<String> friendNames = new ArrayList(CollectionUtils.collect(friends,
+                        (Friend friend) -> {
+                            return friend.getName();
+                        }
+                    ));
+
+                    String[] friendNameArray = friendNames.toArray(new String[0]);
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        CreateChallengeActivity.this,
+                        android.R.layout.simple_dropdown_item_1line,
+                        friendNameArray
+                    );
+
+                    binding.actvFriends.setAdapter(adapter);
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+
+                }
+            });
     }
 
     private void SetupChallengeType() {

@@ -139,7 +139,7 @@ public class PostTextFragment extends DialogFragment {
             new APIClient.PostListener() {
                 @Override
                 public void onSuccess() {
-                    //TODO: Handle success
+                    listener.onFinishPost(post);
                 }
 
                 @Override
@@ -148,7 +148,4 @@ public class PostTextFragment extends DialogFragment {
                 }
             });
     }
-
-
-
 }

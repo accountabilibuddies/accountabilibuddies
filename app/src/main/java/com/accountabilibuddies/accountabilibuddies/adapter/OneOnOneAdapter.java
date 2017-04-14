@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
+import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -46,18 +47,18 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if(postOwner.getObjectId().equals(me.getObjectId())) {
             type = MY_POST_IMAGE;
-            if(currentPost.getText()!=null) {
+            if(currentPost.getType() == Constants.TYPE_TEXT) {
                 type = MY_POST_TEXT;
             }
-            if(currentPost.getLatitude()!=null || currentPost.getLongitude()!=null) {
+            if(currentPost.getType() == Constants.TYPE_LOCATION) {
                 type = MY_POST_LOCATION;
             }
         } else {
             type = FRIEND_POST_IMAGE;
-            if(currentPost.getText()!=null) {
+            if(currentPost.getType() == Constants.TYPE_TEXT) {
                 type = FRIEND_POST_TEXT;
             }
-            if(currentPost.getLatitude()!=null || currentPost.getLongitude()!=null) {
+            if(currentPost.getType() == Constants.TYPE_LOCATION) {
                 type = FRIEND_POST_LOCATION;
             }
         }

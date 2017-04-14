@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentAddFriendsBinding;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.AddFriendsViewModel;
 
 public class AddFriendsFragment extends Fragment {
@@ -53,5 +55,13 @@ public class AddFriendsFragment extends Fragment {
                 return true;
             }
         );
+
+        binding.actvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Friend friend = viewModel.getFriend(position);
+                viewModel.addFriend(friend);
+            }
+        });
     }
 }

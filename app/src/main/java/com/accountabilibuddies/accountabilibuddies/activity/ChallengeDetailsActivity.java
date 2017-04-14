@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
+import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
@@ -112,6 +114,15 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         });
 
         getPosts();
+        setUpFriendsView();
+    }
+
+    private void setUpFriendsView() {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        ft.commit();
     }
 
     private void setupGoogleClient() {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
+import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -102,34 +104,10 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     private void setUpFriendsView() {
 
-        APIClient.getClient().getFriendsByUserId(
-            ParseUser.getCurrentUser().getObjectId(),
-            new APIClient.GetFriendsListener() {
-                @Override
-                public void onSuccess(List<Friend> friends) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-                    List<String> friendNames = new ArrayList(CollectionUtils.collect(friends,
-                        (Friend friend) -> {
-                            return friend.getName();
-                        }
-                    ));
-
-                    String[] friendNameArray = friendNames.toArray(new String[0]);
-
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                        CreateChallengeActivity.this,
-                        android.R.layout.simple_dropdown_item_1line,
-                        friendNameArray
-                    );
-
-                    binding.actvFriends.setAdapter(adapter);
-                }
-
-                @Override
-                public void onFailure(String errorMessage) {
-
-                }
-            });
+        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        ft.commit();
     }
 
     private void SetupChallengeType() {

@@ -46,7 +46,7 @@ public class DateUtils {
      * @param date
      * @return
      */
-    public static String getDayDateFromDate(Date date) {
+    public static String getDateFromDate(Date date) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
         return sdf.format(date);

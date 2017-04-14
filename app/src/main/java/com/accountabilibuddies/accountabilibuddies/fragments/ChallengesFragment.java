@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeOneOnOneActivity;
 import com.accountabilibuddies.accountabilibuddies.adapter.ChallengeAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentChallengesBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 
 import java.util.ArrayList;
@@ -81,10 +83,12 @@ public abstract class ChallengesFragment extends Fragment {
         ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener((recyclerView, position, v) -> {
             Challenge challenge = mChallengeList.get(position);
 
-            //TODO: Toggle this right now to look at that timeline
-            //TODO: This needs to be changed based on the challenge type
-//            Intent intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
-            Intent intent = new Intent(getActivity(), ChallengeOneOnOneActivity.class);
+            Intent intent;
+            if(challenge.getType()== Constants.TYPE_ONE_ON_ONE) {
+                intent = new Intent(getActivity(), ChallengeOneOnOneActivity.class);
+            } else {
+                intent = new Intent(getActivity(), ChallengeDetailsActivity.class);
+            }
             intent.putExtra("challengeId", challenge.getObjectId());
             intent.putExtra("name", challenge.getName());
             getActivity().startActivity(intent);

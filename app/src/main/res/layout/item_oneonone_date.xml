@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey1">
+    android:layout_height="wrap_content">
 
    <View
         android:id="@+id/myVertSeparator"
         android:layout_width="3dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@color/grey3"/>
+        android:background="@color/grey2"/>
 
     <TextView
         android:id="@+id/postDate"
@@ -17,9 +16,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Date"
-        android:padding="4dp"
-        android:textSize="14sp"
-        android:background="@drawable/date_boundary"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingRight="6dp"
+        android:paddingLeft="6dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:background="@drawable/date_divider"
+        android:textColor="@android:color/white"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

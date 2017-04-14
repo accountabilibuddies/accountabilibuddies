@@ -11,6 +11,7 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -40,11 +41,10 @@ public class LoginViewModel {
         this.context = context;
     }
 
-    private void setUpNewUser(ParseUser user) {
+    private void addCategoriesForNewUser(ParseUser user) {
 
         List<Category> categories = new ArrayList<>();
         user.put(Category.PLURAL, categories);
-        user.saveInBackground();
     }
 
     private void saveFriend(String facebookId, String name, String photoUrl) {
@@ -117,7 +117,7 @@ public class LoginViewModel {
         );
 
         Bundle params = new Bundle();
-        params.putString("fields", "id, name, picture");
+        params.putString("fields", "id, name, email, picture, cover");
         friendRequest.setParameters(params);
         friendRequest.executeAsync();
     }
@@ -149,14 +149,67 @@ public class LoginViewModel {
                     listener.onFailure();
                 } else if (user.isNew()) {
                     Log.d(TAG, "User signed up and logged in through Facebook!");
-                    setUpNewUser(user);
+                    addCategoriesForNewUser(user);
+                    getProfileDataForUser(user);
                     listener.onSuccess();
                 } else {
                     Log.d(TAG, "User logged in through Facebook!");
+                    getProfileDataForUser(user);
                     listener.onSuccess();
                 }
             }
         );
+    }
+
+    public void getProfileDataForUser(ParseUser user) {
+
+        GraphRequest profileDataRequest = GraphRequest.newMeRequest(
+            AccessToken.getCurrentAccessToken(),
+
+            (JSONObject data, GraphResponse response) -> {
+
+                Log.d(TAG + "profile data", response.toString());
+
+                if (response.getError() != null) {
+                    Log.d(TAG, "Profile data request failed");
+                } else {
+                    parseProfileData(user, data);
+                }
+            }
+        );
+
+        Bundle params = new Bundle();
+        params.putString("fields", "id, name, email, picture, cover");
+        profileDataRequest.setParameters(params);
+        profileDataRequest.executeAsync();
+    }
+
+    private void parseProfileData(ParseUser user, JSONObject data) {
+
+        try {
+            String id = data.getString("id");
+            String name = data.getString("name");
+            String email = data.getString("email");
+
+            JSONObject picture = data.getJSONObject("picture");
+            JSONObject pictureData = picture.getJSONObject("data");
+            String profilePhotoUrl = pictureData.getString("url");
+
+            JSONObject cover = data.getJSONObject("cover");
+            String coverPhotoUrl = cover.getString("source");
+
+            user.setUsername(email);
+            user.setEmail(email);
+
+            user.put("facebookId", id);
+            user.put("name", name);
+            user.put("profilePhotoUrl", profilePhotoUrl);
+            user.put("coverPhotoUrl", coverPhotoUrl);
+            user.saveInBackground();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getFriendsForCurrentUser() {
@@ -176,6 +229,7 @@ public class LoginViewModel {
 
                     Log.d(TAG, "Error getting friends list.");
                 }
-            });
+            }
+        );
     }
 }

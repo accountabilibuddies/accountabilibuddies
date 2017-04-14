@@ -35,6 +35,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
+import com.accountabilibuddies.accountabilibuddies.util.GenericUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,7 +52,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ActivityChallengeDetailsBinding binding;
     APIClient client;
-    protected ArrayList<Post> mPostList;
+    protected ArrayList<Object> mPostList;
     protected OneOnOneAdapter mAdapter;
     protected LinearLayoutManager mLayoutManager;
     private GoogleApiClient mGoogleApiClient;
@@ -124,7 +125,9 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             public void onSuccess(List<Post> postList) {
                 if (postList != null) {
                     mPostList.clear();
-                    mPostList.addAll(postList);
+
+                    List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
+                    mPostList.addAll(posts);
                     mAdapter.notifyDataSetChanged();
                 }
                 binding.swipeContainer.setRefreshing(false);
@@ -237,7 +240,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
      *
      */
     void onCreatePost(Post post) {
-        mPostList.add(post);
+        GenericUtils.addPost(mPostList,post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
         Log.d("File count", String.valueOf(mPostList.size()));

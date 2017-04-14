@@ -14,7 +14,7 @@ import java.util.List;
 
 public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Post> postList;
+    private List<Object> postList;
     private Context context;
     private final int DATE_TEXT = -1;
     private final int MY_POST_IMAGE = 0;
@@ -26,7 +26,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int MY_POST_VIDEO = 6;
     private final int FRIEND_POST_VIDEO = 7;
 
-    public OneOnOneAdapter(Context context, List<Post> postList) {
+    public OneOnOneAdapter(Context context, List<Object> postList) {
         this.postList = postList;
         this.context = context;
     }
@@ -34,9 +34,12 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
 
-        //TODO: Improve this code
         int type = DATE_TEXT;
-        Post currentPost = postList.get(position);
+        if(postList.get(position) instanceof String) {
+            return type;
+        }
+
+        Post currentPost = (Post)postList.get(position);
 
         ParseUser postOwner = currentPost.getOwner();
         ParseUser me = ParseUser.getCurrentUser();
@@ -100,7 +103,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case DATE_TEXT:
             default:
                 View viewDateText = inflater.inflate(R.layout.item_oneonone_date, parent, false);
-                viewHolder = new FriendPostHolderText(viewDateText);
+                viewHolder = new PostDateHolder(viewDateText);
                 break;
         }
         return viewHolder;
@@ -109,43 +112,43 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        Post post = postList.get(position);
+        Object post = postList.get(position);
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case MY_POST_IMAGE:
                     MyPostHolderImage myPH = (MyPostHolderImage) holder;
-                    myPH.viewBasedOnPost(post,context);
+                    myPH.viewBasedOnPost((Post)post,context);
                     break;
 
                 case FRIEND_POST_IMAGE:
                     FriendPostHolderImage friendPH = (FriendPostHolderImage) holder;
-                    friendPH.viewBasedOnPost(post,context);
+                    friendPH.viewBasedOnPost((Post)post,context);
                     break;
 
                 case MY_POST_TEXT:
                     MyPostHolderText myPHText = (MyPostHolderText) holder;
-                    myPHText.viewBasedOnPost(post,context);
+                    myPHText.viewBasedOnPost((Post)post,context);
                     break;
 
                 case FRIEND_POST_TEXT:
                     FriendPostHolderText friendPHText = (FriendPostHolderText) holder;
-                    friendPHText.viewBasedOnPost(post,context);
+                    friendPHText.viewBasedOnPost((Post)post,context);
                     break;
 
                 case MY_POST_LOCATION:
                     MyPostHolderLocation myPHLocation = (MyPostHolderLocation) holder;
-                    myPHLocation.viewBasedOnPost(post,context);
+                    myPHLocation.viewBasedOnPost((Post)post,context);
                     break;
 
                 case FRIEND_POST_LOCATION:
                     FriendPostHolderLocation friendPHLocation = (FriendPostHolderLocation) holder;
-                    friendPHLocation.viewBasedOnPost(post,context);
+                    friendPHLocation.viewBasedOnPost((Post)post,context);
                     break;
 
                 case DATE_TEXT:
                 default:
                     PostDateHolder dateHolder = (PostDateHolder) holder;
-                    dateHolder.viewBasedOnPost("",context);
+                    dateHolder.viewBasedOnPost((String)post,context);
                     break;
             }
         }

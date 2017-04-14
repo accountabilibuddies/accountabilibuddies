@@ -161,7 +161,12 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
             public void onSuccess() {
-                Intent intent = new Intent(CreateChallengeActivity.this, ChallengeDetailsActivity.class);
+                Intent intent;
+                if(challenge.getType()== Constants.TYPE_ONE_ON_ONE) {
+                    intent = new Intent(CreateChallengeActivity.this, ChallengeOneOnOneActivity.class);
+                } else {
+                    intent = new Intent(CreateChallengeActivity.this, ChallengeDetailsActivity.class);
+                }
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
                 startActivity(intent);

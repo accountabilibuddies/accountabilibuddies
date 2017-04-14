@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
@@ -24,38 +25,66 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new LoginViewModel(LoginActivity.this);
         setUpBinding();
 
-        ParseUser user = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
-        if (user == null) {
-            viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
-
-                @Override
-                public void onSuccess() {
-                    viewModel.createFriendsList();
-                    openCategoriesView();
-                }
-
-                @Override
-                public void onFailure() {
-
-                }
-            });
-
+        if (currentUser == null) {
+            //user may or may not exist, but isn't authenticated
+            setUpLogInButton();
         } else {
-            viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
-                @Override
-                public void onSuccess() {
+            //user is already authenticated
+            loadAuthenticatedUser();
+        }
+    }
 
-                    viewModel.getFriendsForCurrentUser();
+    private void setUpLogInButton() {
+
+
+        binding.btFacebook.setOnClickListener(
+            (View view) -> {
+                authenticateUser();
+            }
+        );
+    }
+
+    private void authenticateUser() {
+
+        viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
+
+            @Override
+            public void onSuccess(boolean isNewUser) {
+                viewModel.createFriendsList();
+
+                if (isNewUser) {
+                    //user is new and needs to choose categories
+                    openCategoriesView();
+                } else {
+                    //user exists and has already chosen categories
                     openMainView();
                 }
+            }
 
-                @Override
-                public void onFailure() {
+            @Override
+            public void onFailure() {
 
-                }
-            });
-        }
+            }
+        });
+    }
+
+    private void loadAuthenticatedUser() {
+
+        viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
+            @Override
+            public void onSuccess(boolean isNewUser) {
+
+                viewModel.getFriendsForCurrentUser();
+                openMainView();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
     @Override

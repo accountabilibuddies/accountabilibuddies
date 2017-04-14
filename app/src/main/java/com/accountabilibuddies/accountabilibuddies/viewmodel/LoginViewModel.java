@@ -15,7 +15,6 @@ import com.facebook.GraphResponse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class LoginViewModel {
@@ -34,7 +32,7 @@ public class LoginViewModel {
 
     public interface LoggedInListener {
 
-        void onSuccess();
+        void onSuccess(boolean isNewUser);
         void onFailure();
     }
 
@@ -75,7 +73,7 @@ public class LoginViewModel {
         AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
             @Override
             public void OnTokenRefreshed(AccessToken accessToken) {
-                listener.onSuccess();
+                listener.onSuccess(false);
             }
 
             @Override
@@ -132,21 +130,6 @@ public class LoginViewModel {
         friendRequest.executeAsync();
     }
 
-    public void logIn(View view) {
-
-        logInWithReadPermissions(new LoggedInListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "Logged in!");
-            }
-
-            @Override
-            public void onFailure() {
-                Log.d(TAG, "User cancelled log in.");
-            }
-        });
-    }
-
     public void logInWithReadPermissions(LoggedInListener listener) {
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(
@@ -161,11 +144,11 @@ public class LoginViewModel {
                     Log.d(TAG, "User signed up and logged in through Facebook!");
                     addCategoriesForNewUser(user);
                     getProfileDataForUser(user);
-                    listener.onSuccess();
+                    listener.onSuccess(true);
                 } else {
                     Log.d(TAG, "User logged in through Facebook!");
                     getProfileDataForUser(user);
-                    listener.onSuccess();
+                    listener.onSuccess(false);
                 }
             }
         );

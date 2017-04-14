@@ -17,7 +17,9 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.crashlytics.android.Crashlytics;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParsePush;
+import com.parse.ParseUser;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -88,10 +90,12 @@ public class DrawerActivity extends AppCompatActivity {
                 case R.id.settings:
                     fragmentClass = SettingsFragment.class;
                     break;
-
+                case R.id.logOut:
+                    ParseUser.logOut();
+                    openLoginView();
+                    break;
                 case R.id.help:
                 case R.id.about:
-                case R.id.logOut:
                     return true;
             }
 
@@ -111,6 +115,13 @@ public class DrawerActivity extends AppCompatActivity {
             binding.drawerLayout.closeDrawers();
             return true;
         });
+    }
+
+    private void openLoginView() {
+
+        Intent intent = new Intent(DrawerActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void createChallenge(View view) {

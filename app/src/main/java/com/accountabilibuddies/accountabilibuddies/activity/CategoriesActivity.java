@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,5 +47,12 @@ public class CategoriesActivity extends AppCompatActivity {
         binding.rvCategories.setLayoutManager(layoutManager);
 
         binding.rvCategories.setAdapter(viewModel.getAdapter());
+    }
+
+    public void openMainView() {
+
+        Intent intent = new Intent(CategoriesActivity.this, DrawerActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

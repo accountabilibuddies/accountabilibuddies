@@ -31,7 +31,7 @@
             android:title="About us" />
         <item
             android:id="@+id/logOut"
-            android:title="Logout" />
+            android:title="Log out" />
 
     </group>
 

@@ -24,7 +24,6 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:onClick="@{loginViewModel::logIn}"
             android:text="@string/connect_facebook"/>
     
     </RelativeLayout>

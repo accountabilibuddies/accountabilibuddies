@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.viewmodel;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -16,10 +17,17 @@ import java.util.List;
 public class AddFriendsViewModel {
 
     Context context;
+    List<Friend> friends;
+
 
     public AddFriendsViewModel(Context context) {
 
         this.context = context;
+    }
+
+    public void addFriend(Friend friend) {
+
+        Toast.makeText(context, "Added friend: " + friend.getName(), Toast.LENGTH_SHORT).show();
     }
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
@@ -29,6 +37,8 @@ public class AddFriendsViewModel {
             new APIClient.GetFriendsListener() {
                 @Override
                 public void onSuccess(List<Friend> friends) {
+
+                    AddFriendsViewModel.this.friends = friends;
 
                     List<String> friendNames = new ArrayList(CollectionUtils.collect(friends,
                             (Friend friend) -> {
@@ -53,5 +63,10 @@ public class AddFriendsViewModel {
                 }
             }
         );
+    }
+
+    public Friend getFriend(int position) {
+
+        return friends.get(position);
     }
 }

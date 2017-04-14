@@ -24,34 +24,43 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new LoginViewModel(LoginActivity.this);
         setUpBinding();
-        setUpLogInButton();
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        if (currentUser == null) {
+            //user may or may not exist, but isn't authenticated
+            setUpLogInButton();
+        } else {
+            //user is already authenticated
+            loadAuthenticatedUser();
+        }
     }
 
     private void setUpLogInButton() {
 
-        ParseUser user = ParseUser.getCurrentUser();
 
         binding.btFacebook.setOnClickListener(
             (View view) -> {
-
-                if (user == null) {
-                    authenticateNewUser();
-                } else {
-                    loadAuthenticatedUser();
-                }
-
+                authenticateUser();
             }
         );
     }
 
-    private void authenticateNewUser() {
+    private void authenticateUser() {
 
         viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
 
             @Override
-            public void onSuccess() {
+            public void onSuccess(boolean isNewUser) {
                 viewModel.createFriendsList();
-                openCategoriesView();
+
+                if (isNewUser) {
+                    //user is new and needs to choose categories
+                    openCategoriesView();
+                } else {
+                    //user exists and has already chosen categories
+                    openMainView();
+                }
             }
 
             @Override
@@ -65,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(boolean isNewUser) {
 
                 viewModel.getFriendsForCurrentUser();
                 openMainView();

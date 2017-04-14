@@ -236,6 +236,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
+        dpd.setMinDate(now);
         dpd.show(getFragmentManager(), "Select Date Range");
     }
 

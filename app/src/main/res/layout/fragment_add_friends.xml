@@ -3,6 +3,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="addFriendsViewModel"
+            type="com.accountabilibuddies.accountabilibuddies.viewmodel.AddFriendsViewModel"/>
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

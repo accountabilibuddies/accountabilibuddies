@@ -1,7 +1,11 @@
 package com.accountabilibuddies.accountabilibuddies.model;
 
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 @ParseClassName("Friend")
 public class Friend extends ParseObject {
@@ -9,10 +13,8 @@ public class Friend extends ParseObject {
     /*
 
     Friend {
-       String name;
-       String facebookId;
-       String photoUrl;
-       String friendOfId;
+       String username;
+       ParseUser friend;
     }
     */
 
@@ -21,31 +23,17 @@ public class Friend extends ParseObject {
         super();
     }
 
-    public void setName(String name) {
-        put("name", name);
+    public void setUsername(String username) {
+        put("username", username);
     }
 
-    public String getName() {
-        return (String) get("name");
+    public String getUsername() {
+        return (String) get("username");
     }
 
-    public void setFacebookId(String facebookId) { put("facebookId", facebookId); }
+    public void setFriend(ParseUser friend) { put("friend", friend); }
 
-    public String getFacebookId() {
-        return (String) get("facebookId");
-    }
+    public ParseUser getFriend() { return (ParseUser) get("friend"); }
 
-    public void setFriendOfId(String friendOfId) { put("friendOfId", friendOfId); }
-
-    public String getFriendOfId() {
-        return (String) get("friendOfId");
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        put("photoUrl", photoUrl);
-    }
-
-    public String getPhotoUrl() {
-        return (String) get("photoUrl");
-    }
+    public String getName() { return (String) ((ParseUser) get("friend")).get("name"); }
 }

@@ -1,3 +1,4 @@
+
 package com.accountabilibuddies.accountabilibuddies.viewmodel;
 
 import android.content.Context;
@@ -32,8 +33,8 @@ public class AddFriendsViewModel {
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
 
-        APIClient.getClient().getFriendsByUserId(
-            ParseUser.getCurrentUser().getObjectId(),
+        APIClient.getClient().getFriendsByUsername(
+            ParseUser.getCurrentUser().getUsername(),
             new APIClient.GetFriendsListener() {
                 @Override
                 public void onSuccess(List<Friend> friends) {

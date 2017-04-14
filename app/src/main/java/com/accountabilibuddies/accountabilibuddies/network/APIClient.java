@@ -89,6 +89,11 @@ public class APIClient {
         void onFailure(String error_message);
     }
 
+    public interface UserFoundListener {
+        void onSuccess(ParseUser user);
+        void onFailure(String errorMessage);
+    }
+
     // Challenge API's
     public void createChallenge(Challenge challenge, ChallengeListener listener) {
         challenge.saveInBackground(e -> {
@@ -243,10 +248,10 @@ public class APIClient {
 
     }
 
-    public void getFriendsByUserId(String friendOfId, GetFriendsListener listener) {
+    public void getFriendsByUsername(String username, GetFriendsListener listener) {
 
         ParseQuery<Friend> query = ParseQuery.getQuery(Friend.class);
-        query.whereEqualTo("friendOfId", friendOfId);
+        query.whereEqualTo("username", username);
 
         query.findInBackground(
 
@@ -256,6 +261,26 @@ public class APIClient {
                     listener.onFailure(e.getMessage());
                 } else {
                     listener.onSuccess(friends);
+                }
+            }
+        );
+    }
+
+    public void getUser(String username, UserFoundListener listener) {
+
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.whereEqualTo("username", username);
+        query.findInBackground( //TODO: Is there a more efficient query for finding just one match? I'd like to replace the object id with the username.
+
+            (List<ParseUser> users, ParseException e) -> {
+
+                if (e != null) {
+                    listener.onFailure(e.getMessage());
+                } else {
+
+                    if (!users.isEmpty()) {
+                        listener.onSuccess(users.get(0));
+                    }
                 }
             }
         );

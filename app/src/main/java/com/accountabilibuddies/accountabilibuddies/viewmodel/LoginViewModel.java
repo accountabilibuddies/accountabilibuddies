@@ -15,6 +15,7 @@ import com.facebook.GraphResponse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class LoginViewModel {
@@ -47,14 +49,11 @@ public class LoginViewModel {
         user.put(Category.PLURAL, categories);
     }
 
-    private void saveFriend(String facebookId, String name, String photoUrl) {
+    private void saveFriend(String username, ParseUser friendUser) {
 
         Friend friend = new Friend();
-
-        friend.setFacebookId(facebookId);
-        friend.setName(name);
-        friend.setPhotoUrl(photoUrl);
-        friend.setFriendOfId(ParseUser.getCurrentUser().getObjectId());
+        friend.setUsername(username);
+        friend.setFriend(friendUser);
 
         APIClient.getClient().createFriend(friend, new APIClient.CreateFriendListener() {
 
@@ -88,32 +87,43 @@ public class LoginViewModel {
 
     public void createFriendsList() {
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
         GraphRequest friendRequest = GraphRequest.newMyFriendsRequest(
-                AccessToken.getCurrentAccessToken(),
+            AccessToken.getCurrentAccessToken(),
 
-                (objects,  response) -> {
-                    Log.d(TAG + "Friends List", response.toString());
-                    JSONObject resultsJson = response.getJSONObject();
+            (objects,  response) -> {
+                Log.d(TAG + "Friends List", response.toString());
+                JSONObject resultsJson = response.getJSONObject();
 
-                    try {
-                        JSONArray resultsArray = resultsJson.getJSONArray("data");
+                try {
+                    JSONArray dataArray = resultsJson.getJSONArray("data");
 
-                        for (int i = 0; i < resultsArray.length(); i++) {
+                    for (int i = 0; i < dataArray.length(); i++) {
 
-                            JSONObject user = resultsArray.getJSONObject(i);
-                            JSONObject picture = user.getJSONObject("picture");
-                            JSONObject pictureData = picture.getJSONObject("data");
+                        JSONObject userData = dataArray.getJSONObject(i);
+                        String id = userData. getString("id");
 
-                            saveFriend(
-                                user.getString("id"),
-                                user.getString("name"),
-                                pictureData.getString("url")
-                            );
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        APIClient.getClient().getUser(id, new APIClient.UserFoundListener() {
+
+                            @Override
+                            public void onSuccess(ParseUser user) {
+
+                                //TODO: add friend to list of friends for the logged-in user
+                                saveFriend(currentUser.getUsername(), user);
+                            }
+
+                            @Override
+                            public void onFailure(String errorMessage) {
+
+                                //TODO: user not in ParseUser db create new parse user
+                            }
+                        });
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }
         );
 
         Bundle params = new Bundle();
@@ -141,7 +151,7 @@ public class LoginViewModel {
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(
             context,
-            Arrays.asList("public_profile", "user_friends"),
+            Arrays.asList("public_profile", "user_friends", "email"),
 
             (ParseUser user, ParseException err) -> {
                 if (user == null) {
@@ -198,7 +208,7 @@ public class LoginViewModel {
             JSONObject cover = data.getJSONObject("cover");
             String coverPhotoUrl = cover.getString("source");
 
-            user.setUsername(email);
+            user.setUsername(id);
             user.setEmail(email);
 
             user.put("facebookId", id);
@@ -214,8 +224,8 @@ public class LoginViewModel {
 
     public void getFriendsForCurrentUser() {
 
-        APIClient.getClient().getFriendsByUserId(
-            ParseUser.getCurrentUser().getObjectId(),
+        APIClient.getClient().getFriendsByUsername(
+            ParseUser.getCurrentUser().getUsername(),
             new APIClient.GetFriendsListener() {
 
                 @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
@@ -23,39 +24,58 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new LoginViewModel(LoginActivity.this);
         setUpBinding();
+        setUpLogInButton();
+    }
+
+    private void setUpLogInButton() {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        if (user == null) {
-            viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
+        binding.btFacebook.setOnClickListener(
+            (View view) -> {
 
-                @Override
-                public void onSuccess() {
-                    viewModel.createFriendsList();
-                    openCategoriesView();
+                if (user == null) {
+                    authenticateNewUser();
+                } else {
+                    loadAuthenticatedUser();
                 }
 
-                @Override
-                public void onFailure() {
+            }
+        );
+    }
 
-                }
-            });
+    private void authenticateNewUser() {
 
-        } else {
-            viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
-                @Override
-                public void onSuccess() {
+        viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
 
-                    viewModel.getFriendsForCurrentUser();
-                    openMainView();
-                }
+            @Override
+            public void onSuccess() {
+                viewModel.createFriendsList();
+                openCategoriesView();
+            }
 
-                @Override
-                public void onFailure() {
+            @Override
+            public void onFailure() {
 
-                }
-            });
-        }
+            }
+        });
+    }
+
+    private void loadAuthenticatedUser() {
+
+        viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
+            @Override
+            public void onSuccess() {
+
+                viewModel.getFriendsForCurrentUser();
+                openMainView();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
     @Override

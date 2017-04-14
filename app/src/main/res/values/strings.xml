@@ -19,6 +19,7 @@
     <string name="description">Description</string>
     <string name="choose_categories">Choose 3 or more topics.</string>
     <string name="connect_facebook">Connect With Facebook</string>
+    <string name="done_selecting_categories">Done</string>
     <string-array name="challenge_type">
         <item>One on One</item>
         <item>Multi user</item>

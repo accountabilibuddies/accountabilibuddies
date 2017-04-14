@@ -2,7 +2,9 @@ package com.accountabilibuddies.accountabilibuddies.viewmodel;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.accountabilibuddies.accountabilibuddies.activity.CategoriesActivity;
 import com.accountabilibuddies.accountabilibuddies.adapter.CategoriesAdapter;
 import com.accountabilibuddies.accountabilibuddies.model.Category;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -11,10 +13,10 @@ import java.util.List;
 
 public class CategoriesViewModel {
 
-    private Context context;
+    private CategoriesActivity context;
     private CategoriesAdapter adapter;
 
-    public CategoriesViewModel(Context context) {
+    public CategoriesViewModel(CategoriesActivity context) {
 
         this.context = context;
         this.adapter = new CategoriesAdapter(context);
@@ -46,5 +48,10 @@ public class CategoriesViewModel {
                 }
             }
         );
+    }
+
+    public void openMainView(View view) {
+
+        context.openMainView();
     }
 }

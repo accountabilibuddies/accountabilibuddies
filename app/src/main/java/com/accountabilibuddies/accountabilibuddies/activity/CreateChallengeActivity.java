@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +21,9 @@ import android.widget.ArrayAdapter;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
+import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -28,11 +31,17 @@ import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
+import com.parse.ParseUser;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
@@ -56,6 +65,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         setupDateTime();
         SetupChallengeType();
         setupFrequency();
+        setUpFriendsView();
     }
 
     private void setupFrequency() {
@@ -90,6 +100,14 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
             }
         });
+    }
+
+    private void setUpFriendsView() {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        ft.commit();
     }
 
     private void SetupChallengeType() {

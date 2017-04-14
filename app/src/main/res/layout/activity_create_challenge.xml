@@ -219,18 +219,11 @@
                 android:layout_toEndOf="@+id/ivFrequency"
                 android:layout_alignTop="@+id/ivFrequency" />
 
-            <ImageView
-                android:id="@+id/ivFriends"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/ivFrequency"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/add_friends" />
+            <FrameLayout
+                android:id="@+id/flAddFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivFrequency"/>
 
             <ImageView
                 android:id="@+id/ivCamera"
@@ -238,7 +231,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/ivFriends"
+                android:layout_below="@+id/flAddFriends"
                 android:src="@drawable/dark_camera"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"

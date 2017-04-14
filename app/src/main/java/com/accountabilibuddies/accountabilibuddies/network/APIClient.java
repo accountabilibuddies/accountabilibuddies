@@ -360,7 +360,7 @@ public class APIClient {
                     filterCurrentUser(users);
                 }
 
-                post.addAllUnique("likeList",users);
+                post.put("likeList", users);
                 post.saveInBackground(e11 -> {
                     if (e11 != null) {
                         listener.onFailure(e11.getMessage());

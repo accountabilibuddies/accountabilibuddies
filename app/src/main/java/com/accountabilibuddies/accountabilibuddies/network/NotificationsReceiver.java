@@ -94,7 +94,9 @@ public class NotificationsReceiver extends BroadcastReceiver {
                 .Builder(context).setContentIntent(pIntent)
                 //TODO: Update the icon to the launcher style notification icon
                 .setSmallIcon(R.drawable.clock).setContentTitle("Accountabilibudies")
-                .setContentText(customMessage);
+                .setContentText(customMessage)
+                .setAutoCancel(true);
+
         NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

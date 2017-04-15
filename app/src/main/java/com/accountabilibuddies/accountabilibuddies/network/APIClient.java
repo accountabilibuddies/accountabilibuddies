@@ -3,7 +3,6 @@ package com.accountabilibuddies.accountabilibuddies.network;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.accountabilibuddies.accountabilibuddies.model.Category;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
@@ -64,16 +63,6 @@ public class APIClient {
         void onFailure(String error_message);
     }
 
-    public interface AddCategoryListener {
-        void onSuccess();
-        void onFailure(String errorMessage);
-    }
-
-    public interface GetCategoriesListener {
-        void onSuccess(List<Category> categories);
-        void onFailure(String errorMessage);
-    }
-
     public interface CreateFriendListener {
         void onSuccess();
         void onFailure(String errorMessage);
@@ -115,21 +104,6 @@ public class APIClient {
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.whereEqualTo("userList", user);
-        query.findInBackground((objects, e) -> {
-            if (e != null) {
-                listener.onFailure(e.getMessage());
-            } else {
-                listener.onSuccess(objects);
-            }
-        });
-    }
-
-    public void getChallengesByCategory(ArrayList<Integer> categories, GetChallengeListListener listener) {
-        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.whereNotEqualTo("userList", getCurrentUser());
-        query.whereContainedIn("category", categories);
         query.findInBackground((objects, e) -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
@@ -183,7 +157,7 @@ public class APIClient {
                 List<ParseUser> users = challenge.getUserList();
                 filterCurrentUser(users);
 
-                challenge.addAllUnique("userList",users);
+                challenge.addAllUnique("userList", users);
                 challenge.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
@@ -195,46 +169,6 @@ public class APIClient {
                 listener.onFailure(e.getMessage());
             }
         });
-    }
-
-    public void addCategoryForUser(ParseUser user, Category category, AddCategoryListener
-            listener) {
-
-        List<Category> categories = (List<Category>) user.get(Category.PLURAL);
-
-        if (categories == null) {
-            categories = new ArrayList<>();
-        }
-
-        categories.add(category);
-
-        user.put(Category.PLURAL, categories);
-
-        user.saveInBackground(
-            (ParseException e) -> {
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess();
-                }
-            }
-        );
-    }
-
-    public void getHardcodedCategories(GetCategoriesListener listener) {
-
-        ParseQuery<Category> query = ParseQuery.getQuery(Category.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
-
-        query.findInBackground(
-            (List<Category> categories, ParseException e) -> {
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess(categories);
-                }
-            }
-        );
     }
 
     public void createFriend(Friend friend, CreateFriendListener listener) {

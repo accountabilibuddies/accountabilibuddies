@@ -3,9 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.viewmodel;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
-import com.accountabilibuddies.accountabilibuddies.model.Category;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.facebook.AccessToken;
@@ -17,7 +15,6 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,12 +38,6 @@ public class LoginViewModel {
     public LoginViewModel(AppCompatActivity context) {
 
         this.context = context;
-    }
-
-    private void addCategoriesForNewUser(ParseUser user) {
-
-        List<Category> categories = new ArrayList<>();
-        user.put(Category.PLURAL, categories);
     }
 
     private void saveFriend(String username, ParseUser friendUser) {
@@ -173,7 +164,6 @@ public class LoginViewModel {
                     listener.onFailure();
                 } else if (user.isNew()) {
                     Log.d(TAG, "User signed up and logged in through Facebook!");
-                    addCategoriesForNewUser(user);
                     getProfileDataForUser(user);
                     listener.onSuccess(true);
                 } else {

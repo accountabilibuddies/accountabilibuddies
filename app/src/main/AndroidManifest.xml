@@ -88,7 +88,6 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".activity.CategoriesActivity"/>
     </application>
 
 </manifest>

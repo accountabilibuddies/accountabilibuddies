@@ -189,11 +189,11 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
 
-                String channel = (String)ParseUser.getCurrentUser().get("name");
+                String currUser = (String)ParseUser.getCurrentUser().get("name");
                 List<ParseUser> friends = challenge.getUserList();
                 for(ParseUser friend : friends) {
-                    if(!friend.get("name").equals(channel)) {
-                        createChallengeNotification(channel, (String)friend.get("name") , challenge.getObjectId());
+                    if(!friend.get("name").equals(currUser)) {
+                        createChallengeNotification((String)friend.get("name"), currUser, challenge.getObjectId());
                     }
                 }
                 startActivity(intent);

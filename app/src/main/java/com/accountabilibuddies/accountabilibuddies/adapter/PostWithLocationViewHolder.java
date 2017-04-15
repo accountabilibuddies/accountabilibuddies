@@ -16,6 +16,9 @@ public class PostWithLocationViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.mapview)
     MapView mapview;
 
+    @BindView(R.id.tvAddress)
+    TextView address;
+
     @BindView(R.id.ibLike)
     ImageButton postLike;
 
@@ -60,5 +63,13 @@ public class PostWithLocationViewHolder extends RecyclerView.ViewHolder {
 
     public void setLikesCount(TextView likesCount) {
         this.likesCount = likesCount;
+    }
+
+    public TextView getAddress() {
+        return address;
+    }
+
+    public void setAddress(TextView address) {
+        this.address = address;
     }
 }

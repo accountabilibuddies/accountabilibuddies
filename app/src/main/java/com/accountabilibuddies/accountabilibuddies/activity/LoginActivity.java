@@ -54,13 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(boolean isNewUser) {
                 viewModel.createFriendsList();
 
-                if (isNewUser) {
-                    //user is new and needs to choose categories
-                    openCategoriesView();
-                } else {
-                    //user exists and has already chosen categories
-                    openMainView();
-                }
+                openMainView();
             }
 
             @Override
@@ -98,12 +92,6 @@ public class LoginActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         binding.setLoginViewModel(viewModel);
-    }
-
-    private void openCategoriesView() {
-        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void openMainView() {

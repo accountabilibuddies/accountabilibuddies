@@ -9,16 +9,6 @@ abstract public class Constants {
     public static final int TYPE_MULTI_USER = 2;
     //public static final int TYPE_TIMELINE = 3;
 
-    // Challenge Categories,
-    public static final int CATEGORY_PHOTOGRAPHY = 1;
-    public static final int CATEGORY_FITNESS = 2;
-    public static final int CATEGORY_COMMUNITY_SERVICE = 3;
-    public static final int CATEGORY_FOOD = 4;
-    public static final int CATEGORY_NEW_HOBBY = 5;
-    public static final int CATEGORY_BOOKS = 6;
-    // Can add more category types
-    public static final int CATEGORY_CUSTOM = 99;
-
     // Challenge Frequency,
     public static final int FREQUENCY_DAILY = 1;
     public static final int FREQUENCY_WEEKLY = 2;
@@ -33,10 +23,4 @@ abstract public class Constants {
     public static final int TYPE_IMAGE = 2;
     public static final int TYPE_TEXT = 3;
     public static final int TYPE_LOCATION = 4;
-
-    public static Map<String,Integer> categoryIdMap = new HashMap<>();
-    static {
-        categoryIdMap.put("Photography",1);
-        categoryIdMap.put("Fitness",2);
-    }
 }

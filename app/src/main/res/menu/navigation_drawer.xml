@@ -12,11 +12,6 @@
             android:title="Upcoming challenges" />
 
         <item
-            android:id="@+id/sChallenges"
-            android:icon="@drawable/search"
-            android:title="Search challenges" />
-
-        <item
             android:id="@+id/settings"
             android:icon="@drawable/settings"
             android:title="Settings" />

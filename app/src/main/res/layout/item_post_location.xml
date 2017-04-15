@@ -4,10 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_below="@+id/tvAddress"
         android:padding="5dp"
         map:mapType="none"
         map:liteMode="true" />

@@ -48,6 +48,25 @@
             </android.support.v4.widget.SwipeRefreshLayout>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/progressBarContainer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:clickable="true" >
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avi"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:indicatorName="BallScaleRippleMultipleIndicator"
+                app:indicatorColor="@color/colorPrimary" />
+
+        </RelativeLayout>
+
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab_menu"

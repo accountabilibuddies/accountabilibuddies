@@ -23,7 +23,6 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
-import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -39,6 +38,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
@@ -48,6 +48,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     private static int CHALLENGE_FREQUENCY = Constants.FREQUENCY_DAILY;
     private String mImagePath, profileUrl;
     private static final int PHOTO_INTENT_REQUEST = 100;
+
+    private AddFriendsFragment addFriendsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         SetupChallengeType();
         setupFrequency();
         setUpFriendsView();
+
     }
 
     private void setupFrequency() {
@@ -103,7 +106,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        addFriendsFragment = AddFriendsFragment.newInstance(null);
+        ft.replace(R.id.flAddFriends, addFriendsFragment);
         ft.commit();
     }
 
@@ -171,7 +175,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                                         binding.etDescription.getText().toString(),
                                         new Date(String.valueOf(binding.tvStartDate.getText())),
                                         new Date(String.valueOf(binding.tvEndDate.getText())),
-                                        CHALLENGE_FREQUENCY, profileUrl, 0);//There is no category so pass 0
+                                        CHALLENGE_FREQUENCY, profileUrl, 0, addFriendsFragment.getSelectedFriends());//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
@@ -186,9 +190,12 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 intent.putExtra("name", challenge.getName());
 
                 String channel = (String)ParseUser.getCurrentUser().get("name");
-
-                //createChallengeNotification(channel,,challenge.getObjectId());
-
+                List<ParseUser> friends = challenge.getUserList();
+                for(ParseUser friend : friends) {
+                    if(!friend.get("name").equals(channel)) {
+                        createChallengeNotification(channel, (String)friend.get("name") , challenge.getObjectId());
+                    }
+                }
                 startActivity(intent);
                 finish();
             }
@@ -310,12 +317,17 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        binding.progressBarContainer.setVisibility(View.VISIBLE);
+        binding.avi.show();
+
         switch (requestCode) {
             case PHOTO_INTENT_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    if (mImagePath == null)
+                    if (mImagePath == null) {
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
-
+                    }
                     Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
 
                         APIClient.getClient().uploadFile("post_image.jpg",
@@ -325,11 +337,14 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                             profileUrl = fileLocation;
                             //Show image in the ImageView
                             binding.ivProfile.setImageBitmap(bitmap);
+                            binding.avi.hide();
+                            binding.progressBarContainer.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onFailure(String error_message) {
-
+                            binding.avi.hide();
+                            binding.progressBarContainer.setVisibility(View.GONE);
                         }
                     });
                 }

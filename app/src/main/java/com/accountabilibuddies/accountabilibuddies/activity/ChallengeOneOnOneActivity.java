@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ChallengeOneOnOneActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -59,6 +62,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private Challenge challenge;
     private Double mLatitude;
     private Double mLongitude;
+    private String mAddress;
 
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_LOCATION = 1;
@@ -172,9 +176,13 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
             case PHOTO_INTENT_REQUEST:
 
+                binding.progressBarContainer.setVisibility(View.VISIBLE);
+                binding.avi.show();
+
                 if (resultCode == RESULT_OK) {
                     if(mImagePath==null) {
-                        //TODO: Handle error
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
                     //TODO: Need to optimize this scale to make image size more efficient
@@ -207,13 +215,16 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                                 public void onFailure(String error_message) {
                                                     Toast.makeText(ChallengeOneOnOneActivity.this,
                                                             "Error creating post", Toast.LENGTH_LONG).show();
+                                                    binding.avi.hide();
+                                                    binding.progressBarContainer.setVisibility(View.GONE);
                                                 }
                                             });
                                 }
 
                                 @Override
                                 public void onFailure(String error_message) {
-
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
                                 }
                             });
                 }
@@ -243,7 +254,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         GenericUtils.addPost(mPostList,post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
-        Log.d("File count", String.valueOf(mPostList.size()));
+        binding.avi.hide();
+        binding.progressBarContainer.setVisibility(View.GONE);
     }
 
     protected void onStart() {
@@ -277,6 +289,17 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
+                Geocoder gc = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
+                    if (addresses.size() > 0) {
+                        mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
+                                addresses.get(0).getAddressLine(1));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -313,7 +336,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         //post.setLocation(point);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
-
+        post.setAddress(mAddress);
         post.setOwner(ParseUser.getCurrentUser());
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),

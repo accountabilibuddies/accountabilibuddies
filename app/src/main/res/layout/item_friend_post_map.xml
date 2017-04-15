@@ -13,6 +13,15 @@
         android:layout_centerVertical="true"
         android:background="@color/grey2"/>
 
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/friendPostMap"
+        android:padding="5dp"
+        android:layout_alignLeft="@+id/friendPostMap"
+        android:layout_alignRight="@+id/friendPostMap" />
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/friendPostMap"
         android:layout_width="match_parent"

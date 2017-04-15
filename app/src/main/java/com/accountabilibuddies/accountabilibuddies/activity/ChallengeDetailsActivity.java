@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,6 +51,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ChallengeDetailsActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -61,6 +64,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     private Challenge challenge;
     private Double mLatitude;
     private Double mLongitude;
+    private String mAddress;
 
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_LOCATION = 1;
@@ -121,7 +125,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        ft.replace(R.id.flAddFriends, AddFriendsFragment.newInstance(challenge.getObjectId()));
         ft.commit();
     }
 
@@ -187,9 +191,13 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
             case PHOTO_INTENT_REQUEST:
 
+                binding.progressBarContainer.setVisibility(View.VISIBLE);
+                binding.avi.show();
+
                 if (resultCode == RESULT_OK) {
                     if(mImagePath==null) {
-                        //TODO: Handle error
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
                     //TODO: Need to optimize this scale to make image size more efficient
@@ -198,41 +206,44 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             ,800,600);
 
                     client.uploadFile("post_image.jpg",
-                            bitmap, new APIClient.UploadFileListener() {
-                                @Override
-                                public void onSuccess(String fileLocation) {
-                                    Post post = new Post();
-                                    post.setType(Constants.TYPE_IMAGE);
-                                    post.setImageUrl(fileLocation);
-                                    List<ParseUser> users = new ArrayList<>();
-                                    post.setLikeList(users);
-                                    post.setOwner(ParseUser.getCurrentUser());
+                        bitmap, new APIClient.UploadFileListener() {
+                            @Override
+                            public void onSuccess(String fileLocation) {
+                                Post post = new Post();
+                                post.setType(Constants.TYPE_IMAGE);
+                                post.setImageUrl(fileLocation);
+                                List<ParseUser> users = new ArrayList<>();
+                                post.setLikeList(users);
+                                post.setOwner(ParseUser.getCurrentUser());
 
-                                    Log.d("Objectid", challenge.getObjectId());
+                                Log.d("Objectid", challenge.getObjectId());
 
-                                    //TODO: Move the listener out of this function
-                                    APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                            new APIClient.PostListener() {
-                                                @Override
-                                                public void onSuccess() {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                                            "Creating post", Toast.LENGTH_LONG).show();
-                                                    onCreatePost(post);
-                                                }
+                                //TODO: Move the listener out of this function
+                                APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                        new APIClient.PostListener() {
+                                            @Override
+                                            public void onSuccess() {
+                                                Toast.makeText(ChallengeDetailsActivity.this,
+                                                        "Creating post", Toast.LENGTH_LONG).show();
+                                                onCreatePost(post);
+                                            }
 
-                                                @Override
-                                                public void onFailure(String error_message) {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                                            "Error creating post", Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                }
+                                            @Override
+                                            public void onFailure(String error_message) {
+                                                Toast.makeText(ChallengeDetailsActivity.this,
+                                                        "Error creating post", Toast.LENGTH_LONG).show();
+                                                binding.avi.hide();
+                                                binding.progressBarContainer.setVisibility(View.GONE);
+                                            }
+                                        });
+                            }
 
-                                @Override
-                                public void onFailure(String error_message) {
-
-                                }
-                            });
+                            @Override
+                            public void onFailure(String error_message) {
+                                binding.avi.hide();
+                                binding.progressBarContainer.setVisibility(View.GONE);
+                            }
+                        });
                 }
         }
     }
@@ -260,7 +271,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         mPostList.add(post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
-        Log.d("File count", String.valueOf(mPostList.size()));
+        binding.avi.hide();
+        binding.progressBarContainer.setVisibility(View.GONE);
     }
 
     protected void onStart() {
@@ -294,6 +306,17 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
+                Geocoder gc = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
+                    if (addresses.size() > 0) {
+                        mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
+                                addresses.get(0).getAddressLine(1));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -331,6 +354,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         post.setLikeList(users);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
+        post.setAddress(mAddress);
+        post.setOwner(ParseUser.getCurrentUser());
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),
             new APIClient.PostListener() {

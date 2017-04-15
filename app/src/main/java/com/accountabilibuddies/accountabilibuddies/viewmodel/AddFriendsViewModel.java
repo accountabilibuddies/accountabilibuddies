@@ -18,17 +18,39 @@ import java.util.List;
 public class AddFriendsViewModel {
 
     Context context;
-    List<Friend> friends;
-
+    List<Friend> friends = new ArrayList<>();
+    List<ParseUser> selectedFriends = new ArrayList<>();
+    String challengeId = null;
 
     public AddFriendsViewModel(Context context) {
 
         this.context = context;
     }
 
-    public void addFriend(Friend friend) {
+    public AddFriendsViewModel(Context context, String challengeId) {
 
-        Toast.makeText(context, "Added friend: " + friend.getName(), Toast.LENGTH_SHORT).show();
+        this.context = context;
+        this.challengeId = challengeId;
+    }
+
+    public void addFriend(ParseUser friend) {
+
+        if (challengeId == null) {
+            selectedFriends.add(friend);
+            Toast.makeText(context, "Added friend to new challnege: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+        } else {
+            APIClient.getClient().addFriendToChallenge(challengeId, friend, new APIClient.AddFriendToChallengeListener() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(context, "Added friend to existing challenge: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+
+                }
+            });
+        }
     }
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
@@ -68,8 +90,13 @@ public class AddFriendsViewModel {
         );
     }
 
-    public Friend getFriend(int position) {
+    public ParseUser getFriend(int position) {
 
-        return friends.get(position);
+        return friends.get(position).getFriend();
+    }
+
+    public List<ParseUser> getSelectedFriends() {
+
+        return selectedFriends;
     }
 }

@@ -26,6 +26,9 @@ public class MyPostHolderLocation extends RecyclerView.ViewHolder {
     @BindView(R.id.myPostMapDate)
     TextView textView;
 
+    @BindView(R.id.tvAddress)
+    TextView address;
+
     private GoogleMap map;
 
     public MyPostHolderLocation(View itemView) {
@@ -46,6 +49,10 @@ public class MyPostHolderLocation extends RecyclerView.ViewHolder {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
                 map.addMarker(new MarkerOptions().position(location));
                 map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                if (post.getAddress() != null)
+                    address.setText(post.getAddress());
+                else
+                    address.setVisibility(View.GONE);
             });
 
             if(post.getCreatedAt()!=null) {

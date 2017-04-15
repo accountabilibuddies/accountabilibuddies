@@ -123,6 +123,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
                             map.addMarker(new MarkerOptions().position(location));
                             map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+                            if (post.getAddress() != null)
+                                locVH.getAddress().setText(post.getAddress());
+                            else
+                                locVH.getAddress().setVisibility(View.GONE);
                         }
                     });
                     likeBtn = locVH.getPostLike();

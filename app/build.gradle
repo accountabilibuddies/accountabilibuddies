@@ -86,4 +86,5 @@ dependencies {
 
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
     compile 'com.borax12.materialdaterangepicker:library:1.9'
+    compile 'com.wang.avi:library:2.1.3'
 }

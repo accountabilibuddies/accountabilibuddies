@@ -101,7 +101,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        addFriendsFragment = new AddFriendsFragment();
+        addFriendsFragment = AddFriendsFragment.newInstance(null);
         ft.replace(R.id.flAddFriends, addFriendsFragment);
         ft.commit();
     }

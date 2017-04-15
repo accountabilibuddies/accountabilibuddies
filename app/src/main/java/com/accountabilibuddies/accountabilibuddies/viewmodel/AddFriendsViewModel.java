@@ -20,17 +20,37 @@ public class AddFriendsViewModel {
     Context context;
     List<Friend> friends = new ArrayList<>();
     List<ParseUser> selectedFriends = new ArrayList<>();
-
+    String challengeId = null;
 
     public AddFriendsViewModel(Context context) {
 
         this.context = context;
     }
 
+    public AddFriendsViewModel(Context context, String challengeId) {
+
+        this.context = context;
+        this.challengeId = challengeId;
+    }
+
     public void addFriend(ParseUser friend) {
 
-        selectedFriends.add(friend);
-        Toast.makeText(context, "Added friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+        if (challengeId == null) {
+            selectedFriends.add(friend);
+            Toast.makeText(context, "Added friend to new challnege: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+        } else {
+            APIClient.getClient().addFriendToChallenge(challengeId, friend, new APIClient.AddFriendToChallengeListener() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(context, "Added friend to existing challenge: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+
+                }
+            });
+        }
     }
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {

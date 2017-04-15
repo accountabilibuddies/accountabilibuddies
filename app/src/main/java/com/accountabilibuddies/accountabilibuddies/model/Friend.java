@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.model;
 
 import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -31,9 +32,25 @@ public class Friend extends ParseObject {
         return (String) get("username");
     }
 
-    public void setFriend(ParseUser friend) { put("friend", friend); }
+    public void setFriend(ParseUser friend) {
+        put("friend", friend);
+    }
 
-    public ParseUser getFriend() { return (ParseUser) get("friend"); }
+    public ParseUser getFriend() {
+        return (ParseUser) get("friend");
+    }
 
-    public String getName() { return (String) ((ParseUser) get("friend")).get("name"); }
+    public String getName() {
+
+        try {
+
+            ParseUser friend = (ParseUser) get("friend");
+            return (String) friend.fetchIfNeeded().get("name");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 }

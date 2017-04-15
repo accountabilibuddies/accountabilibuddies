@@ -23,7 +23,6 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
-import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -31,17 +30,11 @@ import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
-import com.parse.ParseUser;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Transformer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
@@ -308,12 +301,17 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        binding.progressBarContainer.setVisibility(View.VISIBLE);
+        binding.avi.show();
+
         switch (requestCode) {
             case PHOTO_INTENT_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    if (mImagePath == null)
+                    if (mImagePath == null) {
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
-
+                    }
                     Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
 
                         APIClient.getClient().uploadFile("post_image.jpg",
@@ -323,11 +321,14 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                             profileUrl = fileLocation;
                             //Show image in the ImageView
                             binding.ivProfile.setImageBitmap(bitmap);
+                            binding.avi.hide();
+                            binding.progressBarContainer.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onFailure(String error_message) {
-
+                            binding.avi.hide();
+                            binding.progressBarContainer.setVisibility(View.GONE);
                         }
                     });
                 }

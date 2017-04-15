@@ -26,9 +26,19 @@ public class AddFriendsViewModel {
         this.context = context;
     }
 
-    public void addFriend(Friend friend) {
+    public void addFriend(ParseUser friend) {
 
-        Toast.makeText(context, "Added friend: " + friend.getName(), Toast.LENGTH_SHORT).show();
+        APIClient.getClient().addFriendToChallenge("", friend, new APIClient.AddFriendToChallengeListener() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(context, "Added friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(context, "Failed to add new friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
@@ -68,8 +78,8 @@ public class AddFriendsViewModel {
         );
     }
 
-    public Friend getFriend(int position) {
+    public ParseUser getFriend(int position) {
 
-        return friends.get(position);
+        return friends.get(position).getFriend();
     }
 }

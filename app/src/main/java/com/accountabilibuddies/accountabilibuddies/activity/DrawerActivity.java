@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
-import com.accountabilibuddies.accountabilibuddies.fragments.CategoryFilterChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
@@ -81,10 +80,6 @@ public class DrawerActivity extends AppCompatActivity {
 
                 case R.id.uChallenges:
                     fragmentClass = UpcomingChallenges.class;
-                    break;
-
-                case R.id.sChallenges:
-                    fragmentClass = CategoryFilterChallenges.class;
                     break;
 
                 case R.id.settings:

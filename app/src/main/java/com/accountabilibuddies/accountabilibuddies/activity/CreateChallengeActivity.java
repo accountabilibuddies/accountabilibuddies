@@ -30,11 +30,15 @@ import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
+import com.parse.ParseCloud;
+import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
@@ -61,6 +65,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         SetupChallengeType();
         setupFrequency();
         setUpFriendsView();
+
     }
 
     private void setupFrequency() {
@@ -183,6 +188,14 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 }
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
+
+                String currUser = (String)ParseUser.getCurrentUser().get("name");
+                List<ParseUser> friends = challenge.getUserList();
+                for(ParseUser friend : friends) {
+                    if(!friend.get("name").equals(currUser)) {
+                        createChallengeNotification((String)friend.get("name"), currUser, challenge.getObjectId());
+                    }
+                }
                 startActivity(intent);
                 finish();
             }
@@ -337,4 +350,15 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 }
         }
     }
+
+    public void createChallengeNotification(String channel, String challenger, String challengeId) {
+
+        HashMap<String, String> test = new HashMap<>();
+        test.put("text", channel);
+        test.put("channel", channel);
+        test.put("challenger", challenger);
+        test.put("challengeId", challengeId);
+        ParseCloud.callFunctionInBackground("androidPushTest", test);
+    }
+
 }

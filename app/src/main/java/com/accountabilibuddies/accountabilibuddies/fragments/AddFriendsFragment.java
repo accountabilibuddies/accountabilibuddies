@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentAddFriendsBinding;
-import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.AddFriendsViewModel;
 import com.parse.ParseUser;
 

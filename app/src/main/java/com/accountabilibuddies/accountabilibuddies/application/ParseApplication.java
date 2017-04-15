@@ -48,15 +48,6 @@ public class ParseApplication extends Application {
         ParseFacebookUtils.initialize(getApplicationContext());
 
         setUpCrashlytics();
-        /**
-         * Uncomment this code for testing parse. You can go to mLab through Heroku to see the
-         * data. TODO: Remove this after app is ready
-         */
-        /*
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
-        */
     }
 
     private void setUpCrashlytics() {

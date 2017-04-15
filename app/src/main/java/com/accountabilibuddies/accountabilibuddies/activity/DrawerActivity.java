@@ -32,7 +32,8 @@ public class DrawerActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer);
 
-        final String CHANNEL_NAME = "beaccountable";
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        final String CHANNEL_NAME = (String)currentUser.get("name");
         ParsePush.subscribeInBackground(CHANNEL_NAME);
 
         setSupportActionBar(binding.toolbar);

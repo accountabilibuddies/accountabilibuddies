@@ -68,8 +68,9 @@
 
         <service android:name="com.parse.PushService" />
 
+        <!--android:name="com.parse.ParsePushBroadcastReceiver"-->
         <receiver
-            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:name="com.accountabilibuddies.accountabilibuddies.network.NotificationsReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />

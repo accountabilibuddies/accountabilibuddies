@@ -1,16 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="#E6E6E6"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="8dp"
+    android:layout_margin="10dp"
+    android:padding="5dp">
 
-    <TextView
-        android:id="@+id/challengeName"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="250dp">
 
-    <TextView
-        android:id="@+id/challengeDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_height="50dp"
+            android:id="@+id/ivProfileImage"
+            android:layout_width="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            app:civ_border_color="#EEEEEE"
+            app:civ_border_width="4dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="10"
+            app:civ_shadow_color="#8BC34A"/>
+
+        <TextView
+            android:id="@+id/challengeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivProfileImage"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_alignTop="@+id/ivProfileImage"
+            android:layout_marginLeft="58dp"
+            android:layout_marginStart="58dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/challengeDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivProfileImage"
+            android:layout_alignLeft="@+id/challengeName"
+            android:layout_alignStart="@+id/challengeName"
+            android:layout_marginRight="10dp"
+            android:text="TextView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:id="@+id/ivChallengeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_alignLeft="@+id/ivProfileImage"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_below="@+id/ivProfileImage"
+            android:src="@drawable/challenge_type"
+            android:layout_alignRight="@+id/challengeDescription"
+            android:layout_alignEnd="@+id/challengeDescription" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivChallengeImage"
+            android:layout_alignStart="@+id/ivChallengeImage"
+            android:layout_below="@+id/ivChallengeImage"
+            android:layout_marginTop="13dp"
+            android:src ="@drawable/members" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/imageView2"
+            android:layout_toRightOf="@+id/imageView2"
+            android:text="12 members" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

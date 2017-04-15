@@ -125,7 +125,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        ft.replace(R.id.flAddFriends, AddFriendsFragment.newInstance(challenge.getObjectId()));
         ft.commit();
     }
 

@@ -191,9 +191,11 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
                 String currUser = (String)ParseUser.getCurrentUser().get("name");
                 List<ParseUser> friends = challenge.getUserList();
+
                 for(ParseUser friend : friends) {
                     if(!friend.get("name").equals(currUser)) {
-                        createChallengeNotification((String)friend.get("name"), currUser, challenge.getObjectId());
+                        createChallengeNotification((String)friend.get("name"),
+                                currUser, challenge.getObjectId(), challenge.getType());
                     }
                 }
                 startActivity(intent);
@@ -351,14 +353,16 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         }
     }
 
-    public void createChallengeNotification(String channel, String challenger, String challengeId) {
+    public void createChallengeNotification(String channel, String challenger,
+                                            String challengeId, int challengeType) {
 
-        HashMap<String, String> test = new HashMap<>();
-        test.put("text", channel);
-        test.put("channel", channel);
-        test.put("challenger", challenger);
-        test.put("challengeId", challengeId);
-        ParseCloud.callFunctionInBackground("androidPushTest", test);
+        HashMap<String, String> notification = new HashMap<>();
+        notification.put("text", channel);
+        notification.put("channel", channel);
+        notification.put("challenger", challenger);
+        notification.put("challengeId", challengeId);
+        notification.put("challengeType",String.valueOf(challengeType));
+        ParseCloud.callFunctionInBackground("androidPushTest", notification);
     }
 
 }

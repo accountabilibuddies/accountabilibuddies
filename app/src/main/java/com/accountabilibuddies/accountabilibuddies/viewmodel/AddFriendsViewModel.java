@@ -33,8 +33,10 @@ public class AddFriendsViewModel {
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
 
+        String username = ParseUser.getCurrentUser().getUsername();
+
         APIClient.getClient().getFriendsByUsername(
-            ParseUser.getCurrentUser().getUsername(),
+            username,
             new APIClient.GetFriendsListener() {
                 @Override
                 public void onSuccess(List<Friend> friends) {

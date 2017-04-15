@@ -79,6 +79,11 @@ public class APIClient {
         void onFailure(String errorMessage);
     }
 
+    public interface AddFriendToChallengeListener {
+        void onSuccess();
+        void onFailure(String errorMessage);
+    }
+
     public interface GetFriendsListener {
         void onSuccess(List<Friend> friends);
         void onFailure(String errorMessage);
@@ -246,6 +251,32 @@ public class APIClient {
             }
         );
 
+    }
+
+    public void addFriendToChallenge(String challengeId, ParseUser friend, AddFriendToChallengeListener listener) {
+
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        query.getInBackground(challengeId,
+
+            (Challenge challenge, ParseException getException) -> {
+
+            if (getException == null) {
+                challenge.add("userList", friend);
+                challenge.saveInBackground(
+
+                    (ParseException saveException) -> {
+                    if (saveException != null) {
+                        listener.onFailure(saveException.getMessage());
+                    } else {
+                        listener.onSuccess();
+                    }
+                });
+
+            } else {
+                listener.onFailure(getException.getMessage());
+            }
+        });
     }
 
     public void getFriendsByUsername(String username, GetFriendsListener listener) {

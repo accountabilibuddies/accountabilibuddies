@@ -18,7 +18,8 @@ import java.util.List;
 public class AddFriendsViewModel {
 
     Context context;
-    List<Friend> friends;
+    List<Friend> friends = new ArrayList<>();
+    List<ParseUser> selectedFriends = new ArrayList<>();
 
 
     public AddFriendsViewModel(Context context) {
@@ -26,9 +27,10 @@ public class AddFriendsViewModel {
         this.context = context;
     }
 
-    public void addFriend(Friend friend) {
+    public void addFriend(ParseUser friend) {
 
-        Toast.makeText(context, "Added friend: " + friend.getName(), Toast.LENGTH_SHORT).show();
+        selectedFriends.add(friend);
+        Toast.makeText(context, "Added friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
     }
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
@@ -68,8 +70,13 @@ public class AddFriendsViewModel {
         );
     }
 
-    public Friend getFriend(int position) {
+    public ParseUser getFriend(int position) {
 
-        return friends.get(position);
+        return friends.get(position).getFriend();
+    }
+
+    public List<ParseUser> getSelectedFriends() {
+
+        return selectedFriends;
     }
 }

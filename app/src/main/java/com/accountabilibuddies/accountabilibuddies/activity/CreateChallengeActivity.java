@@ -45,6 +45,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     private String mImagePath, profileUrl;
     private static final int PHOTO_INTENT_REQUEST = 100;
 
+    private AddFriendsFragment addFriendsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +101,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flAddFriends, new AddFriendsFragment());
+        addFriendsFragment = new AddFriendsFragment();
+        ft.replace(R.id.flAddFriends, addFriendsFragment);
         ft.commit();
     }
 
@@ -167,7 +170,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                                         binding.etDescription.getText().toString(),
                                         new Date(String.valueOf(binding.tvStartDate.getText())),
                                         new Date(String.valueOf(binding.tvEndDate.getText())),
-                                        CHALLENGE_FREQUENCY, profileUrl, 0);//There is no category so pass 0
+                                        CHALLENGE_FREQUENCY, profileUrl, 0, addFriendsFragment.getSelectedFriends());//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override

@@ -1,12 +1,9 @@
 package com.accountabilibuddies.accountabilibuddies.model;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import java.util.List;
 
 @ParseClassName("Friend")
 public class Friend extends ParseObject {

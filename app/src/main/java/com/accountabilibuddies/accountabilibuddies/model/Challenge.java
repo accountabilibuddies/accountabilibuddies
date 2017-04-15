@@ -37,7 +37,7 @@ public class Challenge extends ParseObject {
 
     //This constructor is only for testing purpose and should be removed in Production environment
     public Challenge(int typeId, String name, String description, Date startDate,
-                     Date endDate,  int frequency, String imageUrl, int categoryId) {
+                     Date endDate,  int frequency, String imageUrl, int categoryId, List<ParseUser> friends) {
         super();
         setType(typeId);
         setOwner(ParseUser.getCurrentUser());
@@ -50,6 +50,7 @@ public class Challenge extends ParseObject {
         setCategory(categoryId);
         List<ParseUser> users = new ArrayList<>();
         users.add(ParseUser.getCurrentUser()); //Add the creater as the participant
+        users.addAll(friends);
         setUserList(users);
         List<Post> posts = new ArrayList<>();
         setPostList(posts);

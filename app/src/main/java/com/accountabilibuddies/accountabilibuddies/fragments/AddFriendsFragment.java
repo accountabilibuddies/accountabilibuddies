@@ -17,6 +17,8 @@ import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.AddFriendsViewModel;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 public class AddFriendsFragment extends Fragment {
 
     private FragmentAddFriendsBinding binding;
@@ -64,5 +66,10 @@ public class AddFriendsFragment extends Fragment {
                 viewModel.addFriend(friend);
             }
         });
+    }
+
+    public List<ParseUser> getSelectedFriends() {
+
+        return viewModel.getSelectedFriends();
     }
 }

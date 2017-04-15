@@ -18,7 +18,8 @@ import java.util.List;
 public class AddFriendsViewModel {
 
     Context context;
-    List<Friend> friends;
+    List<Friend> friends = new ArrayList<>();
+    List<ParseUser> selectedFriends = new ArrayList<>();
 
 
     public AddFriendsViewModel(Context context) {
@@ -28,17 +29,8 @@ public class AddFriendsViewModel {
 
     public void addFriend(ParseUser friend) {
 
-        APIClient.getClient().addFriendToChallenge("", friend, new APIClient.AddFriendToChallengeListener() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(context, "Added friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(context, "Failed to add new friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
-            }
-        });
+        selectedFriends.add(friend);
+        Toast.makeText(context, "Added friend: " + friend.get("name"), Toast.LENGTH_SHORT).show();
     }
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
@@ -81,5 +73,10 @@ public class AddFriendsViewModel {
     public ParseUser getFriend(int position) {
 
         return friends.get(position).getFriend();
+    }
+
+    public List<ParseUser> getSelectedFriends() {
+
+        return selectedFriends;
     }
 }

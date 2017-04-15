@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ChallengeOneOnOneActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -59,6 +62,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private Challenge challenge;
     private Double mLatitude;
     private Double mLongitude;
+    private String mAddress;
 
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_LOCATION = 1;
@@ -285,6 +289,17 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
+                Geocoder gc = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
+                    if (addresses.size() > 0) {
+                        mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
+                                addresses.get(0).getAddressLine(1));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -321,7 +336,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         //post.setLocation(point);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
-
+        post.setAddress(mAddress);
         post.setOwner(ParseUser.getCurrentUser());
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),

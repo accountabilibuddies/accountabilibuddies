@@ -26,6 +26,7 @@ public class Post extends ParseObject {
         //ParseGeoPoint point;
         Double latitude,
         Double longitude;
+        String Address;
         List<Comment> comments; <Comment>
         List<ParseUser> likeList;
      }
@@ -39,7 +40,8 @@ public class Post extends ParseObject {
     }
 
     //This constructor is only for testing purpose and should be removed in Production environment
-    public Post(int type, String imageUrl, String postText, String videoUrl, Double latitude, Double longitude) {
+    public Post(int type, String imageUrl, String postText, String videoUrl, Double latitude,
+                Double longitude, String address) {
         super();
         setType(type);
         setOwner(ParseUser.getCurrentUser());
@@ -53,6 +55,7 @@ public class Post extends ParseObject {
         setCommentList(comments);
         List<ParseUser> likes = new ArrayList<>();
         setLikeList(likes);
+        setAddress(address);
     }
 
     public int getType() {
@@ -161,5 +164,14 @@ public class Post extends ParseObject {
 
     public void setLiked() {
         this.liked = !liked;
+    }
+
+    public String getAddress() {
+        return (String) get("address");
+    }
+
+    public void setAddress(String address) {
+        if (address != null)
+            put("address", address);
     }
 }

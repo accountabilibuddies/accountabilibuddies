@@ -16,6 +16,8 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,7 +110,7 @@ public class LoginViewModel {
                             public void onSuccess(ParseUser user) {
 
                                 //TODO: add friend to list of friends for the logged-in user
-                                saveFriend(currentUser.getUsername(), user);
+                                addNewFriendRelationship(currentUser, user);
                             }
 
                             @Override
@@ -128,6 +130,35 @@ public class LoginViewModel {
         params.putString("fields", "id, name, email, picture, cover");
         friendRequest.setParameters(params);
         friendRequest.executeAsync();
+    }
+
+    public boolean addNewFriendRelationship(ParseUser currentUser, ParseUser newFriend) {
+
+
+        APIClient.getClient().getFriendsByUsername(currentUser.getUsername(), new APIClient.GetFriendsListener() {
+            @Override
+            public void onSuccess(List<Friend> friends) {
+
+                CollectionUtils.filter(friends,
+
+                    (Friend friend) -> {
+                        return friend.getParseUserId().equals(newFriend.getObjectId());
+                    }
+                );
+
+
+                if (friends.isEmpty()) {
+                    saveFriend(currentUser.getUsername(), newFriend);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+            }
+        });
+
+        return false;
     }
 
     public void logInWithReadPermissions(LoggedInListener listener) {

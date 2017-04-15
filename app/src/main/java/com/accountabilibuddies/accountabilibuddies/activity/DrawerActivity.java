@@ -17,7 +17,6 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.crashlytics.android.Crashlytics;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 
@@ -34,7 +33,8 @@ public class DrawerActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer);
 
-        final String CHANNEL_NAME = "beaccountable";
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        final String CHANNEL_NAME = (String)currentUser.get("name");
         ParsePush.subscribeInBackground(CHANNEL_NAME);
 
         setSupportActionBar(binding.toolbar);

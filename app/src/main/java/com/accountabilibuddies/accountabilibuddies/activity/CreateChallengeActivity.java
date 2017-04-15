@@ -31,17 +31,14 @@ import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
 import com.borax12.materialdaterangepicker.time.TimePickerDialog;
+import com.parse.ParseCloud;
 import com.parse.ParseUser;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Transformer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
@@ -187,6 +184,11 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 }
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
+
+                String channel = (String)ParseUser.getCurrentUser().get("name");
+
+                //createChallengeNotification(channel,,challenge.getObjectId());
+
                 startActivity(intent);
                 finish();
             }
@@ -333,4 +335,15 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 }
         }
     }
+
+    public void createChallengeNotification(String channel, String challenger, String challengeId) {
+
+        HashMap<String, String> test = new HashMap<>();
+        test.put("text", channel);
+        test.put("channel", channel);
+        test.put("challenger", challenger);
+        test.put("challengeId", challengeId);
+        ParseCloud.callFunctionInBackground("androidPushTest", test);
+    }
+
 }

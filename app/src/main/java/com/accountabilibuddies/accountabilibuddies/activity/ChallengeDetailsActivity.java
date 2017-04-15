@@ -187,9 +187,13 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
             case PHOTO_INTENT_REQUEST:
 
+                binding.progressBarContainer.setVisibility(View.VISIBLE);
+                binding.avi.show();
+
                 if (resultCode == RESULT_OK) {
                     if(mImagePath==null) {
-                        //TODO: Handle error
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
                     //TODO: Need to optimize this scale to make image size more efficient
@@ -198,41 +202,44 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             ,800,600);
 
                     client.uploadFile("post_image.jpg",
-                            bitmap, new APIClient.UploadFileListener() {
-                                @Override
-                                public void onSuccess(String fileLocation) {
-                                    Post post = new Post();
-                                    post.setType(Constants.TYPE_IMAGE);
-                                    post.setImageUrl(fileLocation);
-                                    List<ParseUser> users = new ArrayList<>();
-                                    post.setLikeList(users);
-                                    post.setOwner(ParseUser.getCurrentUser());
+                        bitmap, new APIClient.UploadFileListener() {
+                            @Override
+                            public void onSuccess(String fileLocation) {
+                                Post post = new Post();
+                                post.setType(Constants.TYPE_IMAGE);
+                                post.setImageUrl(fileLocation);
+                                List<ParseUser> users = new ArrayList<>();
+                                post.setLikeList(users);
+                                post.setOwner(ParseUser.getCurrentUser());
 
-                                    Log.d("Objectid", challenge.getObjectId());
+                                Log.d("Objectid", challenge.getObjectId());
 
-                                    //TODO: Move the listener out of this function
-                                    APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                            new APIClient.PostListener() {
-                                                @Override
-                                                public void onSuccess() {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                                            "Creating post", Toast.LENGTH_LONG).show();
-                                                    onCreatePost(post);
-                                                }
+                                //TODO: Move the listener out of this function
+                                APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                        new APIClient.PostListener() {
+                                            @Override
+                                            public void onSuccess() {
+                                                Toast.makeText(ChallengeDetailsActivity.this,
+                                                        "Creating post", Toast.LENGTH_LONG).show();
+                                                onCreatePost(post);
+                                            }
 
-                                                @Override
-                                                public void onFailure(String error_message) {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                                            "Error creating post", Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                }
+                                            @Override
+                                            public void onFailure(String error_message) {
+                                                Toast.makeText(ChallengeDetailsActivity.this,
+                                                        "Error creating post", Toast.LENGTH_LONG).show();
+                                                binding.avi.hide();
+                                                binding.progressBarContainer.setVisibility(View.GONE);
+                                            }
+                                        });
+                            }
 
-                                @Override
-                                public void onFailure(String error_message) {
-
-                                }
-                            });
+                            @Override
+                            public void onFailure(String error_message) {
+                                binding.avi.hide();
+                                binding.progressBarContainer.setVisibility(View.GONE);
+                            }
+                        });
                 }
         }
     }
@@ -260,7 +267,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         mPostList.add(post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
-        Log.d("File count", String.valueOf(mPostList.size()));
+        binding.avi.hide();
+        binding.progressBarContainer.setVisibility(View.GONE);
     }
 
     protected void onStart() {

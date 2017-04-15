@@ -172,9 +172,13 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
             case PHOTO_INTENT_REQUEST:
 
+                binding.progressBarContainer.setVisibility(View.VISIBLE);
+                binding.avi.show();
+
                 if (resultCode == RESULT_OK) {
                     if(mImagePath==null) {
-                        //TODO: Handle error
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
                     //TODO: Need to optimize this scale to make image size more efficient
@@ -207,13 +211,16 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                                 public void onFailure(String error_message) {
                                                     Toast.makeText(ChallengeOneOnOneActivity.this,
                                                             "Error creating post", Toast.LENGTH_LONG).show();
+                                                    binding.avi.hide();
+                                                    binding.progressBarContainer.setVisibility(View.GONE);
                                                 }
                                             });
                                 }
 
                                 @Override
                                 public void onFailure(String error_message) {
-
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
                                 }
                             });
                 }
@@ -243,7 +250,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         GenericUtils.addPost(mPostList,post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
-        Log.d("File count", String.valueOf(mPostList.size()));
+        binding.avi.hide();
+        binding.progressBarContainer.setVisibility(View.GONE);
     }
 
     protected void onStart() {

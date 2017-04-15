@@ -251,6 +251,27 @@
                 android:layout_alignEnd="@+id/tvEndTime"
                 android:layout_alignParentBottom="true" />
 
+            <RelativeLayout
+                android:id="@+id/progressBarContainer"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:clickable="true" >
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    style="@style/AVLoadingIndicatorView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="90dp"
+                    app:indicatorName="BallScaleRippleMultipleIndicator"
+                    app:indicatorColor="@color/colorPrimary" />
+
+            </RelativeLayout>
+
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 

@@ -48,8 +48,22 @@ public class Friend extends ParseObject {
             return (String) friend.fetchIfNeeded().get("name");
 
         } catch (ParseException e) {
-            e.printStackTrace();
 
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getParseUserId() {
+
+        try {
+
+            ParseUser friend = (ParseUser) get("friend");
+            return (String) friend.fetchIfNeeded().getObjectId();
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
             return null;
         }
     }

@@ -16,6 +16,7 @@ import android.view.WindowManager;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentCommentBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -121,7 +122,7 @@ public class CommentsFragment extends DialogFragment {
         Comment comment = new Comment();
 
         comment.setText(postComment);
-        comment.setUser(ParseUser.getCurrentUser());
+        comment.setUser(ParseApplication.getCurrentUser());
         APIClient.getClient().addComment(getArguments().getString(POST_ID), comment,
             new APIClient.PostListener() {
                 @Override

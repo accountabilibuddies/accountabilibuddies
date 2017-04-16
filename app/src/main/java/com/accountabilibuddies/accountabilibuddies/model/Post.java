@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.model;
 
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -44,7 +45,7 @@ public class Post extends ParseObject {
                 Double longitude, String address) {
         super();
         setType(type);
-        setOwner(ParseUser.getCurrentUser());
+        setOwner(ParseApplication.getCurrentUser());
         setImageUrl(imageUrl);
         setText(postText);
         setVideoUrl(videoUrl);
@@ -128,7 +129,7 @@ public class Post extends ParseObject {
         ParseUser currentUser = CollectionUtils.find(
                 users,
                 (ParseUser user) ->
-                        user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
+                        user.getObjectId().equals(ParseApplication.getCurrentUser().getObjectId())
         );
 
         return currentUser != null;

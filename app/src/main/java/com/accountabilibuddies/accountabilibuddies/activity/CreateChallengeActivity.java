@@ -139,14 +139,9 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     private void setupDateTime() {
         Calendar calendar = Calendar.getInstance();
-
         binding.tvStartDate.setText(DateUtils.getDate(calendar));
-//        binding.tvStartTime.setText(DateUtils.getTime(calendar));
-
         calendar.add(Calendar.DAY_OF_YEAR, 1);
-
         binding.tvEndDate.setText(DateUtils.getDate(calendar));
-//        binding.tvEndTime.setText(DateUtils.getTime(calendar));
     }
 
     @Override
@@ -265,7 +260,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         c.set(yearEnd, monthOfYearEnd, dayOfMonthEnd, 0, 0);
         binding.tvEndDate.setText(DateUtils.getDate(c));
     }
-    
+
     public void launchCamera(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {

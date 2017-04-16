@@ -89,6 +89,14 @@
                 fab:fab_label="Location" />
 
             <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gallery"
+                android:onClick="sharePhotos"
+                fab:fab_label="Gallery" />
+
+            <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

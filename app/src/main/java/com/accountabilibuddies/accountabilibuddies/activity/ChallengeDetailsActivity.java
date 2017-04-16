@@ -177,7 +177,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 return true;
 
             case R.id.action_exit:
@@ -478,4 +478,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         alertDialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DrawerActivity.class);
+        intent.putExtra("exit", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        super.onBackPressed();
+    }
 }

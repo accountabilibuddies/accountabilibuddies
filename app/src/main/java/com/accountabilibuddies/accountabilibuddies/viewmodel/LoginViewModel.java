@@ -209,8 +209,11 @@ public class LoginViewModel {
             JSONObject pictureData = picture.getJSONObject("data");
             String profilePhotoUrl = pictureData.getString("url");
 
-            JSONObject cover = data.getJSONObject("cover");
-            String coverPhotoUrl = cover.getString("source");
+            if (data.has("cover")) {
+                JSONObject cover = data.getJSONObject("cover");
+                String coverPhotoUrl = cover.getString("source");
+                user.put("coverPhotoUrl", coverPhotoUrl);
+            }
 
             user.setUsername(id);
             user.setEmail(email);
@@ -218,7 +221,6 @@ public class LoginViewModel {
             user.put("facebookId", id);
             user.put("name", name);
             user.put("profilePhotoUrl", profilePhotoUrl);
-            user.put("coverPhotoUrl", coverPhotoUrl);
             user.saveInBackground();
 
         } catch (JSONException e) {

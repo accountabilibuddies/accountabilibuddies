@@ -39,6 +39,7 @@ import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeMembersFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
@@ -186,9 +187,16 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                 return true;
 
             case R.id.action_list:
+                showChallengeMembers();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showChallengeMembers() {
+        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challenge.getObjectId());
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        fragment.show(getSupportFragmentManager(), "");
     }
 
     private void closeFabMenu(){

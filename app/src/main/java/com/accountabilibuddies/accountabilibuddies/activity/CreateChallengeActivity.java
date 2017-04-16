@@ -28,8 +28,6 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
-import com.borax12.materialdaterangepicker.time.RadialPickerLayout;
-import com.borax12.materialdaterangepicker.time.TimePickerDialog;
 import com.parse.ParseCloud;
 import com.parse.ParseUser;
 
@@ -41,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CreateChallengeActivity extends AppCompatActivity implements
-        DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
+        DatePickerDialog.OnDateSetListener {
 
     private ActivityCreateChallengeBinding binding;
     private static int CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
@@ -141,14 +139,9 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     private void setupDateTime() {
         Calendar calendar = Calendar.getInstance();
-
         binding.tvStartDate.setText(DateUtils.getDate(calendar));
-        binding.tvStartTime.setText(DateUtils.getTime(calendar));
-
         calendar.add(Calendar.DAY_OF_YEAR, 1);
-
         binding.tvEndDate.setText(DateUtils.getDate(calendar));
-        binding.tvEndTime.setText(DateUtils.getTime(calendar));
     }
 
     @Override
@@ -225,16 +218,17 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         Date endDate = new Date(String.valueOf(binding.tvEndDate.getText()));
         Date today = new Date();
 
-        if (today.compareTo(startDate) > 0 )  {
-            Snackbar.make(binding.cLayout, "Start date is in past", Snackbar.LENGTH_LONG).show();
+        if (!DateUtils.getDateFromDate(today).equals(DateUtils.getDateFromDate(startDate)))  {
+            Snackbar.make(binding.cLayout, "Put a valid start date", Snackbar.LENGTH_LONG).show();
             return false;
         }
 
         if (startDate.compareTo(endDate) > 0 )  {
-            Snackbar.make(binding.cLayout, "End Date is before start date", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.cLayout, "End Date should be after start date",
+                    Snackbar.LENGTH_LONG).show();
             return false;
         }
-        // if no challenge image use dafault image
+        // if no challenge image use default image
 
         return true;
     }
@@ -243,18 +237,6 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_menu, menu);
         return true;
-    }
-
-    public void onTimeClick(View view) {
-        Calendar now = Calendar.getInstance();
-        TimePickerDialog tpd = TimePickerDialog.newInstance(
-                CreateChallengeActivity.this,
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
-                false
-        );
-        tpd.setOnCancelListener(dialogInterface -> Log.d("TimePicker", "Dialog was cancelled"));
-        tpd.show(getFragmentManager(), "Select Time Range");
     }
 
     public void onDateClick(View view) {
@@ -277,16 +259,6 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
         c.set(yearEnd, monthOfYearEnd, dayOfMonthEnd, 0, 0);
         binding.tvEndDate.setText(DateUtils.getDate(c));
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int hourOfDayEnd, int minuteEnd) {
-        Calendar c = Calendar.getInstance();
-        c.set(0, 0, 0, hourOfDay, minute);
-        binding.tvStartTime.setText(DateUtils.getTime(c));
-
-        c.set(0, 0, 0, hourOfDayEnd, minuteEnd);
-        binding.tvEndTime.setText(DateUtils.getTime(c));
     }
 
     public void launchCamera(View view) {

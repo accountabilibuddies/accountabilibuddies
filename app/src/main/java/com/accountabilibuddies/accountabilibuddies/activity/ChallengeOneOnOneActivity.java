@@ -149,7 +149,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -382,5 +382,14 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(intent, PHOTO_INTENT_REQUEST);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DrawerActivity.class);
+        intent.putExtra("exit", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        super.onBackPressed();
     }
 }

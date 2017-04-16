@@ -16,7 +16,6 @@ import com.parse.SaveCallback;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
@@ -131,7 +130,24 @@ public class APIClient {
         });
     }
 
-    public void deleteChallenge() {
+    public void deleteChallenge(String challengeObjectId, ChallengeListener listener) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+        query.getInBackground(challengeObjectId, (object, e) -> {
+            if (e == null) {
+                object.deleteInBackground(e1 -> {
+                    if (e1 != null) {
+                        listener.onFailure(e1.getMessage());
+                    } else {
+                        listener.onSuccess();
+                    }
+                });
+            } else {
+                listener.onFailure(e.getMessage());
+            }
+        });
+    }
+
+    public void getChallenge() {
 
     }
 
@@ -156,8 +172,9 @@ public class APIClient {
             if (e == null) {
                 List<ParseUser> users = challenge.getUserList();
                 filterCurrentUser(users);
+                challenge.put("userList", users);
 
-                challenge.addAllUnique("userList", users);
+                //challenge.addAllUnique("userList", users);
                 challenge.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());

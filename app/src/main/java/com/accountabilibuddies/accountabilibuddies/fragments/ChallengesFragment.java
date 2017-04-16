@@ -93,5 +93,11 @@ public abstract class ChallengesFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getChallenges();
+    }
+
     protected abstract void getChallenges();
 }

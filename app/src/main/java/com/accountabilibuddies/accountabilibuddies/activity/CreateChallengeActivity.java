@@ -1,6 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
@@ -47,6 +51,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     private static int CHALLENGE_FREQUENCY = Constants.FREQUENCY_DAILY;
     private String mImagePath, profileUrl;
     private static final int PHOTO_INTENT_REQUEST = 100;
+    private static final int REQUEST_CAMERA = 1;
 
     private AddFriendsFragment addFriendsFragment;
 
@@ -263,9 +268,11 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     public void launchCamera(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            clickChallengePictureIntent(intent);
+        if (CameraUtils.cameraPermissionsGranted(this)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CAMERA);
+        } else {
+            launchCameraWithPermissionGranted();
         }
     }
 
@@ -336,6 +343,28 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         notification.put("challengeId", challengeId);
         notification.put("challengeType",String.valueOf(challengeType));
         ParseCloud.callFunctionInBackground("androidPushTest", notification);
+    }
+
+    @SuppressWarnings("all")
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        if(requestCode == REQUEST_CAMERA) {
+            if(grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchCameraWithPermissionGranted();
+            } else {
+                Toast.makeText(this, "Cannot add a photo without permissions",Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+    private void launchCameraWithPermissionGranted() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            clickChallengePictureIntent(intent);
+        }
     }
 
 }

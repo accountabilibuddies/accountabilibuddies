@@ -1,6 +1,10 @@
 package com.accountabilibuddies.accountabilibuddies.util;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.support.v4.app.ActivityCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,6 +61,15 @@ public class CameraUtils {
         float factorToUse = (factorH > factorW) ? factorW : factorH;
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorToUse),
                 (int) (b.getHeight() * factorToUse), true);
+    }
+
+    public static boolean cameraPermissionsGranted(Context context) {
+
+        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 
 }

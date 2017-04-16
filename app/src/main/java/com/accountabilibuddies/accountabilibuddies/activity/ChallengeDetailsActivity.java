@@ -76,6 +76,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_LOCATION = 1;
+    private static final int REQUEST_CAMERA = 2;
     private String mImagePath;
 
     @Override
@@ -206,9 +207,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     public void launchCamera(View view) {
         closeFabMenu();
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            dispatchTakePictureIntent(intent);
+        if (CameraUtils.cameraPermissionsGranted(this)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CAMERA);
+        } else {
+            launchCameraWithPermissionGranted();
         }
     }
 
@@ -361,6 +364,15 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                 // Permission was denied or request was cancelled
             }
         }
+        else if(requestCode == REQUEST_CAMERA) {
+            if(grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchCameraWithPermissionGranted();
+            } else {
+                Toast.makeText(this, "Cannot post a photo without permissions",Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
     }
 
     @Override
@@ -494,5 +506,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         super.onBackPressed();
+    }
+
+    private void launchCameraWithPermissionGranted() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            dispatchTakePictureIntent(intent);
+        }
     }
 }

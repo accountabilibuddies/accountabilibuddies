@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.parse.ParseUser;
@@ -43,7 +44,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Post currentPost = (Post)postList.get(position);
 
         ParseUser postOwner = currentPost.getOwner();
-        ParseUser me = ParseUser.getCurrentUser();
+        ParseUser me = ParseApplication.getCurrentUser();
 
         if(postOwner.getObjectId().equals(me.getObjectId())) {
             type = MY_POST_IMAGE;

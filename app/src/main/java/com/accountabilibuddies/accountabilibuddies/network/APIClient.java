@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.network;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
@@ -16,10 +17,7 @@ import com.parse.SaveCallback;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.parse.ParseUser.getCurrentUser;
 
 public class APIClient {
 
@@ -117,7 +115,7 @@ public class APIClient {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
-                object.add("userList", getCurrentUser());
+                object.add("userList", ParseApplication.getCurrentUser());
                 object.saveInBackground(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
@@ -144,7 +142,7 @@ public class APIClient {
         CollectionUtils.filter(
             users,
             (ParseUser user) -> {
-                String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                String currentUserId = ParseApplication.getCurrentUser().getObjectId();
                 return !user.getObjectId().equals(currentUserId);
             }
         );
@@ -345,7 +343,7 @@ public class APIClient {
                 List<ParseUser> users = post.getLikeList();
 
                 if (like) {
-                    users.add(getCurrentUser());
+                    users.add(ParseApplication.getCurrentUser());
                 } else {
                     filterCurrentUser(users);
                 }

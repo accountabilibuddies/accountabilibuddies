@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
+import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
@@ -25,13 +27,14 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new LoginViewModel(LoginActivity.this);
         setUpBinding();
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseApplication.getCurrentUser();
 
         if (currentUser == null) {
             //user may or may not exist, but isn't authenticated
             setUpLogInButton();
         } else {
             //user is already authenticated
+            ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();
         }
     }
@@ -52,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(boolean isNewUser) {
+
+                ParseApplication.setCurrentUser(ParseUser.getCurrentUser());
                 viewModel.createFriendsList();
 
                 openMainView();

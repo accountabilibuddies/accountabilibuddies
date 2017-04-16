@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.model;
 
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -40,7 +41,7 @@ public class Challenge extends ParseObject {
                      Date endDate,  int frequency, String imageUrl, int categoryId, List<ParseUser> friends) {
         super();
         setType(typeId);
-        setOwner(ParseUser.getCurrentUser());
+        setOwner(ParseApplication.getCurrentUser());
         setName(name);
         setDescription(description);
         setStartDate(startDate);
@@ -49,7 +50,7 @@ public class Challenge extends ParseObject {
         setImageUrl(imageUrl);
         setCategory(categoryId);
         List<ParseUser> users = new ArrayList<>();
-        users.add(ParseUser.getCurrentUser()); //Add the creater as the participant
+        users.add(ParseApplication.getCurrentUser()); //Add the creater as the participant
         users.addAll(friends);
         setUserList(users);
         List<Post> posts = new ArrayList<>();

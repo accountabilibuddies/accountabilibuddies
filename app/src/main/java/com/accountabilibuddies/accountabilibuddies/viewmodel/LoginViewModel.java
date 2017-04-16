@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.facebook.AccessToken;
@@ -78,7 +79,7 @@ public class LoginViewModel {
 
     public void createFriendsList() {
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseApplication.getCurrentUser();
 
         GraphRequest friendRequest = GraphRequest.newMyFriendsRequest(
             AccessToken.getCurrentAccessToken(),
@@ -231,7 +232,7 @@ public class LoginViewModel {
     public void getFriendsForCurrentUser() {
 
         APIClient.getClient().getFriendsByUsername(
-            ParseUser.getCurrentUser().getUsername(),
+                ParseApplication.getCurrentUser().getUsername(),
             new APIClient.GetFriendsListener() {
 
                 @Override

@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
@@ -214,7 +215,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                 post.setImageUrl(fileLocation);
                                 List<ParseUser> users = new ArrayList<>();
                                 post.setLikeList(users);
-                                post.setOwner(ParseUser.getCurrentUser());
+                                post.setOwner(ParseApplication.getCurrentUser());
 
                                 Log.d("Objectid", challenge.getObjectId());
 
@@ -355,7 +356,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
         post.setAddress(mAddress);
-        post.setOwner(ParseUser.getCurrentUser());
+        post.setOwner(ParseApplication.getCurrentUser());
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),
             new APIClient.PostListener() {

@@ -10,11 +10,15 @@ import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
 
 public class ParseApplication extends Application {
+
+    private static ParseUser currentUser;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,6 +55,16 @@ public class ParseApplication extends Application {
     private void setUpCrashlytics() {
 
         Fabric.with(this, new Crashlytics());
+    }
+
+    public static void setCurrentUser(ParseUser user) {
+
+        currentUser = user;
+    }
+
+    public static ParseUser getCurrentUser() {
+
+        return currentUser;
     }
 
 }

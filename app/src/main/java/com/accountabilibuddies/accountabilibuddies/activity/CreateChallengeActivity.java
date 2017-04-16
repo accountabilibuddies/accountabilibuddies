@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
@@ -182,7 +183,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
 
-                String currUser = (String)ParseUser.getCurrentUser().get("name");
+                String currUser = (String) ParseApplication.getCurrentUser().get("name");
                 List<ParseUser> friends = challenge.getUserList();
 
                 for(ParseUser friend : friends) {

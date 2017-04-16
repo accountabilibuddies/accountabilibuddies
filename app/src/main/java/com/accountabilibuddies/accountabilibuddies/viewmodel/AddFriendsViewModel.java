@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.parse.ParseUser;
@@ -55,7 +56,7 @@ public class AddFriendsViewModel {
 
     public void showFriendsView(AutoCompleteTextView actvFriends) {
 
-        String username = ParseUser.getCurrentUser().getUsername();
+        String username = ParseApplication.getCurrentUser().getUsername();
 
         APIClient.getClient().getFriendsByUsername(
             username,

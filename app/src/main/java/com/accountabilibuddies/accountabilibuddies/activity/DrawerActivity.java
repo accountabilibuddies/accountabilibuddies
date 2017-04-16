@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
@@ -37,7 +38,7 @@ public class DrawerActivity extends AppCompatActivity {
         ParseUser currentUser = null;
         String name = null;
         try {
-            currentUser = ParseUser.getCurrentUser().fetch();
+            currentUser = ParseApplication.getCurrentUser().fetch();
             name = currentUser.fetchIfNeeded().getString("name");
 
         } catch (ParseException e) {

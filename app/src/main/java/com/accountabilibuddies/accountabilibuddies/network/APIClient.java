@@ -86,6 +86,11 @@ public class APIClient {
         void onFailure(String errorMessage);
     }
 
+    public interface GetMembersListListener {
+        void onSuccess(List<ParseUser> members);
+        void onFailure(String error_message);
+    }
+
     // Challenge API's
     public void createChallenge(Challenge challenge, ChallengeListener listener) {
         challenge.saveInBackground(e -> {
@@ -151,6 +156,21 @@ public class APIClient {
     }
 
     public void updateChallenge() {
+
+    }
+
+    public void getMembersList(String challengeObjectId, GetMembersListListener listener) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.include("userList");
+
+        query.getInBackground(challengeObjectId, (object, e) -> {
+            if (e == null) {
+                listener.onSuccess(object.getUserList());
+            } else {
+                listener.onFailure(e.getMessage());
+            }
+        });
 
     }
 

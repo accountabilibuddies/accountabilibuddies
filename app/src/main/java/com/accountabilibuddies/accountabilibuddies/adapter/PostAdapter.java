@@ -1,11 +1,13 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
+import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -70,16 +73,19 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View viewImagePost = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_post_image, parent, false);
                 viewHolder = new PostWithImageViewHolder(viewImagePost);
+                setUpPostDetailsHandler(viewImagePost);
                 break;
 
             case POST_WITH_VIDEO:
                 View v2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_video, parent, false);
                 viewHolder = new PostWithVideoViewHolder(v2);
+                setUpPostDetailsHandler(v2);
                 break;
 
             case POST_WITH_LOCATION:
                 View v3 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_location, parent, false);
                 viewHolder = new PostWithLocationViewHolder(v3);
+                setUpPostDetailsHandler(v3);
                 break;
 
             case POST_WITH_TEXT:
@@ -87,9 +93,29 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View viewTextPost = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_post_text, parent, false);
                 viewHolder = new PostWithTextViewHolder(viewTextPost);
+                setUpPostDetailsHandler(viewTextPost);
                 break;
         }
         return viewHolder;
+    }
+
+    public void setUpPostDetailsHandler(View itemView) {
+
+        itemView.setOnTouchListener(
+
+            (View v, MotionEvent event) -> {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    Intent intent = new Intent(context, PostDetailsActivity.class);
+                    context.startActivity(intent);
+
+                    Toast.makeText(itemView.getContext(), "Set up card view listener.", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            }
+        );
     }
 
     @Override

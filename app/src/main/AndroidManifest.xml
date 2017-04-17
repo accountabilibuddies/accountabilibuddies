@@ -55,6 +55,7 @@
         <activity android:name=".activity.ChallengeDetailsActivity" />
         <activity android:name=".activity.CreateChallengeActivity" />
         <activity android:name=".activity.ChallengeOneOnOneActivity"/>
+        <activity android:name=".activity.PostDetailsActivity"/>
 
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"

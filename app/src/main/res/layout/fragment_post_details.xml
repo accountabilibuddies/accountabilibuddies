@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/ivLikes"
@@ -27,7 +27,7 @@
             android:layout_toRightOf="@id/ivLikes"
             android:layout_toEndOf="@id/ivLikes"
             android:layout_centerVertical="true"
-            tools:text="52"/>
+            android:text="52"/>
 
         <FrameLayout
             android:id="@+id/flComments"

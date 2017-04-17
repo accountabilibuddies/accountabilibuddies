@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -94,6 +95,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         // Display icon in the toolbar
         getSupportActionBar().setTitle(getIntent().getStringExtra("name"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //Client instance
         client = APIClient.getClient();

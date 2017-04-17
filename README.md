@@ -73,6 +73,7 @@ The following **required** functionality is completed:
   * [ ] User's posting frequency is enforced to ensure users don't post too little or too frequently
   * [ ] User can view a scorecard of how well they are progressing
 ## Video Walkthrough
+<a href="https://github.com/accountabilibuddies/accountabilibuddies/tree/master/assets/Walkthrough/MileStone%20week%202"> WEEK 2 GIF's</a>
 
 ## Wireframes
 <a href="https://github.com/accountabilibuddies/accountabilibuddies/blob/master/assets/wireframes/v1.pdf"> WIREFRAME LINK </a>

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
@@ -171,19 +169,12 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         String postId = post.getObjectId();
 
-        itemView.setOnTouchListener(
-
-            (View v, MotionEvent event) -> {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    Intent intent = new Intent(context, PostDetailsActivity.class);
-                    intent.putExtra("postId", postId);
-                    intent.putExtra("viewType", viewType);
-                    context.startActivity(intent);
-                }
-
-                return true;
+        itemView.setOnClickListener(
+            (View v) -> {
+                Intent intent = new Intent(context, PostDetailsActivity.class);
+                intent.putExtra("postId", postId);
+                intent.putExtra("viewType", viewType);
+                context.startActivity(intent);
             }
         );
     }

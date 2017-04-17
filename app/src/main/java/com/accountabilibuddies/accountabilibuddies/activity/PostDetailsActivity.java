@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostDetailsFragment;
 
@@ -25,9 +26,11 @@ public class PostDetailsActivity extends AppCompatActivity {
 
     private void setUpDetailsFragment() {
 
+        int viewType = getIntent().getIntExtra("viewType", PostAdapter.POST_WITH_TEXT);
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance());
+        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance(viewType));
         ft.commit();
     }
 }

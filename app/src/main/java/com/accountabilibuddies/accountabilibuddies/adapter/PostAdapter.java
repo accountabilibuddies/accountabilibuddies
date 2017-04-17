@@ -41,7 +41,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private TextView likesCount;
 
     APIClient client = APIClient.getClient();
-    private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
+    public static final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
     public PostAdapter(Context context, List<Post> postList) {
@@ -73,19 +73,19 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View viewImagePost = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_post_image, parent, false);
                 viewHolder = new PostWithImageViewHolder(viewImagePost);
-                setUpPostDetailsHandler(viewImagePost);
+                setUpPostDetailsHandler(viewImagePost, POST_WITH_IMAGE);
                 break;
 
             case POST_WITH_VIDEO:
                 View v2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_video, parent, false);
                 viewHolder = new PostWithVideoViewHolder(v2);
-                setUpPostDetailsHandler(v2);
+                setUpPostDetailsHandler(v2, POST_WITH_VIDEO);
                 break;
 
             case POST_WITH_LOCATION:
                 View v3 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_location, parent, false);
                 viewHolder = new PostWithLocationViewHolder(v3);
-                setUpPostDetailsHandler(v3);
+                setUpPostDetailsHandler(v3, POST_WITH_LOCATION);
                 break;
 
             case POST_WITH_TEXT:
@@ -93,13 +93,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View viewTextPost = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_post_text, parent, false);
                 viewHolder = new PostWithTextViewHolder(viewTextPost);
-                setUpPostDetailsHandler(viewTextPost);
+                setUpPostDetailsHandler(viewTextPost, POST_WITH_TEXT);
                 break;
         }
         return viewHolder;
     }
 
-    public void setUpPostDetailsHandler(View itemView) {
+    public void setUpPostDetailsHandler(View itemView, final int viewType) {
 
         itemView.setOnTouchListener(
 
@@ -108,6 +108,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                     Intent intent = new Intent(context, PostDetailsActivity.class);
+                    intent.putExtra("viewType", viewType);
                     context.startActivity(intent);
 
                     Toast.makeText(itemView.getContext(), "Set up card view listener.", Toast.LENGTH_SHORT).show();

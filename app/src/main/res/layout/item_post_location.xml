@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cvPost"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:map="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvAddress"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@+id/tvAddress"
-            android:padding="5dp"
-            map:mapType="none"
-            map:liteMode="true" />
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/postActions"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/mapview"
-            layout="@layout/post_actions" />
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/tvAddress"
+                android:padding="5dp"
+                map:mapType="none"
+                map:liteMode="true" />
 
-    </RelativeLayout>
+            <include
+                android:id="@+id/postActions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/mapview"
+                layout="@layout/post_actions" />
 
-</android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

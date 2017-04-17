@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cvPost"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvPost"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:padding="5dp"
-            android:textSize="25sp"/>
+            android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/postActions"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tvPost"
-            layout="@layout/post_actions" />
+            <TextView
+                android:id="@+id/tvPost"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="5dp"
+                android:textSize="25sp"/>
 
-    </RelativeLayout>
+            <include
+                android:id="@+id/postActions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tvPost"
+                layout="@layout/post_actions" />
 
-</android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

@@ -49,7 +49,7 @@ The following **required** functionality is completed:
       * [x] Location
       * [x] Text
   * [x] Members can like and comment on posts
-  * [x] Members can she who all are in the challenge
+  * [x] Members can see who all are in the challenge
   * [x] Add more friends to the challenge
   * [x] Exit or delete the challenege
   * [x] Detail screen for each post

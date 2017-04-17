@@ -29,18 +29,17 @@ public class LoginActivity extends AppCompatActivity {
 
         ParseUser currentUser = ParseApplication.getCurrentUser();
 
-        if (currentUser == null) {
-            //user may or may not exist, but isn't authenticated
-            setUpLogInButton();
-        } else {
-            //user is already authenticated
+        if (currentUser != null) {
             ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();
         }
+
+        setUpLogInButton(); //user may or may not exist, but isn't authenticated
+
+
     }
 
     private void setUpLogInButton() {
-
 
         binding.btFacebook.setOnClickListener(
             (View view) -> {

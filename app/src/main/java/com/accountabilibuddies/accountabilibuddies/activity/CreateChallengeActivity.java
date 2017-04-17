@@ -100,9 +100,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -137,9 +135,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -174,7 +170,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                                         binding.etDescription.getText().toString(),
                                         new Date(String.valueOf(binding.tvStartDate.getText())),
                                         new Date(String.valueOf(binding.tvEndDate.getText())),
-                                        CHALLENGE_FREQUENCY, profileUrl, 0, addFriendsFragment.getSelectedFriends());//There is no category so pass 0
+                                        CHALLENGE_FREQUENCY, profileUrl, 0,
+                                        addFriendsFragment.getSelectedFriends());//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override

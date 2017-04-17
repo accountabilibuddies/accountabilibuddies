@@ -520,14 +520,10 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
     public void shareLocation(View view) {
         closeFabMenu();

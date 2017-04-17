@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @ParseClassName("Challenge")
 public class Challenge extends ParseObject {
@@ -38,7 +39,8 @@ public class Challenge extends ParseObject {
 
     //This constructor is only for testing purpose and should be removed in Production environment
     public Challenge(int typeId, String name, String description, Date startDate,
-                     Date endDate,  int frequency, String imageUrl, int categoryId, List<ParseUser> friends) {
+                     Date endDate,  int frequency, String imageUrl, int categoryId,
+                     Set<ParseUser> friends) {
         super();
         setType(typeId);
         setOwner(ParseApplication.getCurrentUser());
@@ -50,7 +52,7 @@ public class Challenge extends ParseObject {
         setImageUrl(imageUrl);
         setCategory(categoryId);
         List<ParseUser> users = new ArrayList<>();
-        users.add(ParseApplication.getCurrentUser()); //Add the creater as the participant
+        users.add(ParseApplication.getCurrentUser()); //Add the creator as the participant
         users.addAll(friends);
         setUserList(users);
         List<Post> posts = new ArrayList<>();

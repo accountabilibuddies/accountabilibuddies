@@ -10,6 +10,9 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostDetailsFragment;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
+
+import org.parceler.Parcels;
 
 public class PostDetailsActivity extends AppCompatActivity {
 
@@ -21,16 +24,18 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post_details);
 
-        setUpDetailsFragment();
+        String postId = getIntent().getStringExtra("postId");
+
+        setUpDetailsFragment(postId);
     }
 
-    private void setUpDetailsFragment() {
+    private void setUpDetailsFragment(String postId) {
 
         int viewType = getIntent().getIntExtra("viewType", PostAdapter.POST_WITH_TEXT);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance(viewType));
+        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance(postId, viewType));
         ft.commit();
     }
 }

@@ -6,6 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Post extends ParseObject {
      }
      */
     //Local to app
-    private boolean liked = false;
+    public boolean liked = false;
 
     // Default Constructor
     public Post() {

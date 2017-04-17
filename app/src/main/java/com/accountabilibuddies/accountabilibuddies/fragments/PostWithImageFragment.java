@@ -15,7 +15,7 @@ public class PostWithImageFragment extends Fragment {
 
     ItemPostImageBinding binding;
 
-    public static PostWithImageFragment newInstance() {
+    public static PostWithImageFragment newInstance(String postId) {
 
         PostWithImageFragment fragment = new PostWithImageFragment();
 

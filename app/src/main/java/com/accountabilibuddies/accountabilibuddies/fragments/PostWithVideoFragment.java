@@ -15,7 +15,7 @@ public class PostWithVideoFragment extends Fragment {
 
     ItemPostVideoBinding binding;
 
-    public static PostWithVideoFragment newInstance() {
+    public static PostWithVideoFragment newInstance(String postId) {
 
         PostWithVideoFragment fragment = new PostWithVideoFragment();
 

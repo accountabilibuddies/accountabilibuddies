@@ -15,7 +15,7 @@ public class PostWithTextFragment extends Fragment {
 
     ItemPostTextBinding binding;
 
-    public static PostWithTextFragment newInstance() {
+    public static PostWithTextFragment newInstance(String postId) {
 
         PostWithTextFragment fragment = new PostWithTextFragment();
 

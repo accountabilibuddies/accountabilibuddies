@@ -25,9 +25,13 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvLikes)
     TextView likesCount;
 
+    View itemView;
+
     public PostViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+
+        this.itemView = itemView;
     }
 
     public ImageButton getPostLike() {
@@ -56,5 +60,10 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
     public CardView getCardView() {
         return cvPost;
+    }
+
+    public View getItemView() {
+
+        return itemView;
     }
 }

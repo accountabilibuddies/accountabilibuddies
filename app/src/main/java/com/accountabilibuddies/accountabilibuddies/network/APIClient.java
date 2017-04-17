@@ -182,11 +182,11 @@ public class APIClient {
     private void filterCurrentUser(List<ParseUser> users) {
 
         CollectionUtils.filter(
-            users,
-            (ParseUser user) -> {
-                String currentUserId = ParseApplication.getCurrentUser().getObjectId();
-                return !user.getObjectId().equals(currentUserId);
-            }
+                users,
+                (ParseUser user) -> {
+                    String currentUserId = ParseApplication.getCurrentUser().getObjectId();
+                    return !user.getObjectId().equals(currentUserId);
+                }
         );
     }
 
@@ -216,14 +216,14 @@ public class APIClient {
 
         friend.saveInBackground(
 
-            (ParseException e) -> {
+                (ParseException e) -> {
 
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess();
+                    if (e != null) {
+                        listener.onFailure(e.getMessage());
+                    } else {
+                        listener.onSuccess();
+                    }
                 }
-            }
         );
 
     }
@@ -234,24 +234,29 @@ public class APIClient {
 
         query.getInBackground(challengeId,
 
-            (Challenge challenge, ParseException getException) -> {
+                (Challenge challenge, ParseException getException) -> {
 
-            if (getException == null) {
-                challenge.add("userList", friend);
-                challenge.saveInBackground(
+                    if (getException == null) {
+                        for(ParseUser user : challenge.getUserList()) {
+                            if(user.getObjectId().equals(friend.getObjectId())) {
+                                return;
+                            }
+                        }
+                        challenge.add("userList", friend);
+                        challenge.saveInBackground(
 
-                    (ParseException saveException) -> {
-                    if (saveException != null) {
-                        listener.onFailure(saveException.getMessage());
+                                (ParseException saveException) -> {
+                                    if (saveException != null) {
+                                        listener.onFailure(saveException.getMessage());
+                                    } else {
+                                        listener.onSuccess();
+                                    }
+                                });
+
                     } else {
-                        listener.onSuccess();
+                        listener.onFailure(getException.getMessage());
                     }
                 });
-
-            } else {
-                listener.onFailure(getException.getMessage());
-            }
-        });
     }
 
     public void getFriendsByUsername(String username, GetFriendsListener listener) {
@@ -261,14 +266,14 @@ public class APIClient {
 
         query.findInBackground(
 
-            (List<Friend> friends, ParseException e) -> {
+                (List<Friend> friends, ParseException e) -> {
 
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
-                    listener.onSuccess(friends);
+                    if (e != null) {
+                        listener.onFailure(e.getMessage());
+                    } else {
+                        listener.onSuccess(friends);
+                    }
                 }
-            }
         );
     }
 
@@ -278,17 +283,17 @@ public class APIClient {
         query.whereEqualTo("username", username);
         query.findInBackground( //TODO: Is there a more efficient query for finding just one match? I'd like to replace the object id with the username.
 
-            (List<ParseUser> users, ParseException e) -> {
+                (List<ParseUser> users, ParseException e) -> {
 
-                if (e != null) {
-                    listener.onFailure(e.getMessage());
-                } else {
+                    if (e != null) {
+                        listener.onFailure(e.getMessage());
+                    } else {
 
-                    if (!users.isEmpty()) {
-                        listener.onSuccess(users.get(0));
+                        if (!users.isEmpty()) {
+                            listener.onSuccess(users.get(0));
+                        }
                     }
                 }
-            }
         );
     }
 
@@ -340,15 +345,15 @@ public class APIClient {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
 
         query.getInBackground(
-            postId,
-            (Post post, ParseException e) -> {
-                if (e == null) {
-                    listener.onSuccess(post);
-                } else {
-                    listener.onFailure(e.getMessage());
-                }
+                postId,
+                (Post post, ParseException e) -> {
+                    if (e == null) {
+                        listener.onSuccess(post);
+                    } else {
+                        listener.onFailure(e.getMessage());
+                    }
 
-            }
+                }
         );
     }
 
@@ -440,4 +445,3 @@ public class APIClient {
         });
     }
 }
-

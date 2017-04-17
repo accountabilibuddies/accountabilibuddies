@@ -1,6 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -15,15 +16,18 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -32,6 +36,7 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.OneOnOneAdapter;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
+import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeMembersFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
@@ -43,7 +48,10 @@ import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
@@ -113,6 +121,12 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         getPosts();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
     private void setupGoogleClient() {
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -152,8 +166,22 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             case android.R.id.home:
                 onBackPressed();
                 return true;
+
+            case R.id.action_exit:
+                exitChallenge();
+                return true;
+
+            case R.id.action_list:
+                showChallengeMembers();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showChallengeMembers() {
+        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challenge.getObjectId());
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        fragment.show(getSupportFragmentManager(), "");
     }
 
     private void closeFabMenu(){
@@ -410,5 +438,62 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         if (intent.resolveActivity(getPackageManager()) != null) {
             dispatchTakePictureIntent(intent);
         }
+    }
+
+    private void exitChallenge() {
+
+        challenge.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                    confirmDeletion();
+                } else {
+                    client.exitChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
+                        @Override
+                        public void onSuccess() {
+                            Snackbar.make(binding.cLayout, "Exit successful", Snackbar.LENGTH_LONG).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(String error_message) { }
+                    });
+                }
+            }
+        });
+    }
+
+    private void confirmDeletion() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setTitle("Confirm Delete...");
+        alertDialog.setMessage("You are the owner of this challenge. Are you sure you want delete this?");
+        //alertDialog.setIcon(R.drawable.delete);
+
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                client.deleteChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(String error_message) {
+
+                    }
+                });
+            }
+        });
+
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,	int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
     }
 }

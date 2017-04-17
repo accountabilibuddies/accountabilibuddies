@@ -572,6 +572,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                         @Override
                         public void onSuccess() {
                             Snackbar.make(binding.cLayout, "Exit successful", Snackbar.LENGTH_LONG).show();
+                            finish();
                         }
 
                         @Override

@@ -107,8 +107,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     intent.putExtra("postId", postId);
                     intent.putExtra("viewType", viewType);
                     context.startActivity(intent);
-
-                    Toast.makeText(itemView.getContext(), "Set up card view listener.", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;

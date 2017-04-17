@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class FriendPostHolderImage extends RecyclerView.ViewHolder {
+public class FriendPostHolderImage extends OneOnOneViewHolder {
 
     @BindView(R.id.friendPostImage)
     ImageView imageView;

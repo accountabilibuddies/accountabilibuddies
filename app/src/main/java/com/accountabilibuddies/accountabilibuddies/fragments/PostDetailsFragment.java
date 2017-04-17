@@ -152,7 +152,7 @@ public class PostDetailsFragment extends Fragment {
 
             @Override
             public void onSuccess(List<Comment> commentsList) {
-                if (comments != null && !commentsList.isEmpty()) {
+                if (commentsList != null && !commentsList.isEmpty()) {
                     comments.clear();
                     comments.addAll(commentsList);
                     adapter.notifyDataSetChanged();

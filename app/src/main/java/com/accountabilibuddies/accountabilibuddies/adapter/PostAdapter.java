@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private GoogleMap map;
     private ImageButton likeBtn, commentBtn;
+    private CardView cvPost;
     private TextView likesCount;
     APIClient client = APIClient.getClient();
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
@@ -147,37 +149,52 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             likesCount.setText(post.getLikeList().size() + " Likes");
 
-            if (post.isLiked())
+            if (post.isLiked()) {
                 likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+            }
 
-            likeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    post.setLiked();
-                    client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.PostListener() {
-                        @Override
-                        public void onSuccess() {
-                            if (post.isLiked())
-                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-                            else
-                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
-                         }
-
-                        @Override
-                        public void onFailure(String error_message) { }
-                    });
-                }
-            });
-            commentBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
-                    CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
-                    fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-                    fragment.show(fm, "");
-                }
-            });
+            setUpLikeButton(post);
+            setUpCommentButton(post);
         }
+    }
+
+    private void setUpPostDetailsHandler() {
+
+
+    }
+
+    private void setUpLikeButton(Post post) {
+
+        likeBtn.setOnClickListener(
+
+            (View v) -> {
+                post.setLiked();
+                client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.PostListener() {
+                    @Override
+                    public void onSuccess() {
+                        if (post.isLiked())
+                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+                        else
+                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
+                    }
+
+                    @Override
+                    public void onFailure(String error_message) { }
+                });
+            }
+        );
+    }
+
+    private void setUpCommentButton(Post post) {
+
+        commentBtn.setOnClickListener(
+            (View v) -> {
+                FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
+                CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
+                fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+                fragment.show(fm, "");
+            }
+        );
     }
 
     @Override

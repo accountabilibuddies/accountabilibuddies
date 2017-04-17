@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cvPost"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivPost"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:padding="5dp"/>
+        android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/postActions"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/ivPost"
-        layout="@layout/post_actions" />
+        <ImageView
+            android:id="@+id/ivPost"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:padding="5dp"/>
 
-</RelativeLayout>
+        <include
+            android:id="@+id/postActions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ivPost"
+            layout="@layout/post_actions" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

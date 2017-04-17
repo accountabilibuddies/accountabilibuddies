@@ -7,23 +7,15 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PostWithVideoViewHolder extends RecyclerView.ViewHolder {
+public class PostWithVideoViewHolder extends PostViewHolder {
 
     @BindView(R.id.video_view)
     VideoView videoView;
-
-    @BindView(R.id.ibLike)
-    ImageButton postLike;
-
-    @BindView(R.id.ibComment)
-    ImageButton postComment;
-
-    @BindView(R.id.tvLikes)
-    TextView likesCount;
 
     public PostWithVideoViewHolder(View itemView) {
         super(itemView);
@@ -36,29 +28,5 @@ public class PostWithVideoViewHolder extends RecyclerView.ViewHolder {
 
     public void setVideoView(VideoView videoView) {
         this.videoView = videoView;
-    }
-
-    public ImageButton getPostLike() {
-        return postLike;
-    }
-
-    public void setPostLike(ImageButton postLike) {
-        this.postLike = postLike;
-    }
-
-    public ImageButton getPostComment() {
-        return postComment;
-    }
-
-    public void setPostComment(ImageButton postComment) {
-        this.postComment = postComment;
-    }
-
-    public TextView getLikesCount() {
-        return likesCount;
-    }
-
-    public void setLikesCount(TextView likesCount) {
-        this.likesCount = likesCount;
     }
 }

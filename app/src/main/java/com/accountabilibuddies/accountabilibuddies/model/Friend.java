@@ -56,7 +56,7 @@ public class Friend extends ParseObject {
         try {
 
             ParseUser friend = (ParseUser) get("friend");
-            return (String) friend.fetchIfNeeded().getObjectId();
+            return friend.fetchIfNeeded().getObjectId();
 
         } catch (ParseException e) {
 

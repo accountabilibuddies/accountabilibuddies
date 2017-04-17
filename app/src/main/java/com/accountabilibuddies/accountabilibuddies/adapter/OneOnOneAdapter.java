@@ -1,12 +1,16 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -115,36 +119,43 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         Object post = postList.get(position);
+
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case MY_POST_IMAGE:
                     MyPostHolderImage myPH = (MyPostHolderImage) holder;
                     myPH.viewBasedOnPost((Post)post,context);
+                    setUpPostDetailsHandler(myPH.getItemView(), (Post) post, PostAdapter.POST_WITH_IMAGE);
                     break;
 
                 case FRIEND_POST_IMAGE:
                     FriendPostHolderImage friendPH = (FriendPostHolderImage) holder;
                     friendPH.viewBasedOnPost((Post)post,context);
+                    setUpPostDetailsHandler(friendPH.getItemView(), (Post) post, PostAdapter.POST_WITH_IMAGE);
                     break;
 
                 case MY_POST_TEXT:
                     MyPostHolderText myPHText = (MyPostHolderText) holder;
                     myPHText.viewBasedOnPost((Post)post,context);
+                    setUpPostDetailsHandler(myPHText.getItemView(), (Post) post, PostAdapter.POST_WITH_TEXT);
                     break;
 
                 case FRIEND_POST_TEXT:
                     FriendPostHolderText friendPHText = (FriendPostHolderText) holder;
                     friendPHText.viewBasedOnPost((Post)post,context);
+                    setUpPostDetailsHandler(friendPHText.getItemView(), (Post) post, PostAdapter.POST_WITH_TEXT);
                     break;
 
                 case MY_POST_LOCATION:
                     MyPostHolderLocation myPHLocation = (MyPostHolderLocation) holder;
                     myPHLocation.viewBasedOnPost((Post)post,context);
+                    setUpPostDetailsHandler(myPHLocation.getItemView(), (Post) post, PostAdapter.POST_WITH_LOCATION);
                     break;
 
                 case FRIEND_POST_LOCATION:
                     FriendPostHolderLocation friendPHLocation = (FriendPostHolderLocation) holder;
                     friendPHLocation.viewBasedOnPost((Post)post,context);
+                    setUpPostDetailsHandler(friendPHLocation.getItemView(), (Post) post, PostAdapter.POST_WITH_LOCATION);
                     break;
 
                 case DATE_TEXT:
@@ -154,6 +165,27 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
             }
         }
+    }
+
+    public void setUpPostDetailsHandler(View itemView, final Post post, final int viewType) {
+
+        String postId = post.getObjectId();
+
+        itemView.setOnTouchListener(
+
+            (View v, MotionEvent event) -> {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    Intent intent = new Intent(context, PostDetailsActivity.class);
+                    intent.putExtra("postId", postId);
+                    intent.putExtra("viewType", viewType);
+                    context.startActivity(intent);
+                }
+
+                return true;
+            }
+        );
     }
 
     @Override

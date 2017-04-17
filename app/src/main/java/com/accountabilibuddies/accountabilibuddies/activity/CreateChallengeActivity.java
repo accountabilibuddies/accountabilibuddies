@@ -100,9 +100,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -137,9 +135,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -174,7 +170,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                                         binding.etDescription.getText().toString(),
                                         new Date(String.valueOf(binding.tvStartDate.getText())),
                                         new Date(String.valueOf(binding.tvEndDate.getText())),
-                                        CHALLENGE_FREQUENCY, profileUrl, 0, addFriendsFragment.getSelectedFriends());//There is no category so pass 0
+                                        CHALLENGE_FREQUENCY, profileUrl, 0,
+                                        addFriendsFragment.getSelectedFriends());//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
@@ -258,7 +255,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear,
+                          int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         Calendar c = Calendar.getInstance();
         c.set(year, monthOfYear, dayOfMonth, 0, 0);
         binding.tvStartDate.setText(DateUtils.getDate(c));
@@ -366,5 +364,4 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             clickChallengePictureIntent(intent);
         }
     }
-
 }

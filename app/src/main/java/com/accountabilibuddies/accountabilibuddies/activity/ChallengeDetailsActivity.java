@@ -1,7 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -28,7 +27,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +49,6 @@ import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -335,8 +332,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             post.setLikeList(users);
                             post.setOwner(ParseApplication.getCurrentUser());
 
-                            Log.d("Objectid", challenge.getObjectId());
-
                             //TODO: Move the listener out of this function
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
                                     new APIClient.PostListener() {
@@ -518,18 +513,13 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
     public void shareLocation(View view) {
         closeFabMenu();
-        //ParseGeoPoint point = new ParseGeoPoint(mLatitude, mLongitude);
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
@@ -587,22 +577,20 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     private void exitChallenge() {
 
-        challenge.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                    confirmDeletion();
-                } else {
-                    client.exitChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
-                        @Override
-                        public void onSuccess() {
-                            Snackbar.make(binding.cLayout, "Exit successful", Snackbar.LENGTH_LONG).show();
-                            finish();
-                        }
+        challenge.fetchIfNeededInBackground((object, e) -> {
+            if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                confirmDeletion();
+            } else {
+                client.exitChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(binding.cLayout, "Exit successful", Snackbar.LENGTH_LONG).show();
+                        finish();
+                    }
 
-                        @Override
-                        public void onFailure(String error_message) { }
-                    });
-                }
+                    @Override
+                    public void onFailure(String error_message) { }
+                });
             }
         });
     }
@@ -614,29 +602,22 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         alertDialog.setMessage("You are the owner of this challenge. Are you sure you want delete this?");
         //alertDialog.setIcon(R.drawable.delete);
 
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+        alertDialog.setPositiveButton("YES", (dialog, which) ->
                 client.deleteChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
-                    @Override
-                    public void onSuccess() {
-                        Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(String error_message) {
-
-                    }
-                });
+            @Override
+            public void onSuccess() {
+                Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
+                finish();
             }
-        });
+
+            @Override
+            public void onFailure(String error_message) {
+
+            }
+        }));
 
         // Setting Negative "NO" Button
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,	int which) {
-                dialog.cancel();
-            }
-        });
+        alertDialog.setNegativeButton("NO", (dialog, which) -> dialog.cancel());
 
         // Showing Alert Message
         alertDialog.show();

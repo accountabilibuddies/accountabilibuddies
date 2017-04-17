@@ -49,7 +49,7 @@ public class NotificationsReceiver extends BroadcastReceiver {
 
                 Iterator<String> itr = json.keys();
                 while (itr.hasNext()) {
-                    String key = (String) itr.next();
+                    String key = itr.next();
                     String value = json.getString(key);
 
                     if (key.equals("customMessage")) {

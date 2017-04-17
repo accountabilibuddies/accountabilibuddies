@@ -14,13 +14,15 @@ import com.parse.ParseUser;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AddFriendsViewModel {
 
     Context context;
     List<Friend> friends = new ArrayList<>();
-    List<ParseUser> selectedFriends = new ArrayList<>();
+    Set<ParseUser> selectedFriends = new HashSet<>();
     String challengeId = null;
 
     public AddFriendsViewModel(Context context) {
@@ -96,7 +98,7 @@ public class AddFriendsViewModel {
         return friends.get(position).getFriend();
     }
 
-    public List<ParseUser> getSelectedFriends() {
+    public Set<ParseUser> getSelectedFriends() {
 
         return selectedFriends;
     }

@@ -1,7 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -25,8 +24,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,8 +45,6 @@ import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.parse.GetCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -111,11 +106,9 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             getPosts();
         });
 
-        ItemClickSupport.addTo(binding.rVPosts).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                //TODO: Create a separate view on click of image and video and map
-            }
+        ItemClickSupport.addTo(binding.rVPosts)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+            //TODO: Create a separate view on click of image and video and map
         });
 
         getPosts();
@@ -229,8 +222,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                     post.setType(Constants.TYPE_IMAGE);
                                     post.setImageUrl(fileLocation);
                                     post.setOwner(ParseApplication.getCurrentUser());
-
-                                    Log.d("Objectid", challenge.getObjectId());
 
                                     //TODO: Move the listener out of this function
                                     APIClient.getClient().createPost(post, challenge.getObjectId(),
@@ -369,11 +360,9 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     public void shareLocation(View view) {
         closeFabMenu();
-        //ParseGeoPoint point = new ParseGeoPoint(mLatitude, mLongitude);
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
-        //post.setLocation(point);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
         post.setAddress(mAddress);
@@ -442,22 +431,20 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     private void exitChallenge() {
 
-        challenge.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                    confirmDeletion();
-                } else {
-                    client.exitChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
-                        @Override
-                        public void onSuccess() {
-                            Snackbar.make(binding.cLayout, "Exit successful", Snackbar.LENGTH_LONG).show();
-                            finish();
-                        }
+        challenge.fetchIfNeededInBackground((object, e) -> {
+            if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                confirmDeletion();
+            } else {
+                client.exitChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(binding.cLayout, "Exit successful", Snackbar.LENGTH_LONG).show();
+                        finish();
+                    }
 
-                        @Override
-                        public void onFailure(String error_message) { }
-                    });
-                }
+                    @Override
+                    public void onFailure(String error_message) { }
+                });
             }
         });
     }
@@ -469,29 +456,22 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         alertDialog.setMessage("You are the owner of this challenge. Are you sure you want delete this?");
         //alertDialog.setIcon(R.drawable.delete);
 
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+        alertDialog.setPositiveButton("YES", (dialog, which) ->
                 client.deleteChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
-                    @Override
-                    public void onSuccess() {
-                        Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(String error_message) {
-
-                    }
-                });
+            @Override
+            public void onSuccess() {
+                Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
+                finish();
             }
-        });
+
+            @Override
+            public void onFailure(String error_message) {
+
+            }
+        }));
 
         // Setting Negative "NO" Button
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,	int which) {
-                dialog.cancel();
-            }
-        });
+        alertDialog.setNegativeButton("NO", (dialog, which) -> dialog.cancel());
 
         // Showing Alert Message
         alertDialog.show();

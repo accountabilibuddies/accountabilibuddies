@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyPostHolderLocation extends RecyclerView.ViewHolder {
+public class MyPostHolderLocation extends OneOnOneViewHolder {
 
     @BindView(R.id.myPostMap)
     MapView mapView;

@@ -9,6 +9,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -94,6 +95,11 @@ public class APIClient {
     public interface GetMembersListListener {
         void onSuccess(List<ParseUser> members);
         void onFailure(String error_message);
+    }
+
+    public interface GetLikesListener {
+        void onSuccess(List<ParseUser> usersWhoHaveLiked);
+        void onFailure(String errorMessage);
     }
 
     // Challenge API's
@@ -370,6 +376,24 @@ public class APIClient {
                 listener.onFailure(e.getMessage());
             }
         });
+    }
+
+    public void getLikes(String postId, GetLikesListener listener) {
+
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include("likeList");
+
+        query.getInBackground(
+            postId,
+            (Post post, ParseException e) -> {
+
+                if (e == null) {
+                    listener.onSuccess(post.getLikeList());
+                } else {
+                    listener.onFailure(e.getMessage());
+                }
+            }
+        );
     }
 
 

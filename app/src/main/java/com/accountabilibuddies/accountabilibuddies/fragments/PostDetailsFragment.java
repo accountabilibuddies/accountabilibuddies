@@ -21,6 +21,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetai
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,7 @@ public class PostDetailsFragment extends Fragment {
 
         showPost(postId, viewType);
         showComments(postId);
+        showNumLikes(postId);
 
         return binding.getRoot();
     }
@@ -161,6 +163,30 @@ public class PostDetailsFragment extends Fragment {
 
             @Override
             public void onFailure(String error_message) {
+
+            }
+        });
+    }
+
+    private void showNumLikes(String postId) {
+
+        APIClient.getClient().getLikes(postId, new APIClient.GetLikesListener() {
+
+            @Override
+            public void onSuccess(List<ParseUser> usersWhoHaveLiked) {
+
+                if (!usersWhoHaveLiked.isEmpty()) {
+                    String numLikes = Integer.toString(usersWhoHaveLiked.size());
+
+                    binding.tvNumLikes.setText(numLikes);
+                } else {
+                    binding.tvNumLikes.setVisibility(View.GONE);
+                    binding.ivLikes.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
 
             }
         });

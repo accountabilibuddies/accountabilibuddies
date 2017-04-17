@@ -48,15 +48,21 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
+import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +85,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_CAMERA = 2;
     private static final int GALLERY_INTENT_REQUEST = 200;
+    private static final int VIDEO_INTENT_REQUEST = 300;
     private String mImagePath;
 
     @Override
@@ -227,9 +234,34 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         }
     }
 
+    private void startRecording() {
+
+        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            File imageFile = null;
+            try {
+                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                imageFile = VideoUtils.createVideoFile(storageDir);
+            } catch (IOException ex) {
+                //TODO: Handle error
+            }
+            if (imageFile != null) {
+                mImagePath = imageFile.getAbsolutePath();
+                Uri videoUri = FileProvider.getUriForFile(this,
+                        "com.accountabilibuddies.accountabilibuddies.fileprovider",
+                        imageFile);
+                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+                startActivityForResult(intent, VIDEO_INTENT_REQUEST);
+            }
+        } else {
+            Toast.makeText(this, "No camera on this device", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void launchCameraForVideo(View view) {
 
         closeFabMenu();
+        startRecording();
     }
 
     @Override
@@ -358,6 +390,35 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                     });
                 }
 
+            }
+            break;
+
+            case VIDEO_INTENT_REQUEST: {
+                binding.progressBarContainer.setVisibility(View.VISIBLE);
+                binding.avi.show();
+
+                if (resultCode == RESULT_OK) {
+                    if (mImagePath == null) {
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
+                        return;
+                    }
+                    File f = new File(mImagePath);
+
+                    byte[] videoUp = new byte[0];
+                    try {
+                        videoUp = IOUtils.toByteArray( new FileInputStream(f));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    ParseFile file = new ParseFile("testVideo1", videoUp);
+
+                    file.saveInBackground(new SaveCallback() {
+                        public void done(ParseException e) {
+                        }
+                    });
+                }
             }
             break;
         }

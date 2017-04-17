@@ -51,6 +51,11 @@ public class APIClient {
         void onFailure(String error_message);
     }
 
+    public interface GetPostListener {
+        void onSuccess(Post post);
+        void onFailure(String errorMessage);
+    }
+
     public interface GetPostListListener {
         void onSuccess(List<Post> postList);
         void onFailure(String error_message);
@@ -329,6 +334,24 @@ public class APIClient {
             }
         });
     }
+
+    public void getPostById(String postId, GetPostListener listener) {
+
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+
+        query.getInBackground(
+            postId,
+            (Post post, ParseException e) -> {
+                if (e == null) {
+                    listener.onSuccess(post);
+                } else {
+                    listener.onFailure(e.getMessage());
+                }
+
+            }
+        );
+    }
+
 
     public void getCommentList(String postObjectId, GetCommentsListListener listener) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);

@@ -73,19 +73,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View viewImagePost = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_post_image, parent, false);
                 viewHolder = new PostWithImageViewHolder(viewImagePost);
-                setUpPostDetailsHandler(viewImagePost, POST_WITH_IMAGE);
                 break;
 
             case POST_WITH_VIDEO:
                 View v2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_video, parent, false);
                 viewHolder = new PostWithVideoViewHolder(v2);
-                setUpPostDetailsHandler(v2, POST_WITH_VIDEO);
                 break;
 
             case POST_WITH_LOCATION:
                 View v3 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_location, parent, false);
                 viewHolder = new PostWithLocationViewHolder(v3);
-                setUpPostDetailsHandler(v3, POST_WITH_LOCATION);
                 break;
 
             case POST_WITH_TEXT:
@@ -93,13 +90,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View viewTextPost = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_post_text, parent, false);
                 viewHolder = new PostWithTextViewHolder(viewTextPost);
-                setUpPostDetailsHandler(viewTextPost, POST_WITH_TEXT);
                 break;
         }
         return viewHolder;
     }
 
-    public void setUpPostDetailsHandler(View itemView, final int viewType) {
+    public void setUpPostDetailsHandler(View itemView, final String postId, final int viewType) {
 
         itemView.setOnTouchListener(
 
@@ -108,6 +104,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                     Intent intent = new Intent(context, PostDetailsActivity.class);
+                    intent.putExtra("postId", postId);
                     intent.putExtra("viewType", viewType);
                     context.startActivity(intent);
 
@@ -134,9 +131,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 .load(post.getImageUrl())
                                 .into(imgVH.getImageView());
                     setPostButtonValues(imgVH);
+                    setUpPostDetailsHandler(imgVH.getItemView(), post.getObjectId(), POST_WITH_IMAGE);
                     break;
 
                 case POST_WITH_VIDEO:
+//                    setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
                     break;
 
                 case POST_WITH_LOCATION:
@@ -159,6 +158,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 locVH.getAddress().setText(post.getAddress());
                             else
                                 locVH.getAddress().setVisibility(View.GONE);
+
+                            setUpPostDetailsHandler(locVH.getItemView(), post.getObjectId(), POST_WITH_LOCATION);
                         }
                     });
                     setPostButtonValues(locVH);
@@ -169,6 +170,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
                     textVH.getText().setText(post.getText());
                     setPostButtonValues(textVH);
+                    setUpPostDetailsHandler(textVH.getItemView(), post.getObjectId(), POST_WITH_TEXT);
                     break;
             }
 

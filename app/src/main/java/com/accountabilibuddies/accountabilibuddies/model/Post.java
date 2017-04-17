@@ -33,7 +33,7 @@ public class Post extends ParseObject {
      }
      */
     //Local to app
-    private boolean liked = false;
+    public boolean liked = false;
 
     // Default Constructor
     public Post() {

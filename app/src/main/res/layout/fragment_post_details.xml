@@ -16,28 +16,13 @@
         <FrameLayout
             android:id="@+id/flPost"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="192dp"/>
 
-        <ImageView
-            android:id="@+id/ivLikes"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/red_heart"/>
+            android:layout_below="@+id/flPost"/>
 
-        <TextView
-            android:id="@+id/numLikes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/ivLikes"
-            android:layout_toEndOf="@id/ivLikes"
-            android:layout_centerVertical="true"
-            android:text="52"/>
-
-        <FrameLayout
-            android:id="@+id/flComments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/numLikes"/>
     </RelativeLayout>
 </layout>

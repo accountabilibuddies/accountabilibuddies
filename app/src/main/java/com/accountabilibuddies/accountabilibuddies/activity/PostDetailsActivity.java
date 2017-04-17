@@ -10,9 +10,6 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostDetailsFragment;
-import com.accountabilibuddies.accountabilibuddies.model.Post;
-
-import org.parceler.Parcels;
 
 public class PostDetailsActivity extends AppCompatActivity {
 

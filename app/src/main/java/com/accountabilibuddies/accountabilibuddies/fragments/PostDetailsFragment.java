@@ -13,10 +13,7 @@ import android.view.ViewGroup;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetailsBinding;
-import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel;
-
-import org.parceler.Parcels;
 
 public class PostDetailsFragment extends Fragment {
 

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.adapter.PostWithLocationViewHolder;
 import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostLocationBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -20,8 +19,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.parceler.Parcels;
 
 public class PostWithLocationFragment extends Fragment {
 

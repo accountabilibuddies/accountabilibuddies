@@ -6,7 +6,6 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -68,6 +68,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private String mAddress;
 
     private static final int PHOTO_INTENT_REQUEST = 100;
+    private static final int GALLERY_INTENT_REQUEST = 200;
     private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_CAMERA = 2;
     private String mImagePath;
@@ -475,5 +476,13 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         // Showing Alert Message
         alertDialog.show();
+    }
+
+    public void sharePhotos(View view) {
+        closeFabMenu();
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, GALLERY_INTENT_REQUEST);
     }
 }

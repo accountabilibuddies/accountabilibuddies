@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class MyPostHolderImage extends RecyclerView.ViewHolder {
+public class MyPostHolderImage extends OneOnOneViewHolder {
 
     @BindView(R.id.myPostImage)
     ImageView imageView;

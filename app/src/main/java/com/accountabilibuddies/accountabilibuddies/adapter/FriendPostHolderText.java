@@ -12,7 +12,7 @@ import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FriendPostHolderText extends RecyclerView.ViewHolder {
+public class FriendPostHolderText extends OneOnOneViewHolder {
 
     @BindView(R.id.friendPostText)
     TextView textView;

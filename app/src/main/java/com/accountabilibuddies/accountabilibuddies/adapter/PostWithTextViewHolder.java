@@ -10,23 +10,13 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PostWithTextViewHolder extends RecyclerView.ViewHolder  {
+public class PostWithTextViewHolder extends PostViewHolder  {
 
     @BindView(R.id.tvPost)
     TextView text;
 
-    @BindView(R.id.ibLike)
-    ImageButton postLike;
-
-    @BindView(R.id.ibComment)
-    ImageButton postComment;
-
-    @BindView(R.id.tvLikes)
-    TextView likesCount;
-
     public PostWithTextViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public TextView getText() {
@@ -35,29 +25,5 @@ public class PostWithTextViewHolder extends RecyclerView.ViewHolder  {
 
     public void setText(TextView text) {
         this.text = text;
-    }
-
-    public ImageButton getPostLike() {
-        return postLike;
-    }
-
-    public void setPostLike(ImageButton postLike) {
-        this.postLike = postLike;
-    }
-
-    public ImageButton getPostComment() {
-        return postComment;
-    }
-
-    public void setPostComment(ImageButton postComment) {
-        this.postComment = postComment;
-    }
-
-    public TextView getLikesCount() {
-        return likesCount;
-    }
-
-    public void setLikesCount(TextView likesCount) {
-        this.likesCount = likesCount;
     }
 }

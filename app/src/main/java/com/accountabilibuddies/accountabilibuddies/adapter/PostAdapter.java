@@ -3,12 +3,14 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
@@ -32,7 +34,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private GoogleMap map;
     private ImageButton likeBtn, commentBtn;
+    private CardView cvPost;
     private TextView likesCount;
+
     APIClient client = APIClient.getClient();
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
@@ -89,7 +93,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+
+        PostViewHolder holder = (PostViewHolder) viewHolder;
 
         Post post = postList.get(position);
         if (post != null) {
@@ -100,9 +106,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Glide.with(context)
                                 .load(post.getImageUrl())
                                 .into(imgVH.getImageView());
-                    likeBtn = imgVH.getPostLike();
-                    commentBtn = imgVH.getPostComment();
-                    likesCount = imgVH.getLikesCount();
+                    setPostButtonValues(imgVH);
                     break;
 
                 case POST_WITH_VIDEO:
@@ -130,54 +134,68 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 locVH.getAddress().setVisibility(View.GONE);
                         }
                     });
-                    likeBtn = locVH.getPostLike();
-                    commentBtn = locVH.getPostComment();
-                    likesCount = locVH.getLikesCount();
+                    setPostButtonValues(locVH);
                     break;
 
                 case POST_WITH_TEXT:
                 default:
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
                     textVH.getText().setText(post.getText());
-                    likeBtn = textVH.getPostLike();
-                    commentBtn = textVH.getPostComment();
-                    likesCount = textVH.getLikesCount();
+                    setPostButtonValues(textVH);
                     break;
             }
 
             likesCount.setText(post.getLikeList().size() + " Likes");
 
-            if (post.isLiked())
+            if (post.isLiked()) {
                 likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+            }
 
-            likeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    post.setLiked();
-                    client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.PostListener() {
-                        @Override
-                        public void onSuccess() {
-                            if (post.isLiked())
-                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-                            else
-                                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
-                         }
-
-                        @Override
-                        public void onFailure(String error_message) { }
-                    });
-                }
-            });
-            commentBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
-                    CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
-                    fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-                    fragment.show(fm, "");
-                }
-            });
+            setUpLikeButton(post);
+            setUpCommentButton(post);
         }
+    }
+
+    private void setPostButtonValues(PostViewHolder holder) {
+
+        likeBtn = holder.getPostLike();
+        commentBtn = holder.getPostComment();
+        likesCount = holder.getLikesCount();
+        cvPost = holder.getCardView();
+    }
+
+    private void setUpLikeButton(Post post) {
+
+        likeBtn.setOnClickListener(
+
+            (View v) -> {
+                post.setLiked();
+                client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.PostListener() {
+                    @Override
+                    public void onSuccess() {
+                        if (post.isLiked())
+                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+                        else
+                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
+                    }
+
+                    @Override
+                    public void onFailure(String error_message) { }
+                });
+            }
+        );
+    }
+
+    private void setUpCommentButton(Post post) {
+
+        commentBtn.setOnClickListener(
+            (View v) -> {
+                FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
+                CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
+                fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+                fragment.show(fm, "");
+            }
+        );
     }
 
     @Override

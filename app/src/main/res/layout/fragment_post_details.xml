@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="postDetailsViewModel"
+            type="com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/red_heart"/>
+
+        <TextView
+            android:id="@+id/numLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivLikes"
+            android:layout_toEndOf="@id/ivLikes"
+            android:layout_centerVertical="true"
+            tools:text="52"/>
+
+        <FrameLayout
+            android:id="@+id/flComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/numLikes"/>
+    </RelativeLayout>
+</layout>

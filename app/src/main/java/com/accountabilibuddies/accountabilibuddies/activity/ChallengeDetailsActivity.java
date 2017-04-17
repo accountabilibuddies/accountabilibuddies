@@ -386,10 +386,34 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
 
-                    ParseFile file = new ParseFile("testVideo1", videoUp);
+                    ParseFile file = new ParseFile("shareVideo", videoUp);
 
                     file.saveInBackground(new SaveCallback() {
+
                         public void done(ParseException e) {
+                            Post post = new Post();
+                            post.setType(Constants.TYPE_VIDEO);
+                            post.setVideoUrl(file.getUrl());
+                            List<ParseUser> users = new ArrayList<>();
+                            post.setLikeList(users);
+                            post.setOwner(ParseApplication.getCurrentUser());
+                            APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                new APIClient.PostListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(ChallengeDetailsActivity.this,
+                                                "Creating post", Toast.LENGTH_LONG).show();
+                                        onCreatePost(post);
+                                    }
+
+                                    @Override
+                                    public void onFailure(String error_message) {
+                                        Toast.makeText(ChallengeDetailsActivity.this,
+                                                "Error creating post", Toast.LENGTH_LONG).show();
+                                        binding.avi.hide();
+                                        binding.progressBarContainer.setVisibility(View.GONE);
+                                    }
+                                });
                         }
                     });
                 }

@@ -255,7 +255,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear,
+                          int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         Calendar c = Calendar.getInstance();
         c.set(year, monthOfYear, dayOfMonth, 0, 0);
         binding.tvStartDate.setText(DateUtils.getDate(c));
@@ -363,5 +364,4 @@ public class CreateChallengeActivity extends AppCompatActivity implements
             clickChallengePictureIntent(intent);
         }
     }
-
 }

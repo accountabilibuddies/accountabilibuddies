@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -21,6 +20,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
+import com.accountabilibuddies.accountabilibuddies.util.VideoPlayer;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -97,19 +97,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setUpPostDetailsHandler(View itemView, final String postId, final int viewType) {
 
-        itemView.setOnTouchListener(
+        itemView.setOnClickListener(
 
-            (View v, MotionEvent event) -> {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    Intent intent = new Intent(context, PostDetailsActivity.class);
-                    intent.putExtra("postId", postId);
-                    intent.putExtra("viewType", viewType);
-                    context.startActivity(intent);
-                }
-
-                return true;
+            (View v) -> {
+                Intent intent = new Intent(context, PostDetailsActivity.class);
+                intent.putExtra("postId", postId);
+                intent.putExtra("viewType", viewType);
+                context.startActivity(intent);
+                Toast.makeText(itemView.getContext(), "Set up card view listener.", Toast.LENGTH_SHORT).show();
             }
         );
     }
@@ -133,7 +128,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     break;
 
                 case POST_WITH_VIDEO:
-//                    setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
+                    PostWithVideoViewHolder vidVH = (PostWithVideoViewHolder) holder;
+                    VideoPlayer.loadVideo(context, vidVH.getVideoView(), post.getVideoUrl());
+                    //setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
+                    setPostButtonValues(vidVH);
                     break;
 
                 case POST_WITH_LOCATION:

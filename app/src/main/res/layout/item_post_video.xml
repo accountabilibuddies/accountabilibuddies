@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvPost"
@@ -12,12 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <VideoView
+            <com.yqritc.scalablevideoview.ScalableVideoView
                 android:id="@+id/video_view"
-                android:layout_width="match_parent"
+                android:layout_width="400dp"
                 android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:padding="5dp"/>
+                app:scalableType="fitCenter" />
 
             <include
                 android:id="@+id/postActions"

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,10 +38,10 @@ public class CommentsFragment extends DialogFragment {
     public CommentsFragment() {
     }
 
-    public static CommentsFragment getInstance(String challengeId) {
+    public static CommentsFragment getInstance(String postId) {
         CommentsFragment frag = new CommentsFragment();
         Bundle args = new Bundle();
-        args.putString(POST_ID, challengeId);
+        args.putString(POST_ID, postId);
         frag.setArguments(args);
         return frag;
     }

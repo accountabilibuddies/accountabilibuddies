@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Accountabilibuddies</string>
+    <string name="app_name">Spur</string>
     <string name="facebook_app_id">251723465298177</string>
     <string name="gcm_sender_id">id:45653192843</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -65,11 +65,8 @@ public class CameraUtils {
 
     public static boolean cameraPermissionsGranted(Context context) {
 
-        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) !=
-                PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED;
     }
 
 }

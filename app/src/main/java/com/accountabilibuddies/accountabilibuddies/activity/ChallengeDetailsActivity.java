@@ -47,7 +47,6 @@ import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
-import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -125,22 +124,10 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         binding.rVPosts.setLayoutManager(mLayoutManager);
 
         //Swipe to refresh
-        binding.swipeContainer.setOnRefreshListener(() -> {
-            getPosts();
-        });
-
-        ItemClickSupport.addTo(binding.rVPosts).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-
-            }
-        });
-
+        binding.swipeContainer.setOnRefreshListener(() -> getPosts());
         getPosts();
         setUpFriendsView();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,15 +136,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void setUpFriendsView() {
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
         ft.replace(R.id.flAddFriends, AddFriendsFragment.newInstance(challenge.getObjectId()));
         ft.commit();
     }
 
     private void setupGoogleClient() {
-        // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -259,7 +243,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     public void launchCameraForVideo(View view) {
-
         closeFabMenu();
         startRecording();
     }
@@ -271,73 +254,65 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         switch (requestCode) {
 
             case PHOTO_INTENT_REQUEST: {
-                binding.progressBarContainer.setVisibility(View.VISIBLE);
-                binding.avi.show();
-
                 if (resultCode == RESULT_OK) {
                     if (mImagePath == null) {
-                        binding.avi.hide();
-                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
+
+                    binding.progressBarContainer.setVisibility(View.VISIBLE);
+                    binding.avi.show();
                     //TODO: Need to optimize this scale to make image size more efficient
                     // wrt to the image view size
                     Bitmap bitmap = CameraUtils.scaleToFill(BitmapFactory.decodeFile(mImagePath)
                             , 800, 600);
 
-                    client.uploadFile("post_image.jpg",
-                            bitmap, new APIClient.UploadFileListener() {
-                                @Override
-                                public void onSuccess(String fileLocation) {
-                                    Post post = new Post();
-                                    post.setType(Constants.TYPE_IMAGE);
-                                    post.setImageUrl(fileLocation);
-                                    List<ParseUser> users = new ArrayList<>();
-                                    post.setLikeList(users);
-                                    post.setOwner(ParseApplication.getCurrentUser());
+                    client.uploadFile("post_image.jpg", bitmap, new APIClient.UploadFileListener() {
+                        @Override
+                        public void onSuccess(String fileLocation) {
+                            Post post = new Post();
+                            post.setType(Constants.TYPE_IMAGE);
+                            post.setImageUrl(fileLocation);
+                            List<ParseUser> users = new ArrayList<>();
+                            post.setLikeList(users);
+                            post.setOwner(ParseApplication.getCurrentUser());
 
-                                    Log.d("Objectid", challenge.getObjectId());
+                            APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                    new APIClient.PostListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast.makeText(ChallengeDetailsActivity.this,
+                                                    "Creating post", Toast.LENGTH_LONG).show();
+                                            onCreatePost(post);
+                                        }
 
-                                    //TODO: Move the listener out of this function
-                                    APIClient.getClient().createPost(post, challenge.getObjectId(),
-                                            new APIClient.PostListener() {
-                                                @Override
-                                                public void onSuccess() {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                                            "Creating post", Toast.LENGTH_LONG).show();
-                                                    onCreatePost(post);
-                                                }
+                                        @Override
+                                        public void onFailure(String error_message) {
+                                            Toast.makeText(ChallengeDetailsActivity.this,
+                                                    "Error creating post", Toast.LENGTH_LONG).show();
+                                            binding.avi.hide();
+                                            binding.progressBarContainer.setVisibility(View.GONE);
+                                        }
+                                    });
+                        }
 
-                                                @Override
-                                                public void onFailure(String error_message) {
-                                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                                            "Error creating post", Toast.LENGTH_LONG).show();
-                                                    binding.avi.hide();
-                                                    binding.progressBarContainer.setVisibility(View.GONE);
-                                                }
-                                            });
-                                }
-
-                                @Override
-                                public void onFailure(String error_message) {
-                                    binding.avi.hide();
-                                    binding.progressBarContainer.setVisibility(View.GONE);
-                                }
-                            });
+                        @Override
+                        public void onFailure(String error_message) {
+                            binding.avi.hide();
+                            binding.progressBarContainer.setVisibility(View.GONE);
+                        }
+                    });
                 }
             }
             break;
 
             case GALLERY_INTENT_REQUEST: {
-                binding.progressBarContainer.setVisibility(View.VISIBLE);
-                binding.avi.show();
-
                 if (resultCode == RESULT_OK) {
                     if (data.getData() == null) {
-                        binding.avi.hide();
-                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
+
+                    binding.progressBarContainer.setVisibility(View.VISIBLE);
+                    binding.avi.show();
 
                     Uri uri = data.getData();
                     Bitmap bitmap = null;
@@ -394,15 +369,14 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             break;
 
             case VIDEO_INTENT_REQUEST: {
-                binding.progressBarContainer.setVisibility(View.VISIBLE);
-                binding.avi.show();
-
                 if (resultCode == RESULT_OK) {
                     if (mImagePath == null) {
-                        binding.avi.hide();
-                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
+
+                    binding.progressBarContainer.setVisibility(View.VISIBLE);
+                    binding.avi.show();
+
                     File f = new File(mImagePath);
 
                     byte[] videoUp = new byte[0];

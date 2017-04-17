@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
@@ -35,6 +36,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ImageButton likeBtn, commentBtn;
     private CardView cvPost;
     private TextView likesCount;
+
     APIClient client = APIClient.getClient();
     private final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
@@ -91,7 +93,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+
+        PostViewHolder holder = (PostViewHolder) viewHolder;
 
         Post post = postList.get(position);
         if (post != null) {
@@ -102,9 +106,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Glide.with(context)
                                 .load(post.getImageUrl())
                                 .into(imgVH.getImageView());
-                    likeBtn = imgVH.getPostLike();
-                    commentBtn = imgVH.getPostComment();
-                    likesCount = imgVH.getLikesCount();
+                    setPostButtonValues(imgVH);
                     break;
 
                 case POST_WITH_VIDEO:
@@ -132,18 +134,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 locVH.getAddress().setVisibility(View.GONE);
                         }
                     });
-                    likeBtn = locVH.getPostLike();
-                    commentBtn = locVH.getPostComment();
-                    likesCount = locVH.getLikesCount();
+                    setPostButtonValues(locVH);
                     break;
 
                 case POST_WITH_TEXT:
                 default:
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
                     textVH.getText().setText(post.getText());
-                    likeBtn = textVH.getPostLike();
-                    commentBtn = textVH.getPostComment();
-                    likesCount = textVH.getLikesCount();
+                    setPostButtonValues(textVH);
                     break;
             }
 
@@ -158,9 +156,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private void setUpPostDetailsHandler() {
+    private void setPostButtonValues(PostViewHolder holder) {
 
-
+        likeBtn = holder.getPostLike();
+        commentBtn = holder.getPostComment();
+        likesCount = holder.getLikesCount();
+        cvPost = holder.getCardView();
     }
 
     private void setUpLikeButton(Post post) {

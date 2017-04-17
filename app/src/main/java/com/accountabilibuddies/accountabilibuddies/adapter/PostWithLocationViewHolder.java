@@ -21,7 +21,6 @@ public class PostWithLocationViewHolder extends PostViewHolder {
 
     public PostWithLocationViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public MapView getMapview() {

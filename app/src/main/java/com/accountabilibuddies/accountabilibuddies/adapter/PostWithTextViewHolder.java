@@ -17,7 +17,6 @@ public class PostWithTextViewHolder extends PostViewHolder  {
 
     public PostWithTextViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public TextView getText() {

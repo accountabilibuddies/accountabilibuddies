@@ -19,7 +19,6 @@ public class PostWithVideoViewHolder extends PostViewHolder {
 
     public PostWithVideoViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public VideoView getVideoView() {

@@ -2,9 +2,11 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 
@@ -28,6 +30,18 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public PostViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+
+        itemView.setOnTouchListener(
+
+            (View v, MotionEvent event) -> {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Toast.makeText(itemView.getContext(), "Set up card view listener.", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            }
+        );
     }
 
     public ImageButton getPostLike() {
@@ -52,5 +66,9 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
     public void setLikesCount(TextView likesCount) {
         this.likesCount = likesCount;
+    }
+
+    public CardView getCardView() {
+        return cvPost;
     }
 }

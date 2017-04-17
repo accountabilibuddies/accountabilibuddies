@@ -19,7 +19,6 @@ public class PostWithImageViewHolder extends PostViewHolder {
 
     public PostWithImageViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public ImageView getImageView() {

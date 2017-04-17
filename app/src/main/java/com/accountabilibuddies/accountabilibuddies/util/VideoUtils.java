@@ -43,7 +43,7 @@ public class VideoUtils {
         if (requestCode == VIDEO_CAPTURE) {
 
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                Toast.makeText(context, "Video has been saved to: " + data.getData(), Toast.LENGTH_SHORT).show();;
+                Toast.makeText(context, "Video has been saved to: " + data.getData(), Toast.LENGTH_SHORT).show();
                 playRecordedVideo();
             } else if (resultCode == AppCompatActivity.RESULT_CANCELED) {
                 Toast.makeText(context, "Video recording canceled.", Toast.LENGTH_SHORT).show();

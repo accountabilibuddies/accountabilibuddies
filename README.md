@@ -1,6 +1,6 @@
 # Group Project - *Spur*
 
-# Group Members - *Amod Samant*, *Deonna Hodges*, *Divya Yadav*
+### Group Members - *Amod Samant*, *Deonna Hodges*, *Divya Yadav*
 
 ## Description
 

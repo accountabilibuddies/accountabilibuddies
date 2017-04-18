@@ -60,6 +60,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_challenge);
 
+        getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
+
         setSupportActionBar(binding.toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

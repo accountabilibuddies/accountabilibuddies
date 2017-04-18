@@ -89,6 +89,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_details);
 
+        getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
+
         challenge = ParseObject.createWithoutData(Challenge.class,
                 getIntent().getStringExtra("challengeId"));
 

@@ -4,8 +4,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" >
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -14,14 +13,16 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
+                android:background="@android:color/transparent"
                 android:layout_height="?attr/actionBarSize"
                 android:minHeight="?attr/actionBarSize" />
         </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="491dp"
+            android:layout_height="match_parent"
             android:padding="5dp"
+            android:background="@android:color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView

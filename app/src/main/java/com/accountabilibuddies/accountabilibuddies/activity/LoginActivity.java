@@ -26,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new LoginViewModel(LoginActivity.this);
         setUpBinding();
 
-        ParseUser currentUser = ParseApplication.getCurrentUser();
-        
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
         if (currentUser != null) {
             ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();

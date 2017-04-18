@@ -34,6 +34,8 @@ public class DrawerActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer);
 
+        getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
+
         //TODO: Improve this logic. Sometimes comes null
         ParseUser currentUser = null;
         String name = null;

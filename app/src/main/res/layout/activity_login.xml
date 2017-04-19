@@ -13,18 +13,37 @@
     </data>
     
     <RelativeLayout
-    
+        android:id="@+id/rlLogin"
+        android:background="@drawable/login_animation_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="40dp">
     
-        <Button
-            android:id="@+id/btFacebook"
+        <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/connect_facebook"/>
+            android:layout_marginBottom="48dp"
+            android:gravity="center"
+            android:text="Find motivation to achieve your goals by challenging your friends."
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btFacebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDescription"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:background="@color/com_facebook_blue"
+            android:text="@string/connect_facebook"
+            android:textSize="@dimen/text_small"
+            android:textColor="@android:color/white"/>
     
     </RelativeLayout>
 </layout>

@@ -16,7 +16,7 @@
     <string name="create">Create</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="connect_facebook">Connect With Facebook</string>
+    <string name="connect_facebook">Sign In With Facebook</string>
     <string-array name="challenge_type">
         <item>One on One</item>
         <item>Multi user</item>

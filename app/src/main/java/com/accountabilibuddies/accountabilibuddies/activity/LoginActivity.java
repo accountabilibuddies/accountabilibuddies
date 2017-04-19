@@ -25,8 +25,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         viewModel = new LoginViewModel(LoginActivity.this);
-        setUpBinding();
-        startLoginAnimation();
 
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -37,9 +35,11 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();
+        } else {
+            setUpBinding();
+            startLoginAnimation();
+            setUpLogInButton(); //user may or may not exist, but isn't authenticated
         }
-
-        setUpLogInButton(); //user may or may not exist, but isn't authenticated
     }
 
     private void setUpLogInButton() {
@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void openMainView() {
+
         Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
         startActivity(intent);
         finish();

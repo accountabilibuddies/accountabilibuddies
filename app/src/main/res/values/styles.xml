@@ -26,4 +26,9 @@
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="drawerArrowStyle">@style/MyDrawerArrowToggle</item>
     </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
 </resources>

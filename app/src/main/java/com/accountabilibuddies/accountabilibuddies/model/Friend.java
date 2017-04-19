@@ -13,12 +13,21 @@ public class Friend extends ParseObject {
     Friend {
        String username;
        ParseUser friend;
+       String profileURL
     }
     */
 
     public Friend() {
 
         super();
+    }
+
+    public void setProfileURL(String profileURL) {
+        put("profileURL", profileURL);
+    }
+
+    public String getProfileURL() {
+        return (String) get("profileURL");
     }
 
     public void setUsername(String username) {

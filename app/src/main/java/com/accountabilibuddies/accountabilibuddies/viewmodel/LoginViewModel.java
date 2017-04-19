@@ -20,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +44,7 @@ public class LoginViewModel {
 
         Friend friend = new Friend();
         friend.setUsername(username);
+        friend.setProfileURL((String) friendUser.get("profilePhotoUrl"));
         friend.setFriend(friendUser);
 
         APIClient.getClient().createFriend(friend, new APIClient.CreateFriendListener() {

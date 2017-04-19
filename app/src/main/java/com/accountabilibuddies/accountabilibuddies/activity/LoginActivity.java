@@ -2,9 +2,11 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
@@ -25,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new LoginViewModel(LoginActivity.this);
         setUpBinding();
+        startLoginAnimation();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
 
@@ -43,6 +46,14 @@ public class LoginActivity extends AppCompatActivity {
                 authenticateUser();
             }
         );
+    }
+
+    private void startLoginAnimation() {
+
+        AnimationDrawable animationDrawable = (AnimationDrawable) binding.rlLogin.getBackground();
+        animationDrawable.setEnterFadeDuration(5000);
+        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.start();
     }
 
     private void authenticateUser() {

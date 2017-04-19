@@ -9,7 +9,6 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -248,7 +247,7 @@ public class APIClient {
                                 return;
                             }
                         }
-                        challenge.add("userList", friend);
+                        challenge.addUnique("userList", friend);
                         challenge.saveInBackground(
 
                                 (ParseException saveException) -> {

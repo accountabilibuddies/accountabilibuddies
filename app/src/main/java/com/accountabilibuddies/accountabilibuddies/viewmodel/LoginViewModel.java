@@ -119,7 +119,7 @@ public class LoginViewModel {
         );
 
         Bundle params = new Bundle();
-        params.putString("fields", "id, name, email, picture, cover");
+        params.putString("fields", "id, name, email, cover, picture.type(large)");
         friendRequest.setParameters(params);
         friendRequest.executeAsync();
     }
@@ -194,7 +194,7 @@ public class LoginViewModel {
         );
 
         Bundle params = new Bundle();
-        params.putString("fields", "id, name, email, picture, cover");
+        params.putString("fields", "id, name, email, cover, picture.type(large)");
         profileDataRequest.setParameters(params);
         profileDataRequest.executeAsync();
     }

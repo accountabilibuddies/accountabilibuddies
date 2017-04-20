@@ -36,7 +36,6 @@ public class DrawerActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
-        openSplashView();
         //TODO: Improve this logic. Sometimes comes null
         ParseUser currentUser = null;
         String name = null;
@@ -59,12 +58,6 @@ public class DrawerActivity extends AppCompatActivity {
 
         setUpNavigationDrawer();
         setUpNavigationView();
-    }
-
-    private void openSplashView() {
-
-        Intent intent = new Intent(DrawerActivity.this, SplashActivity.class);
-        startActivity(intent);
     }
 
     private void setUpNavigationDrawer() {

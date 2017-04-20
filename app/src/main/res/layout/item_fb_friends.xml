@@ -8,9 +8,10 @@
         android:id="@+id/ivFriend"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        app:civ_border_color="@color/lightGrey"
-        app:civ_border_width="2dp"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="5dp"
+        app:civ_shadow_color="@color/grey2"
         app:civ_shadow="true"
-        app:civ_shadow_radius="3"/>
+        app:civ_shadow_radius="5"/>
 
 </FrameLayout>

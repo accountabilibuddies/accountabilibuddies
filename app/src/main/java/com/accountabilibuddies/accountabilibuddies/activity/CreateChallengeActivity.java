@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
-import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.CreateFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
@@ -53,7 +53,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_CAMERA = 1;
 
-    private AddFriendsFragment addFriendsFragment;
+    private CreateFriendsFragment addFriendsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +107,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
     }
 
     private void setUpFriendsView() {
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        addFriendsFragment = AddFriendsFragment.newInstance(null);
-        ft.replace(R.id.flAddFriends, addFriendsFragment);
+        ft.replace(R.id.flAddFriends, new CreateFriendsFragment());
         ft.commit();
     }
 
@@ -173,7 +170,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                                         new Date(String.valueOf(binding.tvStartDate.getText())),
                                         new Date(String.valueOf(binding.tvEndDate.getText())),
                                         CHALLENGE_FREQUENCY, profileUrl, 0,
-                                        addFriendsFragment.getSelectedFriends());//There is no category so pass 0
+                                        addFriendsFragment.getSelectedFriends());
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override

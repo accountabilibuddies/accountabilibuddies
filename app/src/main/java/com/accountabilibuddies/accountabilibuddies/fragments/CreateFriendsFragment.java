@@ -1,0 +1,46 @@
+package com.accountabilibuddies.accountabilibuddies.fragments;
+
+import com.accountabilibuddies.accountabilibuddies.adapter.CreateFriendsAdapter;
+import com.parse.ParseUser;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class CreateFriendsFragment extends FriendFragment {
+
+    Set<ParseUser> selectedFriends = new HashSet<>();
+    CreateFriendsAdapter mAdapter;
+
+
+    void CreateFriendsFragment(){}
+
+    public Set<ParseUser> getSelectedFriends() {
+
+        return selectedFriends;
+    }
+
+    public void addFriend(ParseUser friend) {
+        selectedFriends.add(friend);
+    }
+
+    public void removeFriend(ParseUser friend) {
+        selectedFriends.remove(friend);
+
+    }
+
+    @Override
+    protected void setAdapter() {
+        mAdapter = new CreateFriendsAdapter(getContext(), mFriendsList);
+        binding.rvFriends.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onClick(int position) {
+        //Add user to challenge or remove
+    }
+
+    @Override
+    protected void updateAdapter() {
+        mAdapter.notifyDataSetChanged();
+    }
+}

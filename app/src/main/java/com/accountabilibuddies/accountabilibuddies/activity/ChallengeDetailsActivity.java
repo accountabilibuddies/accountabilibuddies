@@ -37,7 +37,7 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
-import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeMembersFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
@@ -136,7 +136,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     private void setUpFriendsView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flAddFriends, AddFriendsFragment.newInstance(challenge.getObjectId()));
+        ft.replace(R.id.flAddFriends, ChallengeFriendsFragment.newInstance(challenge.getObjectId()));
         ft.commit();
     }
 

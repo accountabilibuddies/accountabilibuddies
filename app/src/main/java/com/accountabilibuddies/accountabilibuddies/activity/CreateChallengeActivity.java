@@ -2,12 +2,12 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class CreateChallengeActivity extends AppCompatActivity {
 
     private ActivityCreateChallengeBinding binding;
@@ -73,30 +75,12 @@ public class CreateChallengeActivity extends AppCompatActivity {
         setupViews();
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     private void setupViews() {
-
-        Typeface openSansRegular = Typeface.createFromAsset(getAssets(), Constants.OPEN_SANS_REG);
-        Typeface openSansLight = Typeface.createFromAsset(getAssets(), Constants.OPEN_SANS_LIGHT);
-
-        binding.tvTitle.setTypeface(openSansRegular);
-        binding.tvDescription.setTypeface(openSansRegular);
-        binding.tvStart.setTypeface(openSansRegular);
-        binding.tvEnd.setTypeface(openSansRegular);
-        binding.tvCategoryType.setTypeface(openSansRegular);
-        binding.tvAddFriends.setTypeface(openSansRegular);
-        binding.tvFrequencyTag.setTypeface(openSansRegular);
-
-        binding.tvEndDate.setTypeface(openSansRegular);
-        binding.tvStartDate.setTypeface(openSansRegular);
-
-        binding.tvOneOnOne.setTypeface(openSansRegular);
-        binding.tvMulti.setTypeface(openSansRegular);
-
-        binding.tvFrequency.setTypeface(openSansLight);
-
-        binding.etTitle.setTypeface(openSansLight);
-        binding.etDescription.setTypeface(openSansLight);
-
         binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
         setUpFriendsView();
     }

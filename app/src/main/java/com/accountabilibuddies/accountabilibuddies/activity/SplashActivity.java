@@ -1,15 +1,11 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
-import android.content.Intent;
-import android.os.CountDownTimer;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
 
-import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
-import com.parse.ParseUser;
-
-import java.util.concurrent.TimeUnit;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,5 +26,10 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }.start();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

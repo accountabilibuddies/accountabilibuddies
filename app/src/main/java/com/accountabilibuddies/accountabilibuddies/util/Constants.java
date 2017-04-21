@@ -4,9 +4,6 @@ import java.util.HashMap;
 
 abstract public class Constants {
 
-    public static final String OPEN_SANS_REG = "fonts/OpenSans-Regular.ttf";
-    public static final String OPEN_SANS_LIGHT = "fonts/OpenSans-Light.ttf";
-
     public static final int UNSELECTED = -1;
     public static final int TYPE_ONE_ON_ONE = 1;
     public static final int TYPE_MULTI_USER = 2;

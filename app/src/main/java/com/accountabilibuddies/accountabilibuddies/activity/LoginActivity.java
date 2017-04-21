@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
@@ -13,6 +14,8 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBind
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,6 +44,11 @@ public class LoginActivity extends AppCompatActivity {
             startLoginAnimation();
             setUpLogInButton(); //user may or may not exist, but isn't authenticated
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void setUpLogInButton() {

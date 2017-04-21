@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostDetailsFragment;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PostDetailsActivity extends AppCompatActivity {
 
@@ -29,6 +32,11 @@ public class PostDetailsActivity extends AppCompatActivity {
         String postId = getIntent().getStringExtra("postId");
 
         setUpDetailsFragment(postId);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void setUpDetailsFragment(String postId) {

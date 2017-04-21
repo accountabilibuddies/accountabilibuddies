@@ -8,12 +8,12 @@
 
     <ImageView
         android:id="@+id/ivProfileImage"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="@dimen/comment_avatar_size"
+        android:layout_height="@dimen/comment_avatar_size"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:padding="4dp"
+        android:padding="@dimen/comment_avatar_padding"
         app:srcCompat="@drawable/avatar_placeholder" />
 
     <TextView
@@ -25,8 +25,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:paddingLeft="4dp"
+        android:paddingLeft="@dimen/comment_padding"
         android:gravity="center|start"
-        android:textSize="10sp"
+        android:textSize="@dimen/comment_detail_size"
         tools:text="This is the best challenge."/>
 </RelativeLayout>

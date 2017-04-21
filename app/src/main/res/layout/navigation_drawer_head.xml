@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_container"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="200dp"
     android:gravity="bottom"
     android:orientation="vertical" >
 
@@ -12,6 +12,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:background="@color/colorAccent"/>
+        android:background="@drawable/navigation_head"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="5dp"
+        app:civ_shadow="false"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivProfileImage"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_below="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/ivProfileImage"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

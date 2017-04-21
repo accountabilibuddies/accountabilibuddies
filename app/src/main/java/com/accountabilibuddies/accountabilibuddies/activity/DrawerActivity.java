@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
@@ -17,6 +19,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBin
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
+import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -29,6 +32,7 @@ public class DrawerActivity extends AppCompatActivity {
 
     private ActivityDrawerBinding binding;
     private ActionBarDrawerToggle mDrawerToggle;
+    ParseUser currentUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,6 @@ public class DrawerActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
         //TODO: Improve this logic. Sometimes comes null
-        ParseUser currentUser = null;
         String name = null;
         try {
             currentUser = ParseUser.getCurrentUser().fetch();
@@ -75,6 +78,18 @@ public class DrawerActivity extends AppCompatActivity {
                 R.string.app_name,
                 R.string.app_name
         );
+
+        View headerLayout = binding.navView.getHeaderView(0);
+        ImageView ivProfileImage = (ImageView) headerLayout.findViewById(R.id.ivProfileImage);
+        Glide.with(this)
+                .load(currentUser.getString("profilePhotoUrl"))
+                .into(ivProfileImage);
+
+        TextView tvName = (TextView) headerLayout.findViewById(R.id.tvName);
+        tvName.setText(currentUser.getString("name"));
+
+        TextView tvEmail = (TextView) headerLayout.findViewById(R.id.tvEmail);
+        tvEmail.setText(currentUser.getString("email"));
     }
 
     @Override

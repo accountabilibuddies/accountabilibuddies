@@ -7,43 +7,50 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rVComments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"/>
 
-        <View android:id="@+id/sepPost"
-            android:background="#e4e4e4"
-            android:layout_width = "match_parent"
-            android:layout_height="1dp"
-            android:layout_above="@+id/btnComment"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        <!--<View android:id="@+id/sepPost"-->
+            <!--android:background="#e4e4e4"-->
+            <!--android:layout_width = "match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_above="@+id/lNewComment"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true" />-->
 
-        <Button
-            android:id="@+id/btnComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <!--<Button-->
+            <!--android:id="@+id/btnComment"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:text="Comment" />-->
+
+
+        <include
+            android:id="@+id/lNewComment"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="8dp"
-            android:text="Comment" />
-
-        <EditText
-            android:id="@+id/etComment"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/colorPrimaryDark"
-            android:hint="Add a comment..."
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toLeftOf="@+id/btnComment"
-            android:layout_toStartOf="@+id/btnComment" />
+            android:layout_width="match_parent"
+            layout="@layout/enter_comment"/>
+
+        <!--<EditText-->
+            <!--android:id="@+id/etComment"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textColorHint="@color/colorPrimaryDark"-->
+            <!--android:hinft="Add a comment..."-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_toLeftOf="@+id/btnComment"-->
+            <!--android:layout_toStartOf="@+id/btnComment" />-->
     </RelativeLayout>
 </layout>

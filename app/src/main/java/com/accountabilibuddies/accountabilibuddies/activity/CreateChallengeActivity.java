@@ -122,7 +122,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_menu, menu);
@@ -218,6 +218,9 @@ public class CreateChallengeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function called for creating a challenge
+     */
     private void createChallenge() {
 
         if (!dataValidation())

@@ -77,11 +77,14 @@
             android:layout_width="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="16dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/hash" >
+            android:src="@drawable/hash"
+            fab:menu_colorNormal="@color/colorAccent"
+            fab:menu_colorPressed="@color/indigo_500"
+            fab:menu_colorRipple="@color/deep_purple_500">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_location"
@@ -89,7 +92,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/location"
                 android:onClick="shareLocation"
-                fab:fab_label="Location" />
+                fab:fab_label="Location"
+                fab:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/indigo_500"
+                app:fab_colorRipple="@color/deep_purple_500"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_gallery"
@@ -97,7 +103,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/gallery"
                 android:onClick="sharePhotos"
-                fab:fab_label="Gallery" />
+                fab:fab_label="Gallery"
+                fab:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/indigo_500"
+                app:fab_colorRipple="@color/deep_purple_500"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_message"
@@ -105,7 +114,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/text"
                 android:onClick="launchTextPost"
-                fab:fab_label="Message" />
+                fab:fab_label="Message"
+                fab:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/indigo_500"
+                app:fab_colorRipple="@color/deep_purple_500"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_video"
@@ -113,7 +125,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/video"
                 android:onClick="launchCameraForVideo"
-                fab:fab_label="Video" />
+                fab:fab_label="Video"
+                fab:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/indigo_500"
+                app:fab_colorRipple="@color/deep_purple_500"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_camera"
@@ -121,7 +136,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/camera"
                 android:onClick="launchCamera"
-                fab:fab_label="Photo" />
+                fab:fab_label="Photo"
+                fab:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/indigo_500"
+                app:fab_colorRipple="@color/deep_purple_500"/>
 
         </com.github.clans.fab.FloatingActionMenu>
 

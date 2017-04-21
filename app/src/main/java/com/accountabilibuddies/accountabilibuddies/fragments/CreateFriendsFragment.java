@@ -20,6 +20,7 @@ public class CreateFriendsFragment extends FriendFragment {
 
     public void addFriend(ParseUser friend) {
         selectedFriends.add(friend);
+        mAdapter.setSelectedList(selectedFriends);
     }
 
     public void removeFriend(ParseUser friend) {

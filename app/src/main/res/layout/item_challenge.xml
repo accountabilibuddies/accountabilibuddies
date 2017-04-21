@@ -4,10 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="#E6E6E6"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="8dp"
-    android:layout_margin="10dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="5dp"
+    android:layout_margin="5dp"
     android:padding="5dp">
 
     <RelativeLayout

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
@@ -104,7 +103,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 intent.putExtra("postId", postId);
                 intent.putExtra("viewType", viewType);
                 context.startActivity(intent);
-                Toast.makeText(itemView.getContext(), "Set up card view listener.", Toast.LENGTH_SHORT).show();
             }
         );
     }
@@ -201,7 +199,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         if (post.isLiked())
                             likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
                         else
-                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.heart));
+                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.empty_heart));
                     }
 
                     @Override

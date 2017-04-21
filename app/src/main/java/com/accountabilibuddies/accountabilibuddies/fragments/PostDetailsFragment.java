@@ -19,6 +19,7 @@ import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel;
 import com.parse.ParseUser;
@@ -30,7 +31,11 @@ public class PostDetailsFragment extends Fragment {
 
     private Context context;
     private FragmentPostDetailsBinding binding;
-    ArrayList<Comment> comments;
+
+    private ArrayList<Comment> comments;
+
+    private Post post;
+
     CommentsAdapter adapter;
 
     public static PostDetailsFragment newInstance(String postId, int viewType) {
@@ -61,7 +66,7 @@ public class PostDetailsFragment extends Fragment {
         int viewType = getArguments().getInt("viewType");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post_details, parent, false);
-        binding.setPostDetailsViewModel(new PostDetailsViewModel());
+        binding.setPostDetailsViewModel(new PostDetailsViewModel(getActivity(), postId));
 
         showPost(postId, viewType);
         showComments(postId);
@@ -175,14 +180,14 @@ public class PostDetailsFragment extends Fragment {
             @Override
             public void onSuccess(List<ParseUser> usersWhoHaveLiked) {
 
-                if (!usersWhoHaveLiked.isEmpty()) {
-                    String numLikes = Integer.toString(usersWhoHaveLiked.size());
-
-                    binding.tvNumLikes.setText(numLikes);
-                } else {
-                    binding.tvNumLikes.setVisibility(View.GONE);
-                    binding.ivLikes.setVisibility(View.GONE);
-                }
+//                if (!usersWhoHaveLiked.isEmpty()) {
+//                    String numLikes = Integer.toString(usersWhoHaveLiked.size());
+//
+//                    binding.tvNumLikes.setText(numLikes);
+//                } else {
+//                    binding.tvNumLikes.setVisibility(View.GONE);
+//                    binding.ivLikes.setVisibility(View.GONE);
+//                }
             }
 
             @Override

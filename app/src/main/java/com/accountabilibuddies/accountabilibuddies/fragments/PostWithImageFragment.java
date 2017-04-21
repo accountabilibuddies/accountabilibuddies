@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.databinding.DetailImageBinding;
 import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostImageBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -17,7 +18,7 @@ import com.bumptech.glide.Glide;
 
 public class PostWithImageFragment extends Fragment {
 
-    ItemPostImageBinding binding;
+    DetailImageBinding binding;
 
     public static PostWithImageFragment newInstance(String postId) {
 
@@ -35,7 +36,7 @@ public class PostWithImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.item_post_image, parent, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.detail_image, parent, false);
 
         String postId = getArguments().getString("postId");
 
@@ -60,7 +61,7 @@ public class PostWithImageFragment extends Fragment {
         if (post.getImageUrl() != null) {
             Glide.with(getContext())
                     .load(post.getImageUrl())
-                    .into(binding.ivPost);
+                    .into(binding.ivChallengeImage);
         }
     }
 }

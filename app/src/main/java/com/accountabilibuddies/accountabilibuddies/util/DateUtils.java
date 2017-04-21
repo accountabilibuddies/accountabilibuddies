@@ -1,6 +1,9 @@
 package com.accountabilibuddies.accountabilibuddies.util;
 
+import android.util.Log;
+
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,16 +20,10 @@ public class DateUtils {
     public static String createSelectedDateString (
             int selectedYear, int selectedDay, int selectedMonth) {
 
-        String year = String.valueOf(selectedYear);
-        String month = String.valueOf(selectedMonth + 1);
-        String day = String.valueOf(selectedDay);
+        Calendar c = Calendar.getInstance();
+        c.set(selectedYear, selectedMonth, selectedDay, 0, 0);
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(month).append("/")
-                .append(day).append("/")
-                .append(year);
-
-        return builder.toString();
+        return getDate(c.getTime());
     }
 
     /**
@@ -38,7 +35,6 @@ public class DateUtils {
 
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mma");
         return sdf.format(date);
-
     }
 
     /**
@@ -49,6 +45,17 @@ public class DateUtils {
     public static String getDateFromDate(Date date) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
+        return sdf.format(date);
+    }
+
+    /**
+     * Get date in MMM d, YYYY format
+     * @param date
+     * @return
+     */
+    public static String getDate(Date date) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, YYYY");
         return sdf.format(date);
     }
 
@@ -64,5 +71,21 @@ public class DateUtils {
         DateFormat dateFormat = new SimpleDateFormat("hh:mm aaa");
         Date today = calendar.getTime();
         return dateFormat.format(today);
+    }
+
+    /**
+     * Function convers date in MMM d, YYYY format to a Calendar object
+     * @param date
+     * @return
+     */
+    public static Calendar getCalFromString(String date) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, YYYY");
+        try {
+            cal.setTime(sdf.parse(date));
+        } catch (ParseException e) {
+            Log.e("ERROR", "Unable to parse date");
+        }
+        return cal;
     }
 }

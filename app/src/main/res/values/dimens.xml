@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_small">10sp</dimen>
+    <dimen name="left_right_margin">16dp</dimen>
+    <dimen name="create_edit_text_ht">36dp</dimen>
+    <dimen name="cc_edit_textsize">20sp</dimen>
+    <dimen name="cc_header_textsize">16sp</dimen>
 </resources>

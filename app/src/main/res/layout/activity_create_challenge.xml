@@ -19,230 +19,403 @@
                 android:layout_height="?attr/actionBarSize"
                 android:minHeight="?attr/actionBarSize" />
         </android.support.design.widget.AppBarLayout>
-
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            android:background="@android:color/white"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <ImageView
-                android:id="@+id/ivTitle"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/title"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:id="@+id/etTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:inputType="text"
-                android:hint="Title"
-                android:gravity="center|left"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/ivTitle"
-                android:layout_toEndOf="@+id/ivTitle"
-                android:layout_alignTop="@+id/ivTitle"
-                android:layout_alignBottom="@+id/ivTitle" />
-
-            <ImageView
-                android:id="@+id/ivDescription"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/ivTitle"
-                android:src="@drawable/description" />
-
-            <EditText
-                android:id="@+id/etDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="Description"
-                android:inputType="textMultiLine"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
-                android:layout_alignTop="@+id/ivDescription"
-                android:layout_alignLeft="@+id/etTitle"
-                android:layout_alignStart="@+id/etTitle"
-                android:layout_alignRight="@+id/etTitle"
-                android:layout_alignEnd="@+id/etTitle" />
-
-            <ImageView
-                android:id="@+id/ivCalender"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/ivDescription"
-                android:src="@drawable/calender" />
-
-            <TextView
-                android:id="@+id/tvStartDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
-                android:onClick="onDateClick"
-                android:clickable="true"
-                android:text="Start Date"
-                android:padding="4dp"
-                android:layout_alignTop="@+id/ivCalender"
-                android:layout_alignLeft="@+id/etDescription"
-                android:layout_alignStart="@+id/etDescription"
-                android:layout_alignRight="@+id/etDescription"
-                android:layout_alignEnd="@+id/etDescription" />
-
-
-            <TextView
-                android:id="@+id/tvEndDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_marginTop="9dp"
-                android:textSize="18sp"
-                android:onClick="onDateClick"
-                android:clickable="true"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
-                android:text="End Date"
-                android:padding="4dp"
-                android:layout_below="@+id/tvStartDate"
-                android:layout_alignLeft="@+id/tvStartDate"
-                android:layout_alignStart="@+id/tvStartDate"
-                android:layout_alignRight="@+id/tvStartDate"
-                android:layout_alignEnd="@+id/tvStartDate" />
-
-            <ImageView
-                android:id="@+id/ivChallengeType"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@+id/tvEndDate"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toLeftOf="@+id/tvEndDate"
-                android:layout_toStartOf="@+id/tvEndDate"
-                android:src="@drawable/challenge_type"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Spinner
-                android:id="@+id/spType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ivChallengeType"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/ivChallengeType"
-                android:layout_toRightOf="@+id/ivChallengeType"
-                android:layout_alignBottom="@+id/ivChallengeType" />
-
-            <ImageView
-                android:id="@+id/ivFrequency"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@+id/ivChallengeType"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toLeftOf="@+id/spType"
-                android:layout_toStartOf="@+id/spType"
-                android:src="@drawable/frequency"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Spinner
-                android:id="@+id/spFrequency"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivFrequency"
-                android:layout_toRightOf="@+id/ivFrequency"
-                android:layout_toEndOf="@+id/ivFrequency"
-                android:layout_alignTop="@+id/ivFrequency" />
-
-            <FrameLayout
-                android:id="@+id/flAddFriends"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivFrequency"/>
-
-            <ImageView
-                android:id="@+id/ivCamera"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/flAddFriends"
-                android:src="@drawable/dark_camera"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <ImageView
-                android:id="@+id/ivProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/spFrequency"
-                android:layout_alignStart="@+id/spFrequency"
-                android:layout_alignTop="@+id/ivCamera"
-                android:src="@drawable/add_image"
-                android:onClick="launchCamera"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="@color/create_back">
             <RelativeLayout
-                android:id="@+id/progressBarContainer"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:clickable="true" >
+                android:layout_height="match_parent"
+                android:padding="5dp">
 
-                <com.wang.avi.AVLoadingIndicatorView
-                    android:id="@+id/avi"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    style="@style/AVLoadingIndicatorView"
-                    android:layout_alignParentBottom="true"
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:hint="@string/title"
+                    android:textSize="@dimen/cc_header_textsize"
+                    />
+
+                <EditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/create_edit_text_ht"
+                    android:layout_below="@+id/tvTitle"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toLeftOf="@+id/ivCamera"
+                    android:layout_toStartOf="@+id/ivCamera"
+                    android:background="@drawable/edit_text_back"
+                    android:padding="10dp"/>
+
+                <ImageView
+                    android:id="@+id/ivCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginRight="90dp"
-                    app:indicatorName="BallScaleRippleMultipleIndicator"
-                    app:indicatorColor="@color/colorPrimary" />
+                    android:layout_alignTop="@+id/etTitle"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/camera"
+                    android:onClick="launchCamera"/>
 
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/etTitle"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/description"
+                    android:textSize="@dimen/cc_header_textsize"/>
+
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/create_edit_text_ht"
+                    android:layout_below="@+id/tvDescription"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/edit_text_back"
+                    android:padding="10dp"/>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/etDescription"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="15dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rlDate"
+                        style="?whiteBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/etDescription"
+                        android:background="@android:color/white">
+
+                        <View
+                            android:id="@+id/vertSeparator1"
+                            android:layout_width="2dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/tvStartDate"
+                            android:layout_alignTop="@+id/tvStart"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/grey1"
+                            android:src="@drawable/vertical_line" />
+
+                        <TextView
+                            android:id="@+id/tvStart"
+                            android:layout_width="wrap_content"
+                            android:minWidth="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="50dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_toLeftOf="@+id/vertSeparator1"
+                            android:layout_toStartOf="@+id/vertSeparator1"
+                            android:text="@string/start"
+                            android:textSize="@dimen/cc_edit_textsize"
+                            android:gravity="center_horizontal|center_vertical"/>
+
+                        <TextView
+                            android:id="@+id/tvEnd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginStart="50dp"
+                            android:layout_toEndOf="@+id/vertSeparator1"
+                            android:layout_toRightOf="@+id/vertSeparator1"
+                            android:text="@string/end"
+                            android:textSize="@dimen/cc_edit_textsize"
+                            android:gravity="center_horizontal|center_vertical"/>
+
+                        <TextView
+                            android:id="@+id/tvStartDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/tvStart"
+                            android:layout_alignStart="@+id/tvStart"
+                            android:layout_below="@+id/tvStart"
+                            android:hint="@string/select_date"
+                            android:onClick="setStartDate"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_alignRight="@+id/tvStart"
+                            android:layout_alignEnd="@+id/tvStart"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textColorHint="@color/create_blue"/>
+
+                        <TextView
+                            android:id="@+id/tvEndDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/tvEnd"
+                            android:layout_alignRight="@+id/tvEnd"
+                            android:layout_below="@+id/tvEnd"
+                            android:hint="@string/select_date"
+                            android:onClick="setEndDate"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_alignLeft="@+id/tvEnd"
+                            android:layout_alignStart="@+id/tvEnd"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textColorHint="@color/create_blue"/>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvCategoryType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvDate"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="Type"
+                    android:textSize="@dimen/cc_header_textsize"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvCategoryType"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="5dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rlMode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/white">
+
+                        <View
+                            android:id="@+id/vertSeparator2"
+                            android:layout_width="2dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/tvOneOnOne"
+                            android:layout_alignTop="@+id/ivOneOnOne"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/grey1"
+                            android:src="@drawable/vertical_line" />
+
+                        <ImageButton
+                            android:id="@+id/ivOneOnOne"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="70dp"
+                            android:layout_marginRight="70dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toLeftOf="@+id/vertSeparator2"
+                            android:layout_toStartOf="@+id/vertSeparator2"
+                            android:background="@drawable/ic_oneonone"
+                            android:onClick="oneOnOneSelected"/>
+
+                        <TextView
+                            android:id="@+id/tvOneOnOne"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/ivOneOnOne"
+                            android:layout_alignLeft="@+id/ivOneOnOne"
+                            android:layout_alignRight="@+id/ivOneOnOne"
+                            android:layout_alignStart="@+id/ivOneOnOne"
+                            android:layout_below="@+id/ivOneOnOne"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="1dp"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:textColor="@color/grey2"
+                            android:text="@string/oneonone"
+                            android:textSize="14sp" />
+
+                        <ImageButton
+                            android:id="@+id/ivMulti"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginStart="70dp"
+                            android:layout_toEndOf="@+id/vertSeparator2"
+                            android:layout_toRightOf="@+id/vertSeparator2"
+                            android:background="@drawable/ic_multi"
+                            android:onClick="multiSelected"/>
+
+                        <TextView
+                            android:id="@+id/tvMulti"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/ivMulti"
+                            android:layout_alignRight="@+id/ivMulti"
+                            android:layout_below="@+id/ivMulti"
+                            android:text="@string/multi"
+                            android:layout_alignLeft="@+id/ivMulti"
+                            android:layout_alignStart="@+id/ivMulti"
+                            android:layout_marginLeft="-15dp"
+                            android:layout_marginRight="-15dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/grey2"
+                            android:gravity="center_horizontal|center_vertical"/>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvAddFriends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvMode"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/add_friends"
+                    android:textSize="@dimen/cc_header_textsize"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/rlFriends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddFriends"
+                    android:layout_marginTop="5dp">
+
+                    <FrameLayout
+                        android:id="@+id/flFriends"
+                        android:layout_width="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvFrequencyTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlFriends"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/frequency"
+                    android:textSize="@dimen/cc_header_textsize"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvFreq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvFrequencyTag"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rlFrequency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvFrequencyTag"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/white">
+
+                        <Button
+                            android:id="@+id/btnMinus"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_toLeftOf="@+id/vertSeparator3"
+                            android:onClick="decFrequency"
+                            android:background="@drawable/ic_minus_unselected"
+                            android:padding="5dp"/>
+
+                        <View
+                            android:id="@+id/vertSeparator3"
+                            android:layout_width="2dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/btnMinus"
+                            android:layout_alignTop="@+id/btnMinus"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toLeftOf="@+id/tvFrequency"
+                            android:background="@color/grey1"
+                            android:src="@drawable/vertical_line" />
+
+                        <TextView
+                            android:id="@+id/tvFrequency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:minWidth="150dp"
+                            android:textSize="@dimen/cc_edit_textsize"/>
+
+                        <View
+                            android:id="@+id/vertSeparator4"
+                            android:layout_width="2dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/btnPlus"
+                            android:layout_alignTop="@+id/btnPlus"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toRightOf="@+id/tvFrequency"
+                            android:background="@color/grey1"
+                            android:src="@drawable/vertical_line" />
+
+                        <Button
+                            android:id="@+id/btnPlus"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_toRightOf="@+id/vertSeparator4"
+                            android:onClick="incFrequency"
+                            android:background="@drawable/add_button"
+                            android:padding="10dp"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
             </RelativeLayout>
-
-        </RelativeLayout>
+        </ScrollView>
     </android.support.design.widget.CoordinatorLayout>
-
 </layout>

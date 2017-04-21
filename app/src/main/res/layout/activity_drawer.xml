@@ -40,12 +40,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="16dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:onClick="createChallenge"
-                android:src="@drawable/add" />
+                android:src="@drawable/add"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/light_blue_500"
+                app:fab_colorRipple="@color/indigo_500"
+                app:layout_behavior="com.accountabilibuddies.accountabilibuddies.util.ScrollAwareFABBehavior"/>
 
         </android.support.design.widget.CoordinatorLayout>
 

@@ -4,6 +4,10 @@ import java.util.HashMap;
 
 abstract public class Constants {
 
+    public static final String OPEN_SANS_REG = "fonts/OpenSans-Regular.ttf";
+    public static final String OPEN_SANS_LIGHT = "fonts/OpenSans-Light.ttf";
+
+    public static final int UNSELECTED = -1;
     public static final int TYPE_ONE_ON_ONE = 1;
     public static final int TYPE_MULTI_USER = 2;
 
@@ -16,9 +20,8 @@ abstract public class Constants {
     public static HashMap<Integer,String> frequencyMap = new HashMap<>();
     static {
         frequencyMap.put(1,"Daily");
-        frequencyMap.put(2,"One a week");
-        frequencyMap.put(3,"Twice a week");
-        frequencyMap.put(4,"Once a Month");
-        frequencyMap.put(5,"Twice a Month");
+        frequencyMap.put(2,"Weekly");
+        frequencyMap.put(3,"Biweekly");
+        frequencyMap.put(4,"Monthly");
     }
 }

@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();
+            openSplashView();
         } else {
             setUpBinding();
             startLoginAnimation();
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 viewModel.createFriendsList();
 
                 openMainView();
+                openSplashView();
             }
 
             @Override
@@ -114,5 +116,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void openSplashView() {
+
+        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+        startActivity(intent);
     }
 }

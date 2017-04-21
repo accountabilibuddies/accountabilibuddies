@@ -2,11 +2,15 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#3F51B5</color>
-    <color name="colorAccent">#f48fb1</color>
+    <color name="colorAccent">#0099e5</color>
     <color name="lightGrey">#CCCCCC</color>
     <color name="grey1">#EAEAEA</color>
     <color name="grey2">#BBBBBB</color>
     <color name="grey3">#AAAAAA</color>
+
+    <color name="create_back">#FCFCFC</color>
+    <color name="create_red">#fd5c63</color>
+    <color name="create_blue">#0099e5</color>
 
     <!--login screen-->
     <color name="purple_500">#9C27B0</color>

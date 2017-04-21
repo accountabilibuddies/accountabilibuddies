@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
-import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -16,10 +15,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FriendsAdapter  extends
+public abstract class FriendsAdapter  extends
         RecyclerView.Adapter<FriendsAdapter.MyViewHolder> {
-    private ArrayList<Friend> friendsList;
-    private Context context;
+    protected ArrayList<Friend> friendsList;
+    protected Context context;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivFriend)
@@ -42,17 +41,6 @@ public class FriendsAdapter  extends
                 .inflate(R.layout.item_fb_friends, parent, false);
 
         return new FriendsAdapter.MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(FriendsAdapter.MyViewHolder holder, int position) {
-        Friend friend = friendsList.get(position);
-
-        if (friend != null) {
-                Glide.with(context)
-                        .load(friend.get("profileURL"))
-                        .into(holder.profilePic);
-        }
     }
 
     @Override

@@ -72,7 +72,7 @@ public class APIClient {
     }
 
     public interface AddFriendToChallengeListener {
-        void onSuccess();
+        void onSuccess(String status);
         void onFailure(String errorMessage);
     }
 
@@ -184,12 +184,12 @@ public class APIClient {
 
     }
 
-    private void filterCurrentUser(List<ParseUser> users) {
+    private void filterUser(List<ParseUser> users, ParseUser removeuser) {
 
         CollectionUtils.filter(
                 users,
                 (ParseUser user) -> {
-                    String currentUserId = ParseApplication.getCurrentUser().getObjectId();
+                    String currentUserId = removeuser.getObjectId();
                     return !user.getObjectId().equals(currentUserId);
                 }
         );
@@ -200,7 +200,7 @@ public class APIClient {
         query.getInBackground(challengeObjectId, (challenge, e) -> {
             if (e == null) {
                 List<ParseUser> users = challenge.getUserList();
-                filterCurrentUser(users);
+                filterUser(users, ParseUser.getCurrentUser());
                 challenge.put("userList", users);
 
                 //challenge.addAllUnique("userList", users);
@@ -230,10 +230,9 @@ public class APIClient {
                     }
                 }
         );
-
     }
 
-    public void addFriendToChallenge(String challengeId, ParseUser friend, AddFriendToChallengeListener listener) {
+    public void addRemoveFriendToChallenge(String challengeId, ParseUser friend, AddFriendToChallengeListener listener) {
 
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
@@ -241,20 +240,30 @@ public class APIClient {
 
                 (Challenge challenge, ParseException getException) -> {
 
+                    List<ParseUser> userList = challenge.getUserList();
+
                     if (getException == null) {
-                        for(ParseUser user : challenge.getUserList()) {
+                        for(ParseUser user : userList) {
                             if(user.getObjectId().equals(friend.getObjectId())) {
+                                filterUser(userList, friend);
+                                challenge.put("userList", userList);
+                                challenge.saveInBackground(e -> {
+                                    if (e != null) {
+                                        listener.onFailure(e.getMessage());
+                                    } else {
+                                        listener.onSuccess("remove");
+                                    }
+                                });
                                 return;
                             }
                         }
                         challenge.addUnique("userList", friend);
                         challenge.saveInBackground(
-
                                 (ParseException saveException) -> {
                                     if (saveException != null) {
                                         listener.onFailure(saveException.getMessage());
                                     } else {
-                                        listener.onSuccess();
+                                        listener.onSuccess("add");
                                     }
                                 });
 
@@ -434,7 +443,7 @@ public class APIClient {
                 if (like) {
                     users.add(ParseApplication.getCurrentUser());
                 } else {
-                    filterCurrentUser(users);
+                    filterUser(users, ParseUser.getCurrentUser());
                 }
 
                 post.put("likeList", users);

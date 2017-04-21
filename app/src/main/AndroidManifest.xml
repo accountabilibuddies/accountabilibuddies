@@ -51,7 +51,8 @@
         </activity>
         <activity android:name=".activity.DrawerActivity" />
         <activity android:name=".activity.ChallengeDetailsActivity" />
-        <activity android:name=".activity.CreateChallengeActivity" />
+        <activity android:name=".activity.CreateChallengeActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity android:name=".activity.ChallengeOneOnOneActivity" />
         <activity android:name=".activity.PostDetailsActivity" />
 

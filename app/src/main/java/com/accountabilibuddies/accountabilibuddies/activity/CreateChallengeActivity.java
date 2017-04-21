@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,9 +28,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
-import com.accountabilibuddies.accountabilibuddies.fragments.AddFriendsFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.CreateFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
@@ -48,12 +49,12 @@ import java.util.TimeZone;
 public class CreateChallengeActivity extends AppCompatActivity {
 
     private ActivityCreateChallengeBinding binding;
-    private static int CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
+    private static int CHALLENGE_TYPE = Constants.UNSELECTED;
     private String mImagePath, profileUrl;
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_CAMERA = 1;
 
-    private AddFriendsFragment addFriendsFragment;
+    private CreateFriendsFragment addFriendsFragment;
 
     private static int freq = 1;
 
@@ -73,16 +74,37 @@ public class CreateChallengeActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
+
+        Typeface openSansRegular = Typeface.createFromAsset(getAssets(), Constants.OPEN_SANS_REG);
+        Typeface openSansLight = Typeface.createFromAsset(getAssets(), Constants.OPEN_SANS_LIGHT);
+
+        binding.tvTitle.setTypeface(openSansRegular);
+        binding.tvDescription.setTypeface(openSansRegular);
+        binding.tvStart.setTypeface(openSansRegular);
+        binding.tvEnd.setTypeface(openSansRegular);
+        binding.tvCategoryType.setTypeface(openSansRegular);
+        binding.tvAddFriends.setTypeface(openSansRegular);
+        binding.tvFrequencyTag.setTypeface(openSansRegular);
+
+        binding.tvEndDate.setTypeface(openSansRegular);
+        binding.tvStartDate.setTypeface(openSansRegular);
+
+        binding.tvOneOnOne.setTypeface(openSansRegular);
+        binding.tvMulti.setTypeface(openSansRegular);
+
+        binding.tvFrequency.setTypeface(openSansLight);
+
+        binding.etTitle.setTypeface(openSansLight);
+        binding.etDescription.setTypeface(openSansLight);
+
         binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
         setUpFriendsView();
     }
 
     private void setUpFriendsView() {
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        addFriendsFragment = AddFriendsFragment.newInstance(null);
-        ft.replace(R.id.flAddFriends, addFriendsFragment);
+        addFriendsFragment =  new CreateFriendsFragment();
+        ft.replace(R.id.flFriends, addFriendsFragment);
         ft.commit();
     }
 
@@ -100,7 +122,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_menu, menu);
@@ -114,6 +136,13 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     REQUEST_CAMERA);
         } else {
             launchCameraWithPermissionGranted();
+        }
+    }
+
+    private void launchCameraWithPermissionGranted() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            clickChallengePictureIntent(intent);
         }
     }
 
@@ -140,15 +169,10 @@ public class CreateChallengeActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        binding.progressBarContainer.setVisibility(View.VISIBLE);
-//        binding.avi.show();
-
         switch (requestCode) {
             case PHOTO_INTENT_REQUEST:
                 if (resultCode == RESULT_OK) {
                     if (mImagePath == null) {
-//                        binding.avi.hide();
-//                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
                     Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
@@ -158,16 +182,9 @@ public class CreateChallengeActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(String fileLocation) {
                                     profileUrl = fileLocation;
-                                    //Show image in the ImageView
-//                            binding.ivProfile.setImageBitmap(bitmap);
-//                            binding.avi.hide();
-//                            binding.progressBarContainer.setVisibility(View.GONE);
                                 }
-
                                 @Override
                                 public void onFailure(String error_message) {
-//                            binding.avi.hide();
-//                            binding.progressBarContainer.setVisibility(View.GONE);
                                 }
                             });
                 }
@@ -201,13 +218,6 @@ public class CreateChallengeActivity extends AppCompatActivity {
         }
     }
 
-    private void launchCameraWithPermissionGranted() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            clickChallengePictureIntent(intent);
-        }
-    }
-
     private void createChallenge() {
 
         if (!dataValidation())
@@ -232,7 +242,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
 
-                String currUser = (String) ParseApplication.getCurrentUser().get("name");
+                String currUser = (String) ParseUser.getCurrentUser().get("name");
                 List<ParseUser> friends = challenge.getUserList();
 
                 for(ParseUser friend : friends) {
@@ -264,34 +274,22 @@ public class CreateChallengeActivity extends AppCompatActivity {
             return false;
         }
 
-        return false;
+        if(CHALLENGE_TYPE == Constants.UNSELECTED) {
+            Toast.makeText(this, "Challenge type not selected", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 
 
     public void setStartDate(View view) {
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        // Create a date picker dialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                R.style.AppTheme, datePickerListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-
-        datePickerDialog.setCancelable(true);
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-        Window window = datePickerDialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setGravity(Gravity.CENTER);
-        datePickerDialog.show();
+        showDateDialog((view1, year, month, dayOfMonth) -> {
+            String startDate = DateUtils
+                    .createSelectedDateString(year, dayOfMonth, month);
+            binding.tvStartDate.setText(startDate);
+        },System.currentTimeMillis());
     }
-
-    private DatePickerDialog.OnDateSetListener datePickerListener =
-            (view, year, month, dayOfMonth) -> {
-                String startDate = DateUtils
-                        .createSelectedDateString(year, dayOfMonth, month);
-                binding.tvStartDate.setText(startDate);
-            };
 
     public void setEndDate(View view) {
 
@@ -300,49 +298,84 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     "Please select start date first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Calendar cal = DateUtils.getCalFromString(binding.tvStartDate.getText().toString());
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        showDateDialog((view1, year, month, dayOfMonth) -> {
+            String endDate = DateUtils
+                    .createSelectedDateString(year, dayOfMonth, month);
+            binding.tvEndDate.setText(endDate);
+        },cal.getTimeInMillis());
+    }
+    public void incFrequency(View v) {
+        freq++;
+        if(freq>=Constants.frequencyMap.size()) {
+            freq = Constants.frequencyMap.size();
+            binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.ic_add_unselected));
+        } else {
+            binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.add_button));
+            binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.minus_button));
+        }
+        binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
+    }
 
+    public void decFrequency(View v) {
+        freq--;
+        if(freq<=1) {
+            freq = 1;
+            binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.ic_minus_unselected));
+        } else {
+            binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.add_button));
+            binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.minus_button));
+        }
+        binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
+    }
+
+
+    public void oneOnOneSelected(View view) {
+
+        if(CHALLENGE_TYPE == Constants.TYPE_ONE_ON_ONE) {
+            binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone));
+            binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.grey2));
+            CHALLENGE_TYPE = Constants.UNSELECTED;
+        } else {
+            binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone_selected));
+            binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.create_blue));
+            CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
+
+            binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi));
+            binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.grey2));
+        }
+    }
+
+    public void multiSelected(View view) {
+        if(CHALLENGE_TYPE == Constants.TYPE_MULTI_USER) {
+            binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi));
+            binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.grey2));
+            CHALLENGE_TYPE = Constants.UNSELECTED;
+        } else {
+            binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi_selected));
+            binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.create_blue));
+            CHALLENGE_TYPE = Constants.TYPE_MULTI_USER;
+
+            binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone));
+            binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.grey2));
+        }
+    }
+
+    private void showDateDialog(DatePickerDialog.OnDateSetListener listener, long minDate) {
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                R.style.AppTheme, endDatePickerListener,
+                R.style.AppTheme, listener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH));
 
         datePickerDialog.setCancelable(true);
-
-        cal.add(Calendar.DAY_OF_YEAR, 1);
-        datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMinDate(minDate);
         Window window = datePickerDialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         datePickerDialog.show();
-    };
-
-    private DatePickerDialog.OnDateSetListener endDatePickerListener =
-            (view, year, month, dayOfMonth) -> {
-                String endDate = DateUtils
-                        .createSelectedDateString(year, dayOfMonth, month);
-                binding.tvEndDate.setText(endDate);
-            };
-
-
-    public void incFrequency(View v) {
-        if(freq>=Constants.frequencyMap.size()) {
-            return;
-        } else {
-            freq++;
-            binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
-        }
-    }
-
-    public void decFrequency(View v) {
-        if(freq<=1) {
-            return;
-        } else {
-            freq--;
-            binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
-        }
     }
 }
-

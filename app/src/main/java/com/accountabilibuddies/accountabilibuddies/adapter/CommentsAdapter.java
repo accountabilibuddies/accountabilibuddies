@@ -10,11 +10,14 @@ import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.util.AvatarTransform;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class CommentsAdapter extends
         RecyclerView.Adapter<CommentsAdapter.MyViewHolder> {
@@ -37,12 +40,17 @@ public class CommentsAdapter extends
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
         Comment comment = comments.get(position);
+        String profileImageUrl = comment.getProfileImageUrl();
 
         if (comment != null) {
-            //Glide.with(context)
-            //        .load(//Facebook image)
-            //        .into(holder.profile_image);
+
+            Glide.with(context)
+                .load(profileImageUrl)
+                .transform(new AvatarTransform(context))
+                .placeholder(context.getDrawable(R.drawable.avatar_placeholder))
+                .into(holder.profile_image);
 
             holder.comment.setText(comment.getComment());
         }

@@ -38,7 +38,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvDescription"
                 android:layout_above="@+id/lNewComment"
-                android:layout_marginTop="12dp"/>
+                android:layout_marginTop="12dp"
+                android:paddingStart="@dimen/padding_normal"
+                android:paddingEnd="@dimen/padding_normal"/>
 
             <include
                 android:id="@+id/lNewComment"

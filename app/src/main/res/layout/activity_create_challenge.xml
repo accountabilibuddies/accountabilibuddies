@@ -55,6 +55,7 @@
                     android:layout_toLeftOf="@+id/ivCamera"
                     android:layout_toStartOf="@+id/ivCamera"
                     android:background="@drawable/edit_text_back"
+                    fontPath="fonts/OpenSans-Light.ttf"
                     android:padding="10dp"/>
 
                 <ImageView
@@ -90,6 +91,7 @@
                     android:layout_marginRight="@dimen/left_right_margin"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/edit_text_back"
+                    fontPath="fonts/OpenSans-Light.ttf"
                     android:padding="10dp"/>
 
                 <android.support.v7.widget.CardView
@@ -388,6 +390,7 @@
                             android:layout_marginTop="10dp"
                             android:gravity="center_vertical|center_horizontal"
                             android:minWidth="150dp"
+                            fontPath="fonts/OpenSans-Light.ttf"
                             android:textSize="@dimen/cc_edit_textsize"/>
 
                         <View

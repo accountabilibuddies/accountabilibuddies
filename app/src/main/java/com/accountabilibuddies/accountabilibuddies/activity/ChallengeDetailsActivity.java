@@ -1,6 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -64,6 +65,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ChallengeDetailsActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ActivityChallengeDetailsBinding binding;
@@ -126,6 +129,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         binding.swipeContainer.setOnRefreshListener(() -> getPosts());
         getPosts();
         setUpFriendsView();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

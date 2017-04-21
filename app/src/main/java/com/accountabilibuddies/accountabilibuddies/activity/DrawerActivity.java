@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.parse.ParsePush;
 import com.parse.ParseUser;
 
 import io.fabric.sdk.android.Fabric;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DrawerActivity extends AppCompatActivity {
 
@@ -58,6 +60,11 @@ public class DrawerActivity extends AppCompatActivity {
 
         setUpNavigationDrawer();
         setUpNavigationView();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void setUpNavigationDrawer() {

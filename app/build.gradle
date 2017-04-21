@@ -91,4 +91,5 @@ dependencies {
     compile 'commons-io:commons-io:2.5'
 
     compile 'com.github.shalskar:PeekAndPop:v1.0.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 }

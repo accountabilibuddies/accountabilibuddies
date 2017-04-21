@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.application;
 
 import android.app.Application;
 
+import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
@@ -14,6 +15,7 @@ import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ParseApplication extends Application {
 
@@ -50,6 +52,16 @@ public class ParseApplication extends Application {
         ParseFacebookUtils.initialize(getApplicationContext());
 
         setUpCrashlytics();
+
+        setupFonts();
+    }
+
+    private void setupFonts() {
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/OpenSans-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     private void setUpCrashlytics() {

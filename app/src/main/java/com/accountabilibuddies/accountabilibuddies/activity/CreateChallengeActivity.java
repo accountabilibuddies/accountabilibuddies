@@ -186,13 +186,14 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
                 String currUser = (String) ParseUser.getCurrentUser().get("name");
                 List<ParseUser> friends = challenge.getUserList();
-
+/*
                 for(ParseUser friend : friends) {
                     if(!friend.get("name").equals(currUser)) {
                         createChallengeNotification((String)friend.get("name"),
                                 currUser, challenge.getObjectId(), challenge.getType());
                     }
                 }
+*/
                 startActivity(intent);
                 finish();
             }

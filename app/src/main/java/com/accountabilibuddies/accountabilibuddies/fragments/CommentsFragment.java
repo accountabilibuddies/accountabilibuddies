@@ -3,6 +3,7 @@ package com.accountabilibuddies.accountabilibuddies.fragments;
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
@@ -65,16 +67,27 @@ public class CommentsFragment extends DialogFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rVComments.setLayoutManager(layoutManager);
 
-        binding.btnComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                postComment(String.valueOf(binding.etComment.getText()));
-            }
-        });
+        setUpNewCommentListener();
 
         //Fetch Comments
         getComments();
         return binding.getRoot();
+    }
+
+    private void setUpNewCommentListener() {
+
+        ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
+        TextInputEditText tietComment = (TextInputEditText) binding.lNewComment.findViewById(R.id.tietComment);
+
+        ibComment.setOnClickListener(
+                (View v) -> {
+
+                    String comment = tietComment.getText().toString();
+                    postComment(comment);
+                }
+        );
+
+        tietComment.requestFocus();
     }
 
     private void getComments() {

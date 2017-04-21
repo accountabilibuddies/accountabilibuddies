@@ -135,7 +135,7 @@
                 android:id="@+id/fab_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/camera"
+                android:src="@drawable/camera_white"
                 android:onClick="launchCamera"
                 fab:fab_label="Photo"
                 fab:fab_colorNormal="@color/colorAccent"

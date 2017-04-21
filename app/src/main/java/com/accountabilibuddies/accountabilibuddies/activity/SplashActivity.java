@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int DELAY = 0;
+    public static final int DELAY = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

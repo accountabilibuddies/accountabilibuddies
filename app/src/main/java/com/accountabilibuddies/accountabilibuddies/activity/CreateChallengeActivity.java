@@ -24,7 +24,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CreateFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
@@ -108,7 +107,8 @@ public class CreateChallengeActivity extends AppCompatActivity implements
 
     private void setUpFriendsView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flAddFriends, new CreateFriendsFragment());
+        addFriendsFragment =  new CreateFriendsFragment();
+        ft.replace(R.id.flAddFriends, addFriendsFragment);
         ft.commit();
     }
 
@@ -184,7 +184,7 @@ public class CreateChallengeActivity extends AppCompatActivity implements
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
 
-                String currUser = (String) ParseApplication.getCurrentUser().get("name");
+                String currUser = (String) ParseUser.getCurrentUser().get("name");
                 List<ParseUser> friends = challenge.getUserList();
 
                 for(ParseUser friend : friends) {

@@ -15,7 +15,6 @@ public class CreateFriendsFragment extends FriendFragment {
     void CreateFriendsFragment(){}
 
     public Set<ParseUser> getSelectedFriends() {
-
         return selectedFriends;
     }
 
@@ -25,7 +24,6 @@ public class CreateFriendsFragment extends FriendFragment {
 
     public void removeFriend(ParseUser friend) {
         selectedFriends.remove(friend);
-
     }
 
     @Override
@@ -36,7 +34,11 @@ public class CreateFriendsFragment extends FriendFragment {
 
     @Override
     protected void onClick(int position) {
-        //Add user to challenge or remove
+        ParseUser friend = mFriendsList.get(position).getFriend();
+        if (selectedFriends.contains(friend))
+            removeFriend(friend);
+        else
+            addFriend(friend);
     }
 
     @Override

@@ -46,7 +46,6 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
             public void run() {
                 child.show();
             }
-        },200);
-
+        },500);
     }
 }

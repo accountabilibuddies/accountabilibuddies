@@ -84,7 +84,8 @@
             android:src="@drawable/hash"
             fab:menu_colorNormal="@color/colorAccent"
             fab:menu_colorPressed="@color/indigo_500"
-            fab:menu_colorRipple="@color/deep_purple_500">
+            fab:menu_colorRipple="@color/deep_purple_500"
+            app:layout_behavior="com.accountabilibuddies.accountabilibuddies.util.FloatingActionMenuBehavior">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_location"

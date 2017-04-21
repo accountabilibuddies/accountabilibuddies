@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,48 +10,61 @@
             type="com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel"/>
     </data>
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/flPost"
-            android:layout_width="wrap_content"
-            android:layout_height="192dp"/>
-
         <RelativeLayout
-            android:id="@+id/rlLikeStats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/flPost"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/ivLikes"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/flPost"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="2dp"
-                android:layout_marginEnd="2dp"
-                android:src="@drawable/red_heart"/>
+                android:minHeight="192dp"
+                android:layout_alignParentTop="true"/>
 
-            <TextView
-                android:id="@+id/tvNumLikes"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/lDetails"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ivLikes"
-                android:layout_toEndOf="@+id/ivLikes"
-                tools:text="52"/>
+                android:layout_width="match_parent"
+                android:layout_below="@+id/flPost"
+                layout="@layout/post_details"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDescription"
+                android:layout_above="@+id/lNewComment"
+                android:layout_marginTop="12dp"/>
+
+            <include
+                android:id="@+id/lNewComment"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/enter_comment"/>
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvComments"
-            android:layout_width="match_parent"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabLike"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlLikeStats"/>
+            android:layout_above="@+id/rvComments"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="22dp"
+            android:layout_marginRight="22dp"
+            android:clickable="true"
+            app:layout_anchor="@+id/flPost"
+            app:layout_anchorGravity="bottom|right|end"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/empty_heart" />
 
-    </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
 </layout>

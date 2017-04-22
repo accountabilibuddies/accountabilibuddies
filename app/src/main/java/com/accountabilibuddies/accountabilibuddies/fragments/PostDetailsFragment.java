@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
@@ -24,7 +25,9 @@ import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetai
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.AvatarTransform;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel;
+import com.bumptech.glide.Glide;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -152,6 +155,22 @@ public class PostDetailsFragment extends Fragment {
                     postComment(comment);
                 }
         );
+
+        addCurrentUserAvatar();
+    }
+
+    private void addCurrentUserAvatar() {
+
+        ImageView ivAvatar = (ImageView) binding.lNewComment.findViewById(R.id.ivAvatar);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        String profilePhotoUrl = (String) user.get("profilePhotoUrl");
+
+        Glide.with(context)
+                .load(profilePhotoUrl)
+                .transform(new AvatarTransform(context))
+                .placeholder(context.getDrawable(R.drawable.avatar_placeholder))
+                .into(ivAvatar);
     }
 
     public void postComment(String commentText) {

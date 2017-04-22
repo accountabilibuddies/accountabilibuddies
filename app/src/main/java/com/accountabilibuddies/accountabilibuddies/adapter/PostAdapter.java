@@ -27,6 +27,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseException;
 
 import java.util.List;
 
@@ -121,6 +122,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             switch (holder.getItemViewType()) {
                 case POST_WITH_IMAGE:
                     PostWithImageViewHolder imgVH = (PostWithImageViewHolder) holder;
+                    try {
+                        Glide.with(context)
+                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
+                                .into(imgVH.getIvProfileImage());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    imgVH.tvName.setText(post.getOwner().getString("name"));
                     if (post.getImageUrl() != null)
                         Glide.with(context)
                                 .load(post.getImageUrl())

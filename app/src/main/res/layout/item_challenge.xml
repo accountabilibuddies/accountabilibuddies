@@ -53,6 +53,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+
         <ImageView
             android:id="@+id/ivChallengeImage"
             android:layout_width="match_parent"
@@ -72,7 +73,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="10dp"
-            android:src ="@drawable/members" />
+            card_view:srcCompat="@drawable/members" />
 
         <TextView
             android:id="@+id/tvMemberCount"

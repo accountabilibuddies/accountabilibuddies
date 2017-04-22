@@ -63,13 +63,6 @@ public class ChallengeMembersFragment extends DialogFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvMembers.setLayoutManager(layoutManager);
 
-        binding.btClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         getMembers();
         return binding.getRoot();
     }

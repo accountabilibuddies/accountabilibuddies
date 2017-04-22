@@ -14,6 +14,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.DetailImageBindin
 import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostImageBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.bumptech.glide.Glide;
 
 public class PostWithImageFragment extends Fragment {

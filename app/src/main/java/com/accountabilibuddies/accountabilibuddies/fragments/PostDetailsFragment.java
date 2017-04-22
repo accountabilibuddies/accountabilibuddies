@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,10 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
@@ -70,6 +73,7 @@ public class PostDetailsFragment extends Fragment {
 
         showPost(postId, viewType);
         showComments(postId);
+        setUpNewCommentListener();
         showNumLikes(postId);
 
         return binding.getRoot();
@@ -133,6 +137,48 @@ public class PostDetailsFragment extends Fragment {
 
         ft.replace(R.id.flPost, PostWithTextFragment.newInstance(postId));
         ft.commit();
+    }
+
+    private void setUpNewCommentListener() {
+
+        ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
+        TextInputEditText tietComment = (TextInputEditText) binding.lNewComment.findViewById(R.id.tietComment);
+
+        ibComment.setOnClickListener(
+                (View v) -> {
+
+                    String comment = tietComment.getText().toString();
+                    postComment(comment);
+                }
+        );
+
+        tietComment.requestFocus();
+    }
+
+    public void postComment(String commentText) {
+
+        Comment comment = new Comment();
+
+        comment.setText(commentText);
+        comment.setUser(ParseApplication.getCurrentUser());
+
+        int oldSize = comments.size();
+
+        comments.add(comment);
+        adapter.notifyItemRangeChanged(oldSize, 1);
+
+        binding.rvComments.scrollToPosition(oldSize);
+
+        APIClient.getClient().addComment(getArguments().getString("postId"), comment,
+                new APIClient.PostListener() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onFailure(String error_message) {
+                    }
+                });
     }
 
     private void showComments(String postId) {

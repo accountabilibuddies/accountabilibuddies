@@ -22,7 +22,6 @@
         android:paddingLeft="6dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:fontFamily="serif"
         android:background="@drawable/date_divider"
         android:textColor="@android:color/white"
         android:layout_centerVertical="true"

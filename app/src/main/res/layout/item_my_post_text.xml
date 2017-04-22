@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,8 +14,8 @@
         android:layout_centerVertical="true"
         android:background="@color/grey2"/>
 
-    <TextView
-        android:id="@+id/myPostText"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvMyPostText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,19 +27,32 @@
         android:padding="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Temporary Text"
-        android:textColor="@android:color/black"
-        style="?whiteBackground"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="@dimen/cc_card_elevation">
 
+        <TextView
+            android:id="@+id/myPostText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Temporary Text"
+            android:padding="10dp"
+            android:textColor="@color/grey3"/>
+    </android.support.v7.widget.CardView>
 
     <View
         android:id="@+id/myVertSeparator"
         android:layout_width="4dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/myPostText"
-        android:layout_alignBottom="@+id/myPostText"
+        android:layout_alignTop="@+id/cvMyPostText"
+        android:layout_alignBottom="@+id/cvMyPostText"
         android:layout_centerHorizontal="true"
-        android:background="@color/grey2"/>
+        android:background="@color/grey2"
+        android:layout_marginTop="-11dp"
+        android:layout_marginBottom="-10dp"/>
 
     <TextView
         android:id="@+id/myPostTextDate"
@@ -52,7 +67,6 @@
         android:text="Date"
         android:padding="3dp"
         android:textSize="12sp"
-        android:fontFamily="serif-monospace"
         android:background="@drawable/date_boundary"/>
 
     <ImageView

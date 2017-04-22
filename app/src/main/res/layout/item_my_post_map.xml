@@ -24,7 +24,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         style="?whiteBackground"
-        android:padding="5dp"
         map:mapType="none"
         map:liteMode="true" />
 
@@ -49,7 +48,6 @@
         android:text="Date"
         android:padding="3dp"
         android:textSize="12sp"
-        android:fontFamily="serif-monospace"
         android:background="@drawable/date_boundary"/>
 
     <ImageView

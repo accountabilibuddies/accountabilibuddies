@@ -1,4 +1,4 @@
-app/src/main/java/com/accountabilibuddies/accountabilibuddies/fragments/PostDetailsFragment.javapackage com.accountabilibuddies.accountabilibuddies.fragments;
+package com.accountabilibuddies.accountabilibuddies.fragments;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

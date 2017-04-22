@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_large"
-        android:background="@drawable/detail_location_gradient">
+        android:background="@color/cyan_400">
 
         <TextView
             android:id="@+id/tvAddress"

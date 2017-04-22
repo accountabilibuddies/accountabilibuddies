@@ -3,10 +3,12 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<FrameLayout
+<RelativeLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="200dp"
+    android:padding="@dimen/padding_large"
+    android:background="@color/purple_200">
 
     <ImageView
         android:id="@+id/ivChallengeImage"
@@ -16,6 +18,6 @@
         android:adjustViewBounds="true"
         android:minHeight="192dp"/>
 
-</FrameLayout>
+</RelativeLayout>
 
 </layout>

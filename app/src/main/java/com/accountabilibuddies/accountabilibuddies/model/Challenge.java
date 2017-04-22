@@ -125,10 +125,10 @@ public class Challenge extends ParseObject {
     }
 
     public List<ParseUser> getUserList() {
-        return (List<ParseUser >) get("userList");
+        return (List<ParseUser>) get("userList");
     }
 
-    public void setUserList(List<ParseUser > userList) {
+    public void setUserList(List<ParseUser> userList) {
         put("userList", userList);
     }
 

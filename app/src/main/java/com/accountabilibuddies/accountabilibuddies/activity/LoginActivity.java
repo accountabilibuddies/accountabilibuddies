@@ -11,6 +11,7 @@ import android.view.View;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
+import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -29,9 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new LoginViewModel(LoginActivity.this);
 
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        ViewUtils.makeViewFullScreen(getWindow());
 
         ParseUser currentUser = ParseUser.getCurrentUser();
 

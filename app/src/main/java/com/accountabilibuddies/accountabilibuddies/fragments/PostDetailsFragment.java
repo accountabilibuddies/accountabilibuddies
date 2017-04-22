@@ -151,8 +151,6 @@ public class PostDetailsFragment extends Fragment {
                     postComment(comment);
                 }
         );
-
-        tietComment.requestFocus();
     }
 
     public void postComment(String commentText) {

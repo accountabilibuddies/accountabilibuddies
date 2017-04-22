@@ -19,6 +19,9 @@ public class PostWithImageViewHolder extends PostViewHolder {
     @BindView(R.id.tvName)
     TextView tvName;
 
+    @BindView(R.id.tvTime)
+    TextView relativeTime;
+
     public PostWithImageViewHolder(View itemView) {
         super(itemView);
     }
@@ -45,5 +48,13 @@ public class PostWithImageViewHolder extends PostViewHolder {
 
     public void setTvName(TextView tvName) {
         this.tvName = tvName;
+    }
+
+    public TextView getRelativeTime() {
+        return relativeTime;
+    }
+
+    public void setRelativeTime(TextView relativeTime) {
+        this.relativeTime = relativeTime;
     }
 }

@@ -12,6 +12,7 @@ import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
+import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.VideoPlayer;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -123,7 +124,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    imgVH.tvName.setText(post.getOwner().getString("name"));
+                    imgVH.getTvName().setText(post.getOwner().getString("name"));
+                    imgVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     if (post.getImageUrl() != null)
                         Glide.with(context)
                                 .load(post.getImageUrl())
@@ -143,7 +145,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    vidVH.tvName.setText(post.getOwner().getString("name"));
+                    vidVH.getTvName().setText(post.getOwner().getString("name"));
+                    vidVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     VideoPlayer.loadVideo(context, vidVH.getVideoView(), post.getVideoUrl());
                     //setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
                     setPostButtonValues(vidVH);
@@ -160,8 +163,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    locVH.tvName.setText(post.getOwner().getString("name"));
-
+                    locVH.getTvName().setText(post.getOwner().getString("name"));
+                    locVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     locVH.getMapview().onCreate(null);
                     locVH.getMapview().getMapAsync(new OnMapReadyCallback(){
                         @Override
@@ -197,7 +200,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    textVH.tvName.setText(post.getOwner().getString("name"));
+                    textVH.getTvName().setText(post.getOwner().getString("name"));
+                    textVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     textVH.getText().setText(post.getText());
                     setPostButtonValues(textVH);
                     setUpPostDetailsHandler(textVH.getItemView(), post.getObjectId(), POST_WITH_TEXT);

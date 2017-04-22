@@ -105,7 +105,7 @@
                     android:layout_marginTop="15dp"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="2dp"
-                    app:cardElevation="5dp">
+                    app:cardElevation="@dimen/cc_card_elevation">
 
                     <RelativeLayout
                         android:id="@+id/rlDate"
@@ -214,7 +214,7 @@
                     android:layout_marginTop="5dp"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="2dp"
-                    app:cardElevation="5dp">
+                    app:cardElevation="@dimen/cc_card_elevation">
 
                     <RelativeLayout
                         android:id="@+id/rlMode"
@@ -309,26 +309,31 @@
                     android:textSize="@dimen/cc_header_textsize"
                     android:textStyle="bold" />
 
-                <RelativeLayout
-                    android:id="@+id/rlFriends"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvFriends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvAddFriends"
-                    android:layout_marginTop="5dp">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/left_right_margin"
+                    android:layout_marginRight="@dimen/left_right_margin"
+                    android:layout_marginTop="5dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="@dimen/cc_card_elevation">
 
                     <FrameLayout
                         android:id="@+id/flFriends"
                         android:layout_width="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_height="wrap_content"/>
-
-                </RelativeLayout>
+                        android:layout_height="wrap_content"
+                        />
+                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:id="@+id/tvFrequencyTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rlFriends"
+                    android:layout_below="@+id/cvFriends"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:text="@string/frequency"
@@ -347,7 +352,7 @@
                     android:layout_marginBottom="20dp"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="2dp"
-                    app:cardElevation="5dp">
+                    app:cardElevation="@dimen/cc_card_elevation">
 
                     <RelativeLayout
                         android:id="@+id/rlFrequency"

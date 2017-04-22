@@ -113,7 +113,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         setupGoogleClient();
 
         mPostList = new ArrayList<>();
-        mAdapter = new PostAdapter(this, mPostList);
+        mAdapter = new PostAdapter(this, challenge.getObjectId(), mPostList);
         binding.rVPosts.setAdapter(mAdapter);
         binding.rVPosts.setItemAnimator(new DefaultItemAnimator());
 

@@ -28,8 +28,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         ViewUtils.makeViewFullScreen(getWindow());
 
         String postId = getIntent().getStringExtra("postId");
+        String challengeId = getIntent().getStringExtra("challengeId");
 
-        setUpDetailsFragment(postId);
+        setUpDetailsFragment(postId, challengeId);
     }
 
     @Override
@@ -38,13 +39,13 @@ public class PostDetailsActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void setUpDetailsFragment(String postId) {
+    private void setUpDetailsFragment(String postId, String challengeId) {
 
         int viewType = getIntent().getIntExtra("viewType", PostAdapter.POST_WITH_TEXT);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance(postId, viewType));
+        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance(postId, challengeId, viewType));
         ft.commit();
     }
 }

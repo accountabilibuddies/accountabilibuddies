@@ -13,7 +13,6 @@
         android:paddingEnd="@dimen/padding_room_for_fab"
         android:paddingStart="@dimen/padding_normal"
         android:paddingTop="@dimen/padding_normal"
-        android:text="Photocompositing challenge."
         tools:text="Photocompositing challenge." />
 
     <TextView
@@ -23,7 +22,6 @@
         android:layout_below="@id/tvTitle"
         android:paddingStart="@dimen/padding_normal"
         android:paddingEnd="@dimen/padding_normal"
-        android:text="Complete one photo composite each week based on a theme."
         android:textSize="12sp"
         tools:text="Complete one photo composite each week based on a theme." />
 

@@ -148,6 +148,7 @@ public class PostDetailsFragment extends Fragment {
                 (View v) -> {
 
                     String comment = tietComment.getText().toString();
+                    tietComment.setText("");
                     postComment(comment);
                 }
         );

@@ -5,6 +5,7 @@
     <dimen name="create_edit_text_ht">36dp</dimen>
     <dimen name="cc_edit_textsize">20sp</dimen>
     <dimen name="cc_header_textsize">16sp</dimen>
+    <dimen name="cc_card_elevation">3dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
     <dimen name="padding_large">24dp</dimen>
     <dimen name="padding_room_for_fab">88dp</dimen>

@@ -1,12 +1,11 @@
 package com.accountabilibuddies.accountabilibuddies.fragments;
 
-
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 
-public class UpcomingChallenges extends ChallengesFragment {
+public class CompleteChallenges extends ChallengesFragment {
     @Override
     protected void getChallenges() {
         mChallengeList.clear();
-        client.getUpcomingChallengeList(ParseApplication.getCurrentUser(), listener);
+        client.getCompleteChallengeList(ParseApplication.getCurrentUser(), listener);
     }
 }

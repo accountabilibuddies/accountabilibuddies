@@ -36,6 +36,8 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
@@ -226,16 +228,20 @@ public class CreateChallengeActivity extends AppCompatActivity {
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
 
-                //TODO: Correct this code
-//                String currUser = (String) ParseUser.getCurrentUser().get("name");
-//                List<ParseUser> friends = challenge.getUserList();
-//
-//                for(ParseUser friend : friends) {
-//                    if(!friend.get("name").equals(currUser)) {
-//                        createChallengeNotification((String)friend.get("name"),
-//                                currUser, challenge.getObjectId(), challenge.getType());
-//                    }
-//                }
+                try {
+                    String currentUser = ParseUser.getCurrentUser().fetchIfNeeded().getObjectId();
+                    String currentUserName = (String) ParseUser.getCurrentUser().get("name");
+
+                    for(ParseUser friend : challenge.getUserList()) {
+                        if(currentUser!=null && !currentUser.equals(friend.getObjectId())) {
+                            createChallengeNotification(friend.getObjectId(), currentUserName,
+                                    challenge.getObjectId(), challenge.getType());
+                        }
+                    }
+                } catch (ParseException e) {
+                    Log.e("ERROR","Error getting parse user info");
+                }
+
                 startActivity(intent);
                 finish();
             }

@@ -60,6 +60,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -94,7 +95,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         challenge = ParseObject.createWithoutData(Challenge.class,
                 getIntent().getStringExtra("challengeId"));
-
+        try {
+            challenge.fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
 
@@ -131,7 +136,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        if (challenge.getEndDate().compareTo(new Date()) > 0) {
+            getMenuInflater().inflate(R.menu.detail_menu, menu);
+        } else {
+            binding.fabMenu.setVisibility(View.GONE);
+        }
         return true;
     }
 

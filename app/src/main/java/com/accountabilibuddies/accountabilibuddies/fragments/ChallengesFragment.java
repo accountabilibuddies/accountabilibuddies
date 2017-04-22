@@ -19,6 +19,7 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class ChallengesFragment extends Fragment {
@@ -39,6 +40,7 @@ public abstract class ChallengesFragment extends Fragment {
         public void onSuccess(List<Challenge> challengeList) {
             if (challengeList != null) {
                 mChallengeList.clear();
+                Collections.reverse(challengeList);
                 mChallengeList.addAll(challengeList);
                 mAdapter.notifyDataSetChanged();
             }

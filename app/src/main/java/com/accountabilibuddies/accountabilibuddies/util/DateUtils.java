@@ -10,13 +10,6 @@ import java.util.Date;
 
 public class DateUtils {
 
-    /**
-     * Function generates the required string the the format MM/dd/yyyy
-     * @param selectedYear
-     * @param selectedDay
-     * @param selectedMonth
-     * @return
-     */
     public static String createSelectedDateString (
             int selectedYear, int selectedDay, int selectedMonth) {
 
@@ -24,6 +17,14 @@ public class DateUtils {
         c.set(selectedYear, selectedMonth, selectedDay, 0, 0);
 
         return getDate(c.getTime());
+    }
+
+    public static Date getDate(int selectedYear, int selectedDay, int selectedMonth) {
+
+        Calendar c = Calendar.getInstance();
+        c.set(selectedYear, selectedMonth, selectedDay, 0, 0);
+
+        return c.getTime();
     }
 
     /**

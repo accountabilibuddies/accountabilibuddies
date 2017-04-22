@@ -39,12 +39,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private CardView cvPost;
     private TextView likesCount;
 
+    private String challengeId;
+
     APIClient client = APIClient.getClient();
     public static final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
-    public PostAdapter(Context context, List<Post> postList) {
+    public PostAdapter(Context context, String challengeId, List<Post> postList) {
         this.postList = postList;
+        this.challengeId = challengeId;
         this.context = context;
     }
 
@@ -101,6 +104,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             (View v) -> {
                 Intent intent = new Intent(context, PostDetailsActivity.class);
                 intent.putExtra("postId", postId);
+                intent.putExtra("challengeId", challengeId);
                 intent.putExtra("viewType", viewType);
                 context.startActivity(intent);
             }

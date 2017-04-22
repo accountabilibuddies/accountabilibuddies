@@ -10,6 +10,10 @@
             android:id="@+id/uChallenges"
             android:icon="@drawable/upcoming"
             android:title="Upcoming challenges" />
+        <item
+            android:id="@+id/pChallenges"
+            android:icon="@drawable/complete"
+            android:title="Completed challenges" />
 
         <item
             android:id="@+id/settings"

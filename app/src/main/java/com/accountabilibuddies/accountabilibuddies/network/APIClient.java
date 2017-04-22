@@ -17,6 +17,7 @@ import com.parse.SaveCallback;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 public class APIClient {
@@ -117,11 +118,43 @@ public class APIClient {
         });
     }
 
-    public void getChallengeList(ParseUser user, GetChallengeListListener listener) {
+    public void getCompleteChallengeList(ParseUser user, GetChallengeListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.whereEqualTo("userList", user);
+        query.whereLessThan("endDate", new Date());
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                listener.onSuccess(objects);
+            }
+        });
+    }
+
+    public void getUpcomingChallengeList(ParseUser user, GetChallengeListListener listener) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.whereEqualTo("userList", user);
+        query.whereGreaterThan("startDate", new Date());
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                listener.onSuccess(objects);
+            }
+        });
+    }
+
+    public void getCurrentChallengeList(ParseUser user, GetChallengeListListener listener) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.whereEqualTo("userList", user);
+        query.whereLessThanOrEqualTo("startDate", new Date());
+        query.whereGreaterThanOrEqualTo("endDate", new Date());
         query.findInBackground((objects, e) -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());

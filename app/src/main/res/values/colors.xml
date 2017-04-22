@@ -26,4 +26,6 @@
     <color name="red_200">#ef9a9a</color>
     <color name="red_500">#f44336</color>
     <color name="red_400">#ef5350</color>
+    <color name="purple_200">#CE93D8</color>
+    <color name="cyan_400">#26C6DA</color>
 </resources>

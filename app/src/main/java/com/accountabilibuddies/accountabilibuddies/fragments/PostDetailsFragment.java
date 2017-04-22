@@ -1,4 +1,4 @@
-package com.accountabilibuddies.accountabilibuddies.fragments;
+app/src/main/java/com/accountabilibuddies/accountabilibuddies/fragments/PostDetailsFragment.javapackage com.accountabilibuddies.accountabilibuddies.fragments;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -151,8 +151,6 @@ public class PostDetailsFragment extends Fragment {
                     postComment(comment);
                 }
         );
-
-        tietComment.requestFocus();
     }
 
     public void postComment(String commentText) {

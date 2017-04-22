@@ -94,4 +94,5 @@ dependencies {
     compile 'com.github.shalskar:PeekAndPop:v1.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.shts:TriangleLabelView:1.1.2'
+    compile 'com.github.jd-alexander:LikeButton:0.2.0'
 }

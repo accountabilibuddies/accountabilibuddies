@@ -5,7 +5,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/ablChallenge"
@@ -45,7 +45,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rVPosts"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content" >
                 </android.support.v7.widget.RecyclerView>
 
             </android.support.v4.widget.SwipeRefreshLayout>
@@ -81,7 +81,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/hash"
+            app:srcCompat="@drawable/hash"
             fab:menu_colorNormal="@color/colorAccent"
             fab:menu_colorPressed="@color/indigo_500"
             fab:menu_colorRipple="@color/deep_purple_500"
@@ -91,7 +91,7 @@
                 android:id="@+id/fab_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/location"
+                app:srcCompat="@drawable/location"
                 android:onClick="shareLocation"
                 fab:fab_label="Location"
                 fab:fab_colorNormal="@color/colorAccent"
@@ -102,7 +102,7 @@
                 android:id="@+id/fab_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gallery"
+                app:srcCompat="@drawable/gallery"
                 android:onClick="sharePhotos"
                 fab:fab_label="Gallery"
                 fab:fab_colorNormal="@color/colorAccent"
@@ -113,7 +113,7 @@
                 android:id="@+id/fab_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/text"
+                app:srcCompat="@drawable/text"
                 android:onClick="launchTextPost"
                 fab:fab_label="Message"
                 fab:fab_colorNormal="@color/colorAccent"
@@ -124,7 +124,7 @@
                 android:id="@+id/fab_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/video"
+                app:srcCompat="@drawable/video"
                 android:onClick="launchCameraForVideo"
                 fab:fab_label="Video"
                 fab:fab_colorNormal="@color/colorAccent"
@@ -135,7 +135,7 @@
                 android:id="@+id/fab_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/camera_white"
+                app:srcCompat="@drawable/camera_white"
                 android:onClick="launchCamera"
                 fab:fab_label="Photo"
                 fab:fab_colorNormal="@color/colorAccent"

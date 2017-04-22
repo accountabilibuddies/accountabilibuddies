@@ -25,9 +25,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,11 +114,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         mAdapter = new PostAdapter(this, challenge.getObjectId(), mPostList);
         binding.rVPosts.setAdapter(mAdapter);
         binding.rVPosts.setItemAnimator(new DefaultItemAnimator());
-
-        //Recylerview decorater
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        binding.rVPosts.addItemDecoration(itemDecoration);
 
         mLayoutManager = new LinearLayoutManager(this);
         binding.rVPosts.setLayoutManager(mLayoutManager);

@@ -5,4 +5,18 @@
     <dimen name="create_edit_text_ht">36dp</dimen>
     <dimen name="cc_edit_textsize">20sp</dimen>
     <dimen name="cc_header_textsize">16sp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_room_for_fab">88dp</dimen>
+    <dimen name="spacing_large">32dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="til_margin_fix">-4dp</dimen>
+    <dimen name="avatar_bounds">48dp</dimen>
+    <dimen name="avatar_margin">12dp</dimen>
+    <dimen name="avatar_padding">4dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
+    <dimen name="comment_avatar_size">36dp</dimen>
+    <dimen name="comment_avatar_padding">4dp</dimen>
+    <dimen name="comment_padding">4dp</dimen>
+    <dimen name="comment_detail_size">10sp</dimen>
 </resources>

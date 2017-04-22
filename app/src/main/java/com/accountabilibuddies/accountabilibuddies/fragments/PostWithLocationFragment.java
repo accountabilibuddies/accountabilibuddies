@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.databinding.DetailLocationBinding;
 import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostLocationBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -22,7 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PostWithLocationFragment extends Fragment {
 
-    ItemPostLocationBinding binding;
+    DetailLocationBinding binding;
     private GoogleMap map;
 
     public static PostWithLocationFragment newInstance(String postId) {
@@ -41,7 +42,7 @@ public class PostWithLocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.item_post_location, parent, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.detail_location, parent, false);
 
         String postId = getArguments().getString("postId");
 
@@ -64,9 +65,9 @@ public class PostWithLocationFragment extends Fragment {
     public void setUpMap(Post post) {
 
         binding.mapview.onCreate(null);
-        binding.mapview.getMapAsync(new OnMapReadyCallback(){
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
+        binding.mapview.getMapAsync(
+
+            (GoogleMap googleMap) -> {
                 MapsInitializer.initialize(getContext());
                 map = googleMap;
 
@@ -81,6 +82,6 @@ public class PostWithLocationFragment extends Fragment {
                 else
                     binding.tvAddress.setVisibility(View.GONE);
             }
-        });
+        );
     }
 }

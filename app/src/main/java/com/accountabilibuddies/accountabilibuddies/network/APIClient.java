@@ -57,6 +57,11 @@ public class APIClient {
         void onFailure(String errorMessage);
     }
 
+    public interface GetChallengeListener {
+        void onSuccess(Challenge challenge);
+        void onFailure(String errorMessage);
+    }
+
     public interface GetPostListListener {
         void onSuccess(List<Post> postList);
         void onFailure(String error_message);
@@ -196,6 +201,23 @@ public class APIClient {
 
     public void getChallenge() {
 
+    }
+
+    public void getChallengeById(String challengeId, GetChallengeListener listener) {
+
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        query.getInBackground(
+            challengeId,
+            (Challenge challenge, ParseException e) -> {
+                if (e == null) {
+                    listener.onSuccess(challenge);
+                } else {
+                    listener.onFailure(e.getMessage());
+                }
+
+            }
+        );
     }
 
     public void updateChallenge() {

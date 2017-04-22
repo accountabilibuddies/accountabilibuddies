@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.databinding.DetailTextBinding;
 import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostTextBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 
 public class PostWithTextFragment extends Fragment {
 
-    ItemPostTextBinding binding;
+    DetailTextBinding binding;
 
     public static PostWithTextFragment newInstance(String postId) {
 
@@ -34,7 +35,7 @@ public class PostWithTextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.item_post_text, parent, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.detail_text, parent, false);
 
         String postId = getArguments().getString("postId");
 

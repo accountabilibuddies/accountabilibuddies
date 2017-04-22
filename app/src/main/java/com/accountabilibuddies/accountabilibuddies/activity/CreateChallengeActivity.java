@@ -36,14 +36,12 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.parse.ParseCloud;
-import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -55,6 +53,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
     private String mImagePath, profileUrl;
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_CAMERA = 1;
+    private Date startDate,endDate;
 
     private CreateFriendsFragment addFriendsFragment;
 
@@ -212,9 +211,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
 
         Challenge challenge = new Challenge(CHALLENGE_TYPE, binding.etTitle.getText().toString(),
                 binding.etDescription.getText().toString(),
-                new Date(String.valueOf(binding.tvStartDate.getText())),
-                new Date(String.valueOf(binding.tvEndDate.getText())),
-                freq, profileUrl, 0,
+                startDate, endDate, freq, profileUrl, 0,
                 addFriendsFragment.getSelectedFriends());//There is no category so pass 0
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
@@ -229,15 +226,16 @@ public class CreateChallengeActivity extends AppCompatActivity {
                 intent.putExtra("challengeId", challenge.getObjectId());
                 intent.putExtra("name", challenge.getName());
 
-                String currUser = (String) ParseUser.getCurrentUser().get("name");
-                List<ParseUser> friends = challenge.getUserList();
-
-                for(ParseUser friend : friends) {
-                    if(!friend.get("name").equals(currUser)) {
-                        createChallengeNotification((String)friend.get("name"),
-                                currUser, challenge.getObjectId(), challenge.getType());
-                    }
-                }
+                //TODO: Correct this code
+//                String currUser = (String) ParseUser.getCurrentUser().get("name");
+//                List<ParseUser> friends = challenge.getUserList();
+//
+//                for(ParseUser friend : friends) {
+//                    if(!friend.get("name").equals(currUser)) {
+//                        createChallengeNotification((String)friend.get("name"),
+//                                currUser, challenge.getObjectId(), challenge.getType());
+//                    }
+//                }
                 startActivity(intent);
                 finish();
             }
@@ -266,31 +264,35 @@ public class CreateChallengeActivity extends AppCompatActivity {
             return false;
         }
 
+        if(startDate==null || endDate==null) {
+            Toast.makeText(this, "Select dates for the challenge", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         return true;
     }
 
 
     public void setStartDate(View view) {
         showDateDialog((view1, year, month, dayOfMonth) -> {
-            String startDate = DateUtils
-                    .createSelectedDateString(year, dayOfMonth, month);
-            binding.tvStartDate.setText(startDate);
+            startDate = DateUtils.getDate(year, dayOfMonth, month);
+            binding.tvStartDate.setText(DateUtils.getDate(startDate));
         },System.currentTimeMillis());
     }
 
     public void setEndDate(View view) {
 
-        if(binding.tvStartDate.getText().length() == 0) {
+        if(startDate == null) {
             Toast.makeText(view.getContext(),
                     "Please select start date first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        Calendar cal = DateUtils.getCalFromString(binding.tvStartDate.getText().toString());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
         cal.add(Calendar.DAY_OF_YEAR, 1);
         showDateDialog((view1, year, month, dayOfMonth) -> {
-            String endDate = DateUtils
-                    .createSelectedDateString(year, dayOfMonth, month);
-            binding.tvEndDate.setText(endDate);
+            endDate = DateUtils.getDate(year, dayOfMonth, month);
+            binding.tvEndDate.setText(DateUtils.getDate(endDate));
         },cal.getTimeInMillis());
     }
     public void incFrequency(View v) {

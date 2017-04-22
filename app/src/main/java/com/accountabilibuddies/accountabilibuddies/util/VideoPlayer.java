@@ -35,8 +35,8 @@ public class VideoPlayer {
      *          The active {@link Context} for your application.
      * @param view
      *          The ScalableVideoView view.
-     * @param url of the video
-     *          The client key provided in the Parse dashboard.
+     * @param url
+     *          The url of the video
      */
     public static void loadVideo(Context context, ScalableVideoView view, String url) {
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,14 +14,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetailsBinding;
+import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.AvatarTransform;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel;
+import com.bumptech.glide.Glide;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -30,15 +40,20 @@ public class PostDetailsFragment extends Fragment {
 
     private Context context;
     private FragmentPostDetailsBinding binding;
-    ArrayList<Comment> comments;
+
+    private ArrayList<Comment> comments;
+
+    private Post post;
+
     CommentsAdapter adapter;
 
-    public static PostDetailsFragment newInstance(String postId, int viewType) {
+    public static PostDetailsFragment newInstance(String postId, String challengeId, int viewType) {
 
         PostDetailsFragment postDetailsFragment = new PostDetailsFragment();
 
         Bundle args = new Bundle();
         args.putString("postId", postId);
+        args.putString("challengeId", challengeId);
         args.putInt("viewType", viewType);
 
         postDetailsFragment.setArguments(args);
@@ -58,13 +73,16 @@ public class PostDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
 
         String postId = getArguments().getString("postId");
+        String challengeId = getArguments().getString("challengeId");
         int viewType = getArguments().getInt("viewType");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post_details, parent, false);
-        binding.setPostDetailsViewModel(new PostDetailsViewModel());
+        binding.setPostDetailsViewModel(new PostDetailsViewModel(getActivity(), postId));
 
         showPost(postId, viewType);
+        addChallengeDetails(challengeId);
         showComments(postId);
+        setUpNewCommentListener();
         showNumLikes(postId);
 
         return binding.getRoot();
@@ -130,6 +148,84 @@ public class PostDetailsFragment extends Fragment {
         ft.commit();
     }
 
+    private void setUpNewCommentListener() {
+
+        ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
+        TextInputEditText tietComment = (TextInputEditText) binding.lNewComment.findViewById(R.id.tietComment);
+
+        ibComment.setOnClickListener(
+                (View v) -> {
+
+                    String comment = tietComment.getText().toString();
+                    tietComment.setText("");
+                    postComment(comment);
+                }
+        );
+
+        addCurrentUserAvatar();
+    }
+
+    private void addCurrentUserAvatar() {
+
+        ImageView ivAvatar = (ImageView) binding.lNewComment.findViewById(R.id.ivAvatar);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        String profilePhotoUrl = (String) user.get("profilePhotoUrl");
+
+        Glide.with(context)
+                .load(profilePhotoUrl)
+                .transform(new AvatarTransform(context))
+                .placeholder(context.getDrawable(R.drawable.avatar_placeholder))
+                .into(ivAvatar);
+    }
+
+    private void addChallengeDetails(String challengeId) {
+
+        APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
+
+            @Override
+            public void onSuccess(Challenge challenge) {
+
+                TextView tvTitle = (TextView) binding.lDetails.findViewById(R.id.tvTitle);
+                TextView tvDescription = (TextView) binding.lDetails.findViewById(R.id.tvDescription);
+
+                tvTitle.setText(challenge.getName());
+                tvDescription.setText(challenge.getDescription());
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(getContext(), "Failed to get challenge " + challengeId, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void postComment(String commentText) {
+
+        Comment comment = new Comment();
+
+        comment.setText(commentText);
+        comment.setUser(ParseApplication.getCurrentUser());
+
+        int oldSize = comments.size();
+
+        comments.add(comment);
+        adapter.notifyItemRangeChanged(oldSize, 1);
+
+        binding.rvComments.scrollToPosition(oldSize);
+
+        APIClient.getClient().addComment(getArguments().getString("postId"), comment,
+                new APIClient.PostListener() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onFailure(String error_message) {
+                    }
+                });
+    }
+
     private void showComments(String postId) {
 
         comments = new ArrayList<>();
@@ -175,14 +271,14 @@ public class PostDetailsFragment extends Fragment {
             @Override
             public void onSuccess(List<ParseUser> usersWhoHaveLiked) {
 
-                if (!usersWhoHaveLiked.isEmpty()) {
-                    String numLikes = Integer.toString(usersWhoHaveLiked.size());
-
-                    binding.tvNumLikes.setText(numLikes);
-                } else {
-                    binding.tvNumLikes.setVisibility(View.GONE);
-                    binding.ivLikes.setVisibility(View.GONE);
-                }
+//                if (!usersWhoHaveLiked.isEmpty()) {
+//                    String numLikes = Integer.toString(usersWhoHaveLiked.size());
+//
+//                    binding.tvNumLikes.setText(numLikes);
+//                } else {
+//                    binding.tvNumLikes.setVisibility(View.GONE);
+//                    binding.ivLikes.setVisibility(View.GONE);
+//                }
             }
 
             @Override

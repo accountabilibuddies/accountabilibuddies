@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/ibLike"
+    <com.like.LikeButton
+        android:id="@+id/heart_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:src="@drawable/empty_heart"
-        android:layout_margin="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        app:icon_size="22dp"
+        app:anim_scale_factor="3"
+        app:icon_type="heart"
+        app:circle_end_color="@color/copper"
+        app:circle_start_color="@color/red_500"
+        app:dots_primary_color="@color/red_500"
+        app:dots_secondary_color="@color/copper"/>
 
-    <ImageButton
-        android:id="@+id/ibComment"
+    <com.like.LikeButton
+        android:id="@+id/comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:src="@drawable/comment"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ibLike"
-        android:layout_alignBottom="@+id/ibLike" />
-
-    <TextView
-        android:id="@+id/tvLikes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ibLike"
-        android:layout_alignStart="@+id/ibLike"
-        android:layout_below="@+id/ibLike" />
+        app:icon_size="22dp"
+        app:anim_scale_factor="3"
+        app:circle_end_color="@color/blue_500"
+        app:circle_start_color="@color/indigo_500"
+        app:dots_primary_color="@color/blue_500"
+        app:dots_secondary_color="@color/purple_500"
+        app:like_drawable="@drawable/comment_solid_blue"
+        app:unlike_drawable="@drawable/comment_solid_grey"
+        android:layout_alignTop="@+id/heart_button"
+        android:layout_toRightOf="@+id/heart_button"
+        android:layout_toEndOf="@+id/heart_button" />
 </RelativeLayout>

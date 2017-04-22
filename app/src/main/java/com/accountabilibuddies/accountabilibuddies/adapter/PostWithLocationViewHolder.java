@@ -1,6 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -15,6 +16,12 @@ public class PostWithLocationViewHolder extends PostViewHolder {
 
     @BindView(R.id.tvAddress)
     TextView address;
+
+    @BindView(R.id.ivProfileImage)
+    ImageView ivProfileImage;
+
+    @BindView(R.id.tvName)
+    TextView tvName;
 
     public PostWithLocationViewHolder(View itemView) {
         super(itemView);
@@ -34,5 +41,21 @@ public class PostWithLocationViewHolder extends PostViewHolder {
 
     public void setAddress(TextView address) {
         this.address = address;
+    }
+
+    public ImageView getIvProfileImage() {
+        return ivProfileImage;
+    }
+
+    public void setIvProfileImage(ImageView ivProfileImage) {
+        this.ivProfileImage = ivProfileImage;
+    }
+
+    public TextView getTvName() {
+        return tvName;
+    }
+
+    public void setTvName(TextView tvName) {
+        this.tvName = tvName;
     }
 }

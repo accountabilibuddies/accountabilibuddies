@@ -2,30 +2,74 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto">
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto" >
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvPost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="5dp"
+        android:layout_margin="2dp"
+        android:padding="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_height="50dp"
+                android:id="@+id/ivProfileImage"
+                android:layout_width="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                app:civ_border_width="0dp"
+                app:civ_shadow="false"/>
+
             <TextView
-                android:id="@+id/tvAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:id="@+id/tvName"
+                android:gravity="center"
+                android:layout_alignTop="@+id/ivProfileImage"
+                android:layout_alignBottom="@+id/ivProfileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivProfileImage"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:gravity="center"
+                android:text="Time"
+                android:layout_marginRight="10dp"
+                android:layout_alignTop="@+id/ivProfileImage"
+                android:layout_alignBottom="@+id/ivProfileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:textSize="18sp"/>
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/mapview"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@+id/tvAddress"
-                android:padding="5dp"
+                android:layout_height="250dp"
+                android:layout_below="@+id/ivProfileImage"
                 map:mapType="none"
                 map:liteMode="true" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_below="@+id/mapview"
+                android:padding="5dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/postActions"

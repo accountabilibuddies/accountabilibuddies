@@ -2,20 +2,13 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
-import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -36,9 +29,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Post> postList;
     private Context context;
     private GoogleMap map;
-    private ImageButton likeBtn, commentBtn;
-    private CardView cvPost;
-    private TextView likesCount;
+    //private ImageButton commentBtn;
+    //private CardView cvPost;
+    //private TextView likesCount;
 
     private String challengeId;
 
@@ -141,6 +134,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 case POST_WITH_VIDEO:
                     PostWithVideoViewHolder vidVH = (PostWithVideoViewHolder) holder;
+
+                    try {
+                        Glide.with(context)
+                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
+                                .into(vidVH.getIvProfileImage());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    vidVH.tvName.setText(post.getOwner().getString("name"));
                     VideoPlayer.loadVideo(context, vidVH.getVideoView(), post.getVideoUrl());
                     //setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
                     setPostButtonValues(vidVH);
@@ -148,6 +151,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 case POST_WITH_LOCATION:
                     PostWithLocationViewHolder locVH = (PostWithLocationViewHolder) holder;
+
+                    try {
+                        Glide.with(context)
+                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
+                                .into(locVH.getIvProfileImage());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    locVH.tvName.setText(post.getOwner().getString("name"));
 
                     locVH.getMapview().onCreate(null);
                     locVH.getMapview().getMapAsync(new OnMapReadyCallback(){
@@ -176,31 +189,40 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 case POST_WITH_TEXT:
                 default:
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
+                    try {
+                        Glide.with(context)
+                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
+                                .into(textVH.getIvProfileImage());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    textVH.tvName.setText(post.getOwner().getString("name"));
                     textVH.getText().setText(post.getText());
                     setPostButtonValues(textVH);
                     setUpPostDetailsHandler(textVH.getItemView(), post.getObjectId(), POST_WITH_TEXT);
                     break;
             }
 
-            likesCount.setText(post.getLikeList().size() + " Likes");
+            //likesCount.setText(post.getLikeList().size() + " Likes");
 
-            if (post.isLiked()) {
-                likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-            }
+            //if (post.isLiked()) {
+            //    likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
+            //}
 
-            setUpLikeButton(post);
-            setUpCommentButton(post);
+            //setUpLikeButton(post);
+            //setUpCommentButton(post);
         }
     }
 
     private void setPostButtonValues(PostViewHolder holder) {
 
-        likeBtn = holder.getPostLike();
-        commentBtn = holder.getPostComment();
-        likesCount = holder.getLikesCount();
-        cvPost = holder.getCardView();
+        //likeBtn = holder.getPostLike();
+        //commentBtn = holder.getPostComment();
+        //likesCount = holder.getLikesCount();
+        //cvPost = holder.getCardView();
     }
-
+/*
     private void setUpLikeButton(Post post) {
 
         likeBtn.setOnClickListener(
@@ -222,7 +244,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         );
     }
-
+*/
+/*
     private void setUpCommentButton(Post post) {
 
         commentBtn.setOnClickListener(
@@ -234,7 +257,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         );
     }
-
+*/
     @Override
     public int getItemCount() {
         return postList.size();

@@ -2,12 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/splash_small"/>
-
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/ic_launcher"/>
-    </item>
+        android:drawable="@drawable/splash_background_crop"/>
 
 </layer-list>

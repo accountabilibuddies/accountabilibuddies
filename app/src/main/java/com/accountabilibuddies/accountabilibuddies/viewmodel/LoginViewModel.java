@@ -134,7 +134,15 @@ public class LoginViewModel {
                 CollectionUtils.filter(friends,
 
                     (Friend friend) -> {
-                        return friend.getParseUserId().equals(newFriend.getObjectId());
+
+                        String friendId = friend.getParseUserId();
+                        String newFriendId = newFriend.getObjectId();
+
+                        if (friendId != null && newFriendId != null) {
+                            return friendId.equals(newFriendId);
+                        };
+
+                        return false;
                     }
                 );
 

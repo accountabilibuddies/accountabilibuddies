@@ -18,18 +18,13 @@ public class ImageUtils {
 
         if (url == null || url.equals(defaultImage)) {
 
-            Glide
-                .with(context)
-                .load(R.drawable.avatar_placeholder)
-                .into(ivProfileImage);
+            ivProfileImage.setImageDrawable(context.getResources().getDrawable(R.drawable.avatar_placeholder));
 
         } else {
 
             Glide
                 .with(context)
                 .load(url)
-                .placeholder(context.getResources().getDrawable(R.drawable.avatar_placeholder))
-
                 .into(ivProfileImage);
         }
     }

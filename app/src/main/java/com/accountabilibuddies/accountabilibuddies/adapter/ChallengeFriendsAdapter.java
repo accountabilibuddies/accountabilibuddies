@@ -37,7 +37,7 @@ public class ChallengeFriendsAdapter extends FriendsAdapter {
         holder.profilePic.setShadowColor(context.getResources().getColor(R.color.grey2));
         if (friend != null) {
 
-            ImageUtils.loadImage(
+            ImageUtils.loadProfileImage(
                 context,
                 friend.getProfileURL(),
                 holder.profilePic

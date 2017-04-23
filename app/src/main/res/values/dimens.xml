@@ -20,4 +20,5 @@
     <dimen name="comment_avatar_padding">4dp</dimen>
     <dimen name="comment_padding">4dp</dimen>
     <dimen name="comment_detail_size">10sp</dimen>
+    <dimen name="line_width">4dp</dimen>
 </resources>

@@ -1,7 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +28,12 @@ public class FriendPostHolderLocation extends OneOnOneViewHolder {
 
     @BindView(R.id.tvAddress)
     TextView address;
+
+    @BindView(R.id.friendHSMap)
+    View hsView;
+
+    @BindView(R.id.cvFriendPostMap)
+    CardView cardView;
 
     private GoogleMap map;
 
@@ -60,6 +66,8 @@ public class FriendPostHolderLocation extends OneOnOneViewHolder {
             if(post.getCreatedAt()!=null) {
                 dateView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
+
+            setFriendScaleAnimationX(hsView, cardView);
         }
     }
 

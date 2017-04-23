@@ -33,6 +33,7 @@ public class GenericUtils {
             }
             result.add(post);
         }
+        result.add(Constants.LAST);
 
         return result;
     }
@@ -47,6 +48,7 @@ public class GenericUtils {
 
         if(posts.size()==0) {
             posts.add(DateUtils.getDateFromDate(post.getCreatedAt()));
+            posts.add(Constants.LAST);
         } else {
             int size = posts.size();
             String currDate = DateUtils.getDateFromDate(post.getCreatedAt());
@@ -59,8 +61,8 @@ public class GenericUtils {
                 }
             }
         }
-        posts.add(post);
 
+        posts.add(posts.size()-1, post);
     }
 
     /**

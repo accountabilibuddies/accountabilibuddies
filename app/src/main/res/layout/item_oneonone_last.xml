@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/lastVS"
+        android:layout_width="@dimen/line_width"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/last_entry_gradient"
+        android:layout_marginBottom="@dimen/padding_room_for_fab"
+        />
+</RelativeLayout>

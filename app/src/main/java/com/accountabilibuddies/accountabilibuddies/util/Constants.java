@@ -14,6 +14,8 @@ abstract public class Constants {
     public static final int TYPE_TEXT = 3;
     public static final int TYPE_LOCATION = 4;
 
+    public static final String LAST = "LAST";
+
     public static HashMap<Integer,String> frequencyMap = new HashMap<>();
     static {
         frequencyMap.put(1,"Daily");

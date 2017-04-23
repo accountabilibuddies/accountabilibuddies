@@ -44,14 +44,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         viewModel = new LoginViewModel(LoginActivity.this);
+        setUpBinding();
 
         ViewUtils.makeViewFullScreen(getWindow());
 
-        ParseUser currentUser = ParseApplication.getCurrentUser();
+        Profile currentProfile = Profile.getCurrentProfile();
 
-        setUpBinding();
-        startLoginAnimation();
-        setUpLoginCallback();
+        if (currentProfile != null) {
+            viewModel.getUser(currentProfile, getLoggedInListener());
+        } else {
+            startLoginAnimation();
+            setUpLoginCallback();
+        }
     }
 
     @Override
@@ -63,7 +67,12 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
-        viewModel.setUpLoginCallback(binding.btFacebook, callbackManager, new LoginViewModel.LoggedInListener() {
+        viewModel.setUpLoginCallback(binding.btFacebook, callbackManager, getLoggedInListener());
+    }
+
+    private LoginViewModel.LoggedInListener getLoggedInListener() {
+
+        return new LoginViewModel.LoggedInListener() {
 
             @Override
             public void onSuccess() {
@@ -76,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure() {
 
             }
-        });
+        };
     }
 
     private void startLoginAnimation() {

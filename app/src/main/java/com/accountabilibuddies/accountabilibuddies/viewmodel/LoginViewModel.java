@@ -270,7 +270,7 @@ public class LoginViewModel {
         });
     }
 
-    private void getUser(Profile profile, LoggedInListener listener) {
+    public void getUser(Profile profile, LoggedInListener listener) {
 
         APIClient.getClient().getUser(profile.getId(), new APIClient.UserFoundListener() {
             @Override
@@ -296,7 +296,7 @@ public class LoginViewModel {
 
         newUser.saveInBackground(
             (ParseException e) -> {
-                Log.d("", "Done saving " + newUser.toString());
+                Log.d(TAG, "Done saving " + newUser.toString());
                 ParseApplication.setCurrentUser(newUser);
                 getProfileDataForUser(newUser);
                 createFriendsList();

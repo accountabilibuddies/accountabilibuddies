@@ -9,6 +9,8 @@
     <color name="grey2">#BBBBBB</color>
     <color name="grey3">#AAAAAA</color>
 
+    <color name="text_color">#657786</color>
+
     <color name="create_back">#FCFCFC</color>
     <color name="create_red">#fd5c63</color>
     <color name="create_blue">#0099e5</color>

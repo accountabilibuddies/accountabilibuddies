@@ -8,6 +8,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -49,7 +50,7 @@ public class ParseApplication extends Application {
                 // Corresponds to the SERVER_URL
                 .server("http://accountabilibuddies.herokuapp.com/parse").build());
 
-        ParseFacebookUtils.initialize(getApplicationContext());
+//        ParseFacebookUtils.initialize(getApplicationContext());
 
         setUpCrashlytics();
         setupFonts();

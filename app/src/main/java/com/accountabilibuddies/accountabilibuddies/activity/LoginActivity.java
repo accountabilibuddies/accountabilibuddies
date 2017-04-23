@@ -6,6 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telecom.Call;
+import android.util.Log;
 import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -13,8 +15,20 @@ import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBinding;
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.Arrays;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -22,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding binding;
     LoginViewModel viewModel;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +47,11 @@ public class LoginActivity extends AppCompatActivity {
 
         ViewUtils.makeViewFullScreen(getWindow());
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseApplication.getCurrentUser();
 
-        if (currentUser != null) {
-            ParseApplication.setCurrentUser(currentUser);
-            loadAuthenticatedUser();
-            openSplashView();
-        } else {
-            setUpBinding();
-            startLoginAnimation();
-            setUpLogInButton(); //user may or may not exist, but isn't authenticated
-        }
+        setUpBinding();
+        startLoginAnimation();
+        setUpLoginCallback();
     }
 
     @Override
@@ -50,32 +59,14 @@ public class LoginActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void setUpLogInButton() {
+    private void setUpLoginCallback() {
 
-        binding.btFacebook.setOnClickListener(
-            (View view) -> {
-                authenticateUser();
-            }
-        );
-    }
+        callbackManager = CallbackManager.Factory.create();
 
-    private void startLoginAnimation() {
-
-        AnimationDrawable animationDrawable = (AnimationDrawable) binding.rlLogin.getBackground();
-        animationDrawable.setEnterFadeDuration(5000);
-        animationDrawable.setExitFadeDuration(2000);
-        animationDrawable.start();
-    }
-
-    private void authenticateUser() {
-
-        viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
+        viewModel.setUpLoginCallback(binding.btFacebook, callbackManager, new LoginViewModel.LoggedInListener() {
 
             @Override
-            public void onSuccess(boolean isNewUser) {
-
-                ParseApplication.setCurrentUser(ParseUser.getCurrentUser());
-                viewModel.createFriendsList();
+            public void onSuccess() {
 
                 openMainView();
                 openSplashView();
@@ -88,28 +79,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loadAuthenticatedUser() {
+    private void startLoginAnimation() {
 
-        viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
-            @Override
-            public void onSuccess(boolean isNewUser) {
-
-                viewModel.getFriendsForCurrentUser();
-                openMainView();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
+        AnimationDrawable animationDrawable = (AnimationDrawable) binding.rlLogin.getBackground();
+        animationDrawable.setEnterFadeDuration(5000);
+        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.start();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setUpBinding() {

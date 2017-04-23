@@ -255,7 +255,7 @@ public class APIClient {
         query.getInBackground(challengeObjectId, (challenge, e) -> {
             if (e == null) {
                 List<ParseUser> users = challenge.getUserList();
-                filterUser(users, ParseUser.getCurrentUser());
+                filterUser(users, ParseApplication.getCurrentUser());
                 challenge.put("userList", users);
 
                 //challenge.addAllUnique("userList", users);
@@ -498,7 +498,7 @@ public class APIClient {
                 if (like) {
                     users.add(ParseApplication.getCurrentUser());
                 } else {
-                    filterUser(users, ParseUser.getCurrentUser());
+                    filterUser(users, ParseApplication.getCurrentUser());
                 }
 
                 post.put("likeList", users);

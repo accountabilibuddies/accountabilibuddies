@@ -168,7 +168,7 @@ public class PostDetailsFragment extends Fragment {
 
         ImageView ivAvatar = (ImageView) binding.lNewComment.findViewById(R.id.ivAvatar);
 
-        ParseUser user = ParseUser.getCurrentUser();
+        ParseUser user = ParseApplication.getCurrentUser();
         String profilePhotoUrl = (String) user.get("profilePhotoUrl");
 
         ImageUtils.loadCircularProfileImage(

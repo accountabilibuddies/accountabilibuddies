@@ -1,5 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.util;
 
+import android.content.res.Resources;
+
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 
 import java.util.ArrayList;
@@ -61,4 +63,12 @@ public class GenericUtils {
 
     }
 
+    /**
+     * Convert dp to px
+     * @param dp
+     * @return
+     */
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
 }

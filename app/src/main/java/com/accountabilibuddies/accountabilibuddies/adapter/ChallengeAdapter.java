@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
-import com.bumptech.glide.Glide;
-import com.parse.ParseException;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ChallengeAdapter extends
         RecyclerView.Adapter<ChallengeAdapter.MyViewHolder> {
@@ -67,23 +65,25 @@ public class ChallengeAdapter extends
         if (challenge != null) {
             holder.challengeImage.setImageResource(0);
             holder.profileImage.setImageResource(0);
-            try {
-                Glide.with(context)
-                        .load(challenge.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
-                        .into(holder.profileImage);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            ImageUtils.loadProfileImage(
+                context,
+                challenge.getOwnerProfileImageUrl(),
+                holder.profileImage
+            );
 
             holder.count.setText(String.valueOf(challenge.getUserList().size()));
             holder.challengeName.setText(challenge.getName());
             holder.challengeDescription.setText(challenge.getDescription());
 
-            if (challenge.getImageUrl() != null)
-                Glide.with(context)
-                        .load(challenge.getImageUrl())
-                        .bitmapTransform(new RoundedCornersTransformation(context, 20,0))
-                        .into(holder.challengeImage);
+            if (challenge.getImageUrl() != null) {
+
+                ImageUtils.loadImageWithRoundedCorners(
+                    context,
+                    challenge.getImageUrl(),
+                    holder.challengeImage
+                );
+            }
         }
     }
 

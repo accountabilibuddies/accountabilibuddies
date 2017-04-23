@@ -20,7 +20,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CompleteChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
-import com.bumptech.glide.Glide;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -80,10 +80,14 @@ public class DrawerActivity extends AppCompatActivity {
         );
 
         View headerLayout = binding.navView.getHeaderView(0);
+
         ImageView ivProfileImage = (ImageView) headerLayout.findViewById(R.id.ivProfileImage);
-        Glide.with(this)
-                .load(currentUser.getString("profilePhotoUrl"))
-                .into(ivProfileImage);
+
+        ImageUtils.loadProfileImage(
+            this,
+            currentUser.getString("profilePhotoUrl"),
+            ivProfileImage
+        );
 
         TextView tvName = (TextView) headerLayout.findViewById(R.id.tvName);
         tvName.setText(currentUser.getString("name"));

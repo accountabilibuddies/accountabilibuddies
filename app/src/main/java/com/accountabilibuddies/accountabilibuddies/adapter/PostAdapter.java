@@ -13,15 +13,14 @@ import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.accountabilibuddies.accountabilibuddies.util.VideoPlayer;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.ParseException;
 
 import java.util.List;
 
@@ -116,20 +115,25 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             switch (holder.getItemViewType()) {
                 case POST_WITH_IMAGE:
                     PostWithImageViewHolder imgVH = (PostWithImageViewHolder) holder;
-                    try {
-                        Glide.with(context)
-                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
-                                .into(imgVH.getIvProfileImage());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+
+                    ImageUtils.loadProfileImage(
+                            context,
+                            post.getOwnerProfileImageUrl(),
+                            imgVH.getIvProfileImage()
+                    );
 
                     imgVH.getTvName().setText(post.getOwnerName());
                     imgVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
-                    if (post.getImageUrl() != null)
-                        Glide.with(context)
-                                .load(post.getImageUrl())
-                                .into(imgVH.getImageView());
+
+                    if (post.getImageUrl() != null) {
+
+                        ImageUtils.loadPostImage(
+                            context,
+                            post.getImageUrl(),
+                            imgVH.getImageView()
+                        );
+                    }
+
                     setPostButtonValues(imgVH);
                     setUpPostDetailsHandler(imgVH.getItemView(), post.getObjectId(), POST_WITH_IMAGE);
                     break;
@@ -137,13 +141,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 case POST_WITH_VIDEO:
                     PostWithVideoViewHolder vidVH = (PostWithVideoViewHolder) holder;
 
-                    try {
-                        Glide.with(context)
-                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
-                                .into(vidVH.getIvProfileImage());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    ImageUtils.loadProfileImage(
+                        context,
+                        post.getOwnerProfileImageUrl(),
+                        vidVH.getIvProfileImage()
+                    );
 
                     vidVH.getTvName().setText(post.getOwnerName());
                     vidVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
@@ -155,13 +157,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 case POST_WITH_LOCATION:
                     PostWithLocationViewHolder locVH = (PostWithLocationViewHolder) holder;
 
-                    try {
-                        Glide.with(context)
-                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
-                                .into(locVH.getIvProfileImage());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    ImageUtils.loadProfileImage(
+                        context,
+                        post.getOwnerProfileImageUrl(),
+                        locVH.getIvProfileImage()
+                    );
 
                     locVH.getTvName().setText(post.getOwnerName());
                     locVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
@@ -192,13 +192,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 case POST_WITH_TEXT:
                 default:
                     PostWithTextViewHolder textVH = (PostWithTextViewHolder) holder;
-                    try {
-                        Glide.with(context)
-                                .load(post.getOwner().fetchIfNeeded().getString("profilePhotoUrl"))
-                                .into(textVH.getIvProfileImage());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+
+                    ImageUtils.loadProfileImage(
+                        context,
+                        post.getOwnerProfileImageUrl(),
+                        textVH.getIvProfileImage()
+                    );
 
                     textVH.getTvName().setText(post.getOwnerName());
                     textVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));

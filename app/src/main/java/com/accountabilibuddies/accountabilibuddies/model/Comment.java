@@ -44,7 +44,7 @@ public class Comment extends ParseObject {
         try {
 
             ParseUser user = (ParseUser) get("user");
-            return (String) user.fetchIfNeeded().get("profilePhotoUrl");
+            return user.fetchIfNeeded().getString("profilePhotoUrl");
 
         } catch (ParseException e) {
             e.printStackTrace();

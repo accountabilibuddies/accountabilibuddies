@@ -266,8 +266,72 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                 }
                             });
                 }
+                break;
+
+            case GALLERY_INTENT_REQUEST:
+
+                if (resultCode == RESULT_OK) {
+                    if (data.getData() == null) {
+                        return;
+                    }
+
+                    binding.progressBarContainer.setVisibility(View.VISIBLE);
+                    binding.avi.show();
+
+                    Uri uri = data.getData();
+                    Bitmap bitmap = null;
+                    try {
+                        Bitmap bitmapSrc = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
+                        bitmap = CameraUtils.scaleToFill(bitmapSrc, 800, 600);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        binding.avi.hide();
+                        binding.progressBarContainer.setVisibility(View.GONE);
+                        return;
+                    }
+
+                    client.uploadFile("post_image.jpg", bitmap, new APIClient.UploadFileListener() {
+                        @Override
+                        public void onSuccess(String fileLocation) {
+                            Post post = new Post();
+                            post.setType(Constants.TYPE_IMAGE);
+                            post.setImageUrl(fileLocation);
+                            List<ParseUser> users = new ArrayList<>();
+                            post.setLikeList(users);
+                            post.setOwner(ParseApplication.getCurrentUser());
+
+                            //TODO: Move the listener out of this function
+                            APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                    new APIClient.PostListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast.makeText(ChallengeOneOnOneActivity.this,
+                                                    "Creating post", Toast.LENGTH_LONG).show();
+                                            onCreatePost(post);
+                                        }
+
+                                        @Override
+                                        public void onFailure(String error_message) {
+                                            Toast.makeText(ChallengeOneOnOneActivity.this,
+                                                    "Error creating post", Toast.LENGTH_LONG).show();
+                                            binding.avi.hide();
+                                            binding.progressBarContainer.setVisibility(View.GONE);
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onFailure(String error_message) {
+                            binding.avi.hide();
+                            binding.progressBarContainer.setVisibility(View.GONE);
+                        }
+                    });
+                }
         }
     }
+
 
     /**
      * Function to launch a dialog fragment to post text

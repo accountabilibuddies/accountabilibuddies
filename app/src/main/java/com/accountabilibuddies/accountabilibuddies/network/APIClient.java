@@ -94,7 +94,7 @@ public class APIClient {
 
     public interface UserFoundListener {
         void onSuccess(ParseUser user);
-        void onFailure(String errorMessage);
+        void onFailure();
     }
 
     public interface GetMembersListListener {
@@ -355,11 +355,13 @@ public class APIClient {
                 (List<ParseUser> users, ParseException e) -> {
 
                     if (e != null) {
-                        listener.onFailure(e.getMessage());
+                        listener.onFailure();
                     } else {
 
                         if (!users.isEmpty()) {
                             listener.onSuccess(users.get(0));
+                        } else {
+                            listener.onFailure();
                         }
                     }
                 }

@@ -135,12 +135,8 @@ public class DrawerActivity extends AppCompatActivity {
                     fragmentClass = SettingsFragment.class;
                     break;
                 case R.id.logOut:
-                    ParseUser.logOutInBackground(
-                        (ParseException e) -> {
-                            ParseApplication.setCurrentUser(null);
-                            openLoginView();
-                        }
-                    );
+                    ParseApplication.logOut();
+                    openLoginView();
                     break;
                 case R.id.help:
                 case R.id.about:

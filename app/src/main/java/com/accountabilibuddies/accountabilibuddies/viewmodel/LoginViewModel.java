@@ -97,7 +97,7 @@ public class LoginViewModel {
                             }
 
                             @Override
-                            public void onFailure(String errorMessage) {
+                            public void onFailure() {
 
                                 //TODO: user not in ParseUser db create new parse user - shouldn't happen if user already authorized
                             }
@@ -282,7 +282,7 @@ public class LoginViewModel {
             }
 
             @Override
-            public void onFailure(String errorMessage) {
+            public void onFailure() {
                 setUpNewUser(profile, listener);
             }
         });

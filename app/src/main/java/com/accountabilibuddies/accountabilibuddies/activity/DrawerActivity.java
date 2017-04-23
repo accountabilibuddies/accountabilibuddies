@@ -22,6 +22,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.crashlytics.android.Crashlytics;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
@@ -45,7 +46,7 @@ public class DrawerActivity extends AppCompatActivity {
 
         String objectId = null;
         try {
-            currentUser = ParseUser.getCurrentUser().fetch();
+            currentUser = ParseApplication.getCurrentUser().fetch();
             objectId = currentUser.fetchIfNeeded().getObjectId();
 
         } catch (ParseException e) {
@@ -134,12 +135,8 @@ public class DrawerActivity extends AppCompatActivity {
                     fragmentClass = SettingsFragment.class;
                     break;
                 case R.id.logOut:
-                    ParseUser.logOutInBackground(
-                        (ParseException e) -> {
-                            ParseApplication.setCurrentUser(null);
-                            openLoginView();
-                        }
-                    );
+                    ParseApplication.logOut();
+                    openLoginView();
                     break;
                 case R.id.help:
                 case R.id.about:

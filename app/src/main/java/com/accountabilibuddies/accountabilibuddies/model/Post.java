@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.model;
 
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -157,6 +158,20 @@ public class Post extends ParseObject {
 
     public void setOwner(ParseUser owner) {
         put("owner", owner);
+    }
+
+    public String getOwnerName() {
+
+        try {
+
+            ParseUser owner = (ParseUser) get("owner");
+            return (String) owner.fetchIfNeeded().get("name");
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean isLiked() {

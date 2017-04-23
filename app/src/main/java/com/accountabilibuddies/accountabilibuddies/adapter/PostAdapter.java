@@ -124,7 +124,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    imgVH.getTvName().setText(post.getOwner().getString("name"));
+                    imgVH.getTvName().setText(post.getOwnerName());
                     imgVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     if (post.getImageUrl() != null)
                         Glide.with(context)
@@ -145,7 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    vidVH.getTvName().setText(post.getOwner().getString("name"));
+                    vidVH.getTvName().setText(post.getOwnerName());
                     vidVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     VideoPlayer.loadVideo(context, vidVH.getVideoView(), post.getVideoUrl());
                     //setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
@@ -163,7 +163,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    locVH.getTvName().setText(post.getOwner().getString("name"));
+                    locVH.getTvName().setText(post.getOwnerName());
                     locVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     locVH.getMapview().onCreate(null);
                     locVH.getMapview().getMapAsync(new OnMapReadyCallback(){
@@ -200,7 +200,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
 
-                    textVH.getTvName().setText(post.getOwner().getString("name"));
+                    textVH.getTvName().setText(post.getOwnerName());
                     textVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     textVH.getText().setText(post.getText());
                     setPostButtonValues(textVH);

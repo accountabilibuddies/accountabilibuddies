@@ -157,6 +157,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                     List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
                     mPostList.addAll(posts);
                     mAdapter.notifyDataSetChanged();
+                    mLayoutManager.scrollToPosition(mPostList.size());
                 }
                 binding.swipeContainer.setRefreshing(false);
             }
@@ -354,8 +355,14 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
      */
     void onCreatePost(Post post) {
         GenericUtils.addPost(mPostList, post);
-        mAdapter.notifyDataSetChanged();
-        mLayoutManager.scrollToPosition(mPostList.size() - 1);
+        if(mPostList.size()==3) {
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter.notifyItemInserted(mPostList.size()-2);
+        }
+
+        mLayoutManager.scrollToPosition(mPostList.size());
+
         binding.avi.hide();
         binding.progressBarContainer.setVisibility(View.GONE);
     }

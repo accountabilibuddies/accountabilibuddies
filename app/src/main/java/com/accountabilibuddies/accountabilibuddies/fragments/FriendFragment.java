@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +34,8 @@ public abstract class FriendFragment extends Fragment {
         binding.rvFriends.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         //handle click event
-        ItemClickSupport.addTo(binding.rvFriends).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                onClick(position);
-            }
-        });
-
+        ItemClickSupport.addTo(binding.rvFriends)
+                .setOnItemClickListener((recyclerView, position, v) -> onClick(position));
         loadFriends();
         return binding.getRoot();
     }

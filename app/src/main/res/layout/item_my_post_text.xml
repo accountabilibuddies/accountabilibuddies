@@ -8,7 +8,7 @@
     <View
         android:id="@+id/myHSPostText"
         android:layout_width="10dp"
-        android:layout_height="4dp"
+        android:layout_height="@dimen/line_width"
         android:layout_toRightOf="@+id/myCircle"
         android:layout_centerVertical="true"
         android:background="@color/grey2"/>
@@ -44,7 +44,7 @@
 
     <View
         android:id="@+id/myVertSeparator"
-        android:layout_width="4dp"
+        android:layout_width="@dimen/line_width"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/cvMyPostText"
         android:layout_alignBottom="@+id/cvMyPostText"

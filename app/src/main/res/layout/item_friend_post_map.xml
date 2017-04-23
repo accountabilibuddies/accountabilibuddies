@@ -5,45 +5,56 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/friendHoriSeparator"
-        android:layout_width="20dp"
-        android:minWidth="20dp"
-        android:layout_height="4dp"
+        android:id="@+id/friendHSMap"
+        android:layout_width="10dp"
+        android:layout_height="@dimen/line_width"
         android:layout_toLeftOf="@+id/friendCircle"
         android:layout_centerVertical="true"
         android:background="@color/grey2"/>
 
-    <TextView
-        android:id="@+id/tvAddress"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvFriendPostMap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/friendPostMap"
-        android:padding="5dp"
-        android:layout_alignLeft="@+id/friendPostMap"
-        android:layout_alignRight="@+id/friendPostMap" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/friendPostMap"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/friendCircle"
         android:layout_toLeftOf="@+id/friendCircle"
-        android:minHeight="150dp"
-        android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        style="?whiteBackground"
-        map:mapType="none"
-        map:liteMode="true" />
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        map:cardBackgroundColor="@android:color/white"
+        map:cardCornerRadius="2dp"
+        map:cardElevation="@dimen/cc_card_elevation">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/friendPostMap"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:minHeight="150dp"
+            map:mapType="none"
+            map:liteMode="true" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_alignTop="@+id/cvFriendPostMap"
+            android:layout_alignLeft="@+id/cvFriendPostMap"
+            android:layout_alignRight="@+id/cvFriendPostMap" />
+    </android.support.v7.widget.CardView>
 
     <View
         android:id="@+id/friendVertSeparator"
         android:layout_centerHorizontal="true"
-        android:layout_width="4dp"
+        android:layout_width="@dimen/line_width"
         android:background="@color/grey2"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/friendPostMap"
-        android:layout_alignBottom="@+id/friendPostMap"/>
+        android:layout_alignTop="@+id/cvFriendPostMap"
+        android:layout_alignBottom="@+id/cvFriendPostMap"
+        android:layout_marginTop="-11dp"
+        android:layout_marginBottom="-10dp"/>
 
     <TextView
         android:id="@+id/friendPostMapDate"

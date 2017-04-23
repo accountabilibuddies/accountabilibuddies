@@ -5,7 +5,6 @@ import android.content.Context;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
-import com.bumptech.glide.Glide;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -40,7 +39,7 @@ public class ChallengeFriendsAdapter extends FriendsAdapter {
 
             ImageUtils.loadProfileImage(
                 context,
-                friend.getString("profileURL"),
+                friend.getProfileURL(),
                 holder.profilePic
             );
 

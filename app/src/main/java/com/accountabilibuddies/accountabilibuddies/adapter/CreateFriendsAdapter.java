@@ -5,6 +5,7 @@ import android.content.Context;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.bumptech.glide.Glide;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -34,8 +35,14 @@ public class CreateFriendsAdapter extends FriendsAdapter {
 
         if (friend != null) {
             Glide.with(context)
-                    .load(friend.get("profileURL"))
+                    .load(friend.getString("profileURL"))
                     .into(holder.profilePic);
+
+            try {
+                holder.name.setText(friend.getFriend().fetchIfNeeded().getString("name"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             if (!selectedUserList.isEmpty() &&
                     isFriendAdded(friend.getFriend())) {

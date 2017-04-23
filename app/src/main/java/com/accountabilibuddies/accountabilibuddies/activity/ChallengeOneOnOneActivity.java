@@ -76,6 +76,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private static final int REQUEST_CAMERA = 2;
     private String mImagePath;
 
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
+
+        startIntroAnimation();
 
         // Display icon in the toolbar
         getSupportActionBar().setTitle(getIntent().getStringExtra("name"));
@@ -107,6 +111,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         binding.rVPosts.setLayoutManager(mLayoutManager);
 
+
         //Swipe to refresh
         binding.swipeContainer.setOnRefreshListener(() -> {
             getPosts();
@@ -114,8 +119,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         ItemClickSupport.addTo(binding.rVPosts)
                 .setOnItemClickListener((recyclerView, position, v) -> {
-            //TODO: Create a separate view on click of image and video and map
-        });
+                    //TODO: Create a separate view on click of image and video and map
+                });
 
         getPosts();
     }
@@ -143,7 +148,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     }
 
     private void getPosts() {
-        client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener(){
+        client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener() {
             @Override
             public void onSuccess(List<Post> postList) {
                 if (postList != null) {
@@ -188,7 +193,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         fragment.show(getSupportFragmentManager(), "");
     }
 
-    private void closeFabMenu(){
+    private void closeFabMenu() {
         binding.fabMenu.close(true);
     }
 
@@ -215,7 +220,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                 binding.avi.show();
 
                 if (resultCode == RESULT_OK) {
-                    if(mImagePath==null) {
+                    if (mImagePath == null) {
                         binding.avi.hide();
                         binding.progressBarContainer.setVisibility(View.GONE);
                         return;
@@ -223,7 +228,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                     //TODO: Need to optimize this scale to make image size more efficient
                     // wrt to the image view size
                     Bitmap bitmap = CameraUtils.scaleToFill(BitmapFactory.decodeFile(mImagePath)
-                            ,800,600);
+                            , 800, 600);
 
                     client.uploadFile("post_image.jpg",
                             bitmap, new APIClient.UploadFileListener() {
@@ -266,6 +271,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     /**
      * Function to launch a dialog fragment to post text
+     *
      * @param view
      */
     public void launchTextPost(View view) {
@@ -279,12 +285,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     }
 
     /**
-     *  Function to add post to the posts list.
-     *  //TODO: Change this based on in what order the list is to be shown
-     *
+     * Function to add post to the posts list.
+     * //TODO: Change this based on in what order the list is to be shown
      */
     void onCreatePost(Post post) {
-        GenericUtils.addPost(mPostList,post);
+        GenericUtils.addPost(mPostList, post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
         binding.avi.hide();
@@ -314,7 +319,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                         != PackageManager.PERMISSION_GRANTED) {
             // Check Permissions Now
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_LOCATION);
         } else {
             Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -336,24 +341,24 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             }
         }
     }
+
     @SuppressWarnings("all")
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions,
                                            int[] grantResults) {
         if (requestCode == REQUEST_LOCATION) {
-            if(grantResults.length == 1
+            if (grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We can now safely use the API we requested access to
             } else {
                 // Permission was denied or request was cancelled
             }
-        }
-        else if(requestCode == REQUEST_CAMERA) {
-            if(grantResults.length == 1
+        } else if (requestCode == REQUEST_CAMERA) {
+            if (grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 launchCameraWithPermissionGranted();
             } else {
-                Toast.makeText(this, "Cannot post a photo without permissions",Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Cannot post a photo without permissions", Toast.LENGTH_SHORT)
                         .show();
             }
         }
@@ -361,12 +366,10 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     public void shareLocation(View view) {
@@ -380,27 +383,29 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         post.setOwner(ParseApplication.getCurrentUser());
 
         APIClient.getClient().createPost(post, challenge.getObjectId(),
-            new APIClient.PostListener() {
+                new APIClient.PostListener() {
 
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(ChallengeOneOnOneActivity.this,
-                            "Creating post", Toast.LENGTH_LONG).show();
-                    onCreatePost(post);
-                }
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(ChallengeOneOnOneActivity.this,
+                                "Creating post", Toast.LENGTH_LONG).show();
+                        onCreatePost(post);
+                    }
 
-                @Override
-                public void onFailure(String error_message) {
-                    Toast.makeText(ChallengeOneOnOneActivity.this,
-                            "Error creating post", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(String error_message) {
+                        Toast.makeText(ChallengeOneOnOneActivity.this,
+                                "Error creating post", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
         );
     }
+
     /**
      * Function create an image file to be used by the camera app to store the
      * image. Intent is then dispatched after the local image path is stored
      * which later will be used to upload the file
+     *
      * @param intent
      */
     private void dispatchTakePictureIntent(Intent intent) {
@@ -454,7 +459,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void onFailure(String error_message) { }
+                    public void onFailure(String error_message) {
+                    }
                 });
             }
         });
@@ -469,17 +475,17 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         alertDialog.setPositiveButton("YES", (dialog, which) ->
                 client.deleteChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {
-            @Override
-            public void onSuccess() {
-                Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
-                finish();
-            }
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(binding.cLayout, "Delete successful", Snackbar.LENGTH_LONG).show();
+                        finish();
+                    }
 
-            @Override
-            public void onFailure(String error_message) {
+                    @Override
+                    public void onFailure(String error_message) {
 
-            }
-        }));
+                    }
+                }));
 
         // Setting Negative "NO" Button
         alertDialog.setNegativeButton("NO", (dialog, which) -> dialog.cancel());
@@ -495,4 +501,16 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         startActivityForResult(intent, GALLERY_INTENT_REQUEST);
     }
+
+    private void startIntroAnimation() {
+
+        int actionbarSize = GenericUtils.dpToPx(50);
+        binding.toolbar.setTranslationY(-actionbarSize);
+
+        binding.toolbar.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(300);
+    }
+
 }

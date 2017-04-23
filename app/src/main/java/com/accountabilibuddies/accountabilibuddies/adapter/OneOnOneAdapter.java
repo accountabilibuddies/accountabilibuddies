@@ -30,6 +30,11 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int MY_POST_VIDEO = 6;
     private final int FRIEND_POST_VIDEO = 7;
 
+    private int lastAnimatedPosition = -1;
+    private int itemsCount = 0;
+
+    private static final int ANIMATED_ITEMS_COUNT = 2;
+
     public OneOnOneAdapter(Context context, List<Object> postList) {
         this.postList = postList;
         this.context = context;
@@ -183,4 +188,5 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemCount() {
         return postList.size();
     }
+
 }

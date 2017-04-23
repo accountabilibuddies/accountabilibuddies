@@ -1,7 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +20,12 @@ public class FriendPostHolderText extends OneOnOneViewHolder {
     @BindView(R.id.friendPostTextDate)
     TextView dateView;
 
+    @BindView(R.id.cvFriendPostText)
+    CardView cardView;
+
+    @BindView(R.id.friendHoriSeparator)
+    View hsView;
+
     public FriendPostHolderText(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -35,6 +41,9 @@ public class FriendPostHolderText extends OneOnOneViewHolder {
                 dateView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
 
+            setFriendScaleAnimationX(hsView, cardView);
         }
     }
+
+
 }

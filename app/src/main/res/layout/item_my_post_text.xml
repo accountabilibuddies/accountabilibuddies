@@ -6,9 +6,8 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/myHoriSeparator"
-        android:layout_width="20dp"
-        android:minWidth="20dp"
+        android:id="@+id/myHSPostText"
+        android:layout_width="10dp"
         android:layout_height="4dp"
         android:layout_toRightOf="@+id/myCircle"
         android:layout_centerVertical="true"
@@ -40,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:text="Temporary Text"
             android:padding="10dp"
-            android:textColor="@color/grey3"/>
+            android:textColor="@color/text_color"/>
     </android.support.v7.widget.CardView>
 
     <View

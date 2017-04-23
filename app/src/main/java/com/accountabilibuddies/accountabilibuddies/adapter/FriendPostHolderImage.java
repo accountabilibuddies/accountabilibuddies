@@ -1,6 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,12 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
 
     @BindView(R.id.friendPostImageDate)
     TextView dateView;
+
+    @BindView(R.id.friendHoriSeparator)
+    View hsView;
+
+    @BindView(R.id.cvFriendPostImage)
+    CardView cardView;
 
     public FriendPostHolderImage(View itemView) {
         super(itemView);
@@ -60,6 +67,8 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
             if(post.getCreatedAt()!=null) {
                 dateView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
+
+            setFriendScaleAnimationX(hsView, cardView);
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.bumptech.glide.Glide;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -54,9 +55,9 @@ public class MembersAdapter extends
         ParseUser user = members.get(position);
 
         if (user != null) {
-            //Glide.with(context)
-            //        .load(//Facebook image)
-            //        .into(holder.profile_image);
+            Glide.with(context)
+                    .load(user.getString("profilePhotoUrl"))
+                    .into(holder.profile_image);
 
             holder.name.setText(user.getString("name"));
         }

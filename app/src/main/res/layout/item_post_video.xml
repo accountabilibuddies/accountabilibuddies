@@ -35,8 +35,7 @@
                 android:layout_alignBottom="@+id/ivProfileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/ivProfileImage"
-                android:textSize="18sp"/>
+                android:layout_toRightOf="@+id/ivProfileImage" />
 
             <TextView
                 android:id="@+id/tvTime"
@@ -48,8 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:textSize="18sp"/>
+                android:layout_alignParentRight="true" />
 
             <com.yqritc.scalablevideoview.ScalableVideoView
                 android:id="@+id/video_view"

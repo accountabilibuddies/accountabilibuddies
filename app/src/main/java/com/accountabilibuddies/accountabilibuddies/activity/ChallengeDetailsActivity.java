@@ -60,6 +60,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -166,6 +167,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             public void onSuccess(List<Post> postList) {
                 if (postList != null) {
                     mPostList.clear();
+                    Collections.reverse(postList);
                     mPostList.addAll(postList);
                     mAdapter.notifyDataSetChanged();
                 }

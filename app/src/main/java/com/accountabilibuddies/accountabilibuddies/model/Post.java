@@ -190,4 +190,18 @@ public class Post extends ParseObject {
         if (address != null)
             put("address", address);
     }
+
+    public String getOwnerProfileImageUrl() {
+
+        try {
+
+            ParseUser owner = getOwner().fetchIfNeeded();
+            return owner.getString("profilePhotoUrl");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 }

@@ -10,12 +10,11 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeOneOnOneActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
-import com.bumptech.glide.Glide;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.peekandpop.shalskar.peekandpop.PeekAndPop;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class FriendPostHolderImage extends OneOnOneViewHolder {
 
@@ -41,11 +40,13 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
 
         if (post != null) {
             imageView.setImageResource(0);
-            if (post.getImageUrl() != null)
-                Glide.with(context)
-                        .load(post.getImageUrl())
-                        .bitmapTransform(new RoundedCornersTransformation(context,5,0))
-                        .into(imageView);
+            if (post.getImageUrl() != null) {
+                ImageUtils.loadPostImageWithRoundedCorners(
+                    context,
+                    post.getImageUrl(),
+                    imageView
+                );
+            }
 
             imageView.setOnLongClickListener(view -> {
 
@@ -56,10 +57,12 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
 
                 View peekView = peekAndPop.getPeekView();
                 ImageView iv = (ImageView) peekView.findViewById(R.id.ivPopup);
-                Glide.with(context)
-                        .load(post.getImageUrl())
-                        .bitmapTransform(new RoundedCornersTransformation(context,5,0))
-                        .into(iv);
+
+                ImageUtils.loadPostImageWithRoundedCorners(
+                    context,
+                    post.getImageUrl(),
+                    iv
+                );
 
                 return false;
             });

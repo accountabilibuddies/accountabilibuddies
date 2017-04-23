@@ -11,11 +11,9 @@ import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.DetailImageBinding;
-import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostImageBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
-import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
-import com.bumptech.glide.Glide;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 
 public class PostWithImageFragment extends Fragment {
 
@@ -60,9 +58,12 @@ public class PostWithImageFragment extends Fragment {
     public void setUpImage(Post post) {
 
         if (post.getImageUrl() != null) {
-            Glide.with(getContext())
-                    .load(post.getImageUrl())
-                    .into(binding.ivChallengeImage);
+
+            ImageUtils.loadPostImage(
+                getContext(),
+                post.getImageUrl(),
+                binding.ivChallengeImage
+            );
         }
     }
 }

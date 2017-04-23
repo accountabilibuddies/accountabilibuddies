@@ -10,13 +10,11 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeOneOnOneActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.peekandpop.shalskar.peekandpop.PeekAndPop;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class MyPostHolderImage extends OneOnOneViewHolder {
 
@@ -42,11 +40,12 @@ public class MyPostHolderImage extends OneOnOneViewHolder {
         imageView.setImageResource(0);
         if (post != null) {
             if (post.getImageUrl() != null) {
-                Glide.with(context)
-                        .load(post.getImageUrl())
-                        .bitmapTransform(new RoundedCornersTransformation(context,5,0))
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .into(imageView);
+
+                ImageUtils.loadPostImageWithRoundedCorners(
+                    context,
+                    post.getImageUrl(),
+                    imageView
+                );
             }
             imageView.setOnLongClickListener(view -> {
 
@@ -57,10 +56,12 @@ public class MyPostHolderImage extends OneOnOneViewHolder {
 
                 View peekView = peekAndPop.getPeekView();
                 ImageView iv = (ImageView) peekView.findViewById(R.id.ivPopup);
-                Glide.with(context)
-                        .load(post.getImageUrl())
-                        .bitmapTransform(new RoundedCornersTransformation(context,5,0))
-                        .into(iv);
+
+                ImageUtils.loadPostImageWithRoundedCorners(
+                    context,
+                    post.getImageUrl(),
+                    iv
+                );
 
                 return false;
             });

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
-import com.bumptech.glide.Glide;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -36,9 +36,12 @@ public class ChallengeFriendsAdapter extends FriendsAdapter {
         holder.profilePic.setImageResource(0);
         holder.profilePic.setShadowColor(context.getResources().getColor(R.color.grey2));
         if (friend != null) {
-            Glide.with(context)
-                    .load(friend.get("profileURL"))
-                    .into(holder.profilePic);
+
+            ImageUtils.loadImage(
+                context,
+                friend.getProfileURL(),
+                holder.profilePic
+            );
 
             try {
                 holder.name.setText(friend.getFriend().fetchIfNeeded().getString("name"));

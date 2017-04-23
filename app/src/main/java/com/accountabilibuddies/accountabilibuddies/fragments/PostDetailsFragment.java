@@ -28,9 +28,8 @@ import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
-import com.accountabilibuddies.accountabilibuddies.util.AvatarTransform;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.PostDetailsViewModel;
-import com.bumptech.glide.Glide;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -172,11 +171,11 @@ public class PostDetailsFragment extends Fragment {
         ParseUser user = ParseUser.getCurrentUser();
         String profilePhotoUrl = (String) user.get("profilePhotoUrl");
 
-        Glide.with(context)
-                .load(profilePhotoUrl)
-                .transform(new AvatarTransform(context))
-                .placeholder(context.getDrawable(R.drawable.avatar_placeholder))
-                .into(ivAvatar);
+        ImageUtils.loadCircularProfileImage(
+            context,
+            profilePhotoUrl,
+            ivAvatar
+        );
     }
 
     private void addChallengeDetails(String challengeId) {

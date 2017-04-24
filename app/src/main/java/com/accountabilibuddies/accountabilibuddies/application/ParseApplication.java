@@ -1,14 +1,21 @@
 package com.accountabilibuddies.accountabilibuddies.application;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.DrawerActivity;
+import com.accountabilibuddies.accountabilibuddies.activity.LoginActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -78,4 +85,10 @@ public class ParseApplication extends Application {
         return currentUser;
     }
 
+    public static void logOut() {
+
+        currentUser = null;
+
+        LoginManager.getInstance().logOut();
+    }
 }

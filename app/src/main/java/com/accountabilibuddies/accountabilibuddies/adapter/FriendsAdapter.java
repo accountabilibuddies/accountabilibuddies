@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -27,6 +28,9 @@ public abstract class FriendsAdapter  extends
 
         @BindView(R.id.ivName)
         TextView name;
+
+        @BindView(R.id.friendSelect)
+        ImageView select;
 
         MyViewHolder(View view) {
             super(view);

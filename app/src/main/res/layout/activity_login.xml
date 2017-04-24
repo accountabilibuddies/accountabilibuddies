@@ -49,7 +49,7 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"/>
 
-        <Button
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/btFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
+import android.view.View;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
@@ -32,7 +33,9 @@ public class CreateFriendsAdapter extends FriendsAdapter {
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Friend friend = friendsList.get(position);
-
+        holder.profilePic.setImageResource(0);
+        holder.select.setVisibility(View.GONE);
+        holder.profilePic.setShadowColor(context.getResources().getColor(R.color.grey2));
         if (friend != null) {
 
             ImageUtils.loadImage(
@@ -50,6 +53,7 @@ public class CreateFriendsAdapter extends FriendsAdapter {
             if (!selectedUserList.isEmpty() &&
                     isFriendAdded(friend.getFriend())) {
                 holder.profilePic.setShadowColor(context.getResources().getColor(R.color.colorAccent));
+                holder.select.setVisibility(View.VISIBLE);
             }
         }
     }

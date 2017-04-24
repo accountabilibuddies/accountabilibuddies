@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityCreateChallengeBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CreateFriendsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
@@ -35,7 +36,10 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
+
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
+
+import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -232,8 +236,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
                 intent.putExtra("name", challenge.getName());
 
                 try {
-                    String currentUser = ParseUser.getCurrentUser().fetchIfNeeded().getObjectId();
-                    String currentUserName = (String) ParseUser.getCurrentUser().get("name");
+                    String currentUser = ParseApplication.getCurrentUser().fetchIfNeeded().getObjectId();
+                    String currentUserName = (String) ParseApplication.getCurrentUser().get("name");
 
                     for(ParseUser friend : challenge.getUserList()) {
                         if(currentUser!=null && !currentUser.equals(friend.getObjectId())) {

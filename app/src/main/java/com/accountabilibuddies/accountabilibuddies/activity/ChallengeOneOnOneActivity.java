@@ -518,7 +518,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private void exitChallenge() {
 
         challenge.fetchIfNeededInBackground((object, e) -> {
-            if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+            if (challenge.getOwner().getObjectId().equals(ParseApplication.getCurrentUser().getObjectId())) {
                 confirmDeletion();
             } else {
                 client.exitChallenge(challenge.getObjectId(), new APIClient.ChallengeListener() {

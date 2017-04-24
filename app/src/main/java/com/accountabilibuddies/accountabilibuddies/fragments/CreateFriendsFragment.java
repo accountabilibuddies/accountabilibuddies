@@ -3,6 +3,8 @@ package com.accountabilibuddies.accountabilibuddies.fragments;
 import com.accountabilibuddies.accountabilibuddies.adapter.CreateFriendsAdapter;
 import com.parse.ParseUser;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +26,14 @@ public class CreateFriendsFragment extends FriendFragment {
     }
 
     public void removeFriend(ParseUser friend) {
-        selectedFriends.remove(friend);
+        CollectionUtils.filter(
+                selectedFriends,
+                (ParseUser user) -> {
+                    return !user.getObjectId().equals(friend.getObjectId());
+                }
+        );
+        mAdapter.setSelectedList(selectedFriends);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

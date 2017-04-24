@@ -25,6 +25,19 @@
         android:maxLines="3"
         android:textSize="10sp"
         android:maxWidth="80dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:paddingBottom="5dp"/>
+
+    <ImageView
+        android:id="@+id/friendSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/friend_selected"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:layout_alignRight="@+id/ivFriend"
+        android:layout_alignEnd="@+id/ivFriend" />
 
 </RelativeLayout>

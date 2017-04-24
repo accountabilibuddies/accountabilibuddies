@@ -425,5 +425,23 @@
                 </android.support.v7.widget.CardView>
             </RelativeLayout>
         </ScrollView>
+        <RelativeLayout
+            android:id="@+id/progressBarContainer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:clickable="true" >
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avi"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:indicatorName="BallSpinFadeLoaderIndicator"
+                app:indicatorColor="@color/create_blue" />
+
+        </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

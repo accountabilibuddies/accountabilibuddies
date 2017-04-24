@@ -56,7 +56,7 @@ public class ParseApplication extends Application {
                 // Corresponds to the SERVER_URL
                 .server("http://accountabilibuddies.herokuapp.com/parse").build());
 
-        ParseFacebookUtils.initialize(getApplicationContext());
+//        ParseFacebookUtils.initialize(getApplicationContext());
 
         setUpCrashlytics();
         setupFonts();
@@ -90,5 +90,13 @@ public class ParseApplication extends Application {
         currentUser = null;
 
         LoginManager.getInstance().logOut();
+
+//        openLoginView();
+//        .logOutInBackground(
+//                (ParseException e) -> {
+//                    ParseApplication.setCurrentUser(null);
+//                    openLoginView();
+//                }
+//        );
     }
 }

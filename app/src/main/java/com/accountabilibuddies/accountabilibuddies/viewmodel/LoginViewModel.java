@@ -17,12 +17,9 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.json.JSONArray;
@@ -296,25 +293,14 @@ public class LoginViewModel {
 
         ParseUser newUser = new ParseUser();
         newUser.setUsername(profile.getId());
-        newUser.setPassword("default");
 
-        getProfileDataForUser(newUser);
-        createFriendsList();
-        
-        ParseApplication.setCurrentUser(newUser);
-
-        newUser.signUpInBackground(
-            (ParseException signUpException) -> {
-
-                ParseFacebookUtils.linkInBackground(
-
-                    newUser,
-                    AccessToken.getCurrentAccessToken(),
-                    (ParseException saveException) -> {
-                        Log.d(TAG, "Done saving " + newUser.toString());
-                        listener.onSuccess();
-                    }
-                );
+        newUser.saveInBackground(
+            (ParseException e) -> {
+                Log.d(TAG, "Done saving " + newUser.toString());
+                ParseApplication.setCurrentUser(newUser);
+                getProfileDataForUser(newUser);
+                createFriendsList();
+                listener.onSuccess();
             }
         );
     }

@@ -151,13 +151,13 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener() {
             @Override
             public void onSuccess(List<Post> postList) {
+
                 if (postList != null) {
                     mPostList.clear();
-
                     List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
                     mPostList.addAll(posts);
                     mAdapter.notifyDataSetChanged();
-                    mLayoutManager.scrollToPosition(mPostList.size());
+                    mLayoutManager.scrollToPosition(0);
                 }
                 binding.swipeContainer.setRefreshing(false);
             }
@@ -358,10 +358,10 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         if(mPostList.size()==3) {
             mAdapter.notifyDataSetChanged();
         } else {
-            mAdapter.notifyItemInserted(mPostList.size()-2);
+            mAdapter.notifyItemInserted(1);
         }
 
-        mLayoutManager.scrollToPosition(mPostList.size());
+        mLayoutManager.scrollToPosition(0);
 
         binding.avi.hide();
         binding.progressBarContainer.setVisibility(View.GONE);

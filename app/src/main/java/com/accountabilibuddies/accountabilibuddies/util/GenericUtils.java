@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GenericUtils {
@@ -33,7 +34,11 @@ public class GenericUtils {
             }
             result.add(post);
         }
-        result.add(Constants.LAST);
+        if(posts.size()>0) {
+            result.add(Constants.FIRST);
+        }
+
+        Collections.reverse(result);
 
         return result;
     }
@@ -47,14 +52,15 @@ public class GenericUtils {
     public static void addPost(List<Object> posts, Post post) {
 
         if(posts.size()==0) {
+            posts.add(Constants.FIRST);
             posts.add(DateUtils.getDateFromDate(post.getCreatedAt()));
-            posts.add(Constants.LAST);
+
         } else {
             int size = posts.size();
             String currDate = DateUtils.getDateFromDate(post.getCreatedAt());
 
-            if(posts.get(size-1) instanceof Post) {
-                Post lastPost = (Post)posts.get(size-1);
+            if(posts.get(1) instanceof Post) {
+                Post lastPost = (Post)posts.get(1);
                 String beforeDate = DateUtils.getDateFromDate(lastPost.getCreatedAt());
                 if (!currDate.equals(beforeDate)) {
                     posts.add(currDate);
@@ -62,7 +68,7 @@ public class GenericUtils {
             }
         }
 
-        posts.add(posts.size()-1, post);
+        posts.add(1, post);
     }
 
     /**

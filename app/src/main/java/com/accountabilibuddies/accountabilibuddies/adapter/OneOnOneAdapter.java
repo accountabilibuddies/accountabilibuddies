@@ -27,12 +27,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int FRIEND_POST_TEXT = 3;
     private final int MY_POST_LOCATION = 4;
     private final int FRIEND_POST_LOCATION = 5;
-    private final int LAST_POSITION = 100;
-
-    private int lastAnimatedPosition = -1;
-    private int itemsCount = 0;
-
-    private static final int ANIMATED_ITEMS_COUNT = 2;
+    private final int FIRST_POSITION = 100;
 
     public OneOnOneAdapter(Context context, List<Object> postList) {
         this.postList = postList;
@@ -44,8 +39,8 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         int type = DATE_TEXT;
         if(postList.get(position) instanceof String) {
-            if(postList.get(position).equals(Constants.LAST))
-                return LAST_POSITION;
+            if(postList.get(position).equals(Constants.FIRST))
+                return FIRST_POSITION;
             return type;
         }
 
@@ -115,10 +110,10 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new PostDateHolder(viewDateText);
                 break;
 
-            case LAST_POSITION:
+            case FIRST_POSITION:
                 default:
-                View viewLast = inflater.inflate(R.layout.item_oneonone_last, parent, false);
-                viewHolder = new LastHolder(viewLast);
+                View viewLast = inflater.inflate(R.layout.item_oneonone_first, parent, false);
+                viewHolder = new FirstHolder(viewLast);
                 break;
         }
         return viewHolder;
@@ -172,9 +167,10 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     dateHolder.viewBasedOnPost((String)post,context);
                     break;
 
-                case LAST_POSITION:
+                case FIRST_POSITION:
                     default:
-                    LastHolder viewHolder = (LastHolder) holder;
+                    FirstHolder viewHolder = (FirstHolder) holder;
+                    //Placeholder for additions in firs row
                     break;
             }
         }

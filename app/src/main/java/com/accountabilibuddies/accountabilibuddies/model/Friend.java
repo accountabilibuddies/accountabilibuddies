@@ -23,7 +23,9 @@ public class Friend extends ParseObject {
     }
 
     public void setProfileURL(String profileURL) {
-        put("profileURL", profileURL);
+        if (profileURL != null) {
+            put("profileURL", profileURL);
+        }
     }
 
     public String getProfileURL() {

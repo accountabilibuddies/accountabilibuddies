@@ -2,13 +2,17 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
+import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
@@ -21,6 +25,8 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -29,10 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Post> postList;
     private Context context;
     private GoogleMap map;
-    //private ImageButton commentBtn;
-    //private CardView cvPost;
-    //private TextView likesCount;
-
+    private LikeButton heartBtn, commentBtn;
     private String challengeId;
 
     APIClient client = APIClient.getClient();
@@ -207,60 +210,50 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     break;
             }
 
-            //likesCount.setText(post.getLikeList().size() + " Likes");
+            if (post.isLiked()) {
+                heartBtn.setLiked(true);
+            } else {
+                heartBtn.setLiked(false);
+            }
 
-            //if (post.isLiked()) {
-            //    likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-            //}
-
-            //setUpLikeButton(post);
-            //setUpCommentButton(post);
+            setUpLikeButton(post);
+            setUpCommentButton(post);
         }
     }
 
     private void setPostButtonValues(PostViewHolder holder) {
-
-        //likeBtn = holder.getPostLike();
-        //commentBtn = holder.getPostComment();
-        //likesCount = holder.getLikesCount();
-        //cvPost = holder.getCardView();
+        heartBtn = holder.getHeartButton();
+        commentBtn = holder.getCommentButton();
     }
-/*
+
     private void setUpLikeButton(Post post) {
 
-        likeBtn.setOnClickListener(
-
-            (View v) -> {
-                post.setLiked();
-                client.likeUnlikePost(post.getObjectId(), post.isLiked(), new APIClient.PostListener() {
-                    @Override
-                    public void onSuccess() {
-                        if (post.isLiked())
-                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.red_heart));
-                        else
-                            likeBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.empty_heart));
-                    }
-
-                    @Override
-                    public void onFailure(String error_message) { }
-                });
+        heartBtn.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                //TODO
             }
-        );
-    }
-*/
-/*
-    private void setUpCommentButton(Post post) {
 
-        commentBtn.setOnClickListener(
-            (View v) -> {
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                //TODO
+            }
+        });
+    }
+
+    private void setUpCommentButton(Post post) {
+        commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Fix styling
                 FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
                 CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
                 fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
                 fragment.show(fm, "");
             }
-        );
+        });
     }
-*/
+
     @Override
     public int getItemCount() {
         return postList.size();

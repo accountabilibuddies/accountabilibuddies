@@ -20,7 +20,7 @@
         android:id="@+id/comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon_size="22dp"
+        app:icon_size="24dp"
         app:anim_scale_factor="1.8"
         app:circle_end_color="@color/blue_500"
         app:circle_start_color="@color/indigo_500"

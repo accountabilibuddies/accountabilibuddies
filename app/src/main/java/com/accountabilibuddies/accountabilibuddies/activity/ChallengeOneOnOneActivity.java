@@ -43,6 +43,7 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.GenericUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
+import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -76,8 +77,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private static final int REQUEST_CAMERA = 2;
     private String mImagePath;
 
-    private static final int ANIM_DURATION_TOOLBAR = 300;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +90,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
 
-        startIntroAnimation();
+        ViewUtils.startIntroAnimation(binding.toolbar);
 
         // Display icon in the toolbar
         getSupportActionBar().setTitle(getIntent().getStringExtra("name"));
@@ -571,17 +570,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, GALLERY_INTENT_REQUEST);
-    }
-
-    private void startIntroAnimation() {
-
-        int actionbarSize = GenericUtils.dpToPx(50);
-        binding.toolbar.setTranslationY(-actionbarSize);
-
-        binding.toolbar.animate()
-                .translationY(0)
-                .setDuration(ANIM_DURATION_TOOLBAR)
-                .setStartDelay(300);
     }
 
 }

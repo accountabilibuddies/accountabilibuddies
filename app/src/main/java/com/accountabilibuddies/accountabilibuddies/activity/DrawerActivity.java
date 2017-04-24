@@ -21,6 +21,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -60,6 +61,8 @@ public class DrawerActivity extends AppCompatActivity {
         }
 
         setSupportActionBar(binding.toolbar);
+
+        ViewUtils.startIntroAnimation(binding.toolbar);
 
         setUpNavigationDrawer();
         setUpNavigationView();

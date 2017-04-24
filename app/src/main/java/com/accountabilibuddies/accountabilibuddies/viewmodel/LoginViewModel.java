@@ -8,15 +8,9 @@ import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -37,7 +31,7 @@ public class LoginViewModel {
 
     public interface LoggedInListener {
 
-        void onSuccess();
+        void onSuccess(boolean isNewUser);
         void onFailure();
     }
 
@@ -64,6 +58,21 @@ public class LoginViewModel {
             public void onFailure(String errorMessage) {
 
                 Log.d(TAG, "Friend creation failure!");
+            }
+        });
+    }
+
+    public void refreshToken(LoggedInListener listener) {
+
+        AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
+            @Override
+            public void OnTokenRefreshed(AccessToken accessToken) {
+                listener.onSuccess(false);
+            }
+
+            @Override
+            public void OnTokenRefreshFailed(FacebookException exception) {
+                listener.onFailure();
             }
         });
     }
@@ -97,9 +106,9 @@ public class LoginViewModel {
                             }
 
                             @Override
-                            public void onFailure() {
+                            public void onFailure(String errorMessage) {
 
-                                //TODO: user not in ParseUser db create new parse user - shouldn't happen if user already authorized
+                                //TODO: user not in ParseUser db create new parse user
                             }
                         });
                     }
@@ -116,6 +125,7 @@ public class LoginViewModel {
     }
 
     public boolean addNewFriendRelationship(ParseUser currentUser, ParseUser newFriend) {
+
 
         APIClient.getClient().getFriendsByUsername(currentUser.getUsername(), new APIClient.GetFriendsListener() {
             @Override
@@ -149,6 +159,29 @@ public class LoginViewModel {
         });
 
         return false;
+    }
+
+    public void logInWithReadPermissions(LoggedInListener listener) {
+
+        ParseFacebookUtils.logInWithReadPermissionsInBackground(
+            context,
+            Arrays.asList("public_profile", "user_friends", "email"),
+
+            (ParseUser user, ParseException err) -> {
+                if (user == null) {
+                    Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
+                    listener.onFailure();
+                } else if (user.isNew()) {
+                    Log.d(TAG, "User signed up and logged in through Facebook!");
+                    getProfileDataForUser(user);
+                    listener.onSuccess(true);
+                } else {
+                    Log.d(TAG, "User logged in through Facebook!");
+                    getProfileDataForUser(user);
+                    listener.onSuccess(false);
+                }
+            }
+        );
     }
 
     public void getProfileDataForUser(ParseUser user) {
@@ -221,86 +254,6 @@ public class LoginViewModel {
 
                     Log.d(TAG, "Error getting friends list.");
                 }
-            }
-        );
-    }
-
-    public void setUpLoginCallback(LoginButton btFacebook, CallbackManager callbackManager, LoggedInListener listener) {
-
-        btFacebook.setReadPermissions(Arrays.asList("public_profile", "user_friends", "email"));
-
-        btFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
-            private ProfileTracker profileTracker;
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                if (Profile.getCurrentProfile() == null) {
-                    profileTracker = new ProfileTracker() {
-                        @Override
-                        protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-
-                            Log.d(TAG, currentProfile.toString());
-                            getUser(currentProfile, listener);
-
-                            profileTracker.stopTracking();
-                        }
-                    };
-                } else {
-
-                    Profile profile = Profile.getCurrentProfile();
-                    Log.d(TAG, profile.toString());
-                }
-            }
-
-            @Override
-            public void onCancel() {
-
-                Log.d(TAG, "canceled");
-                listener.onFailure();
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-                Log.d(TAG, "error");
-                listener.onFailure();
-            }
-        });
-    }
-
-    public void getUser(Profile profile, LoggedInListener listener) {
-
-        APIClient.getClient().getUser(profile.getId(), new APIClient.UserFoundListener() {
-            @Override
-            public void onSuccess(ParseUser user) {
-                ParseApplication.setCurrentUser(user);
-                getProfileDataForUser(user);
-                createFriendsList();
-                listener.onSuccess();
-            }
-
-            @Override
-            public void onFailure() {
-                setUpNewUser(profile, listener);
-            }
-        });
-
-    }
-
-    private void setUpNewUser(Profile profile, LoggedInListener listener) {
-
-        ParseUser newUser = new ParseUser();
-        newUser.setUsername(profile.getId());
-
-        newUser.saveInBackground(
-            (ParseException e) -> {
-                Log.d(TAG, "Done saving " + newUser.toString());
-                ParseApplication.setCurrentUser(newUser);
-                getProfileDataForUser(newUser);
-                createFriendsList();
-                listener.onSuccess();
             }
         );
     }

@@ -14,7 +14,11 @@ abstract public class Constants {
     public static final int TYPE_TEXT = 3;
     public static final int TYPE_LOCATION = 4;
 
-    public static final String LAST = "LAST";
+    public static final String FIRST = "FIRST";
+
+    public static final int ANIM_DURATION_TOOLBAR = 300;
+
+
 
     public static HashMap<Integer,String> frequencyMap = new HashMap<>();
     static {

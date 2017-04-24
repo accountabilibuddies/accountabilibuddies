@@ -220,10 +220,6 @@ public class APIClient {
         );
     }
 
-    public void updateChallenge() {
-
-    }
-
     public void getMembersList(String challengeObjectId, GetMembersListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);

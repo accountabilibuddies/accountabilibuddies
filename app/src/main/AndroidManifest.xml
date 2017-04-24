@@ -69,7 +69,6 @@
 
         <service android:name="com.parse.PushService" />
 
-        <!-- android:name="com.parse.ParsePushBroadcastReceiver" -->
         <receiver
             android:name=".network.NotificationsReceiver"
             android:exported="false">

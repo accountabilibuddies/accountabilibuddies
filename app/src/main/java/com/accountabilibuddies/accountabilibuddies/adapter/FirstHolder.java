@@ -5,9 +5,9 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 
-public class LastHolder extends RecyclerView.ViewHolder {
+public class FirstHolder extends RecyclerView.ViewHolder {
 
-    public LastHolder(View itemView) {
+    public FirstHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

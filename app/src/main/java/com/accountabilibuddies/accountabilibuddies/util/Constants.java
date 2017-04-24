@@ -16,6 +16,10 @@ abstract public class Constants {
 
     public static final String FIRST = "FIRST";
 
+    public static final int ANIM_DURATION_TOOLBAR = 300;
+
+
+
     public static HashMap<Integer,String> frequencyMap = new HashMap<>();
     static {
         frequencyMap.put(1,"Daily");

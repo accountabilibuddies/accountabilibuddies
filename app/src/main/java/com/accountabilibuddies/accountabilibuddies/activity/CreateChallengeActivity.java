@@ -36,6 +36,9 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
+
+import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
+
 import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -71,6 +74,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
         setSupportActionBar(binding.toolbar);
+
+        ViewUtils.startIntroAnimation(binding.toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.close));

@@ -25,8 +25,8 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CompleteChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
+import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
-import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -75,8 +75,6 @@ public class DrawerActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        //ViewUtils.startIntroAnimation(binding.toolbar);
-
         setUpNavigationDrawer();
         setUpNavigationView();
     }
@@ -92,7 +90,7 @@ public class DrawerActivity extends AppCompatActivity {
 
     private void startIntroAnimation() {
         binding.fab.setTranslationY(4 * 56);
-        int actionbarSize = Utils.dpToPx(56, getResources());
+        int actionbarSize = AnimUtils.dpToPx(56);
         binding.toolbar.setTranslationY(-actionbarSize);
         binding.toolbar.animate()
                 .translationY(0)

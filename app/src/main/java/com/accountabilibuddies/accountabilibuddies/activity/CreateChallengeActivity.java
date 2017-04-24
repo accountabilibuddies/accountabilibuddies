@@ -36,10 +36,7 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
-
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
-
-import com.parse.Parse;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -195,7 +192,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
     }
 
     public void createChallengeNotification(String channel, String challenger,
-                                            String challengeId, int challengeType) {
+                                            String challengeId, int challengeType, String name) {
 
         HashMap<String, String> notification = new HashMap<>();
         notification.put("text", channel);
@@ -203,6 +200,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
         notification.put("challenger", challenger);
         notification.put("challengeId", challengeId);
         notification.put("challengeType",String.valueOf(challengeType));
+        notification.put("challengeName",name);
         ParseCloud.callFunctionInBackground("androidPushTest", notification);
     }
 
@@ -253,7 +251,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     for(ParseUser friend : challenge.getUserList()) {
                         if(currentUser!=null && !currentUser.equals(friend.getObjectId())) {
                             createChallengeNotification(friend.getObjectId(), currentUserName,
-                                    challenge.getObjectId(), challenge.getType());
+                                    challenge.getObjectId(), challenge.getType(), challenge.getName());
                         }
                     }
                 } catch (ParseException e) {

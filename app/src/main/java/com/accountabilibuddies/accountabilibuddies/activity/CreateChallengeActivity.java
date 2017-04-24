@@ -167,6 +167,9 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     if (mImagePath == null) {
                         return;
                     }
+                    binding.progressBarContainer.setVisibility(View.VISIBLE);
+                    binding.avi.show();
+
                     Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
 
                     APIClient.getClient().uploadFile("post_image.jpg",
@@ -174,11 +177,19 @@ public class CreateChallengeActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(String fileLocation) {
                                     profileUrl = fileLocation;
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
                                 }
                                 @Override
                                 public void onFailure(String error_message) {
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
+                                    Toast.makeText(CreateChallengeActivity.this,
+                                            "Error adding image to challenge",
+                                            Toast.LENGTH_LONG).show();
                                 }
                             });
+
                 }
         }
     }

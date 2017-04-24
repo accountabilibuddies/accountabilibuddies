@@ -76,7 +76,7 @@ public class NotificationsReceiver extends BroadcastReceiver {
                                     String challengeId, String challengeType,
                                     String challengeName) {
 
-        Intent intent = null;
+        Intent intent;
         if(Integer.valueOf(challengeType) == Constants.TYPE_ONE_ON_ONE) {
             intent = new Intent(context, ChallengeOneOnOneActivity.class);
         } else {

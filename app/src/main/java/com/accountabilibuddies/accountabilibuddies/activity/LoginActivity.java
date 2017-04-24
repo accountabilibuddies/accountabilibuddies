@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();
+            finish();
             openSplashView();
         } else {
             setUpBinding();
@@ -76,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 ParseApplication.setCurrentUser(ParseUser.getCurrentUser());
                 viewModel.createFriendsList();
-
-                openMainView();
+                finish();
                 openSplashView();
             }
 
@@ -95,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(boolean isNewUser) {
 
                 viewModel.getFriendsForCurrentUser();
-                openMainView();
+                finish();
+                openSplashView();
             }
 
             @Override
@@ -118,16 +119,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.setLoginViewModel(viewModel);
     }
 
-    private void openMainView() {
-
-        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     private void openSplashView() {
 
         Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
         startActivity(intent);
+
     }
 }

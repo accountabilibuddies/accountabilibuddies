@@ -49,7 +49,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DrawerActivity" />
+        <activity android:name=".activity.DrawerActivity"
+            android:launchMode = "singleInstance" />
         <activity android:name=".activity.ChallengeDetailsActivity" />
         <activity android:name=".activity.CreateChallengeActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>

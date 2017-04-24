@@ -3,7 +3,6 @@ package com.accountabilibuddies.accountabilibuddies.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,7 +49,7 @@ public abstract class ChallengesFragment extends Fragment {
         @Override
         public void onFailure(String error_message) {
             binding.swipeContainer.setRefreshing(false);
-            Snackbar.make(binding.getRoot(), error_message, Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(binding.getRoot(), error_message, Snackbar.LENGTH_LONG).show();
         }
     };
 
@@ -76,8 +75,6 @@ public abstract class ChallengesFragment extends Fragment {
             openChallenge(position);
         });
 
-        getChallenges();
-
         return binding.getRoot();
     }
 
@@ -86,6 +83,10 @@ public abstract class ChallengesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getChallenges();
+    }
+
+    public void loadChallenges() {
         getChallenges();
     }
 

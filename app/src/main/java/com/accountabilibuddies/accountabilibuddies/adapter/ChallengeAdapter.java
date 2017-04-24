@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 
 import java.util.ArrayList;
@@ -20,7 +22,10 @@ import butterknife.ButterKnife;
 public class ChallengeAdapter extends
         RecyclerView.Adapter<ChallengeAdapter.MyViewHolder> {
 
+    private static final int ANIMATED_ITEMS_COUNT = 3;
+
     private ArrayList<Challenge> challengeList;
+    private int lastAnimatedPosition = -1;
     private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -58,9 +63,27 @@ public class ChallengeAdapter extends
         return new MyViewHolder(itemView);
     }
 
+    private void runEnterAnimation(View view, int position) {
+        if (position >= ANIMATED_ITEMS_COUNT - 1) {
+            return;
+        }
+
+        if (position > lastAnimatedPosition) {
+            lastAnimatedPosition = position;
+            view.setTranslationY(AnimUtils.getScreenHeight(context));
+            view.animate()
+                    .translationY(0)
+                    .setInterpolator(new DecelerateInterpolator(3.f))
+                    .setDuration(700)
+                    .start();
+        }
+    }
+
     @Override
     public void onBindViewHolder(ChallengeAdapter.MyViewHolder holder, int position) {
         Challenge challenge = challengeList.get(position);
+
+        runEnterAnimation(holder.itemView, position);
 
         if (challenge != null) {
             holder.challengeImage.setImageResource(0);

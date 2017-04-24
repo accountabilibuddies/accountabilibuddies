@@ -1,15 +1,20 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +28,6 @@ import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.crashlytics.android.Crashlytics;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
@@ -36,12 +40,19 @@ public class DrawerActivity extends AppCompatActivity {
     private ActivityDrawerBinding binding;
     private ActionBarDrawerToggle mDrawerToggle;
     ParseUser currentUser = null;
+    boolean pendingIntroAnimation = false;
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+    private static final int ANIM_DURATION_FAB = 400;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer);
+
+        if (savedInstanceState == null) {
+            pendingIntroAnimation = true;
+        }
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
@@ -64,10 +75,52 @@ public class DrawerActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        ViewUtils.startIntroAnimation(binding.toolbar);
+        //ViewUtils.startIntroAnimation(binding.toolbar);
 
         setUpNavigationDrawer();
         setUpNavigationView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (pendingIntroAnimation) {
+            pendingIntroAnimation = false;
+            startIntroAnimation();
+        }
+        return true;
+    }
+
+    private void startIntroAnimation() {
+        binding.fab.setTranslationY(4 * 56);
+        int actionbarSize = Utils.dpToPx(56, getResources());
+        binding.toolbar.setTranslationY(-actionbarSize);
+        binding.toolbar.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(300)
+                .setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                startContentAnimation();
+            }
+        }).start();
+    }
+
+    private void startContentAnimation() {
+        binding.fab.animate()
+                .translationY(0)
+                .setInterpolator(new OvershootInterpolator(1.f))
+                .setStartDelay(300)
+                .setDuration(ANIM_DURATION_FAB)
+                .start();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CurrentChallenges fragment = (CurrentChallenges)getSupportFragmentManager().findFragmentByTag("current");
+                fragment.loadChallenges();
+            }
+        }, 1000);
     }
 
     @Override
@@ -116,7 +169,7 @@ public class DrawerActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager != null)
-            fragmentManager.beginTransaction().replace(R.id.frame, new CurrentChallenges()).commit();
+            fragmentManager.beginTransaction().replace(R.id.frame, new CurrentChallenges(), "current").commit();
 
         binding.navView.setNavigationItemSelectedListener(menuItem -> {
             Fragment fragment = null;

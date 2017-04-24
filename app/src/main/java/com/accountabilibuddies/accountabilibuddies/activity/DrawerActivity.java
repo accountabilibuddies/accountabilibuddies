@@ -58,7 +58,7 @@ public class DrawerActivity extends AppCompatActivity {
 
         String objectId = null;
         try {
-            currentUser = ParseApplication.getCurrentUser().fetch();
+            currentUser = ParseUser.getCurrentUser().fetch();
             objectId = currentUser.fetchIfNeeded().getObjectId();
 
         } catch (ParseException e) {
@@ -189,8 +189,12 @@ public class DrawerActivity extends AppCompatActivity {
                     fragmentClass = SettingsFragment.class;
                     break;
                 case R.id.logOut:
-                    ParseApplication.logOut();
-                    openLoginView();
+                    ParseUser.logOutInBackground(
+                        (ParseException e) -> {
+                            ParseApplication.setCurrentUser(null);
+                            openLoginView();
+                        }
+                    );
                     break;
                 case R.id.help:
                 case R.id.about:

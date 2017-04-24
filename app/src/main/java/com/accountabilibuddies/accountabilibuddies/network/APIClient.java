@@ -94,7 +94,7 @@ public class APIClient {
 
     public interface UserFoundListener {
         void onSuccess(ParseUser user);
-        void onFailure();
+        void onFailure(String errorMessage);
     }
 
     public interface GetMembersListListener {
@@ -251,7 +251,7 @@ public class APIClient {
         query.getInBackground(challengeObjectId, (challenge, e) -> {
             if (e == null) {
                 List<ParseUser> users = challenge.getUserList();
-                filterUser(users, ParseApplication.getCurrentUser());
+                filterUser(users, ParseUser.getCurrentUser());
                 challenge.put("userList", users);
 
                 //challenge.addAllUnique("userList", users);
@@ -351,13 +351,11 @@ public class APIClient {
                 (List<ParseUser> users, ParseException e) -> {
 
                     if (e != null) {
-                        listener.onFailure();
+                        listener.onFailure(e.getMessage());
                     } else {
 
                         if (!users.isEmpty()) {
                             listener.onSuccess(users.get(0));
-                        } else {
-                            listener.onFailure();
                         }
                     }
                 }
@@ -496,7 +494,7 @@ public class APIClient {
                 if (like) {
                     users.add(ParseApplication.getCurrentUser());
                 } else {
-                    filterUser(users, ParseApplication.getCurrentUser());
+                    filterUser(users, ParseUser.getCurrentUser());
                 }
 
                 post.put("likeList", users);

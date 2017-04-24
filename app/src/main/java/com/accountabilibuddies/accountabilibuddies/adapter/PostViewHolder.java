@@ -14,8 +14,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.heart_button)
     LikeButton heartButton;
 
-    //@BindView(R.id.ibComment)
-    //ImageButton postComment;
+    @BindView(R.id.comment_button)
+    LikeButton commentButton;
 
     View itemView;
 
@@ -26,16 +26,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         this.itemView = itemView;
     }
 
-    //public ImageButton getPostComment() {
-    //    return postComment;
-    //}
-
-    //public void setPostComment(ImageButton postComment) {
-    //    this.postComment = postComment;
-    //}
-
     public View getItemView() {
-
         return itemView;
     }
 
@@ -45,5 +36,13 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
     public void setHeartButton(LikeButton heartButton) {
         this.heartButton = heartButton;
+    }
+
+    public LikeButton getCommentButton() {
+        return commentButton;
+    }
+
+    public void setCommentButton(LikeButton commentButton) {
+        this.commentButton = commentButton;
     }
 }

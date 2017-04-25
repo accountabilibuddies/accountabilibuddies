@@ -25,13 +25,6 @@
                 android:minHeight="192dp"
                 android:layout_alignParentTop="true"/>
 
-            <include
-                android:id="@+id/lDetails"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/flPost"
-                layout="@layout/post_details"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvComments"
                 android:layout_width="match_parent"
@@ -41,6 +34,13 @@
                 android:layout_marginTop="12dp"
                 android:paddingStart="@dimen/padding_normal"
                 android:paddingEnd="@dimen/padding_normal"/>
+
+            <include
+                android:id="@+id/lDetails"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/flPost"
+                layout="@layout/post_details"/>
 
             <include
                 android:id="@+id/lNewComment"
@@ -63,9 +63,11 @@
             android:clickable="true"
             app:layout_anchor="@+id/flPost"
             app:layout_anchorGravity="bottom|right|end"
-            app:fabSize="mini"
+            app:fab_size="normal"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/light_blue_500"
+            app:fab_colorRipple="@color/indigo_500"
             app:srcCompat="@drawable/empty_heart" />
-
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -5,7 +5,7 @@
     tools:showIn="@layout/fragment_post_details">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/flPost"
@@ -13,16 +13,8 @@
         android:paddingEnd="@dimen/padding_room_for_fab"
         android:paddingStart="@dimen/padding_normal"
         android:paddingTop="@dimen/padding_normal"
-        tools:text="Photocompositing challenge." />
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
-        android:paddingStart="@dimen/padding_normal"
-        android:paddingEnd="@dimen/padding_normal"
-        android:textSize="12sp"
+        android:background="@color/blue_grey"
+        android:textColor="@android:color/white"
         tools:text="Complete one photo composite each week based on a theme." />
 
 </merge>

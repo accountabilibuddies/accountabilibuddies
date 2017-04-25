@@ -12,17 +12,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:paddingTop="10dp">
+        android:paddingTop="5dp">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_height="75dp"
+            android:layout_height="50dp"
             android:id="@+id/ivProfileImage"
-            android:layout_width="75dp"
+            android:layout_width="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="5dp"
@@ -57,34 +57,51 @@
         <ImageView
             android:id="@+id/ivChallengeImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/challengeName"
-            android:layout_alignStart="@+id/challengeName"
-            android:layout_below="@+id/challengeDescription"
-            android:layout_marginRight="10dp" />
+            android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"
+            android:layout_below="@+id/ivProfileImage" />
 
         <ImageView
             android:id="@+id/ivMemberImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/ivChallengeImage"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             card_view:srcCompat="@drawable/members" />
 
         <TextView
             android:id="@+id/tvMemberCount"
+            android:gravity="bottom"
+            android:layout_alignBottom="@+id/ivMemberImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/ivChallengeImage"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/ivMemberImage"
             android:layout_toRightOf="@+id/ivMemberImage"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

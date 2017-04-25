@@ -35,7 +35,7 @@ public class MyPostHolderImage extends OneOnOneViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void viewBasedOnPost(Post post, Context context) {
+    public void viewBasedOnPost(Post post, Context context, boolean animate) {
 
         imageView.setImageResource(0);
         if (post != null) {
@@ -70,7 +70,9 @@ public class MyPostHolderImage extends OneOnOneViewHolder {
                 textView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
 
-            setMyScaleAnimationX(hsView, cardView);
+            if(animate) {
+                setMyScaleAnimationX(hsView, cardView);
+            }
         }
     }
 }

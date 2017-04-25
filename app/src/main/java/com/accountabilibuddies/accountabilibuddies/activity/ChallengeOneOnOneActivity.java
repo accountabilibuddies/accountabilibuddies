@@ -357,7 +357,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         if(mPostList.size()==3) {
             mAdapter.notifyDataSetChanged();
         } else {
-            mAdapter.notifyItemInserted(1);
+            mAdapter.notifyItemInsertion();
+            //mAdapter.notifyItemInserted(1);
         }
 
         mLayoutManager.scrollToPosition(0);

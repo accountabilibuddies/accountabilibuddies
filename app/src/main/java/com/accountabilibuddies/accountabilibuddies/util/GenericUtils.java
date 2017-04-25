@@ -19,22 +19,23 @@ public class GenericUtils {
     public static List<Object> buildOneOnOnePosts(List<Post> posts) {
 
         List<Object> result = new ArrayList<>();
-
+        String currDate, beforeDate;
         for(int i=0; i<posts.size();i++) {
 
             Post post = posts.get(i);
             if(i==0) {
-                result.add(DateUtils.getDateFromDate(post.getCreatedAt()));
+                result.add("Challenge Started!");
             } else {
-                String currDate = DateUtils.getDateFromDate(post.getCreatedAt());
-                String beforeDate = DateUtils.getDateFromDate(posts.get(i-1).getCreatedAt());
+                currDate = DateUtils.getDateFromDate(post.getCreatedAt());
+                beforeDate = DateUtils.getDateFromDate(posts.get(i-1).getCreatedAt());
                 if(!currDate.equals(beforeDate)) {
-                    result.add(currDate);
+                    result.add(beforeDate);
                 }
             }
             result.add(post);
         }
         if(posts.size()>0) {
+            result.add(DateUtils.getDateFromDate(posts.get(posts.size()-1).getCreatedAt()));
             result.add(Constants.FIRST);
         }
 
@@ -54,21 +55,20 @@ public class GenericUtils {
         if(posts.size()==0) {
             posts.add(Constants.FIRST);
             posts.add(DateUtils.getDateFromDate(post.getCreatedAt()));
-
+            posts.add(post);
+            posts.add("Challenge Started!");
         } else {
-            int size = posts.size();
             String currDate = DateUtils.getDateFromDate(post.getCreatedAt());
 
-            if(posts.get(1) instanceof Post) {
-                Post lastPost = (Post)posts.get(1);
+            if(posts.get(2) instanceof Post) {
+                Post lastPost = (Post)posts.get(2);
                 String beforeDate = DateUtils.getDateFromDate(lastPost.getCreatedAt());
                 if (!currDate.equals(beforeDate)) {
-                    posts.add(currDate);
+                    posts.add(1,currDate);
                 }
+                posts.add(2, post);
             }
         }
-
-        posts.add(1, post);
     }
 
     /**

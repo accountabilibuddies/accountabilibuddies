@@ -58,13 +58,13 @@
 
                 <com.wang.avi.AVLoadingIndicatorView
                     android:id="@+id/avi"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     style="@style/AVLoadingIndicatorView"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    app:indicatorName="BallScaleRippleMultipleIndicator"
-                    app:indicatorColor="@color/colorPrimary" />
+                    app:indicatorName="BallSpinFadeLoaderIndicator"
+                    app:indicatorColor="@color/create_blue" />
 
             </RelativeLayout>
         </RelativeLayout>

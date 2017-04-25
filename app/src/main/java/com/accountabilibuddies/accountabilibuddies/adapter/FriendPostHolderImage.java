@@ -36,7 +36,7 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
 
     }
 
-    public void viewBasedOnPost(Post post, Context context) {
+    public void viewBasedOnPost(Post post, Context context, boolean animate) {
 
         if (post != null) {
             imageView.setImageResource(0);
@@ -71,7 +71,9 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
                 dateView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
 
-            setFriendScaleAnimationX(hsView, cardView);
+            if(animate) {
+                setFriendScaleAnimationX(hsView, cardView);
+            }
         }
     }
 

@@ -36,6 +36,7 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -55,6 +56,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
     private static int CHALLENGE_TYPE = Constants.UNSELECTED;
     private String mImagePath, profileUrl;
     private static final int PHOTO_INTENT_REQUEST = 100;
+    private static final int GALLERY_INTENT_REQUEST = 101;
     private static final int REQUEST_CAMERA = 1;
     private Date startDate,endDate;
 
@@ -118,7 +120,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
     }
 
 
-    public void launchCamera(View view) {
+    public void launchCamera() {
         if (CameraUtils.cameraPermissionsGranted(this)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                     REQUEST_CAMERA);
@@ -163,29 +165,28 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     if (mImagePath == null) {
                         return;
                     }
-                    binding.progressBarContainer.setVisibility(View.VISIBLE);
-                    binding.avi.show();
+                    showProgress(true);
 
                     Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
+                    uploadFile(bitmap);
+                }
+            case GALLERY_INTENT_REQUEST:
 
-                    APIClient.getClient().uploadFile("post_image.jpg",
-                            bitmap,new APIClient.UploadFileListener() {
-                                @Override
-                                public void onSuccess(String fileLocation) {
-                                    profileUrl = fileLocation;
-                                    binding.avi.hide();
-                                    binding.progressBarContainer.setVisibility(View.GONE);
-                                }
-                                @Override
-                                public void onFailure(String error_message) {
-                                    binding.avi.hide();
-                                    binding.progressBarContainer.setVisibility(View.GONE);
-                                    Toast.makeText(CreateChallengeActivity.this,
-                                            "Error adding image to challenge",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            });
-
+                if (resultCode == RESULT_OK) {
+                    if (data.getData() == null) {
+                        return;
+                    }
+                    showProgress(true);
+                    Uri uri = data.getData();
+                    try {
+                        Bitmap bitmapSrc = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                        Bitmap bitmap = CameraUtils.scaleToFill(bitmapSrc, 800, 600);
+                        uploadFile(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        showProgress(false);
+                        return;
+                    }
                 }
         }
     }
@@ -387,5 +388,68 @@ public class CreateChallengeActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         datePickerDialog.show();
+    }
+
+    public void setChallengeImage(View view) {
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                .title("Add challenge image")
+                .items(R.array.inputs)
+                .itemsCallbackSingleChoice(-1, (dialog, view1, which, text) -> {
+
+                    if(which==0) {
+                        launchCamera();
+                        Toast.makeText(CreateChallengeActivity.this, "Camera", Toast.LENGTH_SHORT).show();
+                    } else {
+                        useGallery();
+                        Toast.makeText(CreateChallengeActivity.this, "Gallery", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                })
+                .positiveText("CHOOSE");
+
+        builder.backgroundColor(getResources().getColor(R.color.grey1));
+        builder.contentColor(getResources().getColor(R.color.text_color));
+        builder.widgetColor(getResources().getColor(R.color.text_color));
+
+        MaterialDialog dialog = builder.build();
+        dialog.show();
+    }
+
+    public void useGallery() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, GALLERY_INTENT_REQUEST);
+    }
+
+    public void uploadFile(Bitmap bitmap) {
+
+        APIClient.getClient().uploadFile("post_image.jpg",
+                bitmap,new APIClient.UploadFileListener() {
+                    @Override
+                    public void onSuccess(String fileLocation) {
+                        profileUrl = fileLocation;
+                        showProgress(false);
+                    }
+                    @Override
+                    public void onFailure(String error_message) {
+                        showProgress(false);
+                        Toast.makeText(CreateChallengeActivity.this,
+                                "Error adding image to challenge",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void showProgress(boolean show) {
+
+        if(show) {
+            binding.progressBarContainer.setVisibility(View.VISIBLE);
+            binding.avi.show();
+        } else {
+            binding.avi.hide();
+            binding.progressBarContainer.setVisibility(View.GONE);
+        }
     }
 }

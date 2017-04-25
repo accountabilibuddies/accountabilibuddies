@@ -42,7 +42,7 @@ public class MyPostHolderLocation extends OneOnOneViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void viewBasedOnPost(Post post, Context context) {
+    public void viewBasedOnPost(Post post, Context context, boolean animate) {
 
         if (post != null) {
             mapView.onCreate(null);
@@ -65,7 +65,9 @@ public class MyPostHolderLocation extends OneOnOneViewHolder {
                 textView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
 
-            setMyScaleAnimationX(hsView, cardView);
+            if(animate) {
+                setMyScaleAnimationX(hsView, cardView);
+            }
         }
     }
 }

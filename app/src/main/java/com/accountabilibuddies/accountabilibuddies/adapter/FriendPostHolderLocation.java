@@ -43,7 +43,7 @@ public class FriendPostHolderLocation extends OneOnOneViewHolder {
 
     }
 
-    public void viewBasedOnPost(Post post, Context context) {
+    public void viewBasedOnPost(Post post, Context context, boolean animate) {
 
         if (post != null) {
             mapView.onCreate(null);
@@ -67,7 +67,9 @@ public class FriendPostHolderLocation extends OneOnOneViewHolder {
                 dateView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
 
-            setFriendScaleAnimationX(hsView, cardView);
+            if(animate) {
+                setFriendScaleAnimationX(hsView, cardView);
+            }
         }
     }
 

@@ -32,7 +32,7 @@ public class FriendPostHolderText extends OneOnOneViewHolder {
 
     }
 
-    public void viewBasedOnPost(Post post, Context context) {
+    public void viewBasedOnPost(Post post, Context context, boolean animate) {
 
         if (post != null) {
             textView.setText(post.getText());
@@ -41,7 +41,9 @@ public class FriendPostHolderText extends OneOnOneViewHolder {
                 dateView.setText(DateUtils.getTimeFromDate(post.getCreatedAt()));
             }
 
-            setFriendScaleAnimationX(hsView, cardView);
+            if(animate) {
+                setFriendScaleAnimationX(hsView, cardView);
+            }
         }
     }
 

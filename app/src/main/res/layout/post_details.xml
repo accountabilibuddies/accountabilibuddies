@@ -14,7 +14,7 @@
         android:paddingStart="@dimen/padding_normal"
         android:paddingTop="@dimen/padding_normal"
         android:background="@color/blue_grey"
-        android:textColor="@android:color/white"
+        android:textColor="@color/text_color"
         tools:text="Complete one photo composite each week based on a theme." />
 
 </merge>

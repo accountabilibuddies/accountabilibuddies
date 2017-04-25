@@ -32,6 +32,7 @@
 
         <TextView
             android:id="@+id/challengeName"
+            fontPath="fonts/OpenSans-Bold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -63,7 +64,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:scaleType="centerCrop"
-            android:layout_below="@+id/ivProfileImage" />
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/challengeDescription" />
 
         <ImageView
             android:id="@+id/ivMemberImage"
@@ -75,7 +77,6 @@
             android:layout_below="@id/ivChallengeImage"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="5dp"
             card_view:srcCompat="@drawable/members" />
 
         <TextView
@@ -89,8 +90,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/ivMemberImage"
-            android:layout_toRightOf="@+id/ivMemberImage"
-            android:layout_marginBottom="5dp" />
+            android:layout_toRightOf="@+id/ivMemberImage" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -99,7 +99,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"/>
 

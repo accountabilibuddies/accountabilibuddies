@@ -27,6 +27,5 @@
         android:layout_toRightOf="@+id/ivProfileImage"
         android:paddingLeft="@dimen/comment_padding"
         android:gravity="center|start"
-        android:textSize="@dimen/comment_detail_size"
         tools:text="This is the best challenge."/>
 </RelativeLayout>

@@ -17,14 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostDetailsBinding;
-import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -46,13 +44,13 @@ public class PostDetailsFragment extends Fragment {
 
     CommentsAdapter adapter;
 
-    public static PostDetailsFragment newInstance(String postId, String challengeId, int viewType) {
+    public static PostDetailsFragment newInstance(String postId, String challengeDescription, int viewType) {
 
         PostDetailsFragment postDetailsFragment = new PostDetailsFragment();
 
         Bundle args = new Bundle();
         args.putString("postId", postId);
-        args.putString("challengeId", challengeId);
+        args.putString("challengeDescription", challengeDescription);
         args.putInt("viewType", viewType);
 
         postDetailsFragment.setArguments(args);
@@ -72,14 +70,14 @@ public class PostDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
 
         String postId = getArguments().getString("postId");
-        String challengeId = getArguments().getString("challengeId");
+        String challengeDescription = getArguments().getString("challengeDescription");
         int viewType = getArguments().getInt("viewType");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post_details, parent, false);
         binding.setPostDetailsViewModel(new PostDetailsViewModel(getActivity(), postId));
 
         showPost(postId, viewType);
-        addChallengeDetails(challengeId);
+        addChallengeDescription(challengeDescription);
         showComments(postId);
         setUpNewCommentListener();
         showNumLikes(postId);
@@ -178,25 +176,10 @@ public class PostDetailsFragment extends Fragment {
         );
     }
 
-    private void addChallengeDetails(String challengeId) {
+    private void addChallengeDescription(String description) {
 
-        APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
-
-            @Override
-            public void onSuccess(Challenge challenge) {
-
-                TextView tvTitle = (TextView) binding.lDetails.findViewById(R.id.tvTitle);
-                TextView tvDescription = (TextView) binding.lDetails.findViewById(R.id.tvDescription);
-
-                tvTitle.setText(challenge.getName());
-                tvDescription.setText(challenge.getDescription());
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(getContext(), "Failed to get challenge " + challengeId, Toast.LENGTH_SHORT).show();
-            }
-        });
+        TextView tvDescription = (TextView) binding.lDetails.findViewById(R.id.tvDescription);
+        tvDescription.setText(description);
     }
 
     private void postComment(String commentText) {
@@ -214,15 +197,15 @@ public class PostDetailsFragment extends Fragment {
         binding.rvComments.scrollToPosition(oldSize);
 
         APIClient.getClient().addComment(getArguments().getString("postId"), comment,
-                new APIClient.PostListener() {
-                    @Override
-                    public void onSuccess() {
-                    }
+            new APIClient.PostListener() {
+                @Override
+                public void onSuccess() {
+                }
 
-                    @Override
-                    public void onFailure(String error_message) {
-                    }
-                });
+                @Override
+                public void onFailure(String error_message) {
+                }
+        });
     }
 
     private void showComments(String postId) {

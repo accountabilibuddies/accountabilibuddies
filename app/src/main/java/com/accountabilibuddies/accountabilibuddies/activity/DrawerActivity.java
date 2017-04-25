@@ -23,7 +23,6 @@ import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityDrawerBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CompleteChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
-import com.accountabilibuddies.accountabilibuddies.fragments.SettingsFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
@@ -185,9 +184,6 @@ public class DrawerActivity extends AppCompatActivity {
                     fragmentClass = CompleteChallenges.class;
                     break;
 
-                case R.id.settings:
-                    fragmentClass = SettingsFragment.class;
-                    break;
                 case R.id.logOut:
                     ParseUser.logOutInBackground(
                         (ParseException e) -> {
@@ -196,6 +192,7 @@ public class DrawerActivity extends AppCompatActivity {
                         }
                     );
                     break;
+                case R.id.settings:
                 case R.id.help:
                 case R.id.about:
                     return true;

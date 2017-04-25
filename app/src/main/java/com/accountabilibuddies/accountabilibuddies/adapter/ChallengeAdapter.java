@@ -83,7 +83,7 @@ public class ChallengeAdapter extends
     public void onBindViewHolder(ChallengeAdapter.MyViewHolder holder, int position) {
         Challenge challenge = challengeList.get(position);
 
-        runEnterAnimation(holder.itemView, position);
+        //runEnterAnimation(holder.itemView, position);
 
         if (challenge != null) {
             holder.challengeImage.setImageResource(0);

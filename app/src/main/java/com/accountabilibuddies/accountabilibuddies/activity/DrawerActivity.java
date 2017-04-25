@@ -81,7 +81,7 @@ public class DrawerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (pendingIntroAnimation) {
             pendingIntroAnimation = false;
-            startIntroAnimation();
+        //    startIntroAnimation();
         }
         return true;
     }

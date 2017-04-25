@@ -29,6 +29,8 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int FRIEND_POST_LOCATION = 5;
     private final int FIRST_POSITION = 100;
 
+    private boolean animate;
+
     public OneOnOneAdapter(Context context, List<Object> postList) {
         this.postList = postList;
         this.context = context;
@@ -124,47 +126,51 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         Object post = postList.get(position);
 
+//        if(position == 1) {
+//            ViewCompat.animate(holder.itemView).scaleX(1).setDuration(1000).start();
+//        }
+
         if (post != null) {
             switch (holder.getItemViewType()) {
                 case MY_POST_IMAGE:
                     MyPostHolderImage myPH = (MyPostHolderImage) holder;
-                    myPH.viewBasedOnPost((Post)post,context);
+                    myPH.viewBasedOnPost((Post)post, context, animate);
                     setUpPostDetailsHandler(myPH.getItemView(), (Post) post, PostAdapter.POST_WITH_IMAGE);
                     break;
 
                 case FRIEND_POST_IMAGE:
                     FriendPostHolderImage friendPH = (FriendPostHolderImage) holder;
-                    friendPH.viewBasedOnPost((Post)post,context);
+                    friendPH.viewBasedOnPost((Post)post, context, animate);
                     setUpPostDetailsHandler(friendPH.getItemView(), (Post) post, PostAdapter.POST_WITH_IMAGE);
                     break;
 
                 case MY_POST_TEXT:
                     MyPostHolderText myPHText = (MyPostHolderText) holder;
-                    myPHText.viewBasedOnPost((Post)post,context);
+                    myPHText.viewBasedOnPost((Post)post, context, animate);
                     setUpPostDetailsHandler(myPHText.getItemView(), (Post) post, PostAdapter.POST_WITH_TEXT);
                     break;
 
                 case FRIEND_POST_TEXT:
                     FriendPostHolderText friendPHText = (FriendPostHolderText) holder;
-                    friendPHText.viewBasedOnPost((Post)post,context);
+                    friendPHText.viewBasedOnPost((Post)post, context, animate);
                     setUpPostDetailsHandler(friendPHText.getItemView(), (Post) post, PostAdapter.POST_WITH_TEXT);
                     break;
 
                 case MY_POST_LOCATION:
                     MyPostHolderLocation myPHLocation = (MyPostHolderLocation) holder;
-                    myPHLocation.viewBasedOnPost((Post)post,context);
+                    myPHLocation.viewBasedOnPost((Post)post, context, animate);
                     setUpPostDetailsHandler(myPHLocation.getItemView(), (Post) post, PostAdapter.POST_WITH_LOCATION);
                     break;
 
                 case FRIEND_POST_LOCATION:
                     FriendPostHolderLocation friendPHLocation = (FriendPostHolderLocation) holder;
-                    friendPHLocation.viewBasedOnPost((Post)post,context);
+                    friendPHLocation.viewBasedOnPost((Post)post, context, animate);
                     setUpPostDetailsHandler(friendPHLocation.getItemView(), (Post) post, PostAdapter.POST_WITH_LOCATION);
                     break;
 
                 case DATE_TEXT:
                     PostDateHolder dateHolder = (PostDateHolder) holder;
-                    dateHolder.viewBasedOnPost((String)post,context);
+                    dateHolder.viewBasedOnPost((String)post, context);
                     break;
 
                 case FIRST_POSITION:
@@ -174,6 +180,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
             }
         }
+        this.animate = false;
     }
 
     public void setUpPostDetailsHandler(View itemView, final Post post, final int viewType) {
@@ -195,4 +202,9 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return postList.size();
     }
 
+
+    public void notifyItemInsertion() {
+        animate = false;
+        this.notifyItemRangeChanged(1,2);
+    }
 }

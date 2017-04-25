@@ -52,14 +52,14 @@
                     android:layout_marginLeft="@dimen/left_right_margin"
                     android:layout_marginRight="4dp"
                     android:layout_marginTop="4dp"
-                    android:layout_toLeftOf="@+id/ivCamera"
-                    android:layout_toStartOf="@+id/ivCamera"
+                    android:layout_toLeftOf="@+id/ivSetImage"
+                    android:layout_toStartOf="@+id/ivSetImage"
                     android:background="@drawable/edit_text_back"
                     fontPath="fonts/OpenSans-Light.ttf"
                     android:padding="10dp"/>
 
                 <ImageView
-                    android:id="@+id/ivCamera"
+                    android:id="@+id/ivSetImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -67,8 +67,8 @@
                     android:layout_alignTop="@+id/etTitle"
                     android:layout_marginRight="@dimen/left_right_margin"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/camera"
-                    android:onClick="launchCamera"/>
+                    android:background="@drawable/ic_upload"
+                    android:onClick="setChallengeImage"/>
 
                 <TextView
                     android:id="@+id/tvDescription"

@@ -203,8 +203,8 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public void notifyItemInsertion() {
+    public void notifyItemInsertion(int start, int end) {
         animate = false;
-        this.notifyItemRangeChanged(1,2);
+        this.notifyItemRangeChanged(start,end);
     }
 }

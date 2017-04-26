@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.util;
 
 import android.content.res.Resources;
 
+import com.accountabilibuddies.accountabilibuddies.adapter.OneOnOneAdapter;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 
 import java.util.ArrayList;
@@ -50,23 +51,33 @@ public class GenericUtils {
      * @param posts
      * @param post
      */
-    public static void addPost(List<Object> posts, Post post) {
+    public static void addPost(List<Object> posts, Post post, OneOnOneAdapter adapter) {
 
         if(posts.size()==0) {
             posts.add(Constants.FIRST);
             posts.add(DateUtils.getDateFromDate(post.getCreatedAt()));
             posts.add(post);
             posts.add("Challenge Started!");
+
+            adapter.notifyDataSetChanged();
         } else {
             String currDate = DateUtils.getDateFromDate(post.getCreatedAt());
 
+            boolean dateAdded = false;
             if(posts.get(2) instanceof Post) {
                 Post lastPost = (Post)posts.get(2);
                 String beforeDate = DateUtils.getDateFromDate(lastPost.getCreatedAt());
                 if (!currDate.equals(beforeDate)) {
                     posts.add(1,currDate);
+                    dateAdded = true;
                 }
                 posts.add(2, post);
+            }
+
+            if(dateAdded) {
+                adapter.notifyItemRangeInserted(1,2);
+            } else {
+                adapter.notifyItemInserted(2);
             }
         }
     }

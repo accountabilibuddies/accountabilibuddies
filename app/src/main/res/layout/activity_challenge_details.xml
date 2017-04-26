@@ -23,6 +23,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
+            android:id="@+id/rlLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
@@ -31,40 +32,39 @@
             <FrameLayout
                 android:id="@+id/flAddFriends"
                 android:layout_width="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true" />
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeContainer"
-                android:layout_below="@+id/flAddFriends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/flAddFriends"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rVPosts"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
             <RelativeLayout
                 android:id="@+id/progressBarContainer"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:clickable="true" >
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:visibility="gone">
 
                 <com.wang.avi.AVLoadingIndicatorView
                     android:id="@+id/avi"
+                    style="@style/AVLoadingIndicatorView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    style="@style/AVLoadingIndicatorView"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    app:indicatorName="BallSpinFadeLoaderIndicator"
-                    app:indicatorColor="@color/create_blue" />
+                    app:indicatorColor="@color/create_blue"
+                    app:indicatorName="BallSpinFadeLoaderIndicator" />
 
             </RelativeLayout>
         </RelativeLayout>

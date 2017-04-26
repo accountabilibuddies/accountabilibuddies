@@ -28,6 +28,7 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int MY_POST_LOCATION = 4;
     private final int FRIEND_POST_LOCATION = 5;
     private final int FIRST_POSITION = 100;
+    private final int START_POSITION = 101;
 
     private boolean animate;
 
@@ -44,6 +45,8 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(postList.get(position).equals(Constants.FIRST))
                 return FIRST_POSITION;
             return type;
+        } else if(postList.get(position) instanceof Integer) {
+            return START_POSITION;
         }
 
         Post currentPost = (Post)postList.get(position);
@@ -113,10 +116,16 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
             case FIRST_POSITION:
-                default:
                 View viewLast = inflater.inflate(R.layout.item_oneonone_first, parent, false);
                 viewHolder = new FirstHolder(viewLast);
                 break;
+
+            case START_POSITION:
+            default:
+                View viewStart = inflater.inflate(R.layout.item_oneonone_start, parent, false);
+                viewHolder = new FirstHolder(viewStart);
+                break;
+
         }
         return viewHolder;
     }
@@ -202,9 +211,4 @@ public class OneOnOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return postList.size();
     }
 
-
-    public void notifyItemInsertion(int start, int end) {
-        animate = false;
-        this.notifyItemRangeChanged(start,end);
-    }
 }

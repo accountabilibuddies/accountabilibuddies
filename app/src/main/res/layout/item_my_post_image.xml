@@ -10,7 +10,7 @@
         android:layout_height="@dimen/line_width"
         android:layout_toRightOf="@+id/myCircle"
         android:layout_centerVertical="true"
-        android:background="@color/grey2"/>
+        android:background="@color/line_color"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvMyPostImage"
@@ -42,7 +42,7 @@
         android:layout_alignTop="@+id/cvMyPostImage"
         android:layout_alignBottom="@+id/cvMyPostImage"
         android:layout_centerHorizontal="true"
-        android:background="@color/grey2"
+        android:background="@color/line_color"
         android:layout_marginTop="-11dp"
         android:layout_marginBottom="-10dp"/>
 

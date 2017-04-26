@@ -10,6 +10,7 @@
     <color name="grey3">#AAAAAA</color>
 
     <color name="text_color">#657786</color>
+    <color name="line_color">#657786</color>
 
     <color name="create_back">#FCFCFC</color>
     <color name="create_red">#fd5c63</color>

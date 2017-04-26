@@ -57,7 +57,7 @@ public class DateUtils {
      */
     public static String getDate(Date date) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, YYYY");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         return sdf.format(date);
     }
 
@@ -82,7 +82,7 @@ public class DateUtils {
      */
     public static Calendar getCalFromString(String date) {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, YYYY");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         try {
             cal.setTime(sdf.parse(date));
         } catch (ParseException e) {

@@ -126,7 +126,7 @@ public class ChallengeAdapter extends
                     break;
                 case 3://Completed challenges
                     holder.dateText.setText("Ended:");
-                    holder.date.setText(DateUtils.getRelativeTimeFuture(challenge.getEndDate()));
+                    holder.date.setText(DateUtils.getRelativeTimeAgo(challenge.getEndDate()));
                     break;
             }
         }

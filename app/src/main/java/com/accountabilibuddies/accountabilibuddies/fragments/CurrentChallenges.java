@@ -12,6 +12,9 @@ import com.accountabilibuddies.accountabilibuddies.util.Constants;
 public class CurrentChallenges extends ChallengesFragment {
     @Override
     protected void openChallenge(int position) {
+        if (mChallengeList.isEmpty())
+            return;
+
         Challenge challenge = mChallengeList.get(position);
 
         Intent intent;

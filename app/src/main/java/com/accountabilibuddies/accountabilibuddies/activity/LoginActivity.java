@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             ParseApplication.setCurrentUser(currentUser);
             loadAuthenticatedUser();
-            finish();
             openSplashView();
+            finish();
         } else {
             setUpBinding();
             //startLoginAnimation();
@@ -85,8 +85,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 ParseApplication.setCurrentUser(ParseUser.getCurrentUser());
                 viewModel.createFriendsList();
-                finish();
                 openSplashView();
+                finish();
             }
 
             @Override
@@ -103,8 +103,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(boolean isNewUser) {
 
                 viewModel.getFriendsForCurrentUser();
-                finish();
                 openSplashView();
+                finish();
             }
 
             @Override

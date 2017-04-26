@@ -352,16 +352,9 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     /**
      * Function to add post to the posts list.
-     * //TODO: Change this based on in what order the list is to be shown
      */
     void onCreatePost(Post post) {
-        GenericUtils.addPost(mPostList, post);
-        if(mPostList.size()==3) {
-            mAdapter.notifyDataSetChanged();
-        } else {
-            mAdapter.notifyItemInsertion();
-            //mAdapter.notifyItemInserted(1);
-        }
+        GenericUtils.addPost(mPostList, post, mAdapter);
 
         mLayoutManager.scrollToPosition(0);
 

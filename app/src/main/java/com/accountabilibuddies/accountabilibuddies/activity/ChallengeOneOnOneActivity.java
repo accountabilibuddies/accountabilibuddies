@@ -82,8 +82,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_details);
 
-        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
-
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
         challenge = ParseObject.createWithoutData(Challenge.class,
@@ -154,6 +152,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             public void onSuccess(List<Post> postList) {
 
                 if (postList != null) {
+                    if(postList.size()>0) {
+                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
+                    } else {
+                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.empty_state));
+                    }
                     mPostList.clear();
                     List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
                     mPostList.addAll(posts);
@@ -354,6 +357,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
      * Function to add post to the posts list.
      */
     void onCreatePost(Post post) {
+        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
         GenericUtils.addPost(mPostList, post, mAdapter);
 
         mLayoutManager.scrollToPosition(0);

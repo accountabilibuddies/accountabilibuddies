@@ -10,7 +10,7 @@
         android:layout_height="@dimen/line_width"
         android:layout_toLeftOf="@+id/friendCircle"
         android:layout_centerVertical="true"
-        android:background="@color/grey2"/>
+        android:background="@color/line_color"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvFriendPostText"
@@ -44,7 +44,7 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/vertical_line"
         android:layout_width="@dimen/line_width"
-        android:background="@color/grey2"
+        android:background="@color/line_color"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/cvFriendPostText"
         android:layout_alignBottom="@+id/cvFriendPostText"

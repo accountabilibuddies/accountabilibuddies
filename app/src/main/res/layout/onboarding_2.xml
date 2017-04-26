@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="167dp"
-        android:src="@drawable/onboard2"/>
+        android:src="@drawable/onboard1"/>
 
     <TextView
         android:id="@+id/textView"

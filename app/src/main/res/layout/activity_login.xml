@@ -11,57 +11,44 @@
             name="loginViewModel"
             type="com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel"/>
     </data>
-    
-    <RelativeLayout
-        android:id="@+id/rlLogin"
-        android:background="@drawable/login_animation_list"
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="40dp">
+        android:background="#2561B0">
 
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_logo"/>
-
-        <TextView
-            android:id="@+id/tvSpur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivLogo"
-            android:layout_centerHorizontal="true"
-            fontPath="fonts/LondrinaSketch-Regular.ttf"
-            android:textSize="84sp"
-            android:textColor="@android:color/white"
-            android:text="@string/app_name"/>
-
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="48dp"
-            android:gravity="center"
-            android:text="Find motivation to achieve your goals by challenging your friends."
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"/>
-
-        <Button
-            android:id="@+id/btFacebook"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvDescription"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:background="@color/com_facebook_blue"
-            android:text="@string/connect_facebook"
-            android:textSize="@dimen/text_small"
-            android:textColor="@android:color/white"/>
-    
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:paddingBottom="?attr/actionBarSize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:alpha="0.12"
+            android:background="@android:color/white" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="bottom">
+            <Button
+                android:id="@+id/btFacebook"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:background="#2561B0"
+                android:paddingEnd="30dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/connect_facebook"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+        </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

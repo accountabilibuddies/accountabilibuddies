@@ -130,7 +130,7 @@ public class Post extends ParseObject {
         ParseUser currentUser = CollectionUtils.find(
                 users,
                 (ParseUser user) ->
-                        user.getObjectId().equals(ParseApplication.getCurrentUser().getObjectId())
+                        user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
         );
 
         return currentUser != null;

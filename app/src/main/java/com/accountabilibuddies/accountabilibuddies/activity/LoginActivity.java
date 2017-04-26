@@ -3,10 +3,12 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
@@ -22,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding binding;
     LoginViewModel viewModel;
+    int ONBOARDING_SLIDE_NUM = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +44,14 @@ public class LoginActivity extends AppCompatActivity {
             openSplashView();
         } else {
             setUpBinding();
-            startLoginAnimation();
+            //startLoginAnimation();
+            setupViewPager();
             setUpLogInButton(); //user may or may not exist, but isn't authenticated
         }
+    }
+
+    private void setupViewPager() {
+        binding.container.setAdapter(new CustomPagerAdapter(this));
     }
 
     @Override
@@ -59,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         );
     }
-
+/*
     private void startLoginAnimation() {
 
         AnimationDrawable animationDrawable = (AnimationDrawable) binding.rlLogin.getBackground();
@@ -67,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
     }
-
+*/
     private void authenticateUser() {
 
         viewModel.logInWithReadPermissions(new LoginViewModel.LoggedInListener() {
@@ -124,5 +132,56 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
         startActivity(intent);
 
+    }
+
+    public enum CustomPagerEnum {
+
+        ONE(R.layout.onboarding_1),
+        TWO(R.layout.onboarding_2),
+        THREE(R.layout.onboarding_3);
+
+        private int mLayoutResId;
+
+        CustomPagerEnum(int layoutResId) {
+            mLayoutResId = layoutResId;
+        }
+
+        public int getLayoutResId() {
+            return mLayoutResId;
+        }
+
+    }
+
+    public class CustomPagerAdapter extends PagerAdapter {
+
+        private Context mContext;
+
+        public CustomPagerAdapter(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup collection, int position) {
+            CustomPagerEnum customPagerEnum = CustomPagerEnum.values()[position];
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            ViewGroup layout = (ViewGroup) inflater.inflate(customPagerEnum.getLayoutResId(), collection, false);
+            collection.addView(layout);
+            return layout;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup collection, int position, Object view) {
+            collection.removeView((View) view);
+        }
+
+        @Override
+        public int getCount() {
+            return ONBOARDING_SLIDE_NUM;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
     }
 }

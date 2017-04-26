@@ -113,4 +113,27 @@ public class DateUtils {
 
         return relativeDate;
     }
+
+    public static String getRelativeTimeFuture(Date postdate) {
+        String relativeDate = "";
+        long dateMillis = postdate.getTime();
+
+        long timeDiff = (dateMillis - System.currentTimeMillis())/1000;
+
+        if (timeDiff < 5)
+            relativeDate = "Just now";
+        else if (timeDiff < 60)
+            relativeDate = String.format(Locale.ENGLISH, "%d sec",timeDiff);
+        else if (timeDiff < 60 * 60)
+            relativeDate = String.format(Locale.ENGLISH, "%d min", timeDiff / 60);
+        else if (timeDiff < 60 * 60 * 24)
+            relativeDate = String.format(Locale.ENGLISH, "%d hour", timeDiff / (60 * 60));
+        else {
+            Date date = new Date(dateMillis);
+            DateFormat formatter = new SimpleDateFormat("dd MMM yy");
+            relativeDate = formatter.format(date);
+        }
+
+        return relativeDate;
+    }
 }

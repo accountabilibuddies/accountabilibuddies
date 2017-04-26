@@ -27,6 +27,7 @@ public class CompleteChallenges extends ChallengesFragment {
     @Override
     protected void getChallenges() {
         mChallengeList.clear();
+        mAdapter.setChallengeType(3);
         client.getCompleteChallengeList(ParseApplication.getCurrentUser(), listener);
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
+import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class ChallengeAdapter extends
         RecyclerView.Adapter<ChallengeAdapter.MyViewHolder> {
 
     private static final int ANIMATED_ITEMS_COUNT = 3;
-
+    private int challengeType;
     private ArrayList<Challenge> challengeList;
     private int lastAnimatedPosition = -1;
     private Context context;
@@ -43,6 +44,12 @@ public class ChallengeAdapter extends
 
         @BindView(R.id.tvMemberCount)
         TextView count;
+
+        @BindView(R.id.tvDateText)
+        TextView dateText;
+
+        @BindView(R.id.tvDate)
+        TextView date;
 
         public MyViewHolder(View view) {
             super(view);
@@ -107,7 +114,26 @@ public class ChallengeAdapter extends
                     holder.challengeImage
                 );
             }
+
+            switch (challengeType) {
+                case 1://Current challenges
+                    holder.dateText.setText("Ends:");
+                    holder.date.setText(DateUtils.getRelativeTimeFuture(challenge.getEndDate()));
+                    break;
+                case 2://Upcoming challenges
+                    holder.dateText.setText("Starts:");
+                    holder.date.setText(DateUtils.getDateFromDate(challenge.getStartDate()));
+                    break;
+                case 3://Completed challenges
+                    holder.dateText.setText("Ended:");
+                    holder.date.setText(DateUtils.getRelativeTimeFuture(challenge.getEndDate()));
+                    break;
+            }
         }
+    }
+
+    public void setChallengeType(int type) {
+        this.challengeType = type;
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
@@ -23,6 +23,7 @@ import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentCommentBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -75,6 +76,17 @@ public class CommentsFragment extends DialogFragment {
     }
 
     private void setUpNewCommentListener() {
+
+        ImageView ivAvatar = (ImageView) binding.lNewComment.findViewById(R.id.ivAvatar);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        String profilePhotoUrl = (String) user.get("profilePhotoUrl");
+
+        ImageUtils.loadCircularProfileImage(
+                getContext(),
+                profilePhotoUrl,
+                ivAvatar
+        );
 
         ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
         TextInputEditText tietComment = (TextInputEditText) binding.lNewComment.findViewById(R.id.tietComment);

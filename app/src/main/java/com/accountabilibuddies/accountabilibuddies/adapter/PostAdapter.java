@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
@@ -15,6 +16,7 @@ import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
@@ -37,6 +39,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private GoogleMap map;
     private LikeButton heartBtn, commentBtn;
     private String challengeId;
+    private static final int ANIMATED_ITEMS_COUNT = 3;
+    private int lastAnimatedPosition = -1;
 
     APIClient client = APIClient.getClient();
     public static final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
@@ -108,10 +112,28 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         );
     }
 
+    private void runEnterAnimation(View view, int position) {
+        if (position >= ANIMATED_ITEMS_COUNT - 1) {
+            return;
+        }
+
+        if (position > lastAnimatedPosition) {
+            lastAnimatedPosition = position;
+            view.setTranslationY(AnimUtils.getScreenHeight(context));
+            view.animate()
+                    .translationY(0)
+                    .setInterpolator(new DecelerateInterpolator(3.f))
+                    .setDuration(700)
+                    .start();
+        }
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
         PostViewHolder holder = (PostViewHolder) viewHolder;
+
+        runEnterAnimation(holder.itemView, position);
 
         Post post = postList.get(position);
         if (post != null) {

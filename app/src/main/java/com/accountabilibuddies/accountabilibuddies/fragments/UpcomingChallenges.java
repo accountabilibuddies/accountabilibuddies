@@ -11,7 +11,7 @@ public class UpcomingChallenges extends ChallengesFragment {
 
     @Override
     protected void getChallenges() {
-        mChallengeList.clear();
+        //mChallengeList.clear();
         mAdapter.setChallengeType(2);
         client.getUpcomingChallengeList(ParseApplication.getCurrentUser(), listener);
     }

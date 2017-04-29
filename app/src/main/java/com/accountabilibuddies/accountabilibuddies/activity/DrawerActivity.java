@@ -57,7 +57,7 @@ public class DrawerActivity extends AppCompatActivity {
 
         String objectId = null;
         try {
-            currentUser = ParseUser.getCurrentUser().fetch();
+            currentUser = ParseUser.getCurrentUser();
             objectId = currentUser.fetchIfNeeded().getObjectId();
 
         } catch (ParseException e) {

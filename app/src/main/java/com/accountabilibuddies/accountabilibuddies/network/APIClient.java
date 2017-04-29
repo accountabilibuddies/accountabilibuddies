@@ -9,8 +9,10 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
+import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -109,7 +111,7 @@ public class APIClient {
 
     // Challenge API's
     public void createChallenge(Challenge challenge, ChallengeListener listener) {
-        challenge.saveInBackground(e -> {
+        challenge.saveEventually (e -> {
             if (e != null) {
                 listener.onFailure(e.getMessage());
             } else {
@@ -121,7 +123,11 @@ public class APIClient {
     public void getCompleteChallengeList(ParseUser user, GetChallengeListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("COMPLETED_CHALLENGES");
+        }
+
         query.whereEqualTo("userList", user);
         query.whereLessThan("endDate", new Date());
         query.findInBackground((objects, e) -> {
@@ -129,6 +135,7 @@ public class APIClient {
                 listener.onFailure(e.getMessage());
             } else {
                 listener.onSuccess(objects);
+                ParseObject.pinAllInBackground("COMPLETED_CHALLENGES", objects);
             }
         });
     }
@@ -136,7 +143,11 @@ public class APIClient {
     public void getUpcomingChallengeList(ParseUser user, GetChallengeListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("UPCOMING_CHALLENGES");
+        }
+
         query.whereEqualTo("userList", user);
         query.whereGreaterThan("startDate", new Date());
         query.findInBackground((objects, e) -> {
@@ -144,6 +155,7 @@ public class APIClient {
                 listener.onFailure(e.getMessage());
             } else {
                 listener.onSuccess(objects);
+                ParseObject.pinAllInBackground("UPCOMING_CHALLENGES", objects);
             }
         });
     }
@@ -151,7 +163,11 @@ public class APIClient {
     public void getCurrentChallengeList(ParseUser user, GetChallengeListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("CURRENT_CHALLENGES");
+        }
+
         query.whereEqualTo("userList", user);
         query.whereLessThanOrEqualTo("startDate", new Date());
         query.whereGreaterThanOrEqualTo("endDate", new Date());
@@ -160,6 +176,7 @@ public class APIClient {
                 listener.onFailure(e.getMessage());
             } else {
                 listener.onSuccess(objects);
+                ParseObject.pinAllInBackground("CURRENT_CHALLENGES", objects);
             }
         });
     }
@@ -199,10 +216,6 @@ public class APIClient {
         });
     }
 
-    public void getChallenge() {
-
-    }
-
     public void getChallengeById(String challengeId, GetChallengeListener listener) {
 
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
@@ -222,7 +235,6 @@ public class APIClient {
 
     public void getMembersList(String challengeObjectId, GetMembersListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.include("userList");
 
         query.getInBackground(challengeObjectId, (object, e) -> {
@@ -325,41 +337,45 @@ public class APIClient {
     }
 
     public void getFriendsByUsername(String username, GetFriendsListener listener) {
-
         ParseQuery<Friend> query = ParseQuery.getQuery(Friend.class);
         query.whereEqualTo("username", username);
 
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("FRIENDS");
+        }
+
         query.findInBackground(
-
                 (List<Friend> friends, ParseException e) -> {
-
                     if (e != null) {
                         listener.onFailure(e.getMessage());
                     } else {
                         listener.onSuccess(friends);
+                        ParseObject.pinAllInBackground("FRIENDS", friends);
                     }
                 }
         );
     }
 
     public void getUser(String username, UserFoundListener listener) {
-
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.whereEqualTo("username", username);
-        query.findInBackground( //TODO: Is there a more efficient query for finding just one match? I'd like to replace the object id with the username.
 
-                (List<ParseUser> users, ParseException e) -> {
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("USERS");
+        }
 
-                    if (e != null) {
-                        listener.onFailure(e.getMessage());
-                    } else {
-
-                        if (!users.isEmpty()) {
-                            listener.onSuccess(users.get(0));
-                        }
-                    }
+        query.findInBackground((List<ParseUser> users, ParseException e) -> {
+            if (e != null) {
+                listener.onFailure(e.getMessage());
+            } else {
+                if (!users.isEmpty()) {
+                    ParseObject.pinAllInBackground("USERS", users);
+                    listener.onSuccess(users.get(0));
                 }
-        );
+            }
+        });
     }
 
     //Post API's
@@ -393,7 +409,6 @@ public class APIClient {
 
     public void getPostList(String challengeObjectId, GetPostListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.include("postList");
 
         query.getInBackground(challengeObjectId, (object, e) -> {
@@ -422,10 +437,8 @@ public class APIClient {
         );
     }
 
-
     public void getCommentList(String postObjectId, GetCommentsListListener listener) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.include("commentList");
 
         query.getInBackground(postObjectId, (object, e) -> {

@@ -1,6 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -42,6 +45,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
@@ -79,7 +83,9 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     private Double mLatitude;
     private Double mLongitude;
     private String mAddress;
-
+    boolean pendingAnimation = false;
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+    private static final int ANIM_DURATION_FAB = 400;
     private static final int PHOTO_INTENT_REQUEST = 100;
     private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_CAMERA = 2;
@@ -91,6 +97,10 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_details);
+
+        if (savedInstanceState == null) {
+            pendingAnimation = true;
+        }
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
@@ -126,8 +136,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         //Swipe to refresh
         binding.swipeContainer.setOnRefreshListener(() -> getPosts());
-        getPosts();
-        setUpFriendsView();
     }
 
     @Override
@@ -137,12 +145,44 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (pendingAnimation) {
+            pendingAnimation = false;
+            startAnimation();
+        }
         if (challenge.getEndDate().compareTo(new Date()) > 0) {
             getMenuInflater().inflate(R.menu.detail_menu, menu);
         } else {
             binding.fabMenu.setVisibility(View.GONE);
         }
         return true;
+    }
+
+    private void startAnimation() {
+        binding.fabMenu.setTranslationY(4 * 56);
+        int actionbarSize = AnimUtils.dpToPx(56);
+        binding.toolbar.setTranslationY(-actionbarSize);
+        binding.toolbar.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(300)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        startContentAnimation();
+                    }
+                }).start();
+    }
+
+    private void startContentAnimation() {
+        binding.fabMenu.animate()
+                .translationY(0)
+                .setInterpolator(new OvershootInterpolator(1.f))
+                .setStartDelay(300)
+                .setDuration(ANIM_DURATION_FAB)
+                .start();
+
+        setUpFriendsView();
+        getPosts();
     }
 
     private void setUpFriendsView() {

@@ -28,9 +28,6 @@ public class ParseApplication extends Application {
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
-        // Enable Local Datastore to fetch data offline
-        //Parse.enableLocalDatastore(this);
-
         // Register all parse models here
         ParseObject.registerSubclass(Comment.class);
         ParseObject.registerSubclass(Post.class);
@@ -45,9 +42,11 @@ public class ParseApplication extends Application {
                 .applicationId("accountabilibuddiesCodePath")
                 // set explicitly unless clientKey is explicitly configured on Parse server
                 .clientKey(null)
+                .enableLocalDataStore()
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 // Corresponds to the SERVER_URL
-                .server("http://accountabilibuddies.herokuapp.com/parse").build());
+                .server("http://accountabilibuddies.herokuapp.com/parse")
+                .build());
 
         ParseFacebookUtils.initialize(getApplicationContext());
 

@@ -140,7 +140,7 @@ public class LoginViewModel {
 
                         if (friendId != null && newFriendId != null) {
                             return friendId.equals(newFriendId);
-                        };
+                        }
 
                         return false;
                     }

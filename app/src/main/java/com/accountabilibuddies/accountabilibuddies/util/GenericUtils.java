@@ -25,7 +25,7 @@ public class GenericUtils {
 
             Post post = posts.get(i);
             if(i==0) {
-                result.add(new Integer(1));
+                result.add(Integer.valueOf(1));
             } else {
                 currDate = DateUtils.getDateFromDate(post.getCreatedAt());
                 beforeDate = DateUtils.getDateFromDate(posts.get(i-1).getCreatedAt());
@@ -57,7 +57,7 @@ public class GenericUtils {
             posts.add(Constants.FIRST);
             posts.add(DateUtils.getDateFromDate(post.getCreatedAt()));
             posts.add(post);
-            posts.add(new Integer(1));
+            posts.add(Integer.valueOf(1));
 
             adapter.notifyDataSetChanged();
         } else {

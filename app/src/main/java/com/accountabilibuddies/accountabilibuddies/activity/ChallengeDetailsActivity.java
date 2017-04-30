@@ -54,7 +54,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -80,6 +79,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     protected LinearLayoutManager mLayoutManager;
     private GoogleApiClient mGoogleApiClient;
     private Challenge challenge;
+    private String challengeId;
     private Double mLatitude;
     private Double mLongitude;
     private String mAddress;
@@ -104,13 +104,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
-        challenge = ParseObject.createWithoutData(Challenge.class,
-                getIntent().getStringExtra("challengeId"));
-        try {
-            challenge.fetch();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        challengeId = getIntent().getStringExtra("challengeId");
+
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
 
@@ -127,7 +122,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         setupGoogleClient();
 
         mPostList = new ArrayList<>();
-        mAdapter = new PostAdapter(this, challenge.getObjectId(), mPostList);
+        mAdapter = new PostAdapter(this, challengeId, mPostList);
         binding.rVPosts.setAdapter(mAdapter);
         binding.rVPosts.setItemAnimator(new DefaultItemAnimator());
 
@@ -145,15 +140,25 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (pendingAnimation) {
-            pendingAnimation = false;
-            startAnimation();
-        }
-        if (challenge.getEndDate().compareTo(new Date()) > 0) {
-            getMenuInflater().inflate(R.menu.detail_menu, menu);
-        } else {
-            binding.fabMenu.setVisibility(View.GONE);
-        }
+        APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
+
+            @Override
+            public void onSuccess(Challenge c) {
+                challenge = c;
+                if (pendingAnimation) {
+                    pendingAnimation = false;
+                    startAnimation();
+                }
+                if (challenge.getEndDate().compareTo(new Date()) > 0) {
+                    getMenuInflater().inflate(R.menu.detail_menu, menu);
+                } else {
+                    binding.fabMenu.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {}
+        });
         return true;
     }
 
@@ -187,7 +192,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     private void setUpFriendsView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flAddFriends, ChallengeFriendsFragment.newInstance(challenge.getObjectId()));
+        ft.replace(R.id.flAddFriends, ChallengeFriendsFragment.newInstance(challengeId));
         ft.commit();
     }
 
@@ -202,7 +207,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void getPosts() {
-        client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener(){
+        client.getPostList(challengeId, new APIClient.GetPostListListener(){
             @Override
             public void onSuccess(List<Post> postList) {
                 if (postList != null) {
@@ -241,7 +246,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void showChallengeMembers() {
-        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challenge.getObjectId());
+        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challengeId);
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         fragment.show(getSupportFragmentManager(), "");
     }

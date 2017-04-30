@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    android:minHeight="?android:listPreferredItemHeight"
-    android:paddingTop="@dimen/spacing_large"
-    android:paddingEnd="@dimen/padding_normal"
-    android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:background="@drawable/comment_back">
 
     <ImageView
         android:id="@+id/ivAvatar"
-        android:layout_width="@dimen/avatar_bounds"
-        android:layout_height="@dimen/avatar_bounds"
+        android:layout_width="@dimen/enter_comment_avatar"
+        android:layout_height="@dimen/enter_comment_avatar"
         android:layout_marginEnd="@dimen/avatar_margin"
         android:layout_marginStart="@dimen/avatar_margin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:padding="@dimen/avatar_padding"
         android:layout_gravity="top"
-        android:src="@drawable/avatar_placeholder" />
+        app:srcCompat="@drawable/avatar_placeholder"
+        android:layout_centerVertical="true"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginStart="@dimen/til_margin_fix"
-        android:transitionGroup="true"
-        app:hintTextAppearance="@style/TextAppearance.FloatLabelHint">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tietComment"
-            android:hint="@string/hint_reply"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="textCapSentences"
-            android:textSize="16sp"
-            android:textColor="@android:color/black" />
-
-    </android.support.design.widget.TextInputLayout>
+    <EditText
+        android:id="@+id/etComment"
+        android:hint="@string/hint_reply"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/enter_comment_avatar"
+        android:layout_centerVertical="true"
+        android:inputType="textCapSentences"
+        android:layout_toLeftOf="@+id/ibComment"
+        android:layout_toRightOf="@+id/ivAvatar"
+        android:textSize="16sp"
+        fontPath="fonts/OpenSans-Light.ttf"
+        android:padding="@dimen/enter_comment_padding"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/grey2"
+        android:background="@android:color/transparent"/>
 
     <ImageButton
         android:id="@+id/ibComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:padding="@dimen/spacing_normal"
-        android:src="@drawable/comment_add"
-        android:background="?android:selectableItemBackgroundBorderless"
-        android:onClick="postComment" />
+        android:layout_width="@dimen/enter_comment_avatar"
+        android:layout_height="@dimen/enter_comment_avatar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/enter_comment_padding"
+        app:srcCompat="@drawable/send_false"
+        android:background="@android:color/transparent"
+        android:onClick="postComment"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -3,17 +3,19 @@ package com.accountabilibuddies.accountabilibuddies.fragments;
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -89,17 +91,35 @@ public class CommentsFragment extends DialogFragment {
         );
 
         ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
-        TextInputEditText tietComment = (TextInputEditText) binding.lNewComment.findViewById(R.id.tietComment);
+        EditText etComment = (EditText) binding.lNewComment.findViewById(R.id.etComment);
+
+        etComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length()==0) {
+                    ibComment.setImageResource(R.drawable.send_false);
+                } else if(charSequence.length()==1) {
+                    ibComment.setImageResource(R.drawable.send);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
 
         ibComment.setOnClickListener(
                 (View v) -> {
-
-                    String comment = tietComment.getText().toString();
-                    postComment(comment);
+                    String comment = etComment.getText().toString();
+                    if(comment.length()>0) {
+                        postComment(comment);
+                    }
                 }
         );
 
-        tietComment.requestFocus();
+        etComment.requestFocus();
     }
 
     private void getComments() {

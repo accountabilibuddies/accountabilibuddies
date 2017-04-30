@@ -369,7 +369,7 @@
                             android:layout_marginRight="20dp"
                             android:layout_toLeftOf="@+id/vertSeparator3"
                             android:onClick="decFrequency"
-                            android:background="@drawable/ic_minus_unselected"
+                            android:background="@drawable/left_arrow"
                             android:padding="5dp"/>
 
                         <View

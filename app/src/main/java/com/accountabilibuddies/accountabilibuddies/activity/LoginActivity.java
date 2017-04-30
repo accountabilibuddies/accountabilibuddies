@@ -2,10 +2,15 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,9 @@ import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -30,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-/* Temp code to generate fb key hash
+// Temp code to generate fb key hash
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.accountabilibuddies.accountabilibuddies",
@@ -45,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
 
         }
-*/
+
         viewModel = new LoginViewModel(LoginActivity.this);
 
         ViewUtils.makeViewFullScreen(getWindow());

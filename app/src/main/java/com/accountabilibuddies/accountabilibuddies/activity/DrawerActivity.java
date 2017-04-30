@@ -26,7 +26,9 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+
 import com.crashlytics.android.Crashlytics;
+
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
@@ -55,22 +57,16 @@ public class DrawerActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
-        String objectId = null;
-        try {
-            currentUser = ParseUser.getCurrentUser();
-            objectId = currentUser.fetchIfNeeded().getObjectId();
+        currentUser = ParseUser.getCurrentUser();
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (currentUser != null){
+            final String CHANNEL_NAME = currentUser.getObjectId();
+            if(CHANNEL_NAME !=null) {
+                ParsePush.subscribeInBackground(CHANNEL_NAME);
+            } else {
+                //TODO: Log error in subscribing
+            }
         }
-
-        final String CHANNEL_NAME = objectId;
-        if(CHANNEL_NAME !=null) {
-            ParsePush.subscribeInBackground(CHANNEL_NAME);
-        } else {
-            //TODO: Log error in subscribing
-        }
-
         setSupportActionBar(binding.toolbar);
 
         setUpNavigationDrawer();
@@ -110,12 +106,9 @@ public class DrawerActivity extends AppCompatActivity {
                 .setDuration(ANIM_DURATION_FAB)
                 .start();
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                CurrentChallenges fragment = (CurrentChallenges)getSupportFragmentManager().findFragmentByTag("current");
-                fragment.loadChallenges();
-            }
+        handler.postDelayed(() -> {
+            CurrentChallenges fragment = (CurrentChallenges)getSupportFragmentManager().findFragmentByTag("current");
+            fragment.loadChallenges();
         }, 1000);
     }
 

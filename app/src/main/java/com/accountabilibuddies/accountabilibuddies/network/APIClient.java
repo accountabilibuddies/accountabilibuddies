@@ -181,12 +181,13 @@ public class APIClient {
         });
     }
 
+/*
     public void joinChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
                 object.add("userList", ParseApplication.getCurrentUser());
-                object.saveInBackground(e1 -> {
+                object.saveEventually(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
                     } else {
@@ -198,12 +199,12 @@ public class APIClient {
             }
         });
     }
-
+*/
     public void deleteChallenge(String challengeObjectId, ChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
-                object.deleteInBackground(e1 -> {
+                object.deleteEventually(e1 -> {
                     if (e1 != null) {
                         listener.onFailure(e1.getMessage());
                     } else {
@@ -219,6 +220,12 @@ public class APIClient {
     public void getChallengeById(String challengeId, GetChallengeListener listener) {
 
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("CURRENT_CHALLENGES");
+            query.fromPin("COMPLETED_CHALLENGES");
+        }
 
         query.getInBackground(
             challengeId,

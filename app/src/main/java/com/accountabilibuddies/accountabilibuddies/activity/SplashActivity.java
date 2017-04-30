@@ -16,11 +16,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CountDownTimer timer = new CountDownTimer(DELAY * 1000, 1000) {
+        new CountDownTimer(DELAY * 1000, 1000) {
             @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
+            public void onTick(long millisUntilFinished) {}
 
             @Override
             public void onFinish() {

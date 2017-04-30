@@ -18,5 +18,8 @@
     <string name="description">Description</string>
     <string name="connect_facebook">Sign In With Facebook</string>
     <string name="daily">Daily</string>
-    <string name="hint_reply">Add a comment...</string>
+    <string name="hint_enter_comment">Add a comment...</string>
+    <string name="hint_reply">Comment</string>
+    <string name="internet_no_connection">Please check your Internet connection !</string>
+>>>>>>> upstream/master
 </resources>

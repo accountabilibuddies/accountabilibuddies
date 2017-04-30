@@ -48,13 +48,15 @@ import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
+import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -74,16 +76,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ChallengeDetailsActivity extends AppCompatActivity
         implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ActivityChallengeDetailsBinding binding;
-    APIClient client;
-    protected ArrayList<Post> mPostList;
-    protected PostAdapter mAdapter;
-    protected LinearLayoutManager mLayoutManager;
+    private APIClient client;
+    private ArrayList<Post> mPostList;
+    private PostAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
     private GoogleApiClient mGoogleApiClient;
     private Challenge challenge;
+    private String challengeId;
     private Double mLatitude;
     private Double mLongitude;
     private String mAddress;
-    boolean pendingAnimation = false;
+    private boolean pendingAnimation = false;
     private static final int ANIM_DURATION_TOOLBAR = 300;
     private static final int ANIM_DURATION_FAB = 400;
     private static final int PHOTO_INTENT_REQUEST = 100;
@@ -104,13 +107,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
-        challenge = ParseObject.createWithoutData(Challenge.class,
-                getIntent().getStringExtra("challengeId"));
-        try {
-            challenge.fetch();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        challengeId = getIntent().getStringExtra("challengeId");
+
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
 
@@ -127,7 +125,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         setupGoogleClient();
 
         mPostList = new ArrayList<>();
-        mAdapter = new PostAdapter(this, challenge.getObjectId(), mPostList);
+        mAdapter = new PostAdapter(this, challengeId, mPostList);
         binding.rVPosts.setAdapter(mAdapter);
         binding.rVPosts.setItemAnimator(new DefaultItemAnimator());
 
@@ -135,7 +133,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         binding.rVPosts.setLayoutManager(mLayoutManager);
 
         //Swipe to refresh
-        binding.swipeContainer.setOnRefreshListener(() -> getPosts());
+        binding.swipeContainer.setOnRefreshListener(this::getPosts);
     }
 
     @Override
@@ -145,15 +143,24 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (pendingAnimation) {
-            pendingAnimation = false;
-            startAnimation();
-        }
-        if (challenge.getEndDate().compareTo(new Date()) > 0) {
-            getMenuInflater().inflate(R.menu.detail_menu, menu);
-        } else {
-            binding.fabMenu.setVisibility(View.GONE);
-        }
+        APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
+            @Override
+            public void onSuccess(Challenge c) {
+                challenge = c;
+                if (pendingAnimation) {
+                    pendingAnimation = false;
+                    startAnimation();
+                }
+                if (challenge.getEndDate().compareTo(new Date()) > 0) {
+                    getMenuInflater().inflate(R.menu.detail_menu, menu);
+                } else {
+                    binding.fabMenu.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {}
+        });
         return true;
     }
 
@@ -187,7 +194,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     private void setUpFriendsView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flAddFriends, ChallengeFriendsFragment.newInstance(challenge.getObjectId()));
+        ft.replace(R.id.flAddFriends, ChallengeFriendsFragment.newInstance(challengeId));
         ft.commit();
     }
 
@@ -202,7 +209,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void getPosts() {
-        client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener(){
+        client.getPostList(challengeId, new APIClient.GetPostListListener(){
             @Override
             public void onSuccess(List<Post> postList) {
                 if (postList != null) {
@@ -224,7 +231,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -241,7 +247,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void showChallengeMembers() {
-        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challenge.getObjectId());
+        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challengeId);
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         fragment.show(getSupportFragmentManager(), "");
     }
@@ -252,6 +258,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     public void sharePhotos(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -260,6 +272,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     public void launchCamera(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
         if (CameraUtils.cameraPermissionsGranted(this)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
@@ -295,6 +312,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     public void launchCameraForVideo(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         startRecording();
     }
 
@@ -313,7 +336,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                     binding.progressBarContainer.setVisibility(View.VISIBLE);
                     binding.avi.show();
                     //TODO: Need to optimize this scale to make image size more efficient
-                    // wrt to the image view size
                     Bitmap bitmap = CameraUtils.scaleToFill(BitmapFactory.decodeFile(mImagePath)
                             , 800, 600);
 
@@ -329,21 +351,21 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
                                     new APIClient.PostListener() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Toast.makeText(ChallengeDetailsActivity.this,
-                                                    "Creating post", Toast.LENGTH_LONG).show();
-                                            onCreatePost(post);
-                                        }
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                            "Creating post", Toast.LENGTH_LONG).show();
+                                    onCreatePost(post);
+                                }
 
-                                        @Override
-                                        public void onFailure(String error_message) {
-                                            Toast.makeText(ChallengeDetailsActivity.this,
-                                                    "Error creating post", Toast.LENGTH_LONG).show();
-                                            binding.avi.hide();
-                                            binding.progressBarContainer.setVisibility(View.GONE);
-                                        }
-                                    });
+                                @Override
+                                public void onFailure(String error_message) {
+                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                            "Error creating post", Toast.LENGTH_LONG).show();
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
+                                }
+                            });
                         }
 
                         @Override
@@ -366,7 +388,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                     binding.avi.show();
 
                     Uri uri = data.getData();
-                    Bitmap bitmap = null;
+                    Bitmap bitmap;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     } catch (IOException e) {
@@ -389,21 +411,21 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             //TODO: Move the listener out of this function
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
                                     new APIClient.PostListener() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Toast.makeText(ChallengeDetailsActivity.this,
-                                                    "Creating post", Toast.LENGTH_LONG).show();
-                                            onCreatePost(post);
-                                        }
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                            "Creating post", Toast.LENGTH_LONG).show();
+                                    onCreatePost(post);
+                                }
 
-                                        @Override
-                                        public void onFailure(String error_message) {
-                                            Toast.makeText(ChallengeDetailsActivity.this,
-                                                    "Error creating post", Toast.LENGTH_LONG).show();
-                                            binding.avi.hide();
-                                            binding.progressBarContainer.setVisibility(View.GONE);
-                                        }
-                                    });
+                                @Override
+                                public void onFailure(String error_message) {
+                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                            "Error creating post", Toast.LENGTH_LONG).show();
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
+                                }
+                            });
                         }
 
                         @Override
@@ -448,21 +470,21 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             post.setOwner(ParseApplication.getCurrentUser());
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
                                 new APIClient.PostListener() {
-                                    @Override
-                                    public void onSuccess() {
-                                        Toast.makeText(ChallengeDetailsActivity.this,
-                                                "Creating post", Toast.LENGTH_LONG).show();
-                                        onCreatePost(post);
-                                    }
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                            "Creating post", Toast.LENGTH_LONG).show();
+                                    onCreatePost(post);
+                                }
 
-                                    @Override
-                                    public void onFailure(String error_message) {
-                                        Toast.makeText(ChallengeDetailsActivity.this,
-                                                "Error creating post", Toast.LENGTH_LONG).show();
-                                        binding.avi.hide();
-                                        binding.progressBarContainer.setVisibility(View.GONE);
-                                    }
-                                });
+                                @Override
+                                public void onFailure(String error_message) {
+                                    Toast.makeText(ChallengeDetailsActivity.this,
+                                            "Error creating post", Toast.LENGTH_LONG).show();
+                                    binding.avi.hide();
+                                    binding.progressBarContainer.setVisibility(View.GONE);
+                                }
+                            });
                         }
                     });
                 }
@@ -479,6 +501,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         closeFabMenu();
 
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         FragmentManager fm = getSupportFragmentManager();
         PostTextFragment fragment = PostTextFragment.getInstance(challenge.getObjectId());
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
@@ -491,7 +518,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
      *
      */
     void onCreatePost(Post post) {
-        mPostList.add(post);
+        mPostList.add(0, post);
         mAdapter.notifyDataSetChanged();
         mLayoutManager.scrollToPosition(mPostList.size() - 1);
         binding.avi.hide();
@@ -530,7 +557,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
                 Geocoder gc = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses = null;
+                List<Address> addresses;
                 try {
                     addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
                     if (addresses.size() > 0) {
@@ -574,6 +601,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
     public void shareLocation(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);

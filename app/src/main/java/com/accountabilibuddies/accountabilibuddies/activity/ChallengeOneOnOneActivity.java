@@ -45,6 +45,7 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.GenericUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
+import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -100,6 +101,9 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         challenge = ParseObject.createWithoutData(Challenge.class,
                 getIntent().getStringExtra("challengeId"));
+
+        //hide video menu option
+        binding.fabVideo.setVisibility(View.GONE);
 
         //Setting toolbar
         setSupportActionBar(binding.toolbar);
@@ -230,6 +234,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     public void launchCamera(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
         if (CameraUtils.cameraPermissionsGranted(this)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
@@ -373,6 +382,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         closeFabMenu();
 
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         FragmentManager fm = getSupportFragmentManager();
         PostTextFragment fragment = PostTextFragment.getInstance(challenge.getObjectId());
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
@@ -470,6 +484,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     public void shareLocation(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
@@ -592,10 +611,15 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     public void sharePhotos(View view) {
         closeFabMenu();
+
+        if (!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.internet_no_connection, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, GALLERY_INTENT_REQUEST);
     }
-
 }

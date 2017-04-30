@@ -56,13 +56,8 @@ public class DrawerActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
         String objectId = null;
-        try {
-            currentUser = ParseUser.getCurrentUser();
-            objectId = currentUser.fetchIfNeeded().getObjectId();
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        currentUser = ParseUser.getCurrentUser();
+        objectId = currentUser.getObjectId();
 
         final String CHANNEL_NAME = objectId;
         if(CHANNEL_NAME !=null) {

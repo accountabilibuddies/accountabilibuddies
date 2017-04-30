@@ -7,10 +7,12 @@ import android.util.Log;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -25,7 +27,7 @@ import java.util.List;
 
 public class LoginViewModel {
 
-    public static final String TAG = LoginViewModel.class.getSimpleName();
+    private static final String TAG = LoginViewModel.class.getSimpleName();
 
     private AppCompatActivity context;
 
@@ -124,7 +126,7 @@ public class LoginViewModel {
         friendRequest.executeAsync();
     }
 
-    public boolean addNewFriendRelationship(ParseUser currentUser, ParseUser newFriend) {
+    private boolean addNewFriendRelationship(ParseUser currentUser, ParseUser newFriend) {
 
 
         APIClient.getClient().getFriendsByUsername(currentUser.getUsername(), new APIClient.GetFriendsListener() {
@@ -138,11 +140,8 @@ public class LoginViewModel {
                         String friendId = friend.getParseUserId();
                         String newFriendId = newFriend.getObjectId();
 
-                        if (friendId != null && newFriendId != null) {
-                            return friendId.equals(newFriendId);
-                        }
+                        return friendId != null && newFriendId != null && friendId.equals(newFriendId);
 
-                        return false;
                     }
                 );
 
@@ -184,7 +183,7 @@ public class LoginViewModel {
         );
     }
 
-    public void getProfileDataForUser(ParseUser user) {
+    private void getProfileDataForUser(ParseUser user) {
 
         GraphRequest profileDataRequest = GraphRequest.newMeRequest(
             AccessToken.getCurrentAccessToken(),

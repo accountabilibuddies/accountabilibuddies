@@ -77,9 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUpLogInButton() {
         binding.btFacebook.setOnClickListener(
-            (View view) -> {
-                authenticateUser();
-            }
+            (View view) -> authenticateUser()
         );
     }
 
@@ -135,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public enum CustomPagerEnum {
+    private enum CustomPagerEnum {
         ONE(R.layout.onboarding_1),
         TWO(R.layout.onboarding_2),
         THREE(R.layout.onboarding_3);
@@ -149,10 +147,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public class CustomPagerAdapter extends PagerAdapter {
+    private class CustomPagerAdapter extends PagerAdapter {
         private Context mContext;
 
-        public CustomPagerAdapter(Context context) {
+        CustomPagerAdapter(Context context) {
             mContext = context;
         }
 

@@ -87,7 +87,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
+        binding.tvFrequency.setText(Constants.frequencyMap.get(Constants.BASE_FREQ));
         setUpFriendsView();
     }
 
@@ -108,6 +108,10 @@ public class CreateChallengeActivity extends AppCompatActivity {
 
             case R.id.action_save:
                 createChallenge();
+                return true;
+
+            case R.id.action_reset:
+                resetChallenge();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -317,11 +321,12 @@ public class CreateChallengeActivity extends AppCompatActivity {
             binding.tvEndDate.setText(DateUtils.getDate(endDate));
         },cal.getTimeInMillis());
     }
+
     public void incFrequency(View v) {
         freq++;
         if(freq>=Constants.frequencyMap.size()) {
             freq = Constants.frequencyMap.size();
-            binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.ic_add_unselected));
+            binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.right_arrow_unselected));
         } else {
             binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.add_button));
             binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.minus_button));
@@ -331,9 +336,9 @@ public class CreateChallengeActivity extends AppCompatActivity {
 
     public void decFrequency(View v) {
         freq--;
-        if(freq<=1) {
-            freq = 1;
-            binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.ic_minus_unselected));
+        if(freq<=Constants.MIN_FREQ) {
+            freq = Constants.MIN_FREQ;
+            binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.left_arrow_unselected));
         } else {
             binding.btnPlus.setBackground(ContextCompat.getDrawable(this,R.drawable.add_button));
             binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.minus_button));
@@ -451,5 +456,33 @@ public class CreateChallengeActivity extends AppCompatActivity {
             binding.avi.hide();
             binding.progressBarContainer.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * Function resets the challenge
+     */
+    private void resetChallenge() {
+
+        binding.etTitle.getText().clear();
+        binding.etDescription.getText().clear();
+
+        binding.tvStartDate.setText("");
+        startDate = null;
+
+        binding.tvEndDate.setText("");
+        endDate = null;
+
+        binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi));
+        binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.grey2));
+
+        binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone));
+        binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.grey2));
+
+        CHALLENGE_TYPE = Constants.UNSELECTED;
+
+        setupViews();
+
+        profileUrl = null;
+
     }
 }

@@ -13,6 +13,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +61,8 @@ import java.util.Locale;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ChallengeOneOnOneActivity extends AppCompatActivity
-        implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements PostTextFragment.PostTextListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     private ActivityChallengeDetailsBinding binding;
     APIClient client;
     protected ArrayList<Object> mPostList;
@@ -76,6 +79,17 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_CAMERA = 2;
     private String mImagePath;
+
+    Handler handler = new Handler();
+
+    private Runnable refresh = new Runnable() {
+        @Override
+        public void run() {
+            Log.d("DEBUG", "Refresh 1on1");
+            getPosts();
+            handler.postDelayed(refresh, 5000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +136,18 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                 });
 
         getPosts();
+    }
+
+    @Override
+    protected void onResume() {
+        handler.post(refresh);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(refresh);
+        super.onPause();
     }
 
     @Override

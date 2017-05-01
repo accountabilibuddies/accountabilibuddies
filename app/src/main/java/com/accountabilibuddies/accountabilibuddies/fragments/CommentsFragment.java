@@ -1,9 +1,8 @@
 package com.accountabilibuddies.accountabilibuddies.fragments;
 
-import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,13 +26,17 @@ import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class CommentsFragment extends DialogFragment {
+public class CommentsFragment extends Fragment {
     private FragmentCommentBinding binding;
     private CommentsAdapter mAdapter;
     private APIClient client;
     private ArrayList<Comment> mCommentList;
+    private LinearLayoutManager layoutManager;
+
+    private EditText etComment;
 
     static final String TAG = CommentsFragment.class.getSimpleName();
     static final String POST_ID = "postId";
@@ -67,7 +68,7 @@ public class CommentsFragment extends DialogFragment {
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         binding.rVComments.addItemDecoration(itemDecoration);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
         binding.rVComments.setLayoutManager(layoutManager);
 
         setUpNewCommentListener();
@@ -91,7 +92,7 @@ public class CommentsFragment extends DialogFragment {
         );
 
         ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
-        EditText etComment = (EditText) binding.lNewComment.findViewById(R.id.etComment);
+        etComment = (EditText) binding.lNewComment.findViewById(R.id.etComment);
 
         etComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -101,7 +102,7 @@ public class CommentsFragment extends DialogFragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length()==0) {
                     ibComment.setImageResource(R.drawable.send_false);
-                } else if(charSequence.length()==1) {
+                } else if(charSequence.length()>0) {
                     ibComment.setImageResource(R.drawable.send);
                 }
             }
@@ -129,6 +130,7 @@ public class CommentsFragment extends DialogFragment {
             public void onSuccess(List<Comment> commentsList) {
                 if (commentsList != null) {
                     mCommentList.clear();
+                    Collections.reverse(commentsList);
                     mCommentList.addAll(commentsList);
                     mAdapter.notifyDataSetChanged();
                 }
@@ -141,29 +143,6 @@ public class CommentsFragment extends DialogFragment {
         });
     }
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getDialog().getWindow()
-                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-    }
-
-    @Override
-    public void onResume() {
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-        super.onResume();
-    }
-
     public void postComment(String postComment) {
         Comment comment = new Comment();
 
@@ -173,7 +152,10 @@ public class CommentsFragment extends DialogFragment {
             new APIClient.PostListener() {
                 @Override
                 public void onSuccess() {
-                    dismiss();
+                    etComment.setText("");
+                    mCommentList.add(0,comment);
+                    mAdapter.notifyItemInserted(0);
+                    layoutManager.scrollToPosition(0);
                 }
 
                 @Override

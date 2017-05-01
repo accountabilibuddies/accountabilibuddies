@@ -2,8 +2,6 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +9,9 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.accountabilibuddies.accountabilibuddies.R;
-import com.accountabilibuddies.accountabilibuddies.activity.ChallengeDetailsActivity;
+import com.accountabilibuddies.accountabilibuddies.activity.HolderActivity;
 import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
-import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
-import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
@@ -24,7 +20,6 @@ import com.accountabilibuddies.accountabilibuddies.util.VideoPlayer;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.like.LikeButton;
@@ -42,7 +37,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ANIMATED_ITEMS_COUNT = 3;
     private int lastAnimatedPosition = -1;
 
-    APIClient client = APIClient.getClient();
     public static final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
@@ -98,14 +92,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return viewHolder;
     }
 
-    public void setUpPostDetailsHandler(View itemView, final String postId, final int viewType) {
+    public void setUpPostDetailsHandler(View itemView, final Post post, final int viewType) {
 
         itemView.setOnClickListener(
 
             (View v) -> {
                 Intent intent = new Intent(context, PostDetailsActivity.class);
-                intent.putExtra("postId", postId);
-                intent.putExtra("challengeId", challengeId);
+                intent.putExtra("postId", post.getObjectId());
+                intent.putExtra("user", post.getOwnerName());
+                intent.putExtra("profileImage",post.getOwnerProfileImageUrl());
+                intent.putExtra("createdAt", DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                 intent.putExtra("viewType", viewType);
                 context.startActivity(intent);
             }
@@ -160,7 +156,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
 
                     setPostButtonValues(imgVH);
-                    setUpPostDetailsHandler(imgVH.getItemView(), post.getObjectId(), POST_WITH_IMAGE);
+                    setUpPostDetailsHandler(imgVH.getItemView(), post, POST_WITH_IMAGE);
                     break;
 
                 case POST_WITH_VIDEO:
@@ -175,7 +171,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     vidVH.getTvName().setText(post.getOwnerName());
                     vidVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     VideoPlayer.loadVideo(context, vidVH.getVideoView(), post.getVideoUrl());
-                    //setUpPostDetailsHandler(videoVH.getItemView, post.getObjectId(), POST_WITH_VIDEO);
+                    //setUpPostDetailsHandler(videoVH.getItemView, post, POST_WITH_VIDEO);
                     setPostButtonValues(vidVH);
                     break;
 
@@ -191,25 +187,22 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     locVH.getTvName().setText(post.getOwnerName());
                     locVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     locVH.getMapview().onCreate(null);
-                    locVH.getMapview().getMapAsync(new OnMapReadyCallback(){
-                        @Override
-                        public void onMapReady(GoogleMap googleMap) {
-                            MapsInitializer.initialize(context);
-                            map = googleMap;
+                    locVH.getMapview().getMapAsync(googleMap -> {
+                        MapsInitializer.initialize(context);
+                        map = googleMap;
 
-                            //set map location
-                            LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
-                            map.addMarker(new MarkerOptions().position(location));
-                            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        //set map location
+                        LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
+                        map.addMarker(new MarkerOptions().position(location));
+                        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-                            if (post.getAddress() != null)
-                                locVH.getAddress().setText(post.getAddress());
-                            else
-                                locVH.getAddress().setVisibility(View.GONE);
+                        if (post.getAddress() != null)
+                            locVH.getAddress().setText(post.getAddress());
+                        else
+                            locVH.getAddress().setVisibility(View.GONE);
 
-                            setUpPostDetailsHandler(locVH.getItemView(), post.getObjectId(), POST_WITH_LOCATION);
-                        }
+                        setUpPostDetailsHandler(locVH.getItemView(), post, POST_WITH_LOCATION);
                     });
                     setPostButtonValues(locVH);
                     break;
@@ -228,7 +221,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     textVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     textVH.getText().setText(post.getText());
                     setPostButtonValues(textVH);
-                    setUpPostDetailsHandler(textVH.getItemView(), post.getObjectId(), POST_WITH_TEXT);
+                    setUpPostDetailsHandler(textVH.getItemView(), post, POST_WITH_TEXT);
                     break;
             }
 
@@ -264,15 +257,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setUpCommentButton(Post post) {
-        commentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Fix styling
-                FragmentManager fm = ((ChallengeDetailsActivity)context).getSupportFragmentManager();
-                CommentsFragment fragment = CommentsFragment.getInstance(post.getObjectId());
-                fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-                fragment.show(fm, "");
-            }
+        commentBtn.setOnClickListener(v -> {
+            //TODO Fix styling
+            Intent intent = new Intent(v.getContext(), HolderActivity.class);
+            intent.putExtra("frag_type","comments");
+            intent.putExtra("postId", post.getObjectId());
+            v.getContext().startActivity(intent);
         });
     }
 

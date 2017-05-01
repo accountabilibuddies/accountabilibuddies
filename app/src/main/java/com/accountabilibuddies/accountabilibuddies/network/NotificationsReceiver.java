@@ -93,7 +93,7 @@ public class NotificationsReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder = new NotificationCompat
                 .Builder(context).setContentIntent(pIntent)
                 //TODO: Update the icon to the launcher style notification icon
-                .setSmallIcon(R.drawable.ic_logo).setContentTitle("Accountabilibudies")
+                .setSmallIcon(R.drawable.ic_logo).setContentTitle("Spur")
                 .setContentText(customMessage)
                 .setAutoCancel(true);
 

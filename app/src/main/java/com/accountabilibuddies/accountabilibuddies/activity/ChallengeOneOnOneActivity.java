@@ -350,7 +350,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                     binding.avi.show();
 
                     Uri uri = data.getData();
-                    Bitmap bitmap = null;
+                    Bitmap bitmap;
                     try {
                         Bitmap bitmapSrc = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
@@ -468,6 +468,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
+
                 if (NetworkUtils.isOnline()) {
                     Geocoder gc = new Geocoder(this, Locale.getDefault());
                     List<Address> addresses = null;
@@ -535,8 +536,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(ChallengeOneOnOneActivity.this,
-                                "Creating post", Toast.LENGTH_LONG).show();
                         onCreatePost(post);
                     }
 

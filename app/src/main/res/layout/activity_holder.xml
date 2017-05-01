@@ -10,7 +10,7 @@
             android:id="@+id/ablComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="0dp" >
+            app:elevation="0dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -18,26 +18,14 @@
                 app:theme="@style/ToolBarStyle"
                 android:background="@android:color/transparent"
                 android:layout_height="?attr/actionBarSize"
-                android:minHeight="?attr/actionBarSize" />
+                android:minHeight="?attr/actionBarSize"/>
         </android.support.design.widget.AppBarLayout>
-        <RelativeLayout
+
+        <FrameLayout
+            android:id="@+id/holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:background="@android:color/white">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rVComments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <include
-                android:id="@+id/lNewComment"
-                android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                layout="@layout/enter_comment"/>
-
-        </RelativeLayout>
+            android:layout_below="@+id/holder_app_bar">
+        </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

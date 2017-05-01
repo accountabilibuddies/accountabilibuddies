@@ -52,4 +52,18 @@ public class Comment extends ParseObject {
 
         return null;
     }
+
+    public String getOwnerName() {
+
+        try {
+
+            ParseUser owner = (ParseUser) get("user");
+            return (String) owner.fetchIfNeeded().get("name");
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

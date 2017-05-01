@@ -145,8 +145,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
             @Override
-            public void onSuccess(Challenge c) {
+            public void onSuccess(Challenge c, List<Post> postList) {
                 challenge = c;
+                mPostList.clear();
+                Collections.reverse(postList);
+                mPostList.addAll(postList);
+
                 if (pendingAnimation) {
                     pendingAnimation = false;
                     startAnimation();
@@ -189,7 +193,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                 .start();
 
         setUpFriendsView();
-        getPosts();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void setUpFriendsView() {

@@ -60,7 +60,7 @@ public class APIClient {
     }
 
     public interface GetChallengeListener {
-        void onSuccess(Challenge challenge);
+        void onSuccess(Challenge challenge, List<Post> postList);
         void onFailure(String errorMessage);
     }
 
@@ -226,12 +226,12 @@ public class APIClient {
             query.fromPin("CURRENT_CHALLENGES");
             query.fromPin("COMPLETED_CHALLENGES");
         }
-
+        query.include("postList");
         query.getInBackground(
             challengeId,
             (Challenge challenge, ParseException e) -> {
                 if (e == null) {
-                    listener.onSuccess(challenge);
+                    listener.onSuccess(challenge, challenge.getPostList());
                 } else {
                     listener.onFailure(e.getMessage());
                 }

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -15,7 +14,10 @@ import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostDetailsFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -78,7 +80,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
 
             @Override
-            public void onSuccess(Challenge challenge) {
+            public void onSuccess(Challenge challenge, List<Post> postList) {
                 getSupportActionBar().setTitle(challenge.getName());
                 setUpDetailsFragment(postId, challenge.getDescription());
             }

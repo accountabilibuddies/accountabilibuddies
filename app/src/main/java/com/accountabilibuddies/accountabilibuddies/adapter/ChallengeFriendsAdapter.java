@@ -42,7 +42,7 @@ public class ChallengeFriendsAdapter extends FriendsAdapter {
 
         if (position > lastAnimatedPosition) {
             lastAnimatedPosition = position;
-            view.setTranslationX(AnimUtils.getScreenWidth(context));
+            view.setTranslationX(-AnimUtils.getScreenWidth(context));
             view.animate()
                     .translationX(0)
                     .setInterpolator(new DecelerateInterpolator(3.f))

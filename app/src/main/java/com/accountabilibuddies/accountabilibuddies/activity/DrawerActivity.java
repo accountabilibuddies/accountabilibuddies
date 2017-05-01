@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,9 +25,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
-
 import com.crashlytics.android.Crashlytics;
-
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
@@ -105,11 +102,9 @@ public class DrawerActivity extends AppCompatActivity {
                 .setStartDelay(300)
                 .setDuration(ANIM_DURATION_FAB)
                 .start();
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            CurrentChallenges fragment = (CurrentChallenges)getSupportFragmentManager().findFragmentByTag("current");
-            fragment.loadChallenges();
-        }, 1000);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager != null)
+            fragmentManager.beginTransaction().replace(R.id.frame, new CurrentChallenges(), "current").commit();
     }
 
     @Override
@@ -157,8 +152,6 @@ public class DrawerActivity extends AppCompatActivity {
     private void setUpNavigationView() {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager != null)
-            fragmentManager.beginTransaction().replace(R.id.frame, new CurrentChallenges(), "current").commit();
 
         binding.navView.setNavigationItemSelectedListener(menuItem -> {
             Fragment fragment = null;

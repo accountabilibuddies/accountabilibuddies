@@ -30,7 +30,6 @@ public class CurrentChallenges extends ChallengesFragment {
 
     @Override
     protected void getChallenges() {
-        //mChallengeList.clear();
         mAdapter.setChallengeType(1);
         client.getCurrentChallengeList(ParseApplication.getCurrentUser(), listener);
     }

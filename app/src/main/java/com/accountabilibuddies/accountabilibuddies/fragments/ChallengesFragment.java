@@ -86,9 +86,5 @@ public abstract class ChallengesFragment extends Fragment {
         getChallenges();
     }
 
-    public void loadChallenges() {
-        getChallenges();
-    }
-
     protected abstract void getChallenges();
 }

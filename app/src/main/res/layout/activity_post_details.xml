@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cLayout"
         android:layout_width="match_parent"
@@ -16,35 +13,83 @@
             android:layout_height="wrap_content"
             app:elevation="0dp" >
 
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    app:theme="@style/ToolBarStyle"
-                    android:background="@android:color/transparent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:minHeight="?attr/actionBarSize" />
-
-            </ScrollView>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                app:theme="@style/ToolBarStyle"
+                android:background="@android:color/transparent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize" />
         </android.support.design.widget.AppBarLayout>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_marginTop="?attr/actionBarSize">
 
-            <FrameLayout
-                android:id="@+id/flPostDetails"
+            <ImageView
+                android:id="@+id/ivPDAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="@dimen/avatar_padding"
+                app:srcCompat="@drawable/avatar_placeholder"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/pdName"
+                fontPath="fonts/OpenSans-Regular.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"/>
+                android:layout_alignBottom="@+id/ivPDAvatar"
+                android:layout_alignTop="@+id/ivPDAvatar"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/ivPDAvatar"
+                android:gravity="center_vertical"
+                android:hint="Name"
+                android:textSize="16sp"
+                android:textColor="@color/text_color"/>
 
+            <TextView
+                android:id="@+id/tvPostTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/pdName"
+                android:layout_alignBottom="@+id/pdName"
+                android:padding="8dp"
+                android:layout_centerVertical="true"
+                tools:text="Time" />
+
+            <FrameLayout
+                android:id="@+id/flPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivPDAvatar"
+                android:layout_alignLeft="@+id/ivPDAvatar"
+                android:layout_alignStart="@+id/ivPDAvatar"
+                android:minHeight="192dp"/>
+
+            <include
+                android:id="@+id/postDetailActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/ivPDAvatar"
+                android:layout_below="@+id/flPost"
+                layout="@layout/post_actions"/>
+
+            <TextView
+                android:id="@+id/tvLikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/ivPDAvatar"
+                android:layout_alignStart="@+id/ivPDAvatar"
+                android:layout_below="@+id/postDetailActions"
+                android:hint="100,000 Likes"/>
         </RelativeLayout>
-    </android.support.design.widget.CoordinatorLayout>
 
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

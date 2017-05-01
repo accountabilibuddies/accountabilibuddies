@@ -41,11 +41,6 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
         super.onStopNestedScroll(coordinatorLayout, child, target);
         Handler mHandler = new Handler();
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                child.show();
-            }
-        },500);
+        mHandler.postDelayed(() -> child.show(),500);
     }
 }

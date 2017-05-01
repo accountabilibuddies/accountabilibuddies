@@ -1,21 +1,23 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
-import com.accountabilibuddies.accountabilibuddies.fragments.PostDetailsFragment;
-import com.accountabilibuddies.accountabilibuddies.model.Challenge;
-import com.accountabilibuddies.accountabilibuddies.network.APIClient;
+import com.accountabilibuddies.accountabilibuddies.fragments.PostWithImageFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.PostWithLocationFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.PostWithTextFragment;
+import com.accountabilibuddies.accountabilibuddies.fragments.PostWithVideoFragment;
+import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.like.LikeButton;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -30,16 +32,25 @@ public class PostDetailsActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post_details);
 
         String postId = getIntent().getStringExtra("postId");
-        String challengeId = getIntent().getStringExtra("challengeId");
+        String createdAt = getIntent().getStringExtra("createdAt");
+
+        String ownerName = getIntent().getStringExtra("user");
+        String profileImage = getIntent().getStringExtra("profileImage");
+        int viewType = getIntent().getIntExtra("viewType",-1);
 
         setUpToolbar();
+        showUserDetails(ownerName, profileImage);
 
-        addChallengeDetails(postId, challengeId);
+        binding.tvPostTime.setText(createdAt);
+
+        showPost(postId, viewType);
+
+        setUpCommentButton(postId);
+
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
@@ -63,30 +74,45 @@ public class PostDetailsActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
     }
 
-    private void setUpDetailsFragment(String postId, String challengeDescription) {
+    private void showUserDetails(String ownerName, String profileImage) {
 
-        int viewType = getIntent().getIntExtra("viewType", PostAdapter.POST_WITH_TEXT);
+        binding.pdName.setText(ownerName);
+
+        ImageUtils.loadCircularProfileImage(this, profileImage, binding.ivPDAvatar);
+    }
+
+    private void showPost(String postId, int viewType) {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        switch (viewType) {
+            case PostAdapter.POST_WITH_IMAGE:
+                ft.replace(R.id.flPost, PostWithImageFragment.newInstance(postId));
+                break;
 
-        ft.replace(R.id.flPostDetails, PostDetailsFragment.newInstance(postId, challengeDescription, viewType));
+            case PostAdapter.POST_WITH_VIDEO:
+                ft.replace(R.id.flPost, PostWithVideoFragment.newInstance(postId));
+                break;
+
+            case PostAdapter.POST_WITH_LOCATION:
+                ft.replace(R.id.flPost, PostWithLocationFragment.newInstance(postId));
+                break;
+
+            case PostAdapter.POST_WITH_TEXT:
+            default:
+                ft.replace(R.id.flPost, PostWithTextFragment.newInstance(postId));
+                break;
+        }
         ft.commit();
     }
 
-    private void addChallengeDetails(String postId, String challengeId) {
-
-        APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
-
-            @Override
-            public void onSuccess(Challenge challenge) {
-                getSupportActionBar().setTitle(challenge.getName());
-                setUpDetailsFragment(postId, challenge.getDescription());
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(PostDetailsActivity.this, "Failed to get challenge " + challengeId, Toast.LENGTH_SHORT).show();
-            }
+    private void setUpCommentButton(String postId) {
+        LikeButton commentBtn = (LikeButton)binding.postDetailActions.findViewById(R.id.comment_button);
+        commentBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(PostDetailsActivity.this, HolderActivity.class);
+            intent.putExtra("frag_type","comments");
+            intent.putExtra("postId", postId);
+            startActivity(intent);
         });
     }
+
 }

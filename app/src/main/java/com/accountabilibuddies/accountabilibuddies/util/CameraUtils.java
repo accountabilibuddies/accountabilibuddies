@@ -25,8 +25,7 @@ public class CameraUtils {
     public static byte[] bitmapToByteArray(Bitmap bmp) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        return byteArray;
+        return stream.toByteArray();
     }
 
     /**
@@ -38,13 +37,10 @@ public class CameraUtils {
     public static File createImageFile(File storageDir) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File image = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,
                 IMAGE_FORMAT,
-                storageDir
-        );
-
-        return image;
+                storageDir);
     }
 
     /**

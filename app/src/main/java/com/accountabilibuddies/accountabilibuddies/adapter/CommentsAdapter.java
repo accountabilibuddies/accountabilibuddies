@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CommentsAdapter extends
-        RecyclerView.Adapter<CommentsAdapter.MyViewHolder> {
+        RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
 
     private ArrayList<Comment> comments;
     private Context context;
@@ -29,20 +30,23 @@ public class CommentsAdapter extends
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_comment, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new CommentViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(CommentViewHolder holder, int position) {
 
         Comment comment = comments.get(position);
         String profileImageUrl = comment.getProfileImageUrl();
 
         if (comment != null) {
+
+            holder.commentOwner.setText(comment.getOwnerName());
+            holder.commentTime.setText(DateUtils.getRelativeTimeAgo(comment.getCreatedAt()));
 
             ImageUtils.loadCircularProfileImage(
                 context,
@@ -59,7 +63,7 @@ public class CommentsAdapter extends
         return comments.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ivProfileImage)
         ImageView profile_image;
@@ -67,7 +71,14 @@ public class CommentsAdapter extends
         @BindView(R.id.tvComment)
         TextView comment;
 
-        public MyViewHolder(View view) {
+        @BindView(R.id.tvCommentTime)
+        TextView commentTime;
+
+        @BindView(R.id.tvCommentOwner)
+        TextView commentOwner;
+
+
+        public CommentViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

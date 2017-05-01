@@ -189,7 +189,6 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                         showProgress(false);
-                        return;
                     }
                 }
         }

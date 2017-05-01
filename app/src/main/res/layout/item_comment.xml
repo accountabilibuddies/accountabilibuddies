@@ -17,15 +17,36 @@
         app:srcCompat="@drawable/avatar_placeholder" />
 
     <TextView
-        android:id="@+id/tvComment"
+        android:id="@+id/tvCommentOwner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ivProfileImage"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:paddingLeft="@dimen/comment_padding"
+        android:padding="@dimen/comment_padding"
         android:gravity="center|start"
-        tools:text="This is the best challenge."/>
+        tools:text="Owner"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tvCommentTime"
+        android:layout_toRightOf="@+id/tvCommentOwner"
+        android:padding="@dimen/comment_padding"
+        android:layout_centerVertical="true"
+        tools:text="Comment"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/tvCommentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/comment_padding"
+        android:layout_centerVertical="true"
+        tools:text="Time" />
 </RelativeLayout>

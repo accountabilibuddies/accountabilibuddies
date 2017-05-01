@@ -130,9 +130,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
 
         //Swipe to refresh
-        binding.swipeContainer.setOnRefreshListener(() -> {
-            getPosts();
-        });
+        binding.swipeContainer.setOnRefreshListener(this::getPosts);
 
         ItemClickSupport.addTo(binding.rVPosts)
                 .setOnItemClickListener((recyclerView, position, v) -> {
@@ -319,7 +317,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                     binding.avi.show();
 
                     Uri uri = data.getData();
-                    Bitmap bitmap = null;
+                    Bitmap bitmap;
                     try {
                         Bitmap bitmapSrc = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
@@ -438,7 +436,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
                 Geocoder gc = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses = null;
+                List<Address> addresses;
                 try {
                     addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
                     if (addresses.size() > 0) {
@@ -502,8 +500,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(ChallengeOneOnOneActivity.this,
-                                "Creating post", Toast.LENGTH_LONG).show();
                         onCreatePost(post);
                     }
 

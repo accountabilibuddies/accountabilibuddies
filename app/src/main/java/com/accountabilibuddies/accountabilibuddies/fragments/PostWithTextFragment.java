@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.DetailTextBinding;
-import com.accountabilibuddies.accountabilibuddies.databinding.ItemPostTextBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 

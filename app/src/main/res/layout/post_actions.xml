@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <com.like.LikeButton
         android:id="@+id/heart_button"
@@ -20,7 +21,7 @@
         android:id="@+id/comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon_size="24dp"
+        app:icon_size="22dp"
         app:anim_scale_factor="1.8"
         app:circle_end_color="@color/blue_500"
         app:circle_start_color="@color/indigo_500"
@@ -30,5 +31,6 @@
         app:unlike_drawable="@drawable/comment_solid_grey"
         android:layout_alignTop="@+id/heart_button"
         android:layout_toRightOf="@+id/heart_button"
-        android:layout_toEndOf="@+id/heart_button" />
+        android:layout_toEndOf="@+id/heart_button"
+        android:layout_marginLeft="8dp"/>
 </RelativeLayout>

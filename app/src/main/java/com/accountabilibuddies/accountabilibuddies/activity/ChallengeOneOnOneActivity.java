@@ -147,7 +147,9 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        handler.post(refresh);
+        if (NetworkUtils.isOnline()) {
+            handler.post(refresh);
+        }
         super.onResume();
     }
 

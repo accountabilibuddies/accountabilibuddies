@@ -312,6 +312,11 @@ public class APIClient {
     public void addRemoveFriendToChallenge(String challengeId, ParseUser friend, AddFriendToChallengeListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("members"+challengeId);
+        }
+
         query.getInBackground(challengeId,
                 (Challenge challenge, ParseException getException) -> {
             List<ParseUser> userList = challenge.getUserList();
@@ -320,24 +325,14 @@ public class APIClient {
                     if(user.getObjectId().equals(friend.getObjectId())) {
                         filterUser(userList, friend);
                         challenge.put("userList", userList);
-                        challenge.saveEventually(e -> {
-                            if (e != null) {
-                                listener.onFailure(e.getMessage());
-                            } else {
-                                listener.onSuccess("remove");
-                            }
-                        });
+                        challenge.saveEventually(e -> {});
+                        listener.onSuccess("remove");
                         return;
                     }
                 }
                 challenge.addUnique("userList", friend);
-                challenge.saveEventually((ParseException saveException) -> {
-                    if (saveException != null) {
-                        listener.onFailure(saveException.getMessage());
-                    } else {
-                        listener.onSuccess("add");
-                    }
-                });
+                challenge.saveEventually((ParseException e) -> {});
+                listener.onSuccess("add");
             } else {
                 listener.onFailure(getException.getMessage());
             }

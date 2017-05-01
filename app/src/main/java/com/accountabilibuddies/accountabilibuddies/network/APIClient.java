@@ -303,44 +303,38 @@ public class APIClient {
     }
 
     public void addRemoveFriendToChallenge(String challengeId, ParseUser friend, AddFriendToChallengeListener listener) {
-
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
 
         query.getInBackground(challengeId,
-
                 (Challenge challenge, ParseException getException) -> {
-
-                    List<ParseUser> userList = challenge.getUserList();
-
-                    if (getException == null) {
-                        for(ParseUser user : userList) {
-                            if(user.getObjectId().equals(friend.getObjectId())) {
-                                filterUser(userList, friend);
-                                challenge.put("userList", userList);
-                                challenge.saveInBackground(e -> {
-                                    if (e != null) {
-                                        listener.onFailure(e.getMessage());
-                                    } else {
-                                        listener.onSuccess("remove");
-                                    }
-                                });
-                                return;
+            List<ParseUser> userList = challenge.getUserList();
+            if (getException == null) {
+                for(ParseUser user : userList) {
+                    if(user.getObjectId().equals(friend.getObjectId())) {
+                        filterUser(userList, friend);
+                        challenge.put("userList", userList);
+                        challenge.saveEventually(e -> {
+                            if (e != null) {
+                                listener.onFailure(e.getMessage());
+                            } else {
+                                listener.onSuccess("remove");
                             }
-                        }
-                        challenge.addUnique("userList", friend);
-                        challenge.saveInBackground(
-                                (ParseException saveException) -> {
-                                    if (saveException != null) {
-                                        listener.onFailure(saveException.getMessage());
-                                    } else {
-                                        listener.onSuccess("add");
-                                    }
-                                });
-
+                        });
+                        return;
+                    }
+                }
+                challenge.addUnique("userList", friend);
+                challenge.saveEventually((ParseException saveException) -> {
+                    if (saveException != null) {
+                        listener.onFailure(saveException.getMessage());
                     } else {
-                        listener.onFailure(getException.getMessage());
+                        listener.onSuccess("add");
                     }
                 });
+            } else {
+                listener.onFailure(getException.getMessage());
+            }
+        });
     }
 
     public void getFriendsByUsername(String username, GetFriendsListener listener) {

@@ -11,7 +11,9 @@ import android.view.animation.DecelerateInterpolator;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.HolderActivity;
 import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
+import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
@@ -24,6 +26,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.parse.ParseUser;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
@@ -225,7 +230,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     break;
             }
 
-            if (post.isLiked()) {
+            if (isLiked(post.getLikeList())) {//If current user is in likeList
                 heartBtn.setLiked(true);
             } else {
                 heartBtn.setLiked(false);
@@ -234,6 +239,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             setUpLikeButton(post);
             setUpCommentButton(post);
         }
+    }
+
+    private boolean isLiked(List<Like> likes) {
+        Like isLiked = CollectionUtils.find(
+                likes,
+                (Like like) -> like.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
+        );
+
+        return isLiked != null;
     }
 
     private void setPostButtonValues(PostViewHolder holder) {
@@ -246,12 +260,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         heartBtn.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                //TODO
+                APIClient.getClient().setLike(post.getObjectId(), true);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                //TODO
+                APIClient.getClient().setLike(post.getObjectId(), false);
             }
         });
     }

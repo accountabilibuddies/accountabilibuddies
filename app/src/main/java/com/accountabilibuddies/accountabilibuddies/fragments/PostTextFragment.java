@@ -16,10 +16,11 @@ import android.view.WindowManager;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.FragmentPostTextBinding;
+import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
-import com.parse.ParseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,8 +134,8 @@ public class PostTextFragment extends DialogFragment {
         Post post = new Post();
         post.setType(Constants.TYPE_TEXT);
         post.setText(postStr);
-        List<ParseUser> users = new ArrayList<>();
-        post.setLikeList(users);
+        List<Like> likes = new ArrayList<>();
+        post.setLikeList(likes);
         post.setOwner(ParseApplication.getCurrentUser());
         APIClient.getClient().createPost(post, getArguments().getString(CHALLENGE_ID),
             new APIClient.PostListener() {

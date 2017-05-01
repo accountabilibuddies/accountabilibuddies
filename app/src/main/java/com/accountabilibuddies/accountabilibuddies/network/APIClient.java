@@ -223,8 +223,7 @@ public class APIClient {
 
         if (!NetworkUtils.isOnline()) {
             query.fromLocalDatastore();
-            query.fromPin("CURRENT_CHALLENGES");
-            query.fromPin("COMPLETED_CHALLENGES");
+            query.fromPin(challengeId);
         }
         query.include("postList");
         query.getInBackground(
@@ -232,6 +231,7 @@ public class APIClient {
             (Challenge challenge, ParseException e) -> {
                 if (e == null) {
                     listener.onSuccess(challenge, challenge.getPostList());
+                    challenge.pinInBackground(challengeId);
                 } else {
                     listener.onFailure(e.getMessage());
                 }
@@ -242,11 +242,18 @@ public class APIClient {
 
     public void getMembersList(String challengeObjectId, GetMembersListListener listener) {
         ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("members"+challengeObjectId);
+        }
+
         query.include("userList");
 
         query.getInBackground(challengeObjectId, (object, e) -> {
             if (e == null) {
                 listener.onSuccess(object.getUserList());
+                object.pinInBackground("members"+challengeObjectId);
             } else {
                 listener.onFailure(e.getMessage());
             }

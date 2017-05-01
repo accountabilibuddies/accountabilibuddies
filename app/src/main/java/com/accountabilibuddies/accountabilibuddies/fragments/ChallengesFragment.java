@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.ChallengeAdapter;
@@ -16,6 +17,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.FragmentChallenge
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
+import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,7 +71,14 @@ public abstract class ChallengesFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         binding.rVChallenges.setLayoutManager(mLayoutManager);
 
-        binding.swipeContainer.setOnRefreshListener(this::getChallenges);
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (!NetworkUtils.isOnline()) {
+                Toast.makeText(getContext(), R.string.internet_no_connection, Toast.LENGTH_SHORT).show();
+                binding.swipeContainer.setRefreshing(false);
+                return;
+            }
+            getChallenges();
+        });
 
         ItemClickSupport.addTo(binding.rVChallenges).setOnItemClickListener((recyclerView, position, v) -> {
             openChallenge(position);

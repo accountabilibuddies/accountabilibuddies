@@ -133,7 +133,14 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         binding.rVPosts.setLayoutManager(mLayoutManager);
 
         //Swipe to refresh
-        binding.swipeContainer.setOnRefreshListener(this::getPosts);
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (!NetworkUtils.isOnline()) {
+                Toast.makeText(this, R.string.internet_no_connection, Toast.LENGTH_SHORT).show();
+                binding.swipeContainer.setRefreshing(false);
+                return;
+            }
+            getPosts();
+        });
     }
 
     @Override
@@ -145,8 +152,12 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
             @Override
-            public void onSuccess(Challenge c) {
+            public void onSuccess(Challenge c, List<Post> postList) {
                 challenge = c;
+                mPostList.clear();
+                Collections.reverse(postList);
+                mPostList.addAll(postList);
+
                 if (pendingAnimation) {
                     pendingAnimation = false;
                     startAnimation();
@@ -189,7 +200,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                 .start();
 
         setUpFriendsView();
-        getPosts();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void setUpFriendsView() {
@@ -556,16 +567,18 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
-                Geocoder gc = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses;
-                try {
-                    addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
-                    if (addresses.size() > 0) {
-                        mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
-                                addresses.get(0).getAddressLine(1));
+                if (NetworkUtils.isOnline()) {
+                    Geocoder gc = new Geocoder(this, Locale.getDefault());
+                    List<Address> addresses;
+                    try {
+                        addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
+                        if (addresses.size() > 0) {
+                            mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
+                                    addresses.get(0).getAddressLine(1));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }

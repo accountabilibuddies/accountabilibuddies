@@ -50,12 +50,12 @@ import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -71,6 +71,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     protected LinearLayoutManager mLayoutManager;
     private GoogleApiClient mGoogleApiClient;
     private Challenge challenge;
+    private String challengeId;
     private Double mLatitude;
     private Double mLongitude;
     private String mAddress;
@@ -99,8 +100,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
-        challenge = ParseObject.createWithoutData(Challenge.class,
-                getIntent().getStringExtra("challengeId"));
+        challengeId = getIntent().getStringExtra("challengeId");
 
         //hide video menu option
         binding.fabVideo.setVisibility(View.GONE);
@@ -130,19 +130,26 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
 
         //Swipe to refresh
-        binding.swipeContainer.setOnRefreshListener(this::getPosts);
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            if (!NetworkUtils.isOnline()) {
+                Toast.makeText(this, R.string.internet_no_connection, Toast.LENGTH_SHORT).show();
+                binding.swipeContainer.setRefreshing(false);
+                return;
+            }
+            getPosts();
+        });
 
         ItemClickSupport.addTo(binding.rVPosts)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     //TODO: Create a separate view on click of image and video and map
                 });
-
-        getPosts();
     }
 
     @Override
     protected void onResume() {
-        handler.post(refresh);
+        if (NetworkUtils.isOnline()) {
+            handler.post(refresh);
+        }
         super.onResume();
     }
 
@@ -159,7 +166,33 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        APIClient.getClient().getChallengeById(challengeId, new APIClient.GetChallengeListener() {
+            @Override
+            public void onSuccess(Challenge c, List<Post> postList) {
+                challenge = c;
+                if (postList != null) {
+                    if(postList.size()>0) {
+                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
+                    } else {
+                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.empty_state));
+                    }
+                    mPostList.clear();
+                    List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
+                    mPostList.addAll(posts);
+                    mAdapter.notifyDataSetChanged();
+                    mLayoutManager.scrollToPosition(0);
+                }
+
+                if (challenge.getEndDate().compareTo(new Date()) > 0) {
+                    getMenuInflater().inflate(R.menu.detail_menu, menu);
+                } else {
+                    binding.fabMenu.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {}
+        });
         return true;
     }
 
@@ -175,7 +208,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     }
 
     private void getPosts() {
-        client.getPostList(challenge.getObjectId(), new APIClient.GetPostListListener() {
+        client.getPostList(challengeId, new APIClient.GetPostListListener() {
             @Override
             public void onSuccess(List<Post> postList) {
 
@@ -221,7 +254,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     }
 
     private void showChallengeMembers() {
-        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challenge.getObjectId());
+        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challengeId);
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         fragment.show(getSupportFragmentManager(), "");
     }
@@ -278,7 +311,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                     post.setOwner(ParseApplication.getCurrentUser());
 
                                     //TODO: Move the listener out of this function
-                                    APIClient.getClient().createPost(post, challenge.getObjectId(),
+                                    APIClient.getClient().createPost(post, challengeId,
                                             new APIClient.PostListener() {
                                                 @Override
                                                 public void onSuccess() {
@@ -341,7 +374,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                             post.setOwner(ParseApplication.getCurrentUser());
 
                             //TODO: Move the listener out of this function
-                            APIClient.getClient().createPost(post, challenge.getObjectId(),
+                            APIClient.getClient().createPost(post, challengeId,
                                     new APIClient.PostListener() {
                                         @Override
                                         public void onSuccess() {
@@ -386,7 +419,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        PostTextFragment fragment = PostTextFragment.getInstance(challenge.getObjectId());
+        PostTextFragment fragment = PostTextFragment.getInstance(challengeId);
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         fragment.show(fm, "post_text");
     }
@@ -435,16 +468,19 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
-                Geocoder gc = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses;
-                try {
-                    addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
-                    if (addresses.size() > 0) {
-                        mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
-                                addresses.get(0).getAddressLine(1));
+
+                if (NetworkUtils.isOnline()) {
+                    Geocoder gc = new Geocoder(this, Locale.getDefault());
+                    List<Address> addresses = null;
+                    try {
+                        addresses = gc.getFromLocation(mLatitude, mLongitude, 2);
+                        if (addresses.size() > 0) {
+                            mAddress = String.format("%s %s", addresses.get(0).getAddressLine(0),
+                                    addresses.get(0).getAddressLine(1));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }
@@ -495,7 +531,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         post.setAddress(mAddress);
         post.setOwner(ParseApplication.getCurrentUser());
 
-        APIClient.getClient().createPost(post, challenge.getObjectId(),
+        APIClient.getClient().createPost(post, challengeId,
                 new APIClient.PostListener() {
 
                     @Override
@@ -557,7 +593,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
     }
 
     private void exitChallenge() {
-
         challenge.fetchIfNeededInBackground((object, e) -> {
             if (challenge.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
                 confirmDeletion();

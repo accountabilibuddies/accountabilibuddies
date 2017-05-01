@@ -106,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.refreshToken(new LoginViewModel.LoggedInListener() {
             @Override
             public void onSuccess(boolean isNewUser) {
-                viewModel.getFriendsForCurrentUser();
                 openSplashView();
                 finish();
             }

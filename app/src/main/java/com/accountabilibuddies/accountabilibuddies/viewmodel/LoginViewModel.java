@@ -235,25 +235,4 @@ public class LoginViewModel {
             e.printStackTrace();
         }
     }
-
-    public void getFriendsForCurrentUser() {
-
-        APIClient.getClient().getFriendsByUsername(
-                ParseApplication.getCurrentUser().getUsername(),
-            new APIClient.GetFriendsListener() {
-
-                @Override
-                public void onSuccess(List<Friend> friends) {
-
-                    Log.d(TAG, "Here are my friends: " + friends.toString());
-                }
-
-                @Override
-                public void onFailure(String errorMessage) {
-
-                    Log.d(TAG, "Error getting friends list.");
-                }
-            }
-        );
-    }
 }

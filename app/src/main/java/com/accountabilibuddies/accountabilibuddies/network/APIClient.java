@@ -3,10 +3,10 @@ package com.accountabilibuddies.accountabilibuddies.network;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
+import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
@@ -102,11 +102,6 @@ public class APIClient {
     public interface GetMembersListListener {
         void onSuccess(List<ParseUser> members);
         void onFailure(String error_message);
-    }
-
-    public interface GetLikesListener {
-        void onSuccess(List<ParseUser> usersWhoHaveLiked);
-        void onFailure(String errorMessage);
     }
 
     // Challenge API's
@@ -440,6 +435,34 @@ public class APIClient {
         );
     }
 
+    private void filterLikes(List<Like> likes) {
+        CollectionUtils.filter(
+                likes,
+                (Like like) -> !like.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
+        );
+    }
+
+    public void setLike(String postId, Boolean like) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include("likeList");
+
+        query.getInBackground(postId, (object, e) -> {
+            if (e == null) {
+                if (like) {
+                    Like l = new Like();
+                    l.setUser(ParseUser.getCurrentUser());
+                    object.add("likeList", l);
+                } else {
+                    List<Like> likes = object.getLikeList();
+                    filterLikes(likes);
+                    object.put("likeList", likes);
+
+                    object.saveEventually();
+                }
+            }
+        });
+    }
+
     public void getCommentList(String postObjectId, GetCommentsListListener listener) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include("commentList");
@@ -452,25 +475,6 @@ public class APIClient {
             }
         });
     }
-
-    public void getLikes(String postId, GetLikesListener listener) {
-
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include("likeList");
-
-        query.getInBackground(
-            postId,
-            (Post post, ParseException e) -> {
-
-                if (e == null) {
-                    listener.onSuccess(post.getLikeList());
-                } else {
-                    listener.onFailure(e.getMessage());
-                }
-            }
-        );
-    }
-
 
     public void addComment(String postId, Comment comment, PostListener listener) {
         comment.saveInBackground(e -> {
@@ -497,35 +501,6 @@ public class APIClient {
                 });
             }
         });
-    }
-
-    //Like/Unlike Post
-    public void likeUnlikePost(String postId, boolean like, PostListener listener) {
-
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.getInBackground(postId, (post, error) -> {
-            if (error == null) {
-                List<ParseUser> users = post.getLikeList();
-
-                if (like) {
-                    users.add(ParseApplication.getCurrentUser());
-                } else {
-                    filterUser(users, ParseUser.getCurrentUser());
-                }
-
-                post.put("likeList", users);
-                post.saveInBackground(e11 -> {
-                    if (e11 != null) {
-                        listener.onFailure(e11.getMessage());
-                    } else {
-                        listener.onSuccess();
-                    }
-                });
-            } else {
-                listener.onFailure(error.getMessage());
-            }
-        });
-
     }
 
     //Upload file

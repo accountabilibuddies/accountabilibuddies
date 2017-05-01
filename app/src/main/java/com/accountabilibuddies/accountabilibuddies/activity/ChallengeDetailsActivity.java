@@ -43,6 +43,7 @@ import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeFriendsFra
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeMembersFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
@@ -50,11 +51,9 @@ import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -356,8 +355,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             Post post = new Post();
                             post.setType(Constants.TYPE_IMAGE);
                             post.setImageUrl(fileLocation);
-                            List<ParseUser> users = new ArrayList<>();
-                            post.setLikeList(users);
+                            List<Like> likes = new ArrayList<>();
+                            post.setLikeList(likes);
                             post.setOwner(ParseApplication.getCurrentUser());
 
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
@@ -415,8 +414,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             Post post = new Post();
                             post.setType(Constants.TYPE_IMAGE);
                             post.setImageUrl(fileLocation);
-                            List<ParseUser> users = new ArrayList<>();
-                            post.setLikeList(users);
+                            List<Like> likes = new ArrayList<>();
+                            post.setLikeList(likes);
                             post.setOwner(ParseApplication.getCurrentUser());
 
                             //TODO: Move the listener out of this function
@@ -476,8 +475,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                             Post post = new Post();
                             post.setType(Constants.TYPE_VIDEO);
                             post.setVideoUrl(file.getUrl());
-                            List<ParseUser> users = new ArrayList<>();
-                            post.setLikeList(users);
+                            List<Like> likes = new ArrayList<>();
+                            post.setLikeList(likes);
                             post.setOwner(ParseApplication.getCurrentUser());
                             APIClient.getClient().createPost(post, challenge.getObjectId(),
                                 new APIClient.PostListener() {
@@ -622,8 +621,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
         Post post = new Post();
         post.setType(Constants.TYPE_LOCATION);
-        List<ParseUser> users = new ArrayList<>();
-        post.setLikeList(users);
+        List<Like> likes = new ArrayList<>();
+        post.setLikeList(likes);
         post.setLatitude(mLatitude);
         post.setLongitude(mLongitude);
         post.setAddress(mAddress);

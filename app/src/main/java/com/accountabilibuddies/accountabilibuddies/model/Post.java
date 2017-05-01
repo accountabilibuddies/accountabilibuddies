@@ -6,8 +6,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +23,13 @@ public class Post extends ParseObject {
         String imageUrl; --> Url to Image
         String postText; --> If post is plain text
         String videoUrl; --> Url to Video
-        //ParseGeoPoint point;
         Double latitude,
         Double longitude;
         String Address;
         List<Comment> comments; <Comment>
-        List<ParseUser> likeList;
+        List<Like> likeList;
      }
      */
-    //Local to app
-    public boolean liked = false;
-
     // Default Constructor
     public Post() {
         super();
@@ -52,10 +46,9 @@ public class Post extends ParseObject {
         setVideoUrl(videoUrl);
         setLatitude(latitude);
         setLongitude(longitude);
-        //setLocation(point);
         List<Comment> comments = new ArrayList<>();
         setCommentList(comments);
-        List<ParseUser> likes = new ArrayList<>();
+        List<Like> likes = new ArrayList<>();
         setLikeList(likes);
         setAddress(address);
     }
@@ -109,14 +102,6 @@ public class Post extends ParseObject {
         put("latitude", latitude);
     }
 
-/*
-    public ParseGeoPoint getLocation() {return (ParseGeoPoint) get("Location");}
-
-    public void setLocation(ParseGeoPoint location) {
-        if (location != null)
-            put("Location", location);
-    }
-*/
     public List<Comment> getCommentList() {
         return (List<Comment>) get("commentList");
     }
@@ -125,30 +110,11 @@ public class Post extends ParseObject {
         put("commentList", commentList);
     }
 
-    private boolean containsCurrentUser(List<ParseUser> users) {
-
-        ParseUser currentUser = CollectionUtils.find(
-                users,
-                (ParseUser user) ->
-                        user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
-        );
-
-        return currentUser != null;
+    public List<Like> getLikeList() {
+        return (List<Like>) get("likeList");
     }
 
-    public List<ParseUser> getLikeList() {
-
-        List<ParseUser> users = (List<ParseUser>) get("likeList");
-        //Set is_like here
-
-        if (containsCurrentUser(users)) {
-            liked = true;
-        }
-
-        return users;
-    }
-
-    public void setLikeList(List<ParseUser> likeList) {
+    public void setLikeList(List<Like> likeList) {
         put("likeList", likeList);
     }
 
@@ -174,14 +140,6 @@ public class Post extends ParseObject {
         }
     }
 
-    public boolean isLiked() {
-        return liked;
-    }
-
-    public void setLiked() {
-        this.liked = !liked;
-    }
-
     public String getAddress() {
         return (String) get("address");
     }
@@ -194,7 +152,6 @@ public class Post extends ParseObject {
     public String getOwnerProfileImageUrl() {
 
         try {
-
             ParseUser owner = getOwner().fetchIfNeeded();
             return owner.getString("profilePhotoUrl");
 

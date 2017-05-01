@@ -39,6 +39,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallenge
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeMembersFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
+import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
@@ -369,8 +370,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                             Post post = new Post();
                             post.setType(Constants.TYPE_IMAGE);
                             post.setImageUrl(fileLocation);
-                            List<ParseUser> users = new ArrayList<>();
-                            post.setLikeList(users);
+                            List<Like> likes = new ArrayList<>();
+                            post.setLikeList(likes);
                             post.setOwner(ParseApplication.getCurrentUser());
 
                             //TODO: Move the listener out of this function

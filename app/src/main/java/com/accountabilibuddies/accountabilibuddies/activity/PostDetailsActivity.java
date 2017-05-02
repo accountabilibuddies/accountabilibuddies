@@ -1,7 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import com.accountabilibuddies.accountabilibuddies.fragments.PostWithLocationFra
 import com.accountabilibuddies.accountabilibuddies.fragments.PostWithTextFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostWithVideoFragment;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
-import com.like.LikeButton;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -45,7 +43,7 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         showPost(postId, viewType);
 
-        setUpCommentButton(postId);
+        //setUpCommentButton(postId);
 
     }
 
@@ -104,7 +102,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
         ft.commit();
     }
-
+/*
     private void setUpCommentButton(String postId) {
         LikeButton commentBtn = (LikeButton)binding.postDetailActions.findViewById(R.id.comment_button);
         commentBtn.setOnClickListener(v -> {
@@ -114,5 +112,5 @@ public class PostDetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
+*/
 }

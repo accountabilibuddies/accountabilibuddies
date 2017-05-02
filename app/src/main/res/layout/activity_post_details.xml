@@ -26,7 +26,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:layout_marginTop="?attr/actionBarSize">
+            android:layout_marginTop="?attr/actionBarSize"
+            android:fitsSystemWindows="true">
+
+            <FrameLayout
+                android:id="@+id/flPost"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="192dp"/>
+
+            <com.accountabilibuddies.accountabilibuddies.customviews.SlantView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/flPost"
+                android:id="@+id/slant_view"/>
 
             <ImageView
                 android:id="@+id/ivPDAvatar"
@@ -36,19 +50,21 @@
                 android:layout_alignParentStart="true"
                 android:padding="@dimen/avatar_padding"
                 app:srcCompat="@drawable/avatar_placeholder"
-                android:layout_margin="8dp"/>
+                android:layout_margin="8dp"
+                android:layout_below="@+id/slant_view"/>
 
             <TextView
                 android:id="@+id/pdName"
                 fontPath="fonts/OpenSans-Regular.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/slant_view"
                 android:layout_alignBottom="@+id/ivPDAvatar"
                 android:layout_alignTop="@+id/ivPDAvatar"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/ivPDAvatar"
+                android:layout_toEndOf="@+id/ivPDAvatar"
                 android:gravity="center_vertical"
-                android:hint="Name"
                 android:textSize="16sp"
                 android:textColor="@color/text_color"/>
 
@@ -62,37 +78,8 @@
                 android:layout_alignBottom="@+id/pdName"
                 android:padding="8dp"
                 android:layout_centerVertical="true"
+                android:layout_below="@+id/slant_view"
                 tools:text="Time" />
-
-            <FrameLayout
-                android:id="@+id/flPost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivPDAvatar"
-                android:minHeight="192dp"/>
-
-            <include
-                android:id="@+id/postDetailActions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/ivPDAvatar"
-                android:layout_below="@+id/flPost"
-                layout="@layout/post_actions"/>
-
-            <com.accountabilibuddies.accountabilibuddies.customviews.SlantView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/flPost"
-                android:id="@+id/slant_view"/>
-
-            <TextView
-                android:id="@+id/tvLikes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/ivPDAvatar"
-                android:layout_alignStart="@+id/ivPDAvatar"
-                android:layout_below="@+id/postDetailActions"
-                android:hint="100,000 Likes"/>
         </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>

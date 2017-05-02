@@ -69,8 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivPDAvatar"
-                android:layout_alignLeft="@+id/ivPDAvatar"
-                android:layout_alignStart="@+id/ivPDAvatar"
                 android:minHeight="192dp"/>
 
             <include
@@ -80,6 +78,12 @@
                 android:layout_alignLeft="@+id/ivPDAvatar"
                 android:layout_below="@+id/flPost"
                 layout="@layout/post_actions"/>
+
+            <com.accountabilibuddies.accountabilibuddies.customviews.SlantView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/flPost"
+                android:id="@+id/slant_view"/>
 
             <TextView
                 android:id="@+id/tvLikes"

@@ -195,16 +195,18 @@ public class CreateChallengeActivity extends AppCompatActivity {
     }
 
     public void createChallengeNotification(String channel, String challenger,
-                                            String challengeId, int challengeType, String name) {
+                                            String challengeId, int challengeType, String name,
+                                            String challengeImageUrl) {
 
         HashMap<String, String> notification = new HashMap<>();
         notification.put("text", channel);
         notification.put("channel", channel);
         notification.put("challenger", challenger);
         notification.put("challengeId", challengeId);
-        notification.put("challengeType",String.valueOf(challengeType));
-        notification.put("challengeName",name);
-        ParseCloud.callFunctionInBackground("androidPushTest", notification);
+        notification.put("challengeType", String.valueOf(challengeType));
+        notification.put("challengeName", name);
+        notification.put("challengeImageUrl", challengeImageUrl);
+        ParseCloud.callFunctionInBackground("spurChallenge", notification);
     }
 
     @SuppressWarnings("all")
@@ -233,7 +235,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
         Challenge challenge = new Challenge(CHALLENGE_TYPE, binding.etTitle.getText().toString(),
                 binding.etDescription.getText().toString(),
                 startDate, endDate, freq, profileUrl, 0,
-                addFriendsFragment.getSelectedFriends());//There is no category so pass 0
+                addFriendsFragment.getSelectedFriends());
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
@@ -254,7 +256,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     for(ParseUser friend : challenge.getUserList()) {
                         if(currentUser!=null && !currentUser.equals(friend.getObjectId())) {
                             createChallengeNotification(friend.getObjectId(), currentUserName,
-                                    challenge.getObjectId(), challenge.getType(), challenge.getName());
+                                    challenge.getObjectId(), challenge.getType(), challenge.getName(),
+                                    profileUrl);
                         }
                     }
                 } catch (ParseException e) {

@@ -71,6 +71,10 @@
 
         <service android:name="com.parse.PushService" />
 
+        <service
+            android:name=".network.DownloadImageService"
+            android:exported="false" />
+
         <receiver
             android:name=".network.NotificationsReceiver"
             android:exported="false">

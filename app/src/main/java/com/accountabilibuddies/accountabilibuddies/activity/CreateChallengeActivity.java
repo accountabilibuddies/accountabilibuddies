@@ -438,6 +438,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
                     public void onSuccess(String fileLocation) {
                         profileUrl = fileLocation;
                         showProgress(false);
+                        binding.ivSetImage.setImageResource(R.drawable.ic_upload_done);
                     }
                     @Override
                     public void onFailure(String error_message) {
@@ -467,6 +468,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
 
         binding.etTitle.getText().clear();
         binding.etDescription.getText().clear();
+
+        binding.ivSetImage.setImageResource(R.drawable.ic_upload);
 
         binding.tvStartDate.setText("");
         startDate = null;

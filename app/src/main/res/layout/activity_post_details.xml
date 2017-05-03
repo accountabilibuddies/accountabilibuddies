@@ -56,12 +56,55 @@
             android:background="@android:color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvComments"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_normal"
-                android:paddingEnd="@dimen/padding_normal"/>
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginEnd="@dimen/avatar_margin"
+                    android:layout_marginRight="@dimen/avatar_margin"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:padding="@dimen/avatar_padding"
+                    android:layout_gravity="top"
+                    app:srcCompat="@drawable/avatar_placeholder"/>
+
+                <TextView
+                    android:id="@+id/tvPostOwner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ivProfileImage"
+                    android:padding="3dp"
+                    android:text="jcdjbvjdf"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPostTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPostOwner"
+                    android:layout_toRightOf="@+id/ivProfileImage"
+                    android:padding="3dp"
+                    android:text="jcdjbvjdf"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvComments"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/ivProfileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
 

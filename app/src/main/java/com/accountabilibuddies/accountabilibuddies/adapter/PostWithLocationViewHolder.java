@@ -14,9 +14,6 @@ public class PostWithLocationViewHolder extends PostViewHolder {
     @BindView(R.id.mapview)
     MapView mapview;
 
-    @BindView(R.id.tvAddress)
-    TextView address;
-
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
 
@@ -36,14 +33,6 @@ public class PostWithLocationViewHolder extends PostViewHolder {
 
     public void setMapview(MapView mapview) {
         this.mapview = mapview;
-    }
-
-    public TextView getAddress() {
-        return address;
-    }
-
-    public void setAddress(TextView address) {
-        this.address = address;
     }
 
     public ImageView getIvProfileImage() {

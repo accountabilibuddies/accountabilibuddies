@@ -12,9 +12,10 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:padding="@dimen/padding_large"
-            android:gravity="center"
-            android:textSize="24sp"
-            tools:text="Making really good progress on this one." />
+            android:gravity="bottom|center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 

@@ -72,13 +72,15 @@ public class PostWithLocationFragment extends Fragment {
                 //set map location
                 LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
-                map.addMarker(new MarkerOptions().position(location));
-                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                MarkerOptions marker = new MarkerOptions()
+                                .position(location);
 
                 if (post.getAddress() != null)
-                    binding.tvAddress.setText(post.getAddress());
-                else
-                    binding.tvAddress.setVisibility(View.GONE);
+                    marker.title(post.getAddress());
+                map.addMarker(marker);
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+
             }
         );
     }

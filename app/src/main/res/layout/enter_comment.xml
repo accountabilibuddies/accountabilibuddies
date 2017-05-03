@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/comment_back">
+    android:background="@drawable/comment_back"
+    android:elevation="15dp">
 
     <ImageView
         android:id="@+id/ivAvatar"
@@ -29,7 +30,6 @@
         android:layout_toLeftOf="@+id/ibComment"
         android:layout_toRightOf="@+id/ivAvatar"
         android:textSize="16sp"
-        fontPath="fonts/OpenSans-Light.ttf"
         android:padding="@dimen/enter_comment_padding"
         android:textColor="@color/text_color"
         android:textColorHint="@color/grey2"

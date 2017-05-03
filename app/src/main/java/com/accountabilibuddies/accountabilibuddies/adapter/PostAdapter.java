@@ -108,6 +108,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 intent.putExtra("profileImage",post.getOwnerProfileImageUrl());
                 intent.putExtra("createdAt", DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                 intent.putExtra("viewType", viewType);
+                //ActivityOptionsCompat options = ActivityOptionsCompat.
+                //        makeSceneTransitionAnimation(this, (View)ivPost, "post");
+                //context.startActivity(intent, options.toBundle());
                 context.startActivity(intent);
             }
         );
@@ -199,13 +202,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         //set map location
                         LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
-                        map.addMarker(new MarkerOptions().position(location));
-                        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        MarkerOptions marker = new MarkerOptions()
+                                .position(location);
 
                         if (post.getAddress() != null)
-                            locVH.getAddress().setText(post.getAddress());
-                        else
-                            locVH.getAddress().setVisibility(View.GONE);
+                            marker.title(post.getAddress());
+                        map.addMarker(marker);
+                        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
                         setUpPostDetailsHandler(locVH.getItemView(), post, POST_WITH_LOCATION);
                     });

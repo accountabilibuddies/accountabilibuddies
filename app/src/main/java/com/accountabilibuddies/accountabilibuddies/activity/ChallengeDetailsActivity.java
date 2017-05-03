@@ -50,6 +50,7 @@ import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
+import com.accountabilibuddies.accountabilibuddies.util.NotificationUtils;
 import com.accountabilibuddies.accountabilibuddies.util.VideoUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -107,6 +108,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
         challengeId = getIntent().getStringExtra("challengeId");
+
+        NotificationUtils.cancelNotification(this, getIntent().getIntExtra("notificationId",-1));
 
         //Setting toolbar
         setSupportActionBar(binding.toolbar);

@@ -84,6 +84,7 @@ public class NotificationsReceiver extends BroadcastReceiver {
         }
         intent.putExtra("challengeId",challengeId);
         intent.putExtra("name", challengeName);
+        intent.putExtra("notificationId", NOTIFICATION_ID);
 
         int requestID = (int) System.currentTimeMillis();
         int flags = PendingIntent.FLAG_CANCEL_CURRENT;
@@ -91,11 +92,13 @@ public class NotificationsReceiver extends BroadcastReceiver {
         PendingIntent pIntent = PendingIntent.getActivity(context, requestID, intent, flags);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat
-                .Builder(context).setContentIntent(pIntent)
-                //TODO: Update the icon to the launcher style notification icon
-                .setSmallIcon(R.drawable.ic_logo).setContentTitle("Spur")
-                .setContentText(customMessage)
-                .setAutoCancel(true);
+                .Builder(context)
+                .setSmallIcon(R.drawable.notification)
+                .setContentTitle(customMessage)
+                .setContentText("Tap for mmore options.")
+                .setAutoCancel(true)
+                .addAction(R.drawable.done, "Accept", pIntent)
+                .addAction(R.drawable.close,"Decline", pIntent);
 
         NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);

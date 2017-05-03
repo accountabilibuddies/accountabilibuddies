@@ -47,6 +47,7 @@ import com.accountabilibuddies.accountabilibuddies.util.Constants;
 import com.accountabilibuddies.accountabilibuddies.util.GenericUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ItemClickSupport;
 import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
+import com.accountabilibuddies.accountabilibuddies.util.NotificationUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -102,6 +103,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
 
         challengeId = getIntent().getStringExtra("challengeId");
+
+        NotificationUtils.cancelNotification(this, getIntent().getIntExtra("notificationId",-1));
 
         //hide video menu option
         binding.fabVideo.setVisibility(View.GONE);

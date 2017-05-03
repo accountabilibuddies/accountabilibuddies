@@ -39,7 +39,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         setUpToolbar();
         showUserDetails(ownerName, profileImage);
 
-        binding.tvPostTime.setText(createdAt);
+        //binding.tvPostTime.setText(createdAt);
 
         showPost(postId, viewType);
 
@@ -74,9 +74,9 @@ public class PostDetailsActivity extends AppCompatActivity {
 
     private void showUserDetails(String ownerName, String profileImage) {
 
-        binding.pdName.setText(ownerName);
+        //binding.pdName.setText(ownerName);
 
-        ImageUtils.loadCircularProfileImage(this, profileImage, binding.ivPDAvatar);
+        //ImageUtils.loadCircularProfileImage(this, profileImage, binding.ivPDAvatar);
     }
 
     private void showPost(String postId, int viewType) {

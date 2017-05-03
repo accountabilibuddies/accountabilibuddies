@@ -56,7 +56,22 @@
             android:background="@android:color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_normal"
+                android:paddingEnd="@dimen/padding_normal"/>
+
         </android.support.v4.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/lNewComment"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/enter_comment"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

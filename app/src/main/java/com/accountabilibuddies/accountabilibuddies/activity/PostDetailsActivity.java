@@ -4,24 +4,45 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.adapter.CommentsAdapter;
 import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityPostDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostWithImageFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostWithLocationFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostWithTextFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostWithVideoFragment;
+import com.accountabilibuddies.accountabilibuddies.model.Comment;
+import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PostDetailsActivity extends AppCompatActivity {
 
     ActivityPostDetailsBinding binding;
+    private ArrayList<Comment> comments;
+    CommentsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,12 +59,13 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         setUpToolbar();
         showUserDetails(ownerName, profileImage);
+        showComments(postId);
+        setUpNewCommentListener();
+        //setUpOnLikeListener(postId);
 
         //binding.tvPostTime.setText(createdAt);
 
         showPost(postId, viewType);
-
-        //setUpCommentButton(postId);
 
     }
 
@@ -102,15 +124,99 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
         ft.commit();
     }
-/*
-    private void setUpCommentButton(String postId) {
-        LikeButton commentBtn = (LikeButton)binding.postDetailActions.findViewById(R.id.comment_button);
-        commentBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(PostDetailsActivity.this, HolderActivity.class);
-            intent.putExtra("frag_type","comments");
-            intent.putExtra("postId", postId);
-            startActivity(intent);
+
+    private void showComments(String postId) {
+
+        comments = new ArrayList<>();
+        adapter = new CommentsAdapter(this, comments);
+
+        binding.rvComments.setAdapter(adapter);
+        binding.rvComments.setItemAnimator(new DefaultItemAnimator());
+
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        binding.rvComments.addItemDecoration(itemDecoration);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.rvComments.setLayoutManager(layoutManager);
+
+        getComments(postId);
+    }
+
+    private void getComments(String postId) {
+
+        APIClient.getClient().getCommentList(postId, new APIClient.GetCommentsListListener() {
+
+            @Override
+            public void onSuccess(List<Comment> commentsList) {
+                if (commentsList != null && !commentsList.isEmpty()) {
+                    comments.clear();
+                    Collections.reverse(commentsList);
+                    comments.addAll(commentsList);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(String error_message) {
+
+            }
         });
     }
-*/
+
+    private void setUpNewCommentListener() {
+
+        ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
+        EditText tietComment = (EditText) binding.lNewComment.findViewById(R.id.etComment);
+
+        ibComment.setOnClickListener(
+                (View v) -> {
+
+                    String comment = tietComment.getText().toString();
+                    tietComment.setText("");
+                    postComment(comment);
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+        );
+
+        addCurrentUserAvatar();
+    }
+
+    private void addCurrentUserAvatar() {
+
+        ImageView ivAvatar = (ImageView) binding.lNewComment.findViewById(R.id.ivAvatar);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        String profilePhotoUrl = (String) user.get("profilePhotoUrl");
+
+        ImageUtils.loadCircularProfileImage(
+                this,
+                profilePhotoUrl,
+                ivAvatar
+        );
+    }
+
+    private void postComment(String commentText) {
+
+        Comment comment = new Comment();
+
+        comment.setText(commentText);
+        comment.setUser(ParseUser.getCurrentUser());
+
+        comments.add(0, comment);
+        adapter.notifyDataSetChanged();
+        APIClient.getClient().addComment(getIntent().getStringExtra("postId"), comment,
+            new APIClient.PostListener() {
+                @Override
+                public void onSuccess() {
+                }
+
+                @Override
+                public void onFailure(String error_message) {
+                }
+            });
+    }
+
 }

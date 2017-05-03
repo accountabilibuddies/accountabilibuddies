@@ -46,7 +46,11 @@ public class CommentsAdapter extends
         if (comment != null) {
 
             holder.commentOwner.setText(comment.getOwnerName());
-            holder.commentTime.setText(DateUtils.getRelativeTimeAgo(comment.getCreatedAt()));
+
+            if (comment.getCreatedAt() != null)
+                holder.commentTime.setText(DateUtils.getRelativeTimeAgo(comment.getCreatedAt()));
+            else
+                holder.commentTime.setText("Just now");
 
             ImageUtils.loadCircularProfileImage(
                 context,

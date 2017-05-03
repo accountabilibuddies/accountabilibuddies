@@ -2,85 +2,70 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/ablChallenge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="0dp" >
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:fitsSystemWindows="true" >
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                app:theme="@style/ToolBarStyle"
-                android:background="@android:color/transparent"
-                android:layout_height="?attr/actionBarSize"
-                android:minHeight="?attr/actionBarSize" />
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginEnd="64dp"
+                android:fitsSystemWindows="true">
+
+                <FrameLayout
+                    android:id="@+id/flPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_collapseMode="parallax"/>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"
+                    android:layout_height="?attr/actionBarSize"/>
+
+                <com.accountabilibuddies.accountabilibuddies.customviews.SlantView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="250dp"
+                    android:id="@+id/slant_view"
+                    app:layout_collapseMode="parallax"/>
+            </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:background="@android:color/white"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:fitsSystemWindows="true">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <FrameLayout
-                android:id="@+id/flPost"
-                android:layout_alignParentTop="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="192dp"/>
+        </android.support.v4.widget.NestedScrollView>
 
-            <com.accountabilibuddies.accountabilibuddies.customviews.SlantView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/flPost"
-                android:id="@+id/slant_view"/>
-
-            <ImageView
-                android:id="@+id/ivPDAvatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:padding="@dimen/avatar_padding"
-                app:srcCompat="@drawable/avatar_placeholder"
-                android:layout_margin="8dp"
-                android:layout_below="@+id/slant_view"/>
-
-            <TextView
-                android:id="@+id/pdName"
-                fontPath="fonts/OpenSans-Regular.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/slant_view"
-                android:layout_alignBottom="@+id/ivPDAvatar"
-                android:layout_alignTop="@+id/ivPDAvatar"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ivPDAvatar"
-                android:layout_toEndOf="@+id/ivPDAvatar"
-                android:gravity="center_vertical"
-                android:textSize="16sp"
-                android:textColor="@color/text_color"/>
-
-            <TextView
-                android:id="@+id/tvPostTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/pdName"
-                android:layout_alignBottom="@+id/pdName"
-                android:padding="8dp"
-                android:layout_centerVertical="true"
-                android:layout_below="@+id/slant_view"
-                tools:text="Time" />
-        </RelativeLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            app:layout_anchor="@id/ablChallenge"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

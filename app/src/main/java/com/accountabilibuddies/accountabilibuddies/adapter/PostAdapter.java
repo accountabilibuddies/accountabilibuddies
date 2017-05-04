@@ -108,6 +108,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 intent.putExtra("profileImage",post.getOwnerProfileImageUrl());
                 intent.putExtra("createdAt", DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                 intent.putExtra("viewType", viewType);
+                intent.putExtra("like", isLiked(post.getLikeList()));
                 //ActivityOptionsCompat options = ActivityOptionsCompat.
                 //        makeSceneTransitionAnimation(this, (View)ivPost, "post");
                 //context.startActivity(intent, options.toBundle());

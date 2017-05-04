@@ -28,6 +28,8 @@ import com.accountabilibuddies.accountabilibuddies.fragments.PostWithVideoFragme
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -53,13 +55,14 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         String ownerName = getIntent().getStringExtra("user");
         String profileImage = getIntent().getStringExtra("profileImage");
+        Boolean like = getIntent().getBooleanExtra("like", false);
         int viewType = getIntent().getIntExtra("viewType",-1);
 
         setUpToolbar();
         showUserDetails(ownerName, profileImage);
         showComments(postId);
         setUpNewCommentListener();
-        //setUpOnLikeListener(postId);
+        setUpOnLikeButton(postId, like);
         binding.tvPostTime.setText(createdAt);
         binding.tvPostOwner.setText(ownerName);
         ImageUtils.loadCircularProfileImage(
@@ -70,6 +73,23 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         showPost(postId, viewType);
 
+    }
+
+    private void setUpOnLikeButton(String postId, Boolean like) {
+        if (like)
+            binding.heartButton.setLiked(true);
+
+        binding.heartButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                APIClient.getClient().setLike(postId, true);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                APIClient.getClient().setLike(postId, false);
+            }
+        });
     }
 
     @Override

@@ -143,6 +143,29 @@ public class ChallengeDetailsActivity extends AppCompatActivity
             }
             getPosts();
         });
+
+        mAdapter.setPostClickListener(new PostAdapter.PostClickListener() {
+            @Override
+            public void onPostClicked(String objectId,
+                                      String ownerName,
+                                      String ownerProfileImageUrl,
+                                      String relativeTimeAgo,
+                                      int type,
+                                      boolean liked) {
+                Intent intent = new Intent(ChallengeDetailsActivity.this, PostDetailsActivity.class);
+                intent.putExtra("postId", objectId);
+                intent.putExtra("user", ownerName);
+                intent.putExtra("profileImage", ownerProfileImageUrl);
+                intent.putExtra("createdAt", relativeTimeAgo);
+                intent.putExtra("viewType", type);
+                intent.putExtra("like", liked);
+                //ActivityOptionsCompat options = ActivityOptionsCompat.
+                //        makeSceneTransitionAnimation(this, (View)ivPost, "post");
+                //context.startActivity(intent, options.toBundle());
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override

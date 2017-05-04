@@ -11,7 +11,6 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.activity.HolderActivity;
-import com.accountabilibuddies.accountabilibuddies.activity.PostDetailsActivity;
 import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
@@ -46,10 +45,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int POST_WITH_IMAGE = 0, POST_WITH_VIDEO = 1,
                     POST_WITH_TEXT = 2, POST_WITH_LOCATION = 3;
 
+    public interface PostClickListener {
+        void onPostClicked(String objectId, String ownerName, String ownerProfileImageUrl, String relativeTimeAgo, int type, boolean liked);
+    }
+
+    private PostClickListener listener;
+
     public PostAdapter(Context context, String challengeId, List<Post> postList) {
         this.postList = postList;
         this.challengeId = challengeId;
         this.context = context;
+        this.listener = null;
+    }
+
+    public void setPostClickListener(PostClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -101,19 +111,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setUpPostDetailsHandler(View itemView, final Post post, final int viewType) {
 
         itemView.setOnClickListener(
-            (View v) -> {
-                Intent intent = new Intent(context, PostDetailsActivity.class);
-                intent.putExtra("postId", post.getObjectId());
-                intent.putExtra("user", post.getOwnerName());
-                intent.putExtra("profileImage",post.getOwnerProfileImageUrl());
-                intent.putExtra("createdAt", DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
-                intent.putExtra("viewType", viewType);
-                intent.putExtra("like", isLiked(post.getLikeList()));
-                //ActivityOptionsCompat options = ActivityOptionsCompat.
-                //        makeSceneTransitionAnimation(this, (View)ivPost, "post");
-                //context.startActivity(intent, options.toBundle());
-                context.startActivity(intent);
-            }
+            (View v) -> listener.onPostClicked(post.getObjectId(), post.getOwnerName(),
+                    post.getOwnerProfileImageUrl(), DateUtils.getRelativeTimeAgo(post.getCreatedAt()),
+                    viewType, isLiked(post.getLikeList()))
         );
     }
 

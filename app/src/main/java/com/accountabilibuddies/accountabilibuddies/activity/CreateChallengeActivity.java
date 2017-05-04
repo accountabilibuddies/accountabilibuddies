@@ -89,6 +89,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
     private void setupViews() {
         binding.tvFrequency.setText(Constants.frequencyMap.get(Constants.BASE_FREQ));
         setUpFriendsView();
+
+        setupMoney();
     }
 
     private void setUpFriendsView() {
@@ -488,6 +490,23 @@ public class CreateChallengeActivity extends AppCompatActivity {
         setupViews();
 
         profileUrl = null;
+
+    }
+
+    public void setupMoney() {
+
+        binding.cbMoney.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b) {
+                binding.sbMoney.setVisibility(View.VISIBLE);
+                binding.tvMinMoney.setVisibility(View.VISIBLE);
+                binding.tvMaxMoney.setVisibility(View.VISIBLE);
+            } else {
+                binding.sbMoney.setVisibility(View.GONE);
+                binding.tvMinMoney.setVisibility(View.GONE);
+                binding.tvMaxMoney.setVisibility(View.GONE);
+            }
+        });
+
 
     }
 }

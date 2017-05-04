@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -276,12 +277,24 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setUpCommentButton(Post post) {
-        commentBtn.setOnClickListener(v -> {
-            //TODO Fix styling
-            Intent intent = new Intent(v.getContext(), HolderActivity.class);
-            intent.putExtra("frag_type","comments");
-            intent.putExtra("postId", post.getObjectId());
-            v.getContext().startActivity(intent);
+        commentBtn.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(context, HolderActivity.class);
+                        intent.putExtra("frag_type","comments");
+                        intent.putExtra("postId", post.getObjectId());
+                        context.startActivity(intent);
+                        commentBtn.setLiked(false);
+                    }
+                }, 800);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {}
         });
     }
 

@@ -10,7 +10,7 @@
                     android:id="@+id/ivChallengeImage"
                     android:transitionName="post"
                     android:layout_width="match_parent"
-                    android:layout_height="295dp"
+                    android:layout_height="298dp"
                     android:scaleType="fitXY"/>
 
         </RelativeLayout>

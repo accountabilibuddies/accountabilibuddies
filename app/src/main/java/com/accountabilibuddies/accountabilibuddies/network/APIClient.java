@@ -354,8 +354,13 @@ public class APIClient {
             List<Scoreboard> scoreboardList = challenge.getScoreboard();
             if (getException == null && scoreboardList != null) {
                 for(Scoreboard sb : scoreboardList) {
-                    if(sb.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                        sb.rewardPoints(10);
+                    try {
+                        sb.fetchIfNeeded();
+                        if(sb.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                            sb.rewardPoints(10);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
                 }
             }

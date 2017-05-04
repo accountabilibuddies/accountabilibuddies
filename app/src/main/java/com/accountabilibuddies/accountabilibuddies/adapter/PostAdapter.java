@@ -23,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -199,7 +200,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     locVH.getMapview().getMapAsync(googleMap -> {
                         MapsInitializer.initialize(context);
                         map = googleMap;
-
+                        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                         //set map location
                         LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
@@ -208,8 +209,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                         if (post.getAddress() != null)
                             marker.title(post.getAddress());
-                        map.addMarker(marker);
-                        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        Marker mark = map.addMarker(marker);
+                        mark.showInfoWindow();
 
                         setUpPostDetailsHandler(locVH.getItemView(), post, POST_WITH_LOCATION);
                     });

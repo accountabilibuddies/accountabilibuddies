@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PostWithLocationFragment extends Fragment {
@@ -69,6 +70,7 @@ public class PostWithLocationFragment extends Fragment {
                 MapsInitializer.initialize(getContext());
                 map = googleMap;
 
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 //set map location
                 LatLng location = new LatLng(post.getLatitude(), post.getLongitude());
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
@@ -77,10 +79,8 @@ public class PostWithLocationFragment extends Fragment {
 
                 if (post.getAddress() != null)
                     marker.title(post.getAddress());
-                map.addMarker(marker);
-                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-
+                Marker mark = map.addMarker(marker);
+                mark.showInfoWindow();
             }
         );
     }

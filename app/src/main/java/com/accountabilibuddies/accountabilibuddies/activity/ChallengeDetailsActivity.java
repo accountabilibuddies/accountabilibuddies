@@ -533,7 +533,7 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     void onCreatePost(Post post) {
         mPostList.add(0, post);
         mAdapter.notifyDataSetChanged();
-        mLayoutManager.scrollToPosition(mPostList.size() - 1);
+        mLayoutManager.scrollToPosition(0);
         binding.avi.hide();
         binding.progressBarContainer.setVisibility(View.GONE);
     }

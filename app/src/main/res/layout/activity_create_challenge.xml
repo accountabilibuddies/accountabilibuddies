@@ -438,37 +438,74 @@
                     app:cardCornerRadius="2dp"
                     app:cardElevation="@dimen/cc_card_elevation">
 
-                        <RelativeLayout
-                            android:id="@+id/rlMoney"
+                    <RelativeLayout
+                        android:id="@+id/rlMoney"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/white">
+
+                        <TextView
+                            android:id="@+id/tvMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/left_right_margin"
+                            android:hint="Want to bet some money?"
+                            fontPath="fonts/OpenSans-Light.ttf"
+                            android:textSize="@dimen/cc_edit_textsize"/>
+
+                        <CheckBox
+                            android:id="@+id/cbMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="@dimen/left_right_margin"/>
+
+                        <TextView
+                            android:id="@+id/tvMinMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvMoney"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="@dimen/left_right_margin"
+                            android:textColor="@color/grey2"
+                            android:text="0.1"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/tvMaxMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvMoney"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/left_right_margin"
+                            android:textColor="@color/grey2"
+                            android:text="10"
+                            android:visibility="gone"/>
+
+                        <SeekBar
+                            android:id="@+id/sbMoney"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:background="@android:color/white">
+                            android:layout_below="@+id/tvMinMoney"
+                            android:max="10"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="@dimen/left_right_margin"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
 
-                            <TextView
-                                android:id="@+id/tvMoney"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_margin="@dimen/left_right_margin"
-                                android:hint="Want to bet some money?"
-                                fontPath="fonts/OpenSans-Light.ttf"
-                                android:textSize="@dimen/cc_edit_textsize"/>
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
 
-                            <CheckBox
-                                android:id="@+id/cbMoney"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_alignParentEnd="true"
-                                android:layout_margin="@dimen/left_right_margin"/>
-
-
-
-                        </RelativeLayout>
-                    </android.support.v7.widget.CardView>
 
             </RelativeLayout>
         </ScrollView>

@@ -8,6 +8,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
+import com.accountabilibuddies.accountabilibuddies.model.Scoreboard;
 import com.accountabilibuddies.accountabilibuddies.util.CameraUtils;
 import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 import com.parse.ParseException;
@@ -315,6 +316,7 @@ public class APIClient {
         query.getInBackground(challengeId,
                 (Challenge challenge, ParseException getException) -> {
             List<ParseUser> userList = challenge.getUserList();
+            Boolean isScore = false;
             if (getException == null) {
                 for(ParseUser user : userList) {
                     if(user.getObjectId().equals(friend.getObjectId())) {
@@ -322,14 +324,40 @@ public class APIClient {
                         challenge.put("userList", userList);
                         challenge.saveEventually(e -> {});
                         listener.onSuccess("remove");
+                        //Not deleting scoreboard intentionally, preserving users previous score
                         return;
                     }
                 }
                 challenge.addUnique("userList", friend);
+
+                for(Scoreboard sb : challenge.getScoreboard()) {
+                    if(sb.getUser().getObjectId().equals(friend.getObjectId())) {
+                        isScore = true;
+                    }
+                }
+                if (!isScore) {
+                    Scoreboard scoreboard = new Scoreboard(friend);
+                    challenge.add("scoreboardList", scoreboard);
+                }
                 challenge.saveEventually((ParseException e) -> {});
                 listener.onSuccess("add");
             } else {
                 listener.onFailure(getException.getMessage());
+            }
+        });
+    }
+
+    private void rewardPointsForPost(String challengeId) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        query.getInBackground(challengeId, (Challenge challenge, ParseException getException) -> {
+            List<Scoreboard> scoreboardList = challenge.getScoreboard();
+            if (getException == null) {
+                for(Scoreboard sb : scoreboardList) {
+                    if(sb.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                        sb.rewardPoints(10);
+                    }
+                }
             }
         });
     }
@@ -395,6 +423,7 @@ public class APIClient {
                                 listener.onFailure(e11.getMessage());
                             } else {
                                 listener.onSuccess();
+                                rewardPointsForPost(challengeObjectId);
                             }
                         });
                     } else {

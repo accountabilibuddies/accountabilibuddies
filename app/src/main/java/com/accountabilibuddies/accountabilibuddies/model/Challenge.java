@@ -30,6 +30,7 @@ public class Challenge extends ParseObject {
         int categoryId;
         List of user; <ParseUser>
         List of post; <Post>
+        List of Scoreboard;
      }
      */
 
@@ -58,6 +59,10 @@ public class Challenge extends ParseObject {
         setUserList(users);
         List<Post> posts = new ArrayList<>();
         setPostList(posts);
+        List<Scoreboard> scoreboard = new ArrayList<>();
+        Scoreboard sc = new Scoreboard(ParseUser.getCurrentUser());
+        scoreboard.add(sc);
+        setScoreboard(scoreboard);
     }
 
     public int getType() {
@@ -161,5 +166,13 @@ public class Challenge extends ParseObject {
 
             return null;
         }
+    }
+
+    public List<Scoreboard> getScoreboard() {
+        return (List<Scoreboard>) get("scoreboardList");
+    }
+
+    public void setScoreboard(List<Scoreboard > scoreboardList) {
+        put("scoreboardList", scoreboardList);
     }
 }

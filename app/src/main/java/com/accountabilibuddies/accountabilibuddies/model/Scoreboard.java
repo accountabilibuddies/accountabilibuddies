@@ -50,4 +50,8 @@ public class Scoreboard extends ParseObject {
     public void setMoney(Double money) {
         put("money", money);
     }
+
+    public void rewardPoints(int points) {
+        setPoints(getPoints() + points);
+    }
 }

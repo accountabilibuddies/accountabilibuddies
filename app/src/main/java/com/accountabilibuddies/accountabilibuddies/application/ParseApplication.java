@@ -8,6 +8,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.model.Friend;
 import com.accountabilibuddies.accountabilibuddies.model.Like;
 import com.accountabilibuddies.accountabilibuddies.model.Post;
+import com.accountabilibuddies.accountabilibuddies.model.Scoreboard;
 import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -35,6 +36,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Challenge.class);
         ParseObject.registerSubclass(Friend.class);
         ParseObject.registerSubclass(Like.class);
+        ParseObject.registerSubclass(Scoreboard.class);
 
         // Set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured

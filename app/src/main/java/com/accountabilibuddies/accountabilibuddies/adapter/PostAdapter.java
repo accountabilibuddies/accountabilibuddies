@@ -28,9 +28,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
@@ -246,12 +245,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private boolean isLiked(List<Like> likes) {
-        Like isLiked = CollectionUtils.find(
-                likes,
-                (Like like) -> like.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
-        );
-
-        return isLiked != null;
+        for (Like like: likes){
+            try {
+                like.fetchIfNeeded();
+                if(like.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                    return true;
+                }
+            } catch (ParseException e) { }
+        }
+        return false;
     }
 
     private void setPostButtonValues(PostViewHolder holder) {

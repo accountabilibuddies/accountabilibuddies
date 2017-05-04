@@ -4,14 +4,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ivChallengeImage"
                     android:transitionName="post"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="300dp"/>
+                    android:layout_height="295dp"
+                    android:scaleType="fitXY"/>
 
         </RelativeLayout>
 

@@ -352,7 +352,7 @@ public class APIClient {
 
         query.getInBackground(challengeId, (Challenge challenge, ParseException getException) -> {
             List<Scoreboard> scoreboardList = challenge.getScoreboard();
-            if (getException == null) {
+            if (getException == null && scoreboardList != null) {
                 for(Scoreboard sb : scoreboardList) {
                     if(sb.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
                         sb.rewardPoints(10);

@@ -99,10 +99,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return viewHolder;
     }
 
-    public void setUpPostDetailsHandler(View itemView, final Post post, final int viewType) {
+    private void setUpPostDetailsHandler(View itemView, final Post post, final int viewType) {
 
         itemView.setOnClickListener(
-
             (View v) -> {
                 Intent intent = new Intent(context, PostDetailsActivity.class);
                 intent.putExtra("postId", post.getObjectId());
@@ -182,7 +181,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     vidVH.getTvName().setText(post.getOwnerName());
                     vidVH.getRelativeTime().setText(DateUtils.getRelativeTimeAgo(post.getCreatedAt()));
                     VideoPlayer.loadVideo(context, vidVH.getVideoView(), post.getVideoUrl());
-                    //setUpPostDetailsHandler(videoVH.getItemView, post, POST_WITH_VIDEO);
                     setPostButtonValues(vidVH);
                     break;
 
@@ -281,15 +279,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void liked(LikeButton likeButton) {
                 final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(context, HolderActivity.class);
-                        intent.putExtra("frag_type","comments");
-                        intent.putExtra("postId", post.getObjectId());
-                        context.startActivity(intent);
-                        commentBtn.setLiked(false);
-                    }
+                handler.postDelayed(() -> {
+                    Intent intent = new Intent(context, HolderActivity.class);
+                    intent.putExtra("frag_type","comments");
+                    intent.putExtra("postId", post.getObjectId());
+                    context.startActivity(intent);
+                    commentBtn.setLiked(false);
                 }, 800);
             }
 

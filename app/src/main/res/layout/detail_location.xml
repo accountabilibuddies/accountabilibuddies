@@ -10,7 +10,7 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapview"
             android:layout_width="match_parent"
-            android:layout_height="290dp"
+            android:layout_height="300dp"
             map:mapType="none"
             map:liteMode="true"/>
 

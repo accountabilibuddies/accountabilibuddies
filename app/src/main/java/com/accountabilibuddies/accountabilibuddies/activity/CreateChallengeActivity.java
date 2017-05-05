@@ -234,6 +234,12 @@ public class CreateChallengeActivity extends AppCompatActivity {
         if (!dataValidation())
             return;
 
+        if(addFriendsFragment.getSelectedFriends().size()>1) {
+            CHALLENGE_TYPE = Constants.TYPE_MULTI_USER;
+        } else {
+            CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
+        }
+
         Challenge challenge = new Challenge(CHALLENGE_TYPE, binding.etTitle.getText().toString(),
                 binding.etDescription.getText().toString(),
                 startDate, endDate, freq, profileUrl, 0,
@@ -289,13 +295,13 @@ public class CreateChallengeActivity extends AppCompatActivity {
             return false;
         }
 
-        if(CHALLENGE_TYPE == Constants.UNSELECTED) {
-            Toast.makeText(this, "Challenge type not selected", Toast.LENGTH_LONG).show();
+        if(startDate==null || endDate==null) {
+            Toast.makeText(this, "Select dates for the challenge", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(startDate==null || endDate==null) {
-            Toast.makeText(this, "Select dates for the challenge", Toast.LENGTH_LONG).show();
+        if(addFriendsFragment.getSelectedFriends().size()==0) {
+            Toast.makeText(this, "Select a friend to challenge", Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -348,38 +354,6 @@ public class CreateChallengeActivity extends AppCompatActivity {
             binding.btnMinus.setBackground(ContextCompat.getDrawable(this,R.drawable.minus_button));
         }
         binding.tvFrequency.setText(Constants.frequencyMap.get(freq));
-    }
-
-
-    public void oneOnOneSelected(View view) {
-
-        if(CHALLENGE_TYPE == Constants.TYPE_ONE_ON_ONE) {
-            binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone));
-            binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.grey2));
-            CHALLENGE_TYPE = Constants.UNSELECTED;
-        } else {
-            binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone_selected));
-            binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.create_blue));
-            CHALLENGE_TYPE = Constants.TYPE_ONE_ON_ONE;
-
-            binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi));
-            binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.grey2));
-        }
-    }
-
-    public void multiSelected(View view) {
-        if(CHALLENGE_TYPE == Constants.TYPE_MULTI_USER) {
-            binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi));
-            binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.grey2));
-            CHALLENGE_TYPE = Constants.UNSELECTED;
-        } else {
-            binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi_selected));
-            binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.create_blue));
-            CHALLENGE_TYPE = Constants.TYPE_MULTI_USER;
-
-            binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone));
-            binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.grey2));
-        }
     }
 
     private void showDateDialog(DatePickerDialog.OnDateSetListener listener, long minDate) {
@@ -479,12 +453,6 @@ public class CreateChallengeActivity extends AppCompatActivity {
         binding.tvEndDate.setText("");
         endDate = null;
 
-        binding.ivMulti.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_multi));
-        binding.tvMulti.setTextColor(ContextCompat.getColor(this, R.color.grey2));
-
-        binding.ivOneOnOne.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_oneonone));
-        binding.tvOneOnOne.setTextColor(ContextCompat.getColor(this, R.color.grey2));
-
         CHALLENGE_TYPE = Constants.UNSELECTED;
 
         setupViews();
@@ -506,7 +474,5 @@ public class CreateChallengeActivity extends AppCompatActivity {
                 binding.tvMaxMoney.setVisibility(View.GONE);
             }
         });
-
-
     }
 }

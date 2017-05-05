@@ -191,10 +191,6 @@ public class DrawerActivity extends AppCompatActivity {
                             .clientToken(TOKEN_KEY);
                     startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
                     break;
-
-                case R.id.about:
-
-                    return true;
             }
 
             try {
@@ -205,13 +201,17 @@ public class DrawerActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if (fragmentManager != null && fragment != null)
+            if (fragmentManager != null && fragment != null) {
                 fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
+                menuItem.setChecked(true);
+                setTitle(menuItem.getTitle());
+                binding.drawerLayout.closeDrawers();
+                return true;
+            } else {
+                binding.drawerLayout.closeDrawers();
+                return false;
+            }
 
-            menuItem.setChecked(true);
-            setTitle(menuItem.getTitle());
-            binding.drawerLayout.closeDrawers();
-            return true;
         });
     }
 

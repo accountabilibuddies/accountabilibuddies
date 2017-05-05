@@ -14,14 +14,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:text="User can create challenges and invite friends"
         android:maxLines="4"
         android:lines="4"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:textColor="@android:color/white"
         android:gravity="center"/>
 </RelativeLayout>

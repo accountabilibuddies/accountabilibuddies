@@ -474,13 +474,11 @@ public class APIClient {
         );
     }
 
-    private List<Like> filterLikes(List<Like> likes) {
-
-        for(Like like : likes) {
-            if (like.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId()))
-                likes.remove(like);
-        }
-        return likes;
+    private void filterLikes(List<Like> likes) {
+        CollectionUtils.filter(
+                likes,
+                (Like like) -> !like.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())
+        );
     }
 
     public void setLike(String postId, Boolean like) {

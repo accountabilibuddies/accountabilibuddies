@@ -2,6 +2,7 @@ package com.accountabilibuddies.accountabilibuddies.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -25,6 +26,11 @@ import com.accountabilibuddies.accountabilibuddies.fragments.CurrentChallenges;
 import com.accountabilibuddies.accountabilibuddies.fragments.UpcomingChallenges;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.braintreepayments.api.dropin.DropInActivity;
+import com.braintreepayments.api.dropin.DropInRequest;
+import com.braintreepayments.api.dropin.DropInResult;
+import com.braintreepayments.api.dropin.utils.PaymentMethodType;
+import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.crashlytics.android.Crashlytics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -41,6 +47,8 @@ public class DrawerActivity extends AppCompatActivity {
     boolean pendingIntroAnimation = false;
     private static final int ANIM_DURATION_TOOLBAR = 300;
     private static final int ANIM_DURATION_FAB = 400;
+    private static final String TOKEN_KEY = "sandbox_jbr4hvcj_z2m3byhhzn7j75tv";
+    private static int REQUEST_CODE = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,8 +187,13 @@ public class DrawerActivity extends AppCompatActivity {
                     );
                     break;
                 case R.id.settings:
-                case R.id.help:
+                    DropInRequest dropInRequest = new DropInRequest()
+                            .clientToken(TOKEN_KEY);
+                    startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
+                    break;
+
                 case R.id.about:
+
                     return true;
             }
 
@@ -202,8 +215,49 @@ public class DrawerActivity extends AppCompatActivity {
         });
     }
 
-    private void openLoginView() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+                DropInResult.fetchDropInResult(this, TOKEN_KEY, new DropInResult.DropInResultListener() {
+                    @Override
+                    public void onError(Exception exception) {
+                        // an error occurred
+                    }
 
+                    @Override
+                    public void onResult(DropInResult result) {
+                        if (result.getPaymentMethodType() != null) {
+                            // use the icon and name to show in your UI
+                            int icon = result.getPaymentMethodType().getDrawable();
+                            int name = result.getPaymentMethodType().getLocalizedName();
+
+                            if (result.getPaymentMethodType() == PaymentMethodType.ANDROID_PAY) {
+                                // The last payment method the user used was Android Pay.
+                                // The Android Pay flow will need to be performed by the
+                                // user again at the time of checkout.
+                            } else {
+                                // Use the payment method show in your UI and charge the user
+                                // at the time of checkout.
+                                PaymentMethodNonce paymentMethod = result.getPaymentMethodNonce();
+                            }
+                        } else {
+                            // there was no existing payment method
+                        }
+                    }
+                });
+                // use the result to update your UI and send the payment method nonce to your server
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // the user canceled
+            } else {
+                // handle errors here, an exception may be available in
+                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+            }
+        }
+    }
+
+    private void openLoginView() {
         Intent intent = new Intent(DrawerActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();

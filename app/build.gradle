@@ -96,4 +96,5 @@ dependencies {
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
 
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
+    compile 'com.braintreepayments.api:drop-in:3.+'
 }

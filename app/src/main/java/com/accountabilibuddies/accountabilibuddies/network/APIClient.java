@@ -331,8 +331,13 @@ public class APIClient {
                 challenge.addUnique("userList", friend);
 
                 for(Scoreboard sb : challenge.getScoreboard()) {
-                    if(sb.getUser().getObjectId().equals(friend.getObjectId())) {
-                        isScore = true;
+                    try {
+                        sb.fetchIfNeeded();
+                        if(sb.getUser().getObjectId().equals(friend.getObjectId())) {
+                            isScore = true;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
                 }
                 if (!isScore) {

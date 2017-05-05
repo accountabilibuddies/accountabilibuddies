@@ -65,6 +65,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.HolderActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ChallengeMembersActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
             android:launchMode="singleTask">

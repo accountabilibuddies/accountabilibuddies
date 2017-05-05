@@ -49,6 +49,7 @@ public class HolderActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void setUpToolbar() {
 
         setSupportActionBar(binding.toolbar);
@@ -58,5 +59,4 @@ public class HolderActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.background));
     }
-
 }

@@ -40,7 +40,6 @@ import com.accountabilibuddies.accountabilibuddies.adapter.PostAdapter;
 import com.accountabilibuddies.accountabilibuddies.application.ParseApplication;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeDetailsBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeFriendsFragment;
-import com.accountabilibuddies.accountabilibuddies.fragments.ChallengeMembersFragment;
 import com.accountabilibuddies.accountabilibuddies.fragments.PostTextFragment;
 import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.model.Like;
@@ -283,9 +282,10 @@ public class ChallengeDetailsActivity extends AppCompatActivity
     }
 
     private void showChallengeMembers() {
-        ChallengeMembersFragment fragment = ChallengeMembersFragment.getInstance(challengeId);
-        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        fragment.show(getSupportFragmentManager(), "");
+        Intent intent;
+        intent = new Intent(ChallengeDetailsActivity.this, ChallengeMembersActivity.class);
+        intent.putExtra("challengeId", challengeId);
+        startActivity(intent);
     }
 
     private void closeFabMenu(){

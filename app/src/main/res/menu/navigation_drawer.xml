@@ -23,9 +23,6 @@
 
     <group>
         <item
-            android:id="@+id/about"
-            android:title="About us" />
-        <item
             android:id="@+id/logOut"
             android:title="Log out" />
 

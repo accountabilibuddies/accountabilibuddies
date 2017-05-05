@@ -60,8 +60,11 @@ public class Challenge extends ParseObject {
         List<Post> posts = new ArrayList<>();
         setPostList(posts);
         List<Scoreboard> scoreboard = new ArrayList<>();
-        Scoreboard sc = new Scoreboard(ParseUser.getCurrentUser());
-        scoreboard.add(sc);
+        scoreboard.add(new Scoreboard(ParseUser.getCurrentUser()));
+
+        for (ParseUser friend: friends) {
+            scoreboard.add(new Scoreboard(friend));
+        }
         setScoreboard(scoreboard);
     }
 

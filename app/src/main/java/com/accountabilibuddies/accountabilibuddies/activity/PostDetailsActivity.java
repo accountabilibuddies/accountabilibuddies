@@ -10,6 +10,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -190,19 +192,40 @@ public class PostDetailsActivity extends AppCompatActivity {
     private void setUpNewCommentListener() {
 
         ImageButton ibComment = (ImageButton) binding.lNewComment.findViewById(R.id.ibComment);
-        EditText tietComment = (EditText) binding.lNewComment.findViewById(R.id.etComment);
+        EditText etComment = (EditText) binding.lNewComment.findViewById(R.id.etComment);
+
+        etComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length()==0) {
+                    ibComment.setImageResource(R.drawable.send_false);
+                } else if(charSequence.length()>0) {
+                    ibComment.setImageResource(R.drawable.send);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
 
         ibComment.setOnClickListener(
                 (View v) -> {
 
-                    String comment = tietComment.getText().toString();
-                    tietComment.setText("");
-                    postComment(comment);
+                    String comment = etComment.getText().toString();
+                    if(comment.length()>0) {
+                        postComment(comment);
+                        etComment.setText("");
+                    }
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
         );
+
+
 
         addCurrentUserAvatar();
     }

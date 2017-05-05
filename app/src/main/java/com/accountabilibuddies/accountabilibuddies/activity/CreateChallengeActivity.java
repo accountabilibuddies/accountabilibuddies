@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.accountabilibuddies.accountabilibuddies.R;
@@ -464,15 +465,35 @@ public class CreateChallengeActivity extends AppCompatActivity {
     public void setupMoney() {
 
         binding.cbMoney.setOnCheckedChangeListener((compoundButton, b) -> {
+
+            binding.scrollView.post(() -> binding.scrollView.fullScroll(View.FOCUS_DOWN));
+
             if(b) {
+                binding.tvBetValue.setVisibility(View.VISIBLE);
                 binding.sbMoney.setVisibility(View.VISIBLE);
                 binding.tvMinMoney.setVisibility(View.VISIBLE);
                 binding.tvMaxMoney.setVisibility(View.VISIBLE);
             } else {
+                binding.tvBetValue.setVisibility(View.GONE);
                 binding.sbMoney.setVisibility(View.GONE);
+                binding.sbMoney.setProgress(0);
                 binding.tvMinMoney.setVisibility(View.GONE);
                 binding.tvMaxMoney.setVisibility(View.GONE);
             }
+        });
+
+
+        binding.sbMoney.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                binding.tvBetValue.setText("Bet " + String.valueOf(i+1)+ "$");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 }

@@ -26,7 +26,8 @@
         android:layout_toRightOf="@+id/ivProfileImage"
         android:padding="3dp"
         android:gravity="center|start"
-        android:textStyle="bold"/>
+        fontPath="fonts/OpenSans-Semibold.ttf"
+        android:layout_toLeftOf="@+id/tvCommentTime"/>
 
     <TextView
         android:id="@+id/tvComment"
@@ -37,7 +38,8 @@
         android:gravity="center|start"
         android:padding="3dp"
         android:maxLines="2"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:layout_toLeftOf="@+id/tvCommentTime"/>
 
     <TextView
         android:id="@+id/tvCommentTime"

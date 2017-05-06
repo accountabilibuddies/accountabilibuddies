@@ -49,6 +49,28 @@
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
+            <ImageView
+                android:id="@+id/ivEmpty"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_list"
+                android:layout_marginTop="137dp"
+                android:layout_below="@+id/flAddFriends"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:textColor="@color/grey3"
+                android:text="No posts yet!!! Start motivating..."
+                android:layout_below="@+id/ivEmpty"
+                android:layout_centerHorizontal="true" />
+
             <RelativeLayout
                 android:id="@+id/progressBarContainer"
                 android:layout_width="match_parent"

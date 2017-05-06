@@ -252,7 +252,11 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                     Collections.reverse(postList);
                     mPostList.addAll(postList);
                     mAdapter.notifyDataSetChanged();
+                } else {
+                    binding.ivEmpty.setVisibility(View.VISIBLE);
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
                 }
+
                 binding.swipeContainer.setRefreshing(false);
             }
 
@@ -553,6 +557,8 @@ public class ChallengeDetailsActivity extends AppCompatActivity
         mLayoutManager.scrollToPosition(0);
         binding.avi.hide();
         binding.progressBarContainer.setVisibility(View.GONE);
+        binding.ivEmpty.setVisibility(View.GONE);
+        binding.tvEmpty.setVisibility(View.GONE);
     }
 
     protected void onStart() {

@@ -6,7 +6,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-                <com.flaviofaria.kenburnsview.KenBurnsView
+                <ImageView
                     android:id="@+id/ivChallengeImage"
                     android:transitionName="post"
                     android:layout_width="match_parent"

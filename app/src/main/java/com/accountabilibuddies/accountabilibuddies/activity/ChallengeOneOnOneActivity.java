@@ -176,8 +176,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                 if (postList != null) {
                     if(postList.size()>0) {
                         binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
+                        binding.ivEmpty.setVisibility(View.GONE);
+                        binding.tvEmpty.setVisibility(View.GONE);
                     } else {
-                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.empty_state));
+                        binding.ivEmpty.setVisibility(View.VISIBLE);
+                        binding.tvEmpty.setVisibility(View.VISIBLE);
                     }
                     mPostList.clear();
                     List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
@@ -218,8 +221,11 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                 if (postList != null) {
                     if(postList.size()>0) {
                         binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
+                        binding.ivEmpty.setVisibility(View.GONE);
+                        binding.tvEmpty.setVisibility(View.GONE);
                     } else {
-                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.empty_state));
+                        binding.ivEmpty.setVisibility(View.VISIBLE);
+                        binding.tvEmpty.setVisibility(View.VISIBLE);
                     }
 
                     List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
@@ -429,6 +435,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
      */
     void onCreatePost(Post post) {
         binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
+        binding.ivEmpty.setVisibility(View.GONE);
+        binding.tvEmpty.setVisibility(View.GONE);
         GenericUtils.addPost(mPostList, post, mAdapter);
 
         mLayoutManager.scrollToPosition(0);

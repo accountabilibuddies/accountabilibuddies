@@ -31,9 +31,10 @@ public class SlantView extends View {
 
         path = new Path();
         path.setFillType(Path.FillType.EVEN_ODD);
-        path.moveTo(0,0);
-        path.lineTo(0,h);
+
+        path.moveTo(0,h);
         path.lineTo(w,h);
+        path.lineTo(w,0);
         path.close();
         canvas.drawPath(path, paint);
     }

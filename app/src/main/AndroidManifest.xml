@@ -42,7 +42,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDHCZW1VKUKCvH0aOJsIgfeaA3J6G1xsOY" />
 
-        <activity android:name=".activity.LoginActivity"
+        <activity
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,30 +51,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DrawerActivity"
-            android:launchMode = "singleInstance"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ChallengeDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CreateChallengeActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ChallengeOneOnOneActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PostDetailsActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.HolderActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ChallengeMembersActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
+        <activity
+            android:name=".activity.DrawerActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChallengeDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CreateChallengeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.ChallengeOneOnOneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PostDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.HolderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChallengeMembersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="${packageName}.braintree" />
             </intent-filter>
         </activity>
@@ -90,7 +100,6 @@
         </receiver>
 
         <service android:name="com.parse.PushService" />
-
         <service
             android:name=".network.DownloadImageService"
             android:exported="false" />
@@ -117,10 +126,10 @@
 
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:launchMode = "singleInstance"
-            android:screenOrientation="portrait"/>
-
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme" />
+        <activity android:name=".activity.PastChallengeDetailsActivity"></activity>
     </application>
 
 </manifest>

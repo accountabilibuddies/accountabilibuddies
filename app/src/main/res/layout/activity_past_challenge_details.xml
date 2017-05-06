@@ -74,7 +74,8 @@
                     android:text="You bet "
                     android:textSize="18sp"
                     android:textStyle="italic"
-                    fontPath="fonts/OpenSans-Light.ttf"/>
+                    fontPath="fonts/OpenSans-Light.ttf"
+                    android:layout_marginBottom="40dp"/>
 
                 <TextView
                     android:id="@+id/tvMoneyEarned"
@@ -92,7 +93,7 @@
                     android:id="@+id/slantView"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@id/tvMoneyEarned"
+                    android:layout_below="@id/tvMoneyBet"
                     app:layout_collapseMode="parallax" />
             </RelativeLayout>
 

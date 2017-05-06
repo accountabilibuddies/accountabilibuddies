@@ -103,7 +103,8 @@
                     android:gravity="center|start"
                     android:text="LEADERBOARD"
                     android:textStyle="bold"
-                    android:padding="8dp"/>
+                    android:padding="8dp"
+                    android:layout_marginTop="10dp"/>
 
 
                 <TextView
@@ -113,7 +114,7 @@
                     android:layout_below="@id/tvLeaderboard"
                     android:layout_alignLeft="@id/tvLeaderboard"
                     android:layout_alignStart="@id/tvLeaderboard"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center|start"
                     android:text="Members"
                     android:padding="8dp"/>

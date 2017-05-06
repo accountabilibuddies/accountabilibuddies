@@ -385,10 +385,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
 
                     if(which==0) {
                         launchCamera();
-                        Toast.makeText(CreateChallengeActivity.this, "Camera", Toast.LENGTH_SHORT).show();
                     } else {
                         useGallery();
-                        Toast.makeText(CreateChallengeActivity.this, "Gallery", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 })

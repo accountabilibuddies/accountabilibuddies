@@ -90,7 +90,7 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
         public void run() {
             Log.d("DEBUG", "Refresh 1on1");
             getPosts();
-            handler.postDelayed(refresh, 5000);
+            handler.postDelayed(refresh, 3000);
         }
     };
 
@@ -291,17 +291,14 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
 
             case PHOTO_INTENT_REQUEST:
 
-                binding.progressBarContainer.setVisibility(View.VISIBLE);
-                binding.avi.show();
-
                 if (resultCode == RESULT_OK) {
                     if (mImagePath == null) {
-                        binding.avi.hide();
-                        binding.progressBarContainer.setVisibility(View.GONE);
                         return;
                     }
-                    //TODO: Need to optimize this scale to make image size more efficient
-                    // wrt to the image view size
+
+                    binding.progressBarContainer.setVisibility(View.VISIBLE);
+                    binding.avi.show();
+
                     Bitmap bitmap = CameraUtils.scaleToFill(BitmapFactory.decodeFile(mImagePath)
                             , 800, 600);
 

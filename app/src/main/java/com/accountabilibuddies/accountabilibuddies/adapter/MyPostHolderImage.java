@@ -56,12 +56,21 @@ public class MyPostHolderImage extends OneOnOneViewHolder {
 
                 View peekView = peekAndPop.getPeekView();
                 ImageView iv = (ImageView) peekView.findViewById(R.id.ivPopup);
+                ImageView ivAvatar = (ImageView) peekView.findViewById(R.id.ivAvatarPopup);
+                TextView tvName = (TextView) peekView.findViewById(R.id.tvNamePopup);
 
-                ImageUtils.loadPostImageWithRoundedCorners(
+                ImageUtils.loadProfileImage(
+                        context,
+                        post.getOwnerProfileImageUrl(),
+                        ivAvatar
+                );
+
+                tvName.setText(post.getOwnerName());
+
+                ImageUtils.loadPopupImageWithRoundedCorners(
                     context,
                     post.getImageUrl(),
-                    iv
-                );
+                    iv);
 
                 return false;
             });

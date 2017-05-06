@@ -57,7 +57,16 @@ public class FriendPostHolderImage extends OneOnOneViewHolder {
 
                 View peekView = peekAndPop.getPeekView();
                 ImageView iv = (ImageView) peekView.findViewById(R.id.ivPopup);
+                ImageView ivAvatar = (ImageView) peekView.findViewById(R.id.ivAvatarPopup);
+                TextView tvName = (TextView) peekView.findViewById(R.id.tvNamePopup);
 
+                ImageUtils.loadProfileImage(
+                        context,
+                        post.getOwnerProfileImageUrl(),
+                        ivAvatar
+                );
+
+                tvName.setText(post.getOwnerName());
                 ImageUtils.loadPostImageWithRoundedCorners(
                     context,
                     post.getImageUrl(),

@@ -81,4 +81,14 @@ public class ImageUtils {
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .into(ivImage);
     }
+
+    public static void loadPopupImageWithRoundedCorners(Context context, String url, ImageView ivImage) {
+
+        Glide.with(context)
+                .load(url)
+                .centerCrop()
+                .bitmapTransform(new RoundedCornersTransformation(context, 5, 0))
+                .into(ivImage);
+    }
+
 }

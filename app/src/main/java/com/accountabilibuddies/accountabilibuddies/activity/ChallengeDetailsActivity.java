@@ -389,8 +389,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                     new APIClient.PostListener() {
                                 @Override
                                 public void onSuccess() {
-                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                            "Creating post", Toast.LENGTH_LONG).show();
                                     onCreatePost(post);
                                 }
 
@@ -449,8 +447,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                     new APIClient.PostListener() {
                                 @Override
                                 public void onSuccess() {
-                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                            "Creating post", Toast.LENGTH_LONG).show();
                                     onCreatePost(post);
                                 }
 
@@ -508,8 +504,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
                                 new APIClient.PostListener() {
                                 @Override
                                 public void onSuccess() {
-                                    Toast.makeText(ChallengeDetailsActivity.this,
-                                            "Creating post", Toast.LENGTH_LONG).show();
                                     onCreatePost(post);
                                 }
 
@@ -659,8 +653,6 @@ public class ChallengeDetailsActivity extends AppCompatActivity
 
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(ChallengeDetailsActivity.this,
-                            "Creating post", Toast.LENGTH_LONG).show();
                     onCreatePost(post);
                 }
 

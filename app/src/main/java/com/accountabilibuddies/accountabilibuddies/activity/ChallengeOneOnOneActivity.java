@@ -319,8 +319,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                             new APIClient.PostListener() {
                                                 @Override
                                                 public void onSuccess() {
-                                                    Toast.makeText(ChallengeOneOnOneActivity.this,
-                                                            "Creating post", Toast.LENGTH_LONG).show();
                                                     onCreatePost(post);
                                                 }
 
@@ -382,8 +380,6 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                                     new APIClient.PostListener() {
                                         @Override
                                         public void onSuccess() {
-                                            Toast.makeText(ChallengeOneOnOneActivity.this,
-                                                    "Creating post", Toast.LENGTH_LONG).show();
                                             onCreatePost(post);
                                         }
 

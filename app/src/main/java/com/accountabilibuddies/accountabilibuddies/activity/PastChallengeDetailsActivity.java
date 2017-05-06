@@ -69,9 +69,7 @@ public class PastChallengeDetailsActivity extends AppCompatActivity {
         binding.rvPastMembers.setLayoutManager(layoutManager);
 
         getMembers();
-
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -114,9 +112,7 @@ public class PastChallengeDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(String error_message) {
-
-            }
+            public void onFailure(String error_message) {}
         });
     }
 }

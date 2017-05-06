@@ -221,11 +221,14 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
                     } else {
                         binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.empty_state));
                     }
-                    mPostList.clear();
+
                     List<Object> posts = GenericUtils.buildOneOnOnePosts(postList);
-                    mPostList.addAll(posts);
-                    mAdapter.notifyDataSetChanged();
-                    mLayoutManager.scrollToPosition(0);
+                    if(posts.size()!=mPostList.size()) {
+                        mPostList.clear();
+                        mPostList.addAll(posts);
+                        mAdapter.notifyDataSetChanged();
+                        mLayoutManager.scrollToPosition(0);
+                    }
                 }
                 binding.swipeContainer.setRefreshing(false);
             }

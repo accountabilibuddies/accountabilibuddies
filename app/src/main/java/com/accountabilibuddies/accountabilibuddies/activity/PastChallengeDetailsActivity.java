@@ -98,22 +98,18 @@ public class PastChallengeDetailsActivity extends AppCompatActivity {
                     mMembersList.addAll(scoreboardList);
                     mAdapter.notifyDataSetChanged();
 
-                    String currentUser = null;
                     try {
-                        currentUser = ParseUser.getCurrentUser().fetchIfNeeded().getObjectId();
+                        String currentUser = ParseUser.getCurrentUser().fetchIfNeeded().getObjectId();
 
                         for(Scoreboard obj: scoreboardList ) {
                             if(currentUser.equals(obj.getUser().getObjectId())) {
-                                binding.tvMoneyEarned.append("$");
-//                                binding.tvMoneyEarned.append(String.valueOf(obj.getMoney()) + "$");
+                                binding.tvMoneyBet.append(String.valueOf(obj.getMoney()) + "$");
+                                binding.tvMoneyEarned.append(String.valueOf(obj.getMoney()) + "$");
                             }
                         }
-
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             }
 

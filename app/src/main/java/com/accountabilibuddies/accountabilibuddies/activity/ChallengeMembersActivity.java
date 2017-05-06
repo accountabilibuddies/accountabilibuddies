@@ -86,7 +86,6 @@ public class ChallengeMembersActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error_message) {
-
             }
         });
     }

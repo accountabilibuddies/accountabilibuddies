@@ -65,6 +65,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
 
     private static int freq = 1;
 
+    private static double money = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,7 +246,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
         Challenge challenge = new Challenge(CHALLENGE_TYPE, binding.etTitle.getText().toString(),
                 binding.etDescription.getText().toString(),
                 startDate, endDate, freq, profileUrl, 0,
-                addFriendsFragment.getSelectedFriends());
+                addFriendsFragment.getSelectedFriends(), money);
 
         APIClient.getClient().createChallenge(challenge, new APIClient.ChallengeListener() {
             @Override
@@ -454,6 +456,8 @@ public class CreateChallengeActivity extends AppCompatActivity {
         binding.tvEndDate.setText("");
         endDate = null;
 
+        money = 0;
+
         CHALLENGE_TYPE = Constants.UNSELECTED;
 
         setupViews();
@@ -487,6 +491,7 @@ public class CreateChallengeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 binding.tvBetValue.setText("Bet " + String.valueOf(i+1)+ "$");
+                money = i+1;
             }
 
             @Override

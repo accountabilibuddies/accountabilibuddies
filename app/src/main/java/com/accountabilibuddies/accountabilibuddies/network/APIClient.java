@@ -355,18 +355,22 @@ public class APIClient {
                 }
                 challenge.addUnique("userList", friend);
 
+                double money = 0;
                 for(Scoreboard sb : challenge.getScoreboard()) {
                     try {
                         sb.fetchIfNeeded();
                         if(sb.getUser().getObjectId().equals(friend.getObjectId())) {
                             isScore = true;
                         }
+                        if(sb.getMoney()>0) {
+                            money = sb.getMoney();
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
                 if (!isScore) {
-                    Scoreboard scoreboard = new Scoreboard(friend);
+                    Scoreboard scoreboard = new Scoreboard(friend, money);
                     challenge.add("scoreboardList", scoreboard);
                 }
                 challenge.saveEventually((ParseException e) -> {});

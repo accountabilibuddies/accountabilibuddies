@@ -20,11 +20,11 @@ public class Scoreboard extends ParseObject {
         super();
     }
 
-    public Scoreboard(ParseUser user) {
+    public Scoreboard(ParseUser user, double money) {
         super();
         setUser(user);
         setPoints(0);
-        setMoney(0.0);
+        setMoney(money);
     }
 
     public ParseUser getUser() {
@@ -43,11 +43,11 @@ public class Scoreboard extends ParseObject {
         put("points", points);
     }
 
-    public Double getMoney() {
-        return (Double) get("money");
+    public double getMoney() {
+        return getDouble("money");
     }
 
-    public void setMoney(Double money) {
+    public void setMoney(double money) {
         put("money", money);
     }
 

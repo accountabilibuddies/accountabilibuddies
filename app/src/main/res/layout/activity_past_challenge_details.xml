@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/clPast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/ablPastChallenge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp" >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                app:theme="@style/ToolBarStyle"
+                android:background="@android:color/transparent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize" />
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:id="@+id/mainRL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:id="@+id/rlPastDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#81ceff"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:id="@+id/tvTitleValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tvDescription"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@+id/tvDescription"
+                    android:layout_toRightOf="@+id/tvDescription"
+                    android:hint="Title"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    fontPath="fonts/OpenSans-SemiBold.ttf"/>
+
+                <TextView
+                    android:id="@+id/tvDescValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvTitleValue"
+                    android:layout_alignStart="@+id/tvTitleValue"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/tvTitleValue"
+                    android:hint="Description"
+                    android:textSize="@dimen/cc_header_textsize"/>
+
+                <TextView
+                    android:id="@+id/tvMoneyEarned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvDescValue"
+                    android:layout_alignStart="@+id/tvDescValue"
+                    android:layout_below="@+id/tvDescValue"
+                    android:layout_marginTop="15dp"
+                    android:text="You earned "
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    fontPath="fonts/OpenSans-Light.ttf"/>
+
+                <com.accountabilibuddies.accountabilibuddies.customviews.SlantView
+                    android:id="@+id/slantView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/tvMoneyEarned"
+                    app:layout_collapseMode="parallax" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rlPastDetails"
+                android:padding="25dp"
+                android:background="@android:color/white">
+
+                <TextView
+                    android:id="@+id/tvLeaderboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center|start"
+                    android:text="LEADERBOARD"
+                    android:textStyle="bold"
+                    android:padding="8dp"/>
+
+
+                <TextView
+                    android:id="@+id/tvMembers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvLeaderboard"
+                    android:layout_alignLeft="@id/tvLeaderboard"
+                    android:layout_alignStart="@id/tvLeaderboard"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center|start"
+                    android:text="Members"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/tvMembers"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center|right"
+                    android:text="Score"
+                    android:padding="8dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvPastMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvMembers"
+                    android:layout_marginTop="10dp" />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

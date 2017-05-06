@@ -1,12 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center">
+
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/ivAvatarPopup"
+        android:layout_height="32dp"
+        android:layout_width="32dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:padding="8dp"
+        app:civ_border_width="0dp"
+        app:civ_shadow="false"
+        app:srcCompat="@drawable/avatar_placeholder"
+        android:background="@android:color/white"/>
+
+
+    <TextView
+        android:id="@+id/tvNamePopup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_toRightOf="@id/ivAvatarPopup"
+        android:layout_marginRight="50dp"
+        android:layout_alignTop="@id/ivAvatarPopup"
+        android:layout_alignBottom="@id/ivAvatarPopup"
+        android:padding="8dp"
+        android:gravity="center_vertical|left"
+        android:background="@android:color/white"
+        android:textSize="16sp"/>
 
     <ImageView
         android:id="@+id/ivPopup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="50dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:layout_below="@id/ivAvatarPopup"
+        android:layout_alignLeft="@id/ivAvatarPopup"
+        android:layout_alignRight="@id/tvNamePopup"
+        android:background="@android:color/white"/>
 
-</FrameLayout>
+
+
+</RelativeLayout>

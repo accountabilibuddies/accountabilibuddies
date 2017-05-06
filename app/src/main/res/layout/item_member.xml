@@ -21,11 +21,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ivProfileImage"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:textColor="@android:color/black"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:gravity="center|start"
         android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/tvMemberPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivProfileImage"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/blue_500"
+        android:layout_toRightOf="@+id/tvMemberName"
+        android:gravity="center|right"
+        android:padding="10dp" />
 </RelativeLayout>

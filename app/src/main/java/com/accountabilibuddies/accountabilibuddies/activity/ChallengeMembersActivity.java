@@ -15,7 +15,6 @@ import com.accountabilibuddies.accountabilibuddies.adapter.MembersAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeMembersBinding;
 import com.accountabilibuddies.accountabilibuddies.model.Scoreboard;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;

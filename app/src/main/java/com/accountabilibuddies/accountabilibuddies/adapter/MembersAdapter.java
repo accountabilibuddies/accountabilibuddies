@@ -31,6 +31,9 @@ public class MembersAdapter extends
         @BindView(R.id.tvMemberName)
         TextView name;
 
+        @BindView(R.id.tvMemberPoints)
+        TextView points;
+
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -63,8 +66,8 @@ public class MembersAdapter extends
             );
 
             holder.name.setText(user.getUser().getString("name"));
+            holder.points.setText(user.getPoints() + " pts");
         }
-
     }
 
     @Override

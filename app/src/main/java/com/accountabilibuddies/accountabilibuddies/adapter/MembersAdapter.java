@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.accountabilibuddies.accountabilibuddies.R;
+import com.accountabilibuddies.accountabilibuddies.model.Scoreboard;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 public class MembersAdapter extends
         RecyclerView.Adapter<MembersAdapter.MyViewHolder>  {
 
-    private ArrayList<ParseUser> members;
+    private ArrayList<Scoreboard> members;
     private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,7 +37,7 @@ public class MembersAdapter extends
         }
     }
 
-    public MembersAdapter(Context context, ArrayList<ParseUser> members) {
+    public MembersAdapter(Context context, ArrayList<Scoreboard> members) {
         this.members = members;
         this.context = context;
     }
@@ -52,17 +52,17 @@ public class MembersAdapter extends
 
     @Override
     public void onBindViewHolder(MembersAdapter.MyViewHolder holder, int position) {
-        ParseUser user = members.get(position);
+        Scoreboard user = members.get(position);
 
         if (user != null) {
 
             ImageUtils.loadProfileImage(
                 context,
-                user.getString("profilePhotoUrl"),
+                user.getUser().getString("profilePhotoUrl"),
                 holder.profile_image
             );
 
-            holder.name.setText(user.getString("name"));
+            holder.name.setText(user.getUser().getString("name"));
         }
 
     }

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.adapter.MembersAdapter;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityChallengeMembersBinding;
+import com.accountabilibuddies.accountabilibuddies.model.Scoreboard;
 import com.accountabilibuddies.accountabilibuddies.network.APIClient;
 import com.parse.ParseUser;
 
@@ -24,7 +25,7 @@ public class ChallengeMembersActivity extends AppCompatActivity {
     private ActivityChallengeMembersBinding binding;
     private MembersAdapter mAdapter;
     private APIClient client;
-    private ArrayList<ParseUser> mMembersList;
+    private ArrayList<Scoreboard> mMembersList;
     private String challengeId;
 
     @Override
@@ -74,12 +75,12 @@ public class ChallengeMembersActivity extends AppCompatActivity {
     }
 
     private void getMembers() {
-        client.getMembersList(challengeId, new APIClient.GetMembersListListener() {
+        client.getScoreboardList(challengeId, new APIClient.GetScoreboardListListener() {
             @Override
-            public void onSuccess(List<ParseUser> membersList) {
-                if (membersList != null) {
+            public void onSuccess(List<Scoreboard> scoreboardList) {
+                if (scoreboardList != null) {
                     mMembersList.clear();
-                    mMembersList.addAll(membersList);
+                    mMembersList.addAll(scoreboardList);
                     mAdapter.notifyDataSetChanged();
                 }
             }

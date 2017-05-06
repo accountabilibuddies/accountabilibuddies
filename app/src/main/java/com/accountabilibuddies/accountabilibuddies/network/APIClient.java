@@ -105,6 +105,11 @@ public class APIClient {
         void onFailure(String error_message);
     }
 
+    public interface GetScoreboardListListener {
+        void onSuccess(List<Scoreboard> scoreboardList);
+        void onFailure(String error_message);
+    }
+
     // Challenge API's
     public void createChallenge(Challenge challenge, ChallengeListener listener) {
         challenge.saveEventually (e -> {
@@ -250,6 +255,26 @@ public class APIClient {
             if (e == null) {
                 listener.onSuccess(object.getUserList());
                 object.pinInBackground("members"+challengeObjectId);
+            } else {
+                listener.onFailure(e.getMessage());
+            }
+        });
+
+    }
+
+    public void getScoreboardList(String challengeObjectId, GetScoreboardListListener listener) {
+        ParseQuery<Challenge> query = ParseQuery.getQuery(Challenge.class);
+
+        if (!NetworkUtils.isOnline()) {
+            query.fromLocalDatastore();
+            query.fromPin("members"+challengeObjectId);
+        }
+
+        query.include("scoreboardList");
+
+        query.getInBackground(challengeObjectId, (object, e) -> {
+            if (e == null) {
+                listener.onSuccess(object.getScoreboard());
             } else {
                 listener.onFailure(e.getMessage());
             }

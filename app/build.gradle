@@ -59,19 +59,7 @@ dependencies {
     compile "com.android.support:support-v4:${support_version}"
     compile "com.android.support:design:${support_version}"
     compile "com.android.support:cardview-v7:${support_version}"
-
-
-
-
-
-
-
-
-
-
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
-
-
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.parse.bolts:bolts-android:1.4.0'
@@ -96,6 +84,10 @@ dependencies {
     compile 'com.github.ronaldsmartin:Material-ViewPagerIndicator:1.0.2'
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.braintreepayments.api:drop-in:3.+'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    compile 'io.card:android-sdk:[5.5.0,6.0.0)'
+
 }

@@ -17,6 +17,7 @@ import com.accountabilibuddies.accountabilibuddies.databinding.ActivityLoginBind
 import com.accountabilibuddies.accountabilibuddies.util.NetworkUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ViewUtils;
 import com.accountabilibuddies.accountabilibuddies.viewmodel.LoginViewModel;
+import com.eftimoff.viewpagertransformers.ZoomInTransformer;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         binding.container.setAdapter(new CustomPagerAdapter(this));
+        binding.container.setPageTransformer(true, new ZoomInTransformer());
     }
 
     @Override

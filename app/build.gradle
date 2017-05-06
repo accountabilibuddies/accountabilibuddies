@@ -84,7 +84,7 @@ dependencies {
     compile 'com.github.ronaldsmartin:Material-ViewPagerIndicator:1.0.2'
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.braintreepayments.api:drop-in:3.+'
-
+    compile 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 

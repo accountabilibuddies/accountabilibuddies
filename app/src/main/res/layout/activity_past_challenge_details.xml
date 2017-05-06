@@ -64,14 +64,26 @@
                     android:textSize="@dimen/cc_header_textsize"/>
 
                 <TextView
-                    android:id="@+id/tvMoneyEarned"
+                    android:id="@+id/tvMoneyBet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/tvDescValue"
                     android:layout_alignStart="@+id/tvDescValue"
                     android:layout_below="@+id/tvDescValue"
                     android:layout_marginTop="15dp"
-                    android:text="You earned "
+                    android:text="You bet "
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    fontPath="fonts/OpenSans-Light.ttf"/>
+
+                <TextView
+                    android:id="@+id/tvMoneyEarned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tvMoneyBet"
+                    android:layout_toEndOf="@+id/tvMoneyBet"
+                    android:layout_alignTop="@id/tvMoneyBet"
+                    android:text=", You earned "
                     android:textSize="18sp"
                     android:textStyle="italic"
                     fontPath="fonts/OpenSans-Light.ttf"/>
@@ -100,11 +112,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:gravity="center|start"
                     android:text="LEADERBOARD"
                     android:textStyle="bold"
                     android:padding="8dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    fontPath="fonts/OpenSans-Semibold.ttf"/>
 
 
                 <TextView
@@ -115,7 +127,6 @@
                     android:layout_alignLeft="@id/tvLeaderboard"
                     android:layout_alignStart="@id/tvLeaderboard"
                     android:layout_marginTop="15dp"
-                    android:gravity="center|start"
                     android:text="Members"
                     android:padding="8dp"/>
 
@@ -128,7 +139,6 @@
                     android:layout_alignTop="@+id/tvMembers"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:gravity="center|right"
                     android:text="Score"
                     android:padding="8dp"/>
 

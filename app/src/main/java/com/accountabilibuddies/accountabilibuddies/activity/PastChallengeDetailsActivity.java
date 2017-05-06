@@ -103,6 +103,7 @@ public class PastChallengeDetailsActivity extends AppCompatActivity {
 
                         for(Scoreboard obj: scoreboardList ) {
                             if(currentUser.equals(obj.getUser().getObjectId())) {
+                                binding.tvMoneyBet.append(String.valueOf(obj.getMoney()) + "$");
                                 binding.tvMoneyEarned.append(String.valueOf(obj.getMoney()) + "$");
                             }
                         }

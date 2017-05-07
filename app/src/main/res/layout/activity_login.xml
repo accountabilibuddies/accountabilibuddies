@@ -55,7 +55,7 @@
                 android:paddingStart="30dp"
                 android:text="@string/connect_facebook"
                 android:textColor="@android:color/white"
-                android:textSize="15sp" />
+                android:textSize="@dimen/large_font" />
         </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

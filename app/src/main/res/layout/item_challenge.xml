@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
@@ -60,20 +60,21 @@
                     android:gravity="center"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:textSize="@dimen/small_font"
                     android:background="@drawable/round_textview" />
             </RelativeLayout>
         </FrameLayout>
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/ivProfileImage"
-            android:layout_height="90dp"
-            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp"
             app:civ_shadow="false"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="165dp"
+            android:layout_marginBottom="170dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -83,9 +84,7 @@
             fontPath="fonts/OpenSans-Bold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_alignTop="@id/ivProfileImage"
+            android:textSize="@dimen/large_font"
             android:layout_toRightOf="@+id/ivProfileImage"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"/>
@@ -94,6 +93,7 @@
             android:id="@+id/challengeDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/medium_font"
             android:layout_below="@+id/challengeName"
             android:layout_alignLeft="@+id/challengeName"
             android:layout_alignStart="@+id/challengeName"
@@ -105,6 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/tvDate"
             android:layout_toStartOf="@+id/tvDate"
+            android:textSize="@dimen/medium_font"
+            android:layout_alignBottom="@id/challengeName"
             android:layout_marginRight="3dp"
             android:layout_marginEnd="3dp"
             android:layout_marginTop="5dp"/>
@@ -115,6 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:textSize="@dimen/medium_font"
+            android:layout_alignBottom="@id/challengeName"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"/>

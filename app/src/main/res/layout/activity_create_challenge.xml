@@ -41,7 +41,7 @@
                     android:layout_marginLeft="@dimen/left_right_margin"
                     android:layout_marginRight="@dimen/left_right_margin"
                     android:hint="@string/title"
-                    android:textSize="@dimen/cc_header_textsize"
+                    android:textSize="@dimen/large_font"
                     />
 
                 <EditText
@@ -81,7 +81,7 @@
                     android:layout_marginRight="@dimen/left_right_margin"
                     android:layout_marginTop="10dp"
                     android:hint="@string/description"
-                    android:textSize="@dimen/cc_header_textsize"/>
+                    android:textSize="@dimen/large_font"/>
 
                 <EditText
                     android:id="@+id/etDescription"
@@ -142,7 +142,7 @@
                             android:layout_toLeftOf="@+id/vertSeparator1"
                             android:layout_toStartOf="@+id/vertSeparator1"
                             android:text="@string/start"
-                            android:textSize="@dimen/cc_edit_textsize"
+                            android:textSize="@dimen/large_font"
                             android:gravity="center_horizontal|center_vertical"/>
 
                         <TextView
@@ -157,7 +157,7 @@
                             android:layout_toEndOf="@+id/vertSeparator1"
                             android:layout_toRightOf="@+id/vertSeparator1"
                             android:text="@string/end"
-                            android:textSize="@dimen/cc_edit_textsize"
+                            android:textSize="@dimen/large_font"
                             android:gravity="center_horizontal|center_vertical"/>
 
                         <TextView
@@ -168,6 +168,7 @@
                             android:layout_alignStart="@+id/tvStart"
                             android:layout_below="@+id/tvStart"
                             android:hint="@string/select_date"
+                            android:textSize="@dimen/medium_font"
                             android:onClick="setStartDate"
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="10dp"
@@ -184,6 +185,7 @@
                             android:layout_alignRight="@+id/tvEnd"
                             android:layout_below="@+id/tvEnd"
                             android:hint="@string/select_date"
+                            android:textSize="@dimen/medium_font"
                             android:onClick="setEndDate"
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="10dp"
@@ -203,7 +205,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:text="@string/add_friends"
-                    android:textSize="@dimen/cc_header_textsize"
+                    android:textSize="@dimen/large_font"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.CardView
@@ -234,7 +236,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:text="@string/frequency"
-                    android:textSize="@dimen/cc_header_textsize"
+                    android:textSize="@dimen/large_font"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.CardView
@@ -293,7 +295,7 @@
                             android:gravity="center_vertical|center_horizontal"
                             android:minWidth="150dp"
                             fontPath="fonts/OpenSans-Light.ttf"
-                            android:textSize="@dimen/cc_edit_textsize"/>
+                            android:textSize="@dimen/large_font"/>
 
                         <View
                             android:id="@+id/vertSeparator4"
@@ -352,7 +354,7 @@
                             android:layout_margin="@dimen/left_right_margin"
                             android:hint="Want to bet some money?"
                             fontPath="fonts/OpenSans-Light.ttf"
-                            android:textSize="@dimen/cc_edit_textsize"/>
+                            android:textSize="@dimen/large_font"/>
 
                         <CheckBox
                             android:id="@+id/cbMoney"
@@ -371,7 +373,7 @@
                             android:layout_alignStart="@+id/tvMoney"
                             android:text="Bet 1$"
                             android:textColor="@color/text_color"
-                            android:textSize="@dimen/cc_edit_textsize"
+                            android:textSize="@dimen/medium_font"
                             fontPath="fonts/OpenSans-Light.ttf"
                             android:visibility="gone"/>
 
@@ -405,7 +407,8 @@
                             android:text="Min 1"
                             android:visibility="gone"
                             android:layout_marginTop="4dp"
-                            android:layout_marginBottom="@dimen/left_right_margin"/>
+                            android:layout_marginBottom="@dimen/left_right_margin"
+                            android:textSize="@dimen/medium_font"/>
 
                         <TextView
                             android:id="@+id/tvMaxMoney"
@@ -414,6 +417,7 @@
                             android:textColor="@color/grey2"
                             android:text="Max 10"
                             android:visibility="gone"
+                            android:textSize="@dimen/medium_font"
                             android:layout_alignTop="@+id/tvMinMoney"
                             android:layout_alignBottom="@+id/tvMinMoney"
                             android:layout_alignParentRight="true"

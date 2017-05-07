@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/ivProfileImage"
         android:layout_marginTop="5dp"
+        android:textSize="@dimen/medium_font"
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         />
@@ -42,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_alignLeft="@+id/ivProfileImage"
         android:layout_marginTop="5dp"
+        android:textSize="@dimen/medium_font"
         android:textColor="@android:color/white"
         android:layout_height="wrap_content" />
 

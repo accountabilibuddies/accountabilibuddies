@@ -29,6 +29,7 @@
             android:title="Payment" />
         <item
             android:id="@+id/logOut"
+            android:icon="@drawable/logout"
             android:title="Log out" />
 
     </group>

@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CommentsFragment extends Fragment {
+
     private FragmentCommentBinding binding;
     private CommentsAdapter mAdapter;
     private APIClient client;

@@ -82,7 +82,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/ivProfileImage"
                     android:padding="3dp"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp"
+                    fontPath="fonts/OpenSans-Semibold.ttf"/>
 
                 <TextView
                     android:id="@+id/tvPostTime"
@@ -94,10 +95,22 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"/>
 
+                <TextView
+                    android:id="@+id/tvComments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/ivProfileImage"
+                    android:padding="3dp"
+                    android:textSize="18sp"
+                    fontPath="fonts/OpenSans-Semibold.ttf"
+                    android:layout_alignLeft="@id/ivProfileImage"
+                    android:text="Comments"/>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvComments"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/ivProfileImage"
+                    android:layout_below="@+id/tvComments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

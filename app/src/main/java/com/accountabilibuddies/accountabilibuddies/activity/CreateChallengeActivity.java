@@ -308,6 +308,10 @@ public class CreateChallengeActivity extends AppCompatActivity {
             return false;
         }
 
+        if(profileUrl == null) {
+            Toast.makeText(this, "Add an image to the challenge", Toast.LENGTH_LONG).show();
+            return false;
+        }
         return true;
     }
 

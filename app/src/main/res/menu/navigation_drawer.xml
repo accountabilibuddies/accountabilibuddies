@@ -15,13 +15,16 @@
             android:icon="@drawable/complete"
             android:title="Completed challenges" />
 
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/settings"
-            android:title="Payment Settings" />
     </group>
 
-    <group>
+    <group
+        android:id="@+id/lowerDrawer"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/payment"
+            android:icon="@drawable/ic_payment"
+            android:title="Payment" />
         <item
             android:id="@+id/logOut"
             android:title="Log out" />

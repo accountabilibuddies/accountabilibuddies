@@ -94,7 +94,7 @@ public class DrawerActivity extends AppCompatActivity {
         binding.toolbar.animate()
                 .translationY(0)
                 .setDuration(ANIM_DURATION_TOOLBAR)
-                .setStartDelay(300)
+                .setStartDelay(200)
                 .setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -107,7 +107,7 @@ public class DrawerActivity extends AppCompatActivity {
         binding.fab.animate()
                 .translationY(0)
                 .setInterpolator(new OvershootInterpolator(1.f))
-                .setStartDelay(300)
+                .setStartDelay(200)
                 .setDuration(ANIM_DURATION_FAB)
                 .start();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -186,7 +186,7 @@ public class DrawerActivity extends AppCompatActivity {
                         }
                     );
                     break;
-                case R.id.settings:
+                case R.id.payment:
                     DropInRequest dropInRequest = new DropInRequest()
                             .clientToken(TOKEN_KEY);
                     startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);

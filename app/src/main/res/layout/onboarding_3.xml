@@ -19,7 +19,7 @@
         android:text="Members provide evidence of the steps taken to achieve their goals and share them with others"
         android:maxLines="4"
         android:lines="4"
-        android:textSize="15sp"
+        android:textSize="@dimen/large_font"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:layout_below="@+id/imageView"

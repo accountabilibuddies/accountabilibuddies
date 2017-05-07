@@ -22,16 +22,17 @@
         android:id="@+id/comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon_size="22dp"
+        app:icon_size="24dp"
         app:anim_scale_factor="1.8"
         app:circle_end_color="@color/blue_500"
         app:circle_start_color="@color/indigo_500"
         app:dots_primary_color="@color/blue_500"
         app:dots_secondary_color="@color/purple_500"
-        app:like_drawable="@drawable/comment_solid_blue"
-        app:unlike_drawable="@drawable/comment_solid_grey"
+        app:like_drawable="@drawable/ic_comment"
+        app:unlike_drawable="@drawable/ic_comment"
         android:layout_alignTop="@+id/heart_button"
         android:layout_toRightOf="@+id/heart_button"
-        android:layout_toEndOf="@+id/heart_button"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_alignBottom="@+id/heart_button" />
 </RelativeLayout>

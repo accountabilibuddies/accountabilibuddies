@@ -174,8 +174,8 @@ public class ChallengeOneOnOneActivity extends AppCompatActivity
             public void onSuccess(Challenge c, List<Post> postList) {
                 challenge = c;
                 if (postList != null) {
+                    binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
                     if(postList.size()>0) {
-                        binding.rlLayout.setBackground(getResources().getDrawable(R.drawable.oneonone_back));
                         binding.ivEmpty.setVisibility(View.GONE);
                         binding.tvEmpty.setVisibility(View.GONE);
                     } else {

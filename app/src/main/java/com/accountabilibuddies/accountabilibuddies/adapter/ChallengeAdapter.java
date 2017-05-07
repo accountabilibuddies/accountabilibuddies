@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.accountabilibuddies.accountabilibuddies.util.Constants.TYPE_MULTI_USER;
+
 public class ChallengeAdapter extends
         RecyclerView.Adapter<ChallengeAdapter.MyViewHolder> {
 
@@ -109,7 +111,6 @@ public class ChallengeAdapter extends
                 holder.profileImage
             );
 
-            holder.count.setText("+" + String.valueOf(challenge.getUserList().size()));
             holder.challengeName.setText(challenge.getName());
             holder.challengeDescription.setText(challenge.getDescription());
 
@@ -142,6 +143,12 @@ public class ChallengeAdapter extends
                 e.printStackTrace();
             }
 
+            if (challenge.getType() == TYPE_MULTI_USER ) {
+                holder.count.setBackground(context.getResources().getDrawable(R.drawable.round_textview));
+                holder.count.setText("+" + String.valueOf(challenge.getUserList().size()));
+            } else {
+                holder.count.setBackground(context.getResources().getDrawable(R.drawable.trans_textview));
+            }
 
             switch (challengeType) {
                 case 1://Current challenges

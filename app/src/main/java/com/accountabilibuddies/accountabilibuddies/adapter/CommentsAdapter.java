@@ -1,7 +1,12 @@
 package com.accountabilibuddies.accountabilibuddies.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.model.Comment;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.accountabilibuddies.accountabilibuddies.util.StringUtils;
 
 import java.util.ArrayList;
 
@@ -45,7 +51,21 @@ public class CommentsAdapter extends
 
         if (comment != null) {
 
-            holder.commentOwner.setText(comment.getOwnerName());
+
+            final ForegroundColorSpan darkSpan = new ForegroundColorSpan(
+                    ContextCompat.getColor(context, R.color.text_color));
+            final StyleSpan boldSpan = new StyleSpan(android.graphics.Typeface.BOLD);
+
+            int length = comment.getOwnerName().length();
+
+            SpannableStringBuilder ssb = new SpannableStringBuilder(
+                    StringUtils.generateCommentOwner(comment.getOwnerName()) +
+                    comment.getComment());
+
+            ssb.setSpan(boldSpan, 0, length, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            ssb.setSpan(darkSpan, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            holder.commentOwner.setText(ssb);
 
             if (comment.getCreatedAt() != null)
                 holder.commentTime.setText(DateUtils.getRelativeTimeAgo(comment.getCreatedAt()));
@@ -57,8 +77,6 @@ public class CommentsAdapter extends
                 profileImageUrl,
                 holder.profile_image
             );
-
-            holder.comment.setText(comment.getComment());
         }
     }
 
@@ -69,11 +87,8 @@ public class CommentsAdapter extends
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.ivProfileImage)
+        @BindView(R.id.ivCommentProfileImage)
         ImageView profile_image;
-
-        @BindView(R.id.tvComment)
-        TextView comment;
 
         @BindView(R.id.tvCommentTime)
         TextView commentTime;

@@ -1,5 +1,6 @@
 package com.accountabilibuddies.accountabilibuddies.activity;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import com.accountabilibuddies.accountabilibuddies.R;
 import com.accountabilibuddies.accountabilibuddies.databinding.ActivityHolderBinding;
 import com.accountabilibuddies.accountabilibuddies.fragments.CommentsFragment;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class HolderActivity extends AppCompatActivity {
@@ -37,6 +40,11 @@ public class HolderActivity extends AppCompatActivity {
                 break;
             default:
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

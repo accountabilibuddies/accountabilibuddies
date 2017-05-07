@@ -14,6 +14,7 @@ import com.accountabilibuddies.accountabilibuddies.model.Challenge;
 import com.accountabilibuddies.accountabilibuddies.util.AnimUtils;
 import com.accountabilibuddies.accountabilibuddies.util.DateUtils;
 import com.accountabilibuddies.accountabilibuddies.util.ImageUtils;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,12 @@ public class ChallengeAdapter extends
 
         @BindView(R.id.ivProfileImage)
         ImageView profileImage;
+
+        @BindView(R.id.ivMember1)
+        ImageView ivMember1;
+
+        @BindView(R.id.ivMember2)
+        ImageView ivMember2;
 
         @BindView(R.id.tvMemberCount)
         TextView count;
@@ -102,7 +109,7 @@ public class ChallengeAdapter extends
                 holder.profileImage
             );
 
-            holder.count.setText(String.valueOf(challenge.getUserList().size()));
+            holder.count.setText("+" + String.valueOf(challenge.getUserList().size()));
             holder.challengeName.setText(challenge.getName());
             holder.challengeDescription.setText(challenge.getDescription());
 
@@ -114,6 +121,27 @@ public class ChallengeAdapter extends
                     holder.challengeImage
                 );
             }
+
+            try {
+                ImageUtils.loadProfileImage(
+                        context,
+                        challenge.getUserList().get(0).fetchIfNeeded().getString("profilePhotoUrl"),
+                        holder.ivMember1
+                );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                ImageUtils.loadProfileImage(
+                        context,
+                        challenge.getUserList().get(1).fetchIfNeeded().getString("profilePhotoUrl"),
+                        holder.ivMember2
+                );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
 
             switch (challengeType) {
                 case 1://Current challenges

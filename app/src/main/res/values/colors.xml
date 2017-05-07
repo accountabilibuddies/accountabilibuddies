@@ -25,15 +25,17 @@
     <color name="cyan_500">#00BCD4</color>
     <color name="light_blue_500">#03A9F4</color>
 
-    <color name="gold">#FFC100</color>
-    <color name="copper">#CC4500</color>
+    <!--<color name="gold">#FFC100</color>-->
+    <!--<color name="copper">#CC4500</color>-->
 
     <!--details-->
-    <color name="blue_200">#90CAF9</color>
+    <!--<color name="blue_200">#90CAF9</color>-->
     <color name="red_200">#ef9a9a</color>
     <color name="red_500">#f44336</color>
     <color name="red_400">#ef5350</color>
-    <color name="purple_200">#CE93D8</color>
-    <color name="cyan_400">#26C6DA</color>
+    <!--<color name="purple_200">#CE93D8</color>-->
+    <!--<color name="cyan_400">#26C6DA</color>-->
+
+    <color name="heart_set">#ff0066</color>
 
 </resources>

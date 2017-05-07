@@ -132,12 +132,13 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 app:anim_scale_factor="1.8"
-                app:circle_end_color="@color/copper"
-                app:circle_start_color="@color/red_500"
-                app:dots_primary_color="@color/red_500"
-                app:dots_secondary_color="@color/copper"
-                app:icon_size="22dp"
-                app:icon_type="heart"/>
+                app:like_drawable="@drawable/full_heart"
+                app:unlike_drawable="@drawable/empty_heart"
+                app:circle_end_color="@color/heart_set"
+                app:circle_start_color="@color/heart_set"
+                app:dots_primary_color="@color/heart_set"
+                app:dots_secondary_color="@color/heart_set"
+                app:icon_size="26dp"/>
         </android.support.v7.widget.CardView>
 
     </android.support.design.widget.CoordinatorLayout>

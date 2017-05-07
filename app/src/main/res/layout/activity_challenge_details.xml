@@ -67,6 +67,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:textColor="@color/grey3"
+                android:textSize="@dimen/medium_font"
                 android:text="No posts yet!!! Start motivating..."
                 android:layout_below="@+id/ivEmpty"
                 android:layout_centerHorizontal="true" />
@@ -90,7 +91,6 @@
 
             </RelativeLayout>
         </RelativeLayout>
-
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab_menu"

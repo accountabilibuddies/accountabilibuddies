@@ -82,7 +82,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/ivProfileImage"
                     android:padding="3dp"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/large_font"
                     fontPath="fonts/OpenSans-Semibold.ttf"/>
 
                 <TextView
@@ -91,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvPostOwner"
                     android:layout_toRightOf="@+id/ivProfileImage"
+                    android:textSize="@dimen/medium_font"
                     android:padding="3dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"/>
@@ -102,7 +103,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_below="@+id/ivProfileImage"
                     android:padding="3dp"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/large_font"
                     fontPath="fonts/OpenSans-Semibold.ttf"
                     android:layout_alignLeft="@id/ivProfileImage"
                     android:text="Comments"/>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine|textCapSentences"
-            android:hint="Post your Progress!"
+            android:hint="Share and Motivate!"
             android:layout_below="@+id/ivClose"
             android:layout_alignParentLeft="true"
             android:fontFamily="sans-serif"

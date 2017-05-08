@@ -35,7 +35,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/tvCommentTime"
         android:layout_marginBottom="4dp"
-        android:textSize="14sp"
+        android:textSize="@dimen/medium_font"
         android:maxLines="2"
         android:ellipsize="end"/>
 

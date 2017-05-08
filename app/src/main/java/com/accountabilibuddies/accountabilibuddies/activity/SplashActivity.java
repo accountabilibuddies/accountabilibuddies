@@ -14,7 +14,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int DELAY = 3;
+    public static final int DELAY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

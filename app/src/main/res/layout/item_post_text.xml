@@ -47,6 +47,7 @@
             <TextView
                 android:id="@+id/tvName"
                 android:gravity="center"
+                android:textSize="@dimen/medium_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivProfileImage"
@@ -57,6 +58,7 @@
             <TextView
                 android:id="@+id/tvTime"
                 android:gravity="center"
+                android:textSize="@dimen/medium_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

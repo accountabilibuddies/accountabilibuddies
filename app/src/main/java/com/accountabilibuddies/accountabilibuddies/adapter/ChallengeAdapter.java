@@ -145,7 +145,7 @@ public class ChallengeAdapter extends
 
             if (challenge.getType() == TYPE_MULTI_USER ) {
                 holder.count.setBackground(context.getResources().getDrawable(R.drawable.round_textview));
-                holder.count.setText("+" + String.valueOf(challenge.getUserList().size()));
+                holder.count.setText("+" + String.valueOf(challenge.getUserList().size() - 2));
             } else {
                 holder.count.setBackground(context.getResources().getDrawable(R.drawable.trans_textview));
             }

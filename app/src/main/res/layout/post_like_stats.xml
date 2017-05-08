@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:textSize="@dimen/medium_font"
         android:layout_toRightOf="@+id/ivLikes"
         android:layout_toEndOf="@+id/ivLikes"
         tools:text="52"/>

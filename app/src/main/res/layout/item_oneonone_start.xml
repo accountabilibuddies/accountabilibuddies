@@ -18,7 +18,7 @@
         android:text="Challenge Started!"
         android:layout_marginTop="100dp"
         android:padding="15dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/large_font"
         android:textStyle="bold"
         android:background="@drawable/date_divider"
         android:textColor="@android:color/white"
